@@ -1,0 +1,55 @@
+.navbar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    background: rgba(15, 15, 15, 0.7);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 50px;
+    box-sizing: border-box;
+    backdrop-filter: blur(8px);
+    z-index: 5;
+}
+
+.nav-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-center input {
+    width: 50%;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--main-text);
+}
+
+.navbar .logo {
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    color: var(--accent);
+    cursor: pointer;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 70px;
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.navbar li {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.navbar li:hover {
+    color: var(--accent);
+}

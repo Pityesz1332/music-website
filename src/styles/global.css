@@ -1,12 +1,24 @@
 :root {
-    --bg: #0f0f0f;
-    --text: #f5f5f5;
-    --accent: #1db954;
+    /* Base */
+    --bg: #0c1018;
+    --card: #151c27;
+    --border: #202a3a;
+    --sub-accent: #11161f;
+    /* Main colors */
+    --primary: #1e90ff;
+    --secondary: #9c27b0;
+    --accent: #ff3366;
+    --highlight: #00f0ff;
+    /* Text */
+    --main-text: #e5e7eb;
+    --muted-text: #9ca3af;
+    --placeholder: #6b7280;
+    --inverse: #0c1018;
 }
 
 body {
     background-color: var(--bg);
-    color: var(--text);
+    color: var(--main-text);
     font-family: "Inter", sans-serif;
     margin: 0;
     padding: 0;
