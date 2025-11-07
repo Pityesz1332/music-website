@@ -1,16 +1,32 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import "../styles/Navbar.css";
+import { useState, useEffect } from "react";
 import LoginModal from "../components/LoginModal";
-import { useState } from "react";
+import "../styles/Navbar.css";
 
 function Navbar() {
     const navigate = useNavigate();
     const location = useLocation();
     const [showLogin, setShowLogin] = useState(false);
+    const [isShrunk, setIsShrunk] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 50) {
+                setIsShrunk(true);
+            } else {
+                setIsShrunk(false);
+            }
+        }
+
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
 
     return (
         <>
-        <nav className="navbar">
+        <nav className={`navbar ${isShrunk ? "shrink" : ""}`}>
             <div className="logo" onClick={() => navigate("/")}>(Pagename)</div>
 
             <div className="nav-center">
