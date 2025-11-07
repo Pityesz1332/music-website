@@ -1,10 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/Navbar.css";
 import LoginModal from "../components/LoginModal";
 import { useState } from "react";
 
 function Navbar() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [showLogin, setShowLogin] = useState(false);
 
     return (
@@ -17,9 +18,26 @@ function Navbar() {
             </div>
 
             <ul>
-                <li onClick={() => navigate("/")}>Home</li>
-                <li onClick={() => navigate("/songs")}>Songs/Mixes</li>
-                <li onClick={() => setShowLogin(true)}>Login</li>
+                <li
+                    className={location.pathname === "/" ? "active" : ""}
+                    onClick={() => navigate("/")}
+                >
+                Home
+                </li>
+                <li
+                    className={location.pathname === "/songs" ? "active" : ""}
+                    onClick={() => navigate("/songs")}
+                >
+                Songs/Mixes
+                </li>
+                <li
+                    className="navbar-login"
+                    onClick={() => setShowLogin(true)}
+                >
+                <button>
+                Login
+                </button>
+                </li>
             </ul>
         </nav>
         <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} />

@@ -40,9 +40,12 @@
 .navbar ul {
     list-style: none;
     display: flex;
-    gap: 70px;
+    gap: 100px;
     font-size: 1.3rem;
     margin: 0;
+    align-items: center;
+    flex: 1;
+    justify-content: flex-end;
 }
 
 .navbar li {
@@ -52,4 +55,24 @@
 
 .navbar li:hover {
     color: var(--accent);
+}
+
+.navbar li.active {
+    color: var(--accent);
+}
+
+.navbar-login button {
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 10px 20px;
+    background: var(--accent);
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    color: var(--main-text);
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.navbar-login button:hover {
+    background: var(--dark-accent);
 }
