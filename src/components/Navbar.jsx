@@ -30,7 +30,7 @@ function Navbar() {
             <div className="logo" onClick={() => navigate("/")}>(Pagename)</div>
 
             <div className="nav-center">
-                <input type="text" placeholder="Search..." />
+                <input className="searchbar" type="text" placeholder="Search..." />
             </div>
 
             <ul>

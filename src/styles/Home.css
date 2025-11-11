@@ -22,6 +22,14 @@
     z-index: -2;
 }
 
+.background-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+}
+
 .overlay {
     position: absolute;
     inset: 0;

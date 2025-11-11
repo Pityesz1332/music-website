@@ -42,6 +42,10 @@
     color: var(--main-text);
 }
 
+.nav-center .searchbar:focus::placeholder {
+    color: var(--main-text);
+}
+
 .navbar .logo {
     font-weight: 700;
     font-size: 1.3rem;

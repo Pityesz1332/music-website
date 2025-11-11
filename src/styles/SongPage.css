@@ -1,15 +1,155 @@
 .song-page {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 140px 40px 60px;
+    padding: 5rem 2rem;
     color: var(--main-text);
-    background-color: var(--bg);
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
+    overflow: hidden;
+}
+
+.bottom-playlist {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 20px 40px;
+    margin-top: 40px;
+    width: 100%;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+.bottom-playlist::-webkit-scrollbar {
+    height: 8px;
+}
+
+.bottom-playlist::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+}
+
+.bottom-playlist::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.mini-card {
+    flex: 0 0 auto;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-width: 120px;
+}
+
+.mini-card img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 6px;
+}
+
+.mini-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.mini-card.active {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px var(--accent);
+}
+
+.nav-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--main-text);
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    margin: 0 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background: var(--accent);
+}
+
+.song-content,
+.back-btn {
+    position: relative;
+    z-index: 2;
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 16px;
+}
+
+.neon-btn {
+    margin-top: 1.5rem;
+    font-weight: 700;
+    color: var(--main-text);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 0.8rem 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.neon-btn:hover {
+    box-shadow: 0 0 10px var(--accent), 0 0 32px var(--dark-accent);
+    transform: scale(1.05);
+}
+
+.play-btn.playing {
+    color: var(--main-text);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--dark-accent);
+}
+
+.song-cover-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.song-cover {
+    width: 250px;
+    height: 250px;
+    border-radius: 20px;
+    object-fit: cover;
+    z-index: 1;
+    position: relative;
+}
+
+.glow {
+    position: absolute;
+    inset: -10px;
+    border-radius: 25px;
+    z-index: 0;
+    opacity: 0;
+    background: linear-gradient(45deg, var(--accent), var(--dark-accent));
+    filter: blur(5px);
+    transition: opacity 0.4s ease;
+}
+
+.glow.active {
+    opacity: 1;
 }
 
 .back-btn {
+    position: absolute;
+    top: 5rem;
+    left: 2rem;
     align-self: flex-start;
     background: var(--highlight);
     color: var(--inverse);
