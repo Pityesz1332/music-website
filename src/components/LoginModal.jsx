@@ -13,7 +13,6 @@ function LoginModal({ isOpen, onClose }) {
     };
 
     function handleCreateAccount() {
-        console.log("Create account clicked");
         onClose();
     };
 

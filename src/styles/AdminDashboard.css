@@ -1,0 +1,82 @@
+.admin-dashboard {
+    color: var(--main-text);
+}
+
+.admin-dashboard h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: var(--accent);
+    margin-bottom: 30px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid var(--muted-text);
+    transition: 0.2s;
+}
+
+.stat-card:hover {
+    background: var(--bg);
+}
+
+.stat-card h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: var(--main-text);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--accent);
+}
+
+.recent-section h2 {
+    margin-bottom: 20px;
+}
+
+.recent-list {
+    list-style: none;
+    padding: 0;
+}
+
+.recent-list li {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: var(--card);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    border: 1px solid var(--muted-text);
+}
+
+.recent-list li img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.recent-list h4 {
+    margin: 0;
+}
+
+.recent-list p {
+    margin: 0;
+    color: var(--muted-text);
+    font-size: 0.9rem;
+}
