@@ -3,9 +3,9 @@ import "../styles/Home.css";
 import { useNavigate } from "react-router-dom";
 
 const backgrounds = [
-    { type: "image", src: "/home_background1.jpg" },
-    { type: "video", src: "/home_video1.mp4" },
-    { type: "image", src: "/home_background2.jpg" },
+    { type: "image", src: "/assets/home_background1.jpg" },
+    { type: "video", src: "/assets/home_video1.mp4" },
+    { type: "image", src: "/assets/home_background2.jpg" },
 ];
 
 function Home() {

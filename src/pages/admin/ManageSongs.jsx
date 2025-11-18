@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { PlusCircle, Trash2, Edit, X } from "lucide-react";
-import { songsData } from "../../data/songsData";
+import songsData from "../../data/songs.json";
 import "../../styles/ManageSongs.css";
 
 function ManageSongs() {
@@ -9,7 +9,7 @@ function ManageSongs() {
         title: "",
         artist: "",
         genre: "",
-        image: "",
+        cover: "",
         audio: "",
         duration: "",
         description: ""
@@ -28,7 +28,7 @@ function ManageSongs() {
         const addedSong = {
             id: newId,
             ...newSong,
-            image: newSong.image || "/dummy1.jpg",
+            cover: newSong.cover || "/dummy1.jpg",
             audio: newSong.audio || "/audio1.mp3",
             duration: newSong.duration || "3:45",
             description: newSong.description || "Newly added song."
@@ -39,7 +39,7 @@ function ManageSongs() {
             title: "",
             artist: "",
             genre: "",
-            image: "",
+            cover: "",
             audio: "",
             duration: "",
             description: ""
@@ -116,7 +116,7 @@ function ManageSongs() {
                             <td>{song.id}</td>
                             <td>
                                 <img 
-                                    src={song.image}
+                                    src={song.cover}
                                     alt={song.title}
                                     className="song-cover"
                                 />
@@ -149,7 +149,7 @@ function ManageSongs() {
                             <input type="text" placeholder="Title" value={editSong.title} onChange={(e) => handleEditChange("title", e.target.value)} />
                             <input type="text" placeholder="Artist" value={editSong.artist} onChange={(e) => handleEditChange("artist", e.target.value)} />
                             <input type="text" placeholder="Genre" value={editSong.genre} onChange={(e) => handleEditChange("genre", e.target.value)} />
-                            <input type="text" placeholder="Image" value={editSong.image} onChange={(e) => handleEditChange("image", e.target.value)} />
+                            <input type="text" placeholder="Cover" value={editSong.cover} onChange={(e) => handleEditChange("cover", e.target.value)} />
                             <input type="text" placeholder="Audio" value={editSong.audio} onChange={(e) => handleEditChange("audio", e.target.value)} />
                             <input type="text" placeholder="Duration" value={editSong.duration} onChange={(e) => handleEditChange("duration", e.target.value)} />
                             <textarea placeholder="Description" value={editSong.description} onChange={(e) => handleEditChange("description", e.target.value)} />

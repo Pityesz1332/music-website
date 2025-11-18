@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Play, Pause, ArrowLeft } from "lucide-react";
 import ScrollToTop from "../components/ScrollToTop";
-import { songsData } from "../data/songsData";
+import songsData from "../data/songs.json";
 import Playbar from "../components/Playbar";
 import "../styles/SongPage.css";
 
@@ -76,7 +76,7 @@ function SongPage() {
         
             <div className="song-content">
                 <div className="song-cover-wrapper">
-                    <img src={currentSong.image} alt={currentSong.title} className="song-cover" />
+                    <img src={currentSong.cover} alt={currentSong.title} className="song-cover-main" />
                     <div className={`glow ${isPlaying ? "active" : ""}`}></div>
                 </div>
 
@@ -109,7 +109,7 @@ function SongPage() {
                         className={`mini-card ${song.id === currentSong.id ? "active" : ""}`}
                         onClick={() => setCurrentSong(song)}
                     >
-                        <img src={song.image} alt={song.title} />
+                        <img src={song.cover} alt={song.title} />
                         <p>{song.title}</p>
                     </div>
                 ))}

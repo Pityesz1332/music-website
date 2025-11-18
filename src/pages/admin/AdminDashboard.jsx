@@ -1,6 +1,6 @@
 import React from "react";
 import "../../styles/AdminDashboard.css";
-import { songsData } from "../../data/songsData";
+import songsData from "../../data/songs.json";
 
 function AdminDashboard() {
     const totalSongs = songsData.length;
@@ -35,7 +35,7 @@ function AdminDashboard() {
                 <ul className="recent-list">
                     {songsData.slice(0, 5).map(song => (
                         <li key={song.id}>
-                            <img src={song.image} alt={song.title} />
+                            <img src={song.cover} alt={song.title} />
                             <div>
                                 <h4>{song.title}</h4>
                                 <p>{song.artist} • {song.genre}</p>

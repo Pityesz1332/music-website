@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { songsData } from "../data/songsData";
+import songsData from "../data/songs.json";
 import "../styles/Songs.css";
 
 function Songs() {
@@ -22,9 +22,9 @@ function Songs() {
                         <div 
                             key={song.id} 
                             className="song-card"
-                            onClick={() => navigate(`/songs/${song.id}`, { state: song })}
+                            onClick={() => navigate(`/songs/${song.id}`, { state: { song, playlist: songsData } })}
                         >
-                            <img src={song.image} alt={song.title} />
+                            <img src={song.cover} alt={song.title} />
                             <h3>{song.title}</h3>
                             <p>{song.genre}</p>
                         </div>
