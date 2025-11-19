@@ -5,6 +5,8 @@ import "../../styles/ManageSongs.css";
 
 function ManageSongs() {
     const [songs, setSongs] = useState(songsData);
+    const [isUploadMode, setIsUploadMode] = useState(false);
+    const [uploadedFile, setUploadedFile] = useState(null);
     const [newSong, setNewSong] = useState({
         title: "",
         artist: "",
@@ -14,9 +16,22 @@ function ManageSongs() {
         duration: "",
         description: ""
     });
-
+    
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [editSong, setEditSong] = useState(null);
+    
+    function handleFileUpload(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setUploadedFile(file);
+        setNewSong({
+            ...newSong,
+            audio: URL.createObjectURL(file),
+            title: file.name.replace(/\.[^/.]+$/, "")
+        });
+        setIsUploadMode(true);
+    }
 
     function handleAddSong() {
         if (!newSong.title || !newSong.artist || !newSong.genre) {
@@ -28,8 +43,8 @@ function ManageSongs() {
         const addedSong = {
             id: newId,
             ...newSong,
-            cover: newSong.cover || "/dummy1.jpg",
-            audio: newSong.audio || "/audio1.mp3",
+            cover: newSong.cover || "/dummy-data/dummy1.jpg",
+            audio: newSong.audio || "/dummy-data/audio1.mp3",
             duration: newSong.duration || "3:45",
             description: newSong.description || "Newly added song."
         };
@@ -44,7 +59,9 @@ function ManageSongs() {
             duration: "",
             description: ""
         });
-    };
+        setUploadedFile(null);
+        setIsUploadMode(false);
+    }
 
     function handleDeleteSong(id) {
         setSongs(songs.filter((song) => song.id !== id));
@@ -53,11 +70,11 @@ function ManageSongs() {
     function openEditModal(song) {
         setEditSong(song);
         setIsEditOpen(true);
-    };
+    }
 
     function handleEditChange(field, value) {
         setEditSong({ ...editSong, [field]: value });
-    };
+    }
 
     function saveEdit() {
         setSongs(songs.map((s) => (s.id === editSong.id ? editSong : s)));
@@ -74,29 +91,54 @@ function ManageSongs() {
         <div className="manage-songs">
             <h1>Manage Songs</h1>
 
-            <div className="add-song-form">
-                <input
-                    type="text"
-                    placeholder="Title"
-                    value={newSong.title}
-                    onChange={(e) => setNewSong({ ...newSong, title: e.target.value })}
-                />
-                <input
-                    type="text"
-                    placeholder="Artist"
-                    value={newSong.artist}
-                    onChange={(e) => setNewSong({ ...newSong, artist: e.target.value })}
-                />
-                <input
-                    type="text"
-                    placeholder="Genre"
-                    value={newSong.genre}
-                    onChange={(e) => setNewSong({ ...newSong, genre: e.target.value })}
-                />
-                <button onClick={handleAddSong}>
-                    <PlusCircle size={18} /> Add
-                </button>
-            </div>
+            {!isUploadMode && (
+                <div className="upload-btn-container">
+                    <label className="upload-btn">
+                        <PlusCircle size={18} /> Upload
+                        <input type="file" accept="audio/*" onChange={handleFileUpload} hidden />
+                    </label>
+                </div>
+            )}
+
+            {isUploadMode && (
+                <div className="add-song-form">
+                    <input
+                        type="text"
+                        placeholder="Title"
+                        value={newSong.title}
+                        onChange={(e) => setNewSong({ ...newSong, title: e.target.value })}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Artist"
+                        value={newSong.artist}
+                        onChange={(e) => setNewSong({ ...newSong, artist: e.target.value })}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Genre"
+                        value={newSong.genre}
+                        onChange={(e) => setNewSong({ ...newSong, genre: e.target.value })}
+                    />
+                    <textarea 
+                        placeholder="Description"
+                        value={newSong.description}
+                        onChange={(e) => setNewSong({ ...newSong, description: e.target.value })}
+                    />
+                    <button onClick={handleAddSong}>
+                        <PlusCircle size={18} /> Add Song
+                    </button>
+                    <button
+                        onClick={() => {
+                            setIsUploadMode(false);
+                            setUploadedFile(null);
+                        }}
+                        className="cancel-upload-btn"
+                    >
+                        Cancel
+                    </button>
+                </div>
+            )}
 
             <table>
                 <thead>

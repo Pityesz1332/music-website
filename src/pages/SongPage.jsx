@@ -36,10 +36,10 @@ function SongPage() {
             const containerRect = container.getBoundingClientRect();
             const cardRect = activeCard.getBoundingClientRect();
 
-            const scrollLeft = activeCard.offsetLeft - container.offsetLeft - containerRect.width / 2 + cardRect.width / 2;
+            const scrollTop = activeCard.offsetTop - container.offsetTop - containerRect.height / 2 + cardRect.height / 2;
 
             container.scrollTo({
-                left: scrollLeft,
+                left: scrollTop,
                 behavior: "smooth",
             });
         }
@@ -73,6 +73,24 @@ function SongPage() {
             <button className="back-btn" onClick={() => navigate("/songs")}>
                 <ArrowLeft size={20} /> Back
             </button>
+
+                <video
+                    className={`song-bg-video ${isPlaying ? "fade-out" : "fade-in"}`}
+                    src={currentSong.defaultBgVideo}
+                    autoPlay
+                    loop
+                    muted
+                    key={`default-${currentSong.id}`}
+                ></video>
+
+                <video
+                    className={`song-bg-video ${isPlaying ? "fade-in" : "fade-out"}`}
+                    src={currentSong.playingBgVideo}
+                    autoPlay
+                    loop
+                    muted
+                    key={`playing-${currentSong.id}`}
+                ></video>
         
             <div className="song-content">
                 <div className="song-cover-wrapper">
@@ -102,7 +120,7 @@ function SongPage() {
                 </div>
             </div>
 
-            <div className="bottom-playlist" ref={playlistRef}>
+            <div className="right-playlist" ref={playlistRef}>
                 {playlist.map((song) => (
                     <div
                         key={song.id}

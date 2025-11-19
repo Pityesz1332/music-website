@@ -3,9 +3,11 @@
         "id": 1,
         "title": "DJ Enez Favorites 2",
         "artist": "DJ Enez",
-        "genre": "mix",
+        "genre": "Mix",
         "duration": "14:09",
         "cover": "/covers/Radio-mixes.png",
-        "src": "/songs/Dj-Enez-Favorites-2.mp3"
+        "src": "/songs/Dj-Enez-Favorites-2.mp3",
+        "defaultBgVideo": "/assets/animation1.mp4",
+        "playingBgVideo": "/assets/waveform-to3.mp4"
     }
 ]
