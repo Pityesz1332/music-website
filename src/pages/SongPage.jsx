@@ -36,10 +36,10 @@ function SongPage() {
             const containerRect = container.getBoundingClientRect();
             const cardRect = activeCard.getBoundingClientRect();
 
-            const scrollTop = activeCard.offsetTop - container.offsetTop - containerRect.height / 2 + cardRect.height / 2;
+            const scrollTop = activeCard.offsetTop - (containerRect.height / 2) + (cardRect.height / 2);
 
             container.scrollTo({
-                left: scrollTop,
+                top: scrollTop,
                 behavior: "smooth",
             });
         }
@@ -49,14 +49,14 @@ function SongPage() {
         const currentIndex = playlist.findIndex((s) => s.id === currentSong.id);
         const nextIndex = (currentIndex + 1) % playlist.length;
         setCurrentSong(playlist[nextIndex]);
-        setIsPlaying(false);
+        setIsPlaying(true);
     }
 
     function handlePrev() {
         const currentIndex = playlist.findIndex((s) => s.id === currentSong.id);
         const prevIndex = (currentIndex - 1 + playlist.length) % playlist.length;
         setCurrentSong(playlist[prevIndex]);
-        setIsPlaying(false);
+        setIsPlaying(true);
     }
 
     if (!currentSong) {

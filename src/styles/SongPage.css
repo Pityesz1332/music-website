@@ -1,10 +1,10 @@
 .song-page {
     display: flex;
     flex-direction: row;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    position: relative;
+    gap: 40px;
+    padding: 40px;
+    padding-top: 5rem;
+    padding-bottom: 6rem;
 }
 
 .song-content {
@@ -13,25 +13,26 @@
     gap: 20px;
     align-items: center;
     justify-content: center;
+    max-height: calc(100vh - 260px);
     border-radius: 20px;
     padding: 40px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
     overflow: hidden;
     position: relative;
     z-index: 2;
 }
 
 .right-playlist {
-    width: 240px;
-    height: calc(80vh - 6rem);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 260px;
+    height: calc(100vh - 260px);
     overflow-y: auto;
     overflow-x: hidden;
     background: var(--card);
     backdrop-filter: blur(10px);
     border-radius: 20px;
-    border: 1px solid var(--primary);
-    margin-top: 6rem;
-    margin-right: 100px;
+    border: none;
     padding: 20px;
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.45);
     z-index: 3;
@@ -60,14 +61,12 @@
 }
 
 .mini-card {
-    flex: 0 0 auto;
     background: rgba(255, 255, 255, 0.08);
     padding: 10px;
     border-radius: 12px;
     cursor: pointer;
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    min-width: 120px;
 }
 
 .mini-card img {
@@ -75,7 +74,6 @@
     height: 80px;
     object-fit: cover;
     border-radius: 8px;
-    margin-bottom: 6px;
 }
 
 .mini-card:hover {
