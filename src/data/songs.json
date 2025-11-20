@@ -4,9 +4,20 @@
         "title": "DJ Enez Favorites 2",
         "artist": "DJ Enez",
         "genre": "Mix",
-        "duration": "14:09",
+        "duration": "14:14",
         "cover": "/covers/Radio-mixes.png",
         "src": "/songs/Dj-Enez-Favorites-2.mp3",
+        "defaultBgVideo": "/assets/animation1.mp4",
+        "playingBgVideo": "/assets/waveform-to3.mp4"
+    },
+    {
+        "id": 2,
+        "title": "Dummy data 1",
+        "artist": "Pulse",
+        "genre": "Pop",
+        "duration": "3:21",
+        "cover": "/dummy-data/dummy1.jpg",
+        "src": "song",
         "defaultBgVideo": "/assets/animation1.mp4",
         "playingBgVideo": "/assets/waveform-to3.mp4"
     }

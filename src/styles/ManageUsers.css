@@ -70,13 +70,13 @@
     border: 1px solid var(--muted-text);
 }
 
-.modal-content input {
+.modal-content .admin-edit-input {
     background: var(--card);
     pointer-events: none;
     cursor: default;
 }
 
-.modal-content input,
+.modal-content .admin-edit-input,
 .modal-content select {
     padding: 10px;
     border-radius: 6px;

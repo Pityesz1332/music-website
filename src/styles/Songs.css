@@ -110,3 +110,52 @@
         margin-top: 0;
     }
 }
+
+.filter-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 6px 14px;
+    background: var(--accent);
+    color: var(--main-text);
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: 0.2s;
+}
+
+.filter-btn.active {
+    background: var(--dark-accent);
+    color: var(--main-text);
+}
+
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--main-text);
+}
+
+.no-results h2 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    color: var(--muted-text);
+}
+
+.reset-btn {
+    background: var(--accent);
+    color: var(--main-text);
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.reset-btn:hover {
+    background: var(--dark-accent);
+}

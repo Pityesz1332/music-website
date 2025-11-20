@@ -74,9 +74,9 @@ function ManageUsers() {
                         <h2>Edit User</h2>
 
                         <label>Name</label>
-                        <input type="text" value={editUser.name} onChange={(e) => setEditUser({ editUser, name: e.target.value })}/>
+                        <input className="admin-edit-input" type="text" value={editUser.name} onChange={(e) => setEditUser({ editUser, name: e.target.value })}/>
                         <label>Email</label>
-                        <input type="text" value={editUser.email} onChange={(e) => setEditUser({ editUser, email: e.target.value })}/>
+                        <input className="admin-edit-input" type="text" value={editUser.email} onChange={(e) => setEditUser({ editUser, email: e.target.value })}/>
                         <label>Role</label>
                         <select value={editUser.role} onChange={(e) => setEditUser({ ...editUser, role: e.target.value })}>
                             <option value="user">User</option>

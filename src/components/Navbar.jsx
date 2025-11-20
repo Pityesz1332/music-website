@@ -8,6 +8,7 @@ function Navbar() {
     const location = useLocation();
     const [showLogin, setShowLogin] = useState(false);
     const [isShrunk, setIsShrunk] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         const handleScroll = () => {
@@ -24,13 +25,27 @@ function Navbar() {
         };
     }, []);
 
+    function handleSearch(e) {
+        if (e.key === "Enter") {
+            navigate(`/songs?search=${encodeURIComponent(searchTerm)}`);
+            setSearchTerm("");
+        }
+    }
+
     return (
         <>
         <nav className={`navbar ${isShrunk ? "shrink" : ""}`}>
             <div className="logo" onClick={() => navigate("/")}>(Pagename)</div>
 
             <div className="nav-center">
-                <input className="searchbar" type="text" placeholder="Search..." />
+                <input
+                    className="searchbar"
+                    type="text"
+                    placeholder="Search..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onKeyDown={handleSearch}
+                />
             </div>
 
             <ul>
