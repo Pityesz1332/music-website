@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 import "../../styles/AdminNavbar.css";
 
 function AdminNavbar() {
@@ -7,6 +8,7 @@ function AdminNavbar() {
     const location = useLocation();
     const [shrink, setShrink] = useState(false);
     const isActive = (path) => location.pathname === path;
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useEffect(() => {
         function handleScroll() {
@@ -25,11 +27,19 @@ function AdminNavbar() {
         navigate("/");
     }
 
+    function toggleMenu() {
+        setIsMenuOpen(!isMenuOpen);
+    }
+
     return (
         <nav className={`admin-navbar ${shrink ? "shrink" : ""}`}>
-            <div className="admin-logo">Admin Panel</div>
+            <div className="admin-logo">DJ Enez (Admin)</div>
 
-            <ul className="admin-links">
+            <div className="admin-hamburger" onClick={toggleMenu}>
+                {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </div>
+
+            <ul className={isMenuOpen ? "open" : ""}>
                 <li className={isActive("/admin") ? "active" : ""}>
                     <Link to="/admin">Dashboard</Link>
                 </li>
@@ -38,6 +48,10 @@ function AdminNavbar() {
                 </li>
                 <li className={isActive("/admin/users") ? "active" : ""}>
                     <Link to="/admin/users">Users</Link>
+                </li>
+                
+                <li className="mobile-logout">
+                    <button className="admin-logout-btn" onClick={handleLogout}>Logout</button>
                 </li>
             </ul>
 

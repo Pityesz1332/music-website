@@ -194,3 +194,120 @@ th, td {
     background: var(--highlight);
     color: var(--bg);
 }
+
+@media (max-width: 1024px) {
+    .manage-songs {
+        padding: 1.5rem;
+    }
+
+    .manage-songs h1 {
+        font-size: 1.7rem;
+    }
+
+    table th, table td {
+        padding: 0.7rem 0.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .manage-songs {
+        padding: 1.2rem;
+    }
+
+    .manage-songs h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .add-song-form {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .add-song-form input,
+    .add-song-form textarea {
+        min-width: 100%;
+        font-size: 0.95rem;
+    }
+
+    table {
+        min-width: 600px;
+    }
+
+    .song-cover {
+        width: 40px;
+        height: 40px;
+    }
+
+    .actions button {
+        margin-right: 0.3rem;
+        font-size: 0.9rem;
+    }
+
+    .modal {
+        width: 100%;
+        max-width: 95%;
+        padding: 1.5rem;
+    }
+
+    .modal-header h2 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .manage-songs {
+        padding: 1rem;
+    }
+
+    .upload-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.7rem 1rem;
+    }
+
+    .add-song-form button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .song-cover {
+        width: 35px;
+        height: 35px;
+    }
+
+    th, td {
+        font-size: 0.85rem;
+        padding: 0.6rem;
+    }
+
+    .modal-body input,
+    .modal-body textarea {
+        font-size: 0.9rem;
+    }
+
+    .modal-footer {
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    .modal-footer button {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 400px) {
+    .song-cover {
+        width: 30px;
+        height: 30px;
+    }
+
+    table {
+        min-width: 500px;
+    }
+
+    .modal {
+        padding: 1.2rem;
+    }
+}

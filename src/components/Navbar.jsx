@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
 import LoginModal from "../components/LoginModal";
 import "../styles/Navbar.css";
 
@@ -9,6 +10,7 @@ function Navbar() {
     const [showLogin, setShowLogin] = useState(false);
     const [isShrunk, setIsShrunk] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -32,10 +34,14 @@ function Navbar() {
         }
     }
 
+    function toggleMenu() {
+        setIsMenuOpen(!isMenuOpen);
+    }
+
     return (
         <>
         <nav className={`navbar ${isShrunk ? "shrink" : ""}`}>
-            <div className="logo" onClick={() => navigate("/")}>(Pagename)</div>
+            <div className="logo" onClick={() => navigate("/")}>DJ Enez</div>
 
             <div className="nav-center">
                 <input
@@ -48,7 +54,11 @@ function Navbar() {
                 />
             </div>
 
-            <ul>
+            <div className="hamburger" onClick={toggleMenu}>
+                {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </div>
+
+            <ul className={isMenuOpen ? "open" : ""}>
                 <li
                     className={location.pathname === "/" ? "active" : ""}
                     onClick={() => navigate("/")}
@@ -57,13 +67,13 @@ function Navbar() {
                 </li>
                 <li
                     className={location.pathname === "/songs" ? "active" : ""}
-                    onClick={() => navigate("/songs")}
+                    onClick={() => { navigate("/songs"); setIsMenuOpen(false); }}
                 >
                 Songs/Mixes
                 </li>
                 <li
                     className="navbar-login"
-                    onClick={() => setShowLogin(true)}
+                    onClick={() => { setShowLogin(true); setIsMenuOpen(false); }}
                 >
                 <button>
                 Login

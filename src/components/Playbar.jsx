@@ -140,6 +140,7 @@ function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
                 ref={audioRef}
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={() => setProgress(0)}
+                onEnded={onNext}
             />
             
             <div className="playbar-left">

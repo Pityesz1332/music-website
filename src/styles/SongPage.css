@@ -212,3 +212,154 @@
     cursor: pointer;
     transition: background 0.3s ease;
 }
+
+@media (max-width: 1024px) {
+    .song-page {
+        gap: 30px;
+        padding: 30px 20px 50px;
+    }
+
+    .song-content {
+        max-height: calc(100vh - 200px);
+        padding: 30px;
+    }
+
+    .right-playlist {
+        width: 220px;
+        height: 30rem;
+        margin-top: 55px;
+    }
+
+    .song-cover-main {
+        width: 250px;
+        height: 250px;
+    }
+
+    .song-info {
+        max-width: 300px;
+    }
+
+    .play-btn {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .song-page {
+        flex-direction: column;
+        padding: 20px 15px 40px;
+        overflow: hidden;
+    }
+
+    .song-content {
+        width: 100%;
+        max-height: none;
+        margin-top: 2rem;
+        padding: 20px;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .right-playlist {
+        width: 97%;
+        height: auto;
+        max-height: 300px;
+        margin-bottom: 11rem;
+        overflow-x: auto;
+        flex-direction: row;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 15px;
+    }
+
+    .song-cover-main {
+        width: 220px;
+        height: 220px;
+    }
+
+    .song-info {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .song-info h1 {
+        font-size: 1.6rem;
+    }
+
+    .song-info h2 {
+        font-size: 1.1rem;
+    }
+
+    .song-info p {
+        font-size: 0.9rem;
+    }
+
+    .play-btn {
+        padding: 10px 24px;
+        font-size: 0.9rem;
+    }
+
+    .mini-card img {
+        height: 60px;
+    }
+}
+
+@media (max-width: 640px) {
+    .song-content {
+        gap: 15px;
+    }
+
+    .song-cover-main {
+        width: 180px;
+        height: 180px;
+    }
+
+    .song-info h1 {
+        font-size: 1.4rem;
+    }
+
+    .song-info h2 {
+        font-size: 1rem;
+    }
+
+    .song-info p {
+        font-size: 0.85rem;
+    }
+
+    .play-btn {
+        padding: 8px 20px;
+        font-size: 0.85rem;
+    }
+
+    .right-playlist {
+        max-height: 250px;
+    }
+}
+
+@media (max-width: 400px) {
+    .song-cover-main {
+        width: 150px;
+        height: 150px;
+    }
+
+    .song-info h1 {
+        font-size: 1.2rem;
+    }
+
+    .song-info h2 {
+        font-size: 0.95rem;
+    }
+
+    .song-info p {
+        font-size: 0.8rem;
+    }
+
+    .play-btn {
+        padding: 6px 16px;
+        font-size: 0.8rem;
+    }
+
+    .right-playlist {
+        max-height: 200px;
+    }
+}

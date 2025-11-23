@@ -80,3 +80,103 @@
     color: var(--muted-text);
     font-size: 0.9rem;
 }
+
+@media (max-width: 1024px) {
+    .admin-dashboard h1 {
+        font-size: 1.7rem;
+    }
+
+    .stats-grid {
+        gap: 15px;
+    }
+
+    .stat-card {
+        padding: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-dashboard h1 {
+        font-size: 1.5rem;
+    }
+
+    .subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 25px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+    .stat-card {
+        padding: 16px;
+    }
+
+    .stat-number {
+        font-size: 1.7rem;
+    }
+
+    .recent-list li {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .recent-list li img {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 640px) {
+    .admin-dashboard h1 {
+        font-size: 1.3rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .stat-card {
+        padding: 14px;
+    }
+
+    .stat-card h3 {
+        font-size: 0.9rem;
+    }
+
+    .stat-number {
+        font-size: 1.5rem;
+    }
+
+    .recent-list li {
+        padding: 10px;
+        gap: 8px;
+    }
+
+    .recent-list li img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .recent-list h4 {
+        font-size: 0.95rem;
+    }
+
+    .recent-list p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .recent-list li img {
+        width: 40px;
+        height: 40px;
+    }
+}

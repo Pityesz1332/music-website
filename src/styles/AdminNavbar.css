@@ -5,7 +5,7 @@
     height: 70px;
     background: rgba(15, 15, 15, 0.7);
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     padding: 0 50px;
     box-sizing: border-box;
@@ -27,41 +27,33 @@
     transition: font-size 0.3s ease;
 }
 
+.admin-navbar ul {
+    display: flex;
+    gap: 3rem;
+    list-style: none;
+}
+
+.admin-navbar ul li a {
+    color: var(--main-text);
+    text-decoration: none;
+    font-size: 1.3rem;
+    transition: 0.2s;
+}
+
+.admin-navbar ul li.active a {
+    color: var(--accent);
+}
+
+.admin-navbar ul li a:hover {
+    color: var(--accent);
+}
+
 .admin-logo {
     font-size: 1.3rem;
     font-weight: 700;
     letter-spacing: 1px;
     color: var(--accent);
     cursor: default;
-}
-
-.admin-links {
-    list-style: none;
-    display: flex;
-    gap: 80px;
-    font-size: 1.2rem;
-    margin: 0;
-    align-items: center;
-    flex: 1;
-    justify-content: center;
-}
-
-.admin-links li {
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.admin-links li:hover {
-    color: var(--accent);
-}
-
-.admin-links li a {
-    text-decoration: none;
-    color: var(--main-text);
-}
-
-.admin-links li.active a {
-    color: var(--accent);
 }
 
 .admin-right .admin-logout-btn {
@@ -78,4 +70,127 @@
 
 .admin-right .admin-logout-btn:hover {
     background: var(--dark-accent);
+}
+
+.admin-hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+.mobile-logout {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .admin-navbar {
+        padding: 0 30px;
+        height: 60px;
+    }
+
+    .admin-logo {
+        font-size: 1.1rem;
+    }
+
+    .admin-links {
+        gap: 40px;
+        font-size: 1.1rem;
+    }
+
+    .admin-right .admin-logout-btn {
+        padding: 8px 18px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-hamburger {
+        display: block;
+    }
+
+    .admin-navbar {
+        justify-content: space-between;
+        padding: 0 20px;
+    }
+
+    .admin-navbar ul {
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        width: 200px;
+        background: var(--card);
+        flex-direction: column;
+        padding: 15px;
+        border-radius: 10px;
+        display: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .admin-navbar ul.open {
+        display: flex;
+    }
+
+    .admin-links {
+        display: none;
+    }
+
+    .admin-right {
+        display: none;
+    }
+
+    .admin-right .admin-logout-btn {
+        padding: 6px 14px;
+        font-size: 0.95rem;
+    }
+
+    .mobile-logout {
+        display: block;
+    }
+
+    .mobile-logout .admin-logout-btn {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        background: var(--accent);
+        color: var(--main-text);
+        border-radius: 10px;
+        border: none;
+        transition: 0.2s;
+    }
+
+    .mobile-logout .admin-logout-btn:hover {
+        background: var(--dark-accent);
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 640px) {
+    .admin-navbar {
+        height: 55px;
+        padding: 0 15px;
+    }
+
+    .admin-logo {
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+    }
+
+    .admin-right .admin-logout-btn {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .admin-navbar {
+        padding: 0 10px;
+    }
+
+    .admin-logo {
+        font-size: 0.9rem;
+    }
+
+    .admin-right .admin-logout-btn {
+        padding: 5px 10px;
+        font-size: 0.85rem;
+    }
 }

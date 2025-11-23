@@ -13,6 +13,7 @@
     z-index: 10;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease, opacity 0.3s ease;
+    user-select: none;
 }
 
 .playbar-left {
@@ -159,4 +160,142 @@
 
 .reset-seeker:hover {
     transform: scale(1.2);
+}
+
+@media (max-width: 1024px) {
+    .playbar {
+        height: 70px;
+        padding: 0 20px;
+    }
+
+    .playbar-cover {
+        width: 50px;
+        height: 50px;
+    }
+
+    .playbar-info h4 {
+        font-size: 0.95rem;
+    }
+
+    .playbar-info p {
+        font-size: 0.8rem;
+    }
+
+    .volume-wrapper {
+        width: 100px;
+        height: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .playbar {
+        flex-direction: column;
+        height: auto;
+        padding: 10px 15px;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .playbar-left {
+        gap: 10px;
+        width: 100%;
+    }
+
+    .playbar-cover {
+        width: 45px;
+        height: 45px;
+    }
+
+    .playbar-info h4 {
+        font-size: 0.9rem;
+    }
+
+    .playbar-info p {
+        font-size: 0.75rem;
+    }
+
+    .playbar-right {
+        width: 100%;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .playbar-progress {
+        width: 90%;
+    }
+
+    .volume-wrapper {
+        width: 80px;
+        height: 10px;
+    }
+
+    .playbar-extra {
+        margin-left: 0;
+        margin-right: 0;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 640px) {
+    .playbar {
+        padding: 8px 10px;
+    }
+
+    .playbar-cover {
+        width: 40px;
+        height: 40px;
+    }
+
+    .playbar-info h4 {
+        font-size: 0.85rem;
+    }
+
+    .playbar-info p {
+        font-size: 0.7rem;
+    }
+
+    .playbar-controls button {
+        font-size: 1.2rem;
+    }
+
+    .volume-wrapper {
+        width: 60px;
+        height: 8px;
+    }
+
+    .playbar-progress {
+        font-size: 18px;
+    }
+
+    .reset-seeker {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 400px) {
+    .playbar-cover {
+        width: 35px;
+        height: 35px;
+    }
+
+    .playbar-info h4 {
+        font-size: 0.8rem;
+    }
+
+    .playbar-info p {
+        font-size: 0.65rem;
+    }
+
+    .playbar-controls button {
+        font-size: 1rem;
+    }
+
+    .volume-wrapper {
+        width: 50px;
+        height: 6px;
+    }
+
+    .playbar-progress {
+        height: 3px;
+    }
 }
