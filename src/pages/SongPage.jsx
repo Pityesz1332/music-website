@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Play, Pause, ArrowLeft } from "lucide-react";
+import { useMusic } from "../context/MusicContext";
 import ScrollToTop from "../components/ScrollToTop";
 import songsData from "../data/songs.json";
-import Playbar from "../components/Playbar";
 import "../styles/SongPage.css";
 
 function SongPage() {
@@ -12,20 +12,37 @@ function SongPage() {
     const { id } = useParams();
     const playlistRef = useRef(null);
 
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [playlist, setPlaylist] = useState(state?.playlist || songsData);
-    const [currentSong, setCurrentSong] = useState(state?.song || null);
+    const {
+        currentSong,
+        isPlaying,
+        playlist,
+        playSong,
+        togglePlay,
+        setPlaylist,
+        nextSong,
+        prevSong
+    } = useMusic();
 
     useEffect(() => {
-        if (state?.song?.id === Number(id)) return;
-
-        const songId = Number(id);
-        if (songId) {
-            const found = songsData.find((s) => s.id === songId);
-            if (found) setCurrentSong(found)
+        console.log("Effect 1 running");
+        if (state?.playlist) {
+            setPlaylist(state.playlist);
+        } else if (playlist.length === 0) {
+            setPlaylist(songsData);
         }
-    }, [id, state?.song]);
+    }, [state?.playlist, playlist.length, setPlaylist]);
 
+    useEffect(() => {
+        console.log("Effect 2 running");
+        const songId = Number(id);
+        if (!songId) return;
+
+        const found = (state?.playlist || songsData).find((s) => s.id === songId);
+        if (found && (!currentSong || currentSong.id !== songId)) {
+            playSong(found);
+        }
+    }, [id, state?.playlist, currentSong?.id]);
+    
     useEffect(() => {
         if (!currentSong || !playlistRef.current) return;
 
@@ -45,18 +62,9 @@ function SongPage() {
         }
     }, [currentSong]);
 
-    function handleNext() {
-        const currentIndex = playlist.findIndex((s) => s.id === currentSong.id);
-        const nextIndex = (currentIndex + 1) % playlist.length;
-        setCurrentSong(playlist[nextIndex]);
-        setIsPlaying(true);
-    }
-
-    function handlePrev() {
-        const currentIndex = playlist.findIndex((s) => s.id === currentSong.id);
-        const prevIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-        setCurrentSong(playlist[prevIndex]);
-        setIsPlaying(true);
+    function handleSongClick(song) {
+        playSong(song);
+        navigate(`/songs/${song.id}`, { state: {playlist} });
     }
 
     if (!currentSong) {
@@ -105,17 +113,17 @@ function SongPage() {
                     <p>Duration: <span>{currentSong.duration}</span></p>
 
                     <div className="controls">
-                        <button className="nav-btn" onClick={handlePrev}>⏮ Prev</button>
+                        <button className="nav-btn" onClick={prevSong}>⏮ Prev</button>
                         
                         <button
                             className={`play-btn neon-btn ${isPlaying ? "playing" : ""}`}
-                            onClick={() => setIsPlaying(!isPlaying)}
+                            onClick={togglePlay}
                         >
                             {isPlaying ? <Pause size={18} /> : <Play size={18} />}
                             {isPlaying ? "Stop" : "Play"}
                         </button>
 
-                        <button className="nav-btn" onClick={handleNext}>Next ⏭</button>
+                        <button className="nav-btn" onClick={nextSong}>Next ⏭</button>
                     </div>
                 </div>
             </div>
@@ -125,24 +133,13 @@ function SongPage() {
                     <div
                         key={song.id}
                         className={`mini-card ${song.id === currentSong.id ? "active" : ""}`}
-                        onClick={() => setCurrentSong(song)}
+                        onClick={() => handleSongClick(song)}
                     >
                         <img src={song.cover} alt={song.title} />
                         <p>{song.title}</p>
                     </div>
                 ))}
             </div>
-
-            {currentSong && (
-                <Playbar
-                    song={currentSong}
-                    isPlaying={isPlaying}
-                    onPlayPause={() => setIsPlaying(!isPlaying)}
-                    onNext={handleNext}
-                    onPrev={handlePrev}
-                />
-            )}
-
             <ScrollToTop />
         </div>
     );

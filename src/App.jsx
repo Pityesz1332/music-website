@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { MusicProvider } from "./context/MusicContext"
 import AdminLayout from "./layouts/AdminLayout"
 import UserLayout from "./layouts/UserLayout"
 import Home from "./pages/Home"
@@ -11,21 +12,23 @@ import ManageUsers from "./pages/admin/ManageUsers"
 function App() {
 
   return (
-    <Router>
-      <Routes>
-        <Route element={<UserLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/songs" element={<Songs />} />
-          <Route path="/songs/:id" element={<SongPage />} />
-        </Route>
+    <MusicProvider>
+      <Router>
+        <Routes>
+          <Route element={<UserLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/songs" element={<Songs />} />
+            <Route path="/songs/:id" element={<SongPage />} />
+          </Route>
 
-        <Route element={<AdminLayout />}>
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/songs" element={<ManageSongs />} />
-          <Route path="/admin/users" element={<ManageUsers />} />
-        </Route>
-      </Routes>
-    </Router>
+          <Route element={<AdminLayout />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/songs" element={<ManageSongs />} />
+            <Route path="/admin/users" element={<ManageUsers />} />
+          </Route>
+        </Routes>
+      </Router>
+    </MusicProvider>
   );
 };
 

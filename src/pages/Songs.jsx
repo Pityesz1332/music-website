@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useMusic } from "../context/MusicContext";
 import songsData from "../data/songs.json";
 import "../styles/Songs.css";
 
 function Songs() {
     const navigate = useNavigate();
+    const { playSong, setPlaylist } = useMusic();
     const genres = ["All", ...new Set(songsData.map(song => song.genre))];
     const [selectedGenre, setSelectedGenre] = useState("All");
     const location = useLocation();
@@ -28,7 +30,13 @@ function Songs() {
     function handleGenreChange(genre) {
         setSelectedGenre(genre);
         setCurrentPage(1);
-    };
+    }
+
+    function handleSongClick(song) {
+        setPlaylist(filteredSongs);
+        playSong(song);
+        navigate(`/songs/${song.id}`, { state: { song, playlist: filteredSongs } });
+    }
 
     return (
         <div className="songs-page">
@@ -61,7 +69,7 @@ function Songs() {
                         <div 
                             key={song.id} 
                             className="song-card"
-                            onClick={() => navigate(`/songs/${song.id}`, { state: { song, playlist: filteredSongs } })}
+                            onClick={() => handleSongClick(song)}
                         >
                             <img src={song.cover} alt={song.title} />
                             <h3>{song.title}</h3>

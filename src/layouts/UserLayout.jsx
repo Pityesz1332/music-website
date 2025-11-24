@@ -1,8 +1,13 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Navbar from "../components/Navbar"; 
+import { useMusic } from "../context/MusicContext";
+import Navbar from "../components/Navbar";
+import Playbar from "../components/Playbar";
+import { Play } from "lucide-react";
 
 function UserLayout() {
+    const { currentSong, isPlaying, togglePlay, nextSong, prevSong } = useMusic();
+
     return (
         <div className="user-layout">
             <Navbar />
@@ -10,6 +15,14 @@ function UserLayout() {
             <main>
                 <Outlet />
             </main>
+
+            <Playbar
+                song={currentSong}
+                isPlaying={isPlaying}
+                onPlayPause={togglePlay}
+                onNext={nextSong}
+                onPrev={prevSong}
+            />
         </div>
     );
 }
