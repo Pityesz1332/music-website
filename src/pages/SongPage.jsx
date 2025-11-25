@@ -32,7 +32,7 @@ function SongPage() {
         }
     }, [state?.playlist, playlist.length, setPlaylist]);
 
-    useEffect(() => {
+    {/* useEffect(() => {
         console.log("Effect 2 running");
         const songId = Number(id);
         if (!songId) return;
@@ -41,7 +41,7 @@ function SongPage() {
         if (found && (!currentSong || currentSong.id !== songId)) {
             playSong(found);
         }
-    }, [id, state?.playlist, currentSong?.id]);
+    }, [id, state?.playlist, currentSong?.id]); */}
     
     useEffect(() => {
         if (!currentSong || !playlistRef.current) return;
