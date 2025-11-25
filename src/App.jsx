@@ -8,27 +8,33 @@ import SongPage from "./pages/SongPage"
 import AdminDashboard from "./pages/admin/AdminDashboard"
 import ManageSongs from "./pages/admin/ManageSongs"
 import ManageUsers from "./pages/admin/ManageUsers"
+import NotFound from "./pages/NotFound"
+import ErrorBoundary from "./components/ErrorBoundary"
 
 function App() {
 
   return (
-    <MusicProvider>
-      <Router>
-        <Routes>
-          <Route element={<UserLayout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/songs" element={<Songs />} />
-            <Route path="/songs/:id" element={<SongPage />} />
-          </Route>
+    <ErrorBoundary>
+      <MusicProvider>
+        <Router>
+          <Routes>
+            <Route element={<UserLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/songs" element={<Songs />} />
+              <Route path="/songs/:id" element={<SongPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
 
-          <Route element={<AdminLayout />}>
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/songs" element={<ManageSongs />} />
-            <Route path="/admin/users" element={<ManageUsers />} />
-          </Route>
-        </Routes>
-      </Router>
-    </MusicProvider>
+            <Route element={<AdminLayout />}>
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/songs" element={<ManageSongs />} />
+              <Route path="/admin/users" element={<ManageUsers />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </Router>
+      </MusicProvider>
+    </ErrorBoundary>
   );
 };
 

@@ -1,14 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useMusic } from "../context/MusicContext";
+import { apiFetch } from "../utils/api";
 import songsData from "../data/songs.json";
 import "../styles/Songs.css";
 
 function Songs() {
     const navigate = useNavigate();
     const { playSong, setPlaylist } = useMusic();
+
+    const [songs, setSongs] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        console.log("loadsongs running");
+        async function loadSongs() {
+            setLoading(true);
+            setError(null);
+
+            try {
+                const data = await apiFetch("/data/songs.json");
+                setSongs(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadSongs();
+    }, []);
+
+    function retry() {
+        setLoading(true);
+        setError(null);
+
+        apiFetch("/data/songs.json")
+            .then(data => setSongs(data))
+            .catch(err => setError(err.message))
+            .finally(() => setLoading(false));
+    }
+
     const genres = ["All", ...new Set(songsData.map(song => song.genre))];
     const [selectedGenre, setSelectedGenre] = useState("All");
+    
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const searchQuery = queryParams.get("search")?.toLowerCase() || "";
@@ -36,6 +72,29 @@ function Songs() {
         setPlaylist(filteredSongs);
         playSong(song);
         navigate(`/songs/${song.id}`, { state: { song, playlist: filteredSongs } });
+    }
+
+    if (loading) {
+        return (
+            <div className="songs-page">
+                <div className="songs-container loading-container">
+                    <div className="loading-spinner"></div>
+                    <p>Loading songs...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="songs-page">
+                <div className="songs-container">
+                    <h2>Failed to load songs</h2>
+                    <p>{error}</p>
+                    <button className="reset-btn" onClick={retry}>Try Again</button>
+                </div>
+            </div>
+        );
     }
 
     return (
