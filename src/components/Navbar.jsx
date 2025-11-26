@@ -1,16 +1,16 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
-import LoginModal from "../components/LoginModal";
+import { Wallet, Menu, X } from "lucide-react";
 import "../styles/Navbar.css";
 
 function Navbar() {
     const navigate = useNavigate();
     const location = useLocation();
-    const [showLogin, setShowLogin] = useState(false);
     const [isShrunk, setIsShrunk] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [demoConnect, setDemoConnect] = useState(false);
+    const [clickCount, setClickCount] = useState(0);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -32,6 +32,28 @@ function Navbar() {
             navigate(`/songs?search=${encodeURIComponent(searchTerm)}`);
             setSearchTerm("");
         }
+    }
+
+    function handleDemoConnect() {
+        setClickCount(prev => {
+            const newCount = prev + 1;
+
+            if (newCount === 2) {
+                setDemoConnect(true);
+                return 0;
+            }
+
+            setTimeout(() => {
+                setClickCount(curr => (curr === 1 ? 0 : curr));
+            }, 500);
+
+            return newCount;
+        });
+    }
+
+    function handleDemoDisconnect() {
+        setDemoConnect(false);
+        setClickCount(0);
     }
 
     function toggleMenu() {
@@ -71,17 +93,23 @@ function Navbar() {
                 >
                 Songs/Mixes
                 </li>
-                <li
-                    className="navbar-login"
-                    onClick={() => { setShowLogin(true); setIsMenuOpen(false); }}
-                >
-                <button>
-                Login
-                </button>
-                </li>
+
+                {demoConnect ? (
+                    <>
+                        <li className="connect-wallet-btn" onClick={() => { handleDemoDisconnect(); setIsMenuOpen(false); }}>
+                            <button>Disconnect</button>
+                        </li>
+                    </>
+                ) : (
+                    <li className="connect-wallet-btn">
+                    <button onClick={() => { handleDemoConnect(); setIsMenuOpen(false); }}>
+                        <Wallet size={13} style={{ paddingRight: "0.3rem" }} />
+                        Connect Wallet
+                    </button>
+                    </li>
+                )}
             </ul>
         </nav>
-        <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} />
         </>
     );
 }

@@ -24,7 +24,6 @@ function App() {
               <Route path="/songs/:id" element={<SongPage />} />
               <Route path="*" element={<NotFound />} />
             </Route>
-
             <Route element={<AdminLayout />}>
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/songs" element={<ManageSongs />} />
