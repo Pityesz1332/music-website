@@ -8,11 +8,28 @@ function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
     const [volume, setVolume] = useState(1);
     const [isDragging, setIsDragging] = useState(false);
     const [isSeeking, setIsSeeking] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const audioRef = useRef(null);
 
     useEffect(() => {
+        if (!audioRef.current) return;
+
         setProgress(0);
         setCurrentTime(0);
+
+        const audio = audioRef.current;
+
+        function autoPlay() {
+            if (isPlaying) {
+                audioRef.current.play().catch(err => console.log(err));
+            }
+        }
+
+        audio.addEventListener("loadeddata", autoPlay);
+
+        return () => {
+            audio.removeEventListener("loadeddata", autoPlay);
+        };
     }, [song?.src]);
 
     useEffect(() => {
@@ -44,6 +61,16 @@ function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
             window.removeEventListener("mouseup", handleVolumeDragEnd);
         };
     }, [isDragging]);
+
+    function handlePlay() {
+        if (isPlaying) {
+            onPlayPause();
+            return;
+        }
+
+        setIsLoading(true);
+        onPlayPause();
+    }
 
     function handleTimeUpdate() {
         if (isSeeking) return;
@@ -140,6 +167,8 @@ function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
                 ref={audioRef}
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={() => setProgress(0)}
+                onLoadedData={() => setIsLoading(false)}
+                onPlay={() => setIsLoading(false)}
                 onEnded={onNext}
             />
             
@@ -153,7 +182,13 @@ function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
 
             <div className="playbar-controls">
                 <button onClick={onPrev}>⏮</button>
-                <button onClick={onPlayPause}>{isPlaying ? <Pause /> : <Play />}</button>
+                <button onClick={handlePlay}>{isLoading ? (
+                    <div className="loading-spinner"></div>
+                ) : isPlaying ? (
+                    <Pause />
+                ) : (
+                    <Play />
+                )}</button>
                 <button onClick={onNext}>⏭</button>
             </div>
 
