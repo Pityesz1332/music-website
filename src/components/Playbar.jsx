@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { Play, Pause, TimerReset } from "lucide-react";
 import "../styles/Playbar.css";
 
 function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
+    const location = useLocation();
+    const isSongPage = location.pathname.startsWith("/songs/");
     const [progress, setProgress] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
     const [volume, setVolume] = useState(1);
@@ -108,7 +111,7 @@ function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
         if (!audio || !bar) return;
 
         const rect = bar.getBoundingClientRect();
-        const x = e.clientX -rect.left;
+        const x = e.clientX - rect.left;
         const percent = Math.min(Math.max(x / rect.width, 0), 1);
 
         setProgress(percent * 100);
@@ -161,8 +164,8 @@ function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
     if (!song) return null;
 
     return (
-        <div className="playbar">
-            <audio 
+        <div className={`playbar ${isSongPage ? "expanded" : "collapsed"}`}>
+            <audio
                 src={song.src}
                 ref={audioRef}
                 onTimeUpdate={handleTimeUpdate}
@@ -226,7 +229,7 @@ function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
 }
 
 function formatTime(seconds) {
-    if (!seconds) return "0:00";
+    if (seconds == null || isNaN(seconds)) return "0:00";
     const min = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${min}:${secs.toString().padStart(2, "0")}`;
