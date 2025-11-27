@@ -160,6 +160,50 @@
     background: var(--dark-accent);
 }
 
+.songs-footer {
+    margin-top: 50px;
+    padding: 40px 0 60px;
+    text-align: center;
+    color: var(--main-text);
+    font-size: 14px;
+    background: var(--card);
+    backdrop-filter: blur(12px);
+}
+
+.sc-btn {
+    margin-top: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--main-text);
+    padding: 10px 18px;
+    background: var(--accent);
+    border: 1px solid var(--dark-accent);
+    border-radius: 10px;
+    transition: all 0.25s ease;
+}
+
+.sc-btn img {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.25s ease;
+}
+
+.sc-btn:hover {
+    background: var(--dark-accent);
+    transform: translateY(-2px);
+}
+
+.sc-btn:hover img {
+    transform: scale(1.15);
+}
+
+.sc-btn span {
+    font-size: 14px;
+    letter-spacing: 0.3px;
+}
+
 @media (max-width: 1024px) {
     .songs-container {
         padding: 80px 40px 40px;
@@ -177,6 +221,21 @@
 
     .song-card {
         width: 220px;
+    }
+
+    .songs-footer {
+        padding: 35px 0 50px;
+        font-size: 13px;
+    }
+
+    .sc-btn {
+        padding: 8px 16px;
+        gap: 8px;
+    }
+
+    .sc-btn img {
+        width: 18px;
+        height: 18px;
     }
 }
 
@@ -202,6 +261,24 @@
 
     .filter-bar {
         justify-content: center;
+    }
+
+    .songs-footer {
+        padding: 30px 0 40px;
+        font-size: 12px;
+    }
+
+    .sc-btn {
+        width: 100%;
+        max-width: 260px;
+        justify-content: center;
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .sc-btn img {
+        width: 18px;
+        height: 18px;
     }
 }
 
@@ -236,6 +313,25 @@
     .reset-btn {
         padding: 8px 18px;
         font-size: 0.9rem;
+    }
+
+    .songs-footer {
+        padding: 25px 0 35px;
+        font-size: 12px;
+    }
+
+    .sc-btn {
+        padding: 7px 12px;
+        gap: 6px;
+    }
+
+    .sc-btn span {
+        font-size: 12px;
+    }
+
+    .sc-btn img {
+        width: 16px;
+        height: 16px;
     }
 }
 

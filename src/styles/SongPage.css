@@ -260,6 +260,11 @@
         gap: 20px;
     }
 
+    .song-cover-wrapper img {
+        width: 120px;
+        height: 120px;
+    }
+
     .right-playlist {
         width: 97%;
         height: auto;

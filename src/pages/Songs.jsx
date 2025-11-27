@@ -149,8 +149,21 @@ function Songs() {
                         onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
                         disabled={currentPage === totalPages}
                     >Next</button>
-                </div>
+                </div> 
             </div>
+            <footer className="songs-footer">
+                <p>© {new Date().getFullYear()} DJ Enez - All rights reserved</p>
+
+                <a 
+                    href="https://soundcloud.com/djenez"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="sc-btn"
+                >
+                    <img src="/assets/soundcloud-logo.svg" alt="SoundCloud" />
+                    <span>Follow <strong><span style={{ color: "var(--inverse)" }}>DJ Enez</span></strong> on SoundCloud</span>
+                </a>
+            </footer>
         </div>
     );
 };

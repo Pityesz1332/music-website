@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { Play, Pause, TimerReset } from "lucide-react";
+import { Play, Pause, TimerReset, Repeat } from "lucide-react";
 import "../styles/Playbar.css";
 
 function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
@@ -12,6 +12,7 @@ function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
     const [isDragging, setIsDragging] = useState(false);
     const [isSeeking, setIsSeeking] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isLooping, setIsLooping] = useState(false);
     const audioRef = useRef(null);
 
     useEffect(() => {
@@ -172,7 +173,15 @@ function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
                 onLoadedMetadata={() => setProgress(0)}
                 onLoadedData={() => setIsLoading(false)}
                 onPlay={() => setIsLoading(false)}
-                onEnded={onNext}
+                onEnded={() => {
+                    if (isLooping) {
+                        audioRef.current.currentTime = 0;
+                        audioRef.current.play();
+                        return;
+                    } else {
+                        onNext();
+                    }
+                }}
             />
             
             <div className="playbar-left">
@@ -221,7 +230,10 @@ function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
                     />
                 </div>
                 <button className="reset-seeker" onClick={handleResetSong}>
-                    <TimerReset />
+                    <TimerReset size={20} />
+                </button>
+                <button className={`loop-btn ${isLooping ? "active" : ""}`} onClick={() => setIsLooping(!isLooping)}>
+                    <Repeat size={20} />
                 </button>
             </div>
         </div>

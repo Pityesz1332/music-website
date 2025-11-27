@@ -162,6 +162,19 @@
     transform: scale(1.2);
 }
 
+.loop-btn {
+    background: none;
+    border: none;
+    color: var(--main-text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.loop-btn.active {
+    color: var(--accent);
+}
+
 .loading-spinner {
     width: 22px;
     height: 22px;
@@ -296,7 +309,7 @@
     }
 
     .playbar-progress {
-        width: 90%;
+        width: 85%;
     }
 
     .volume-wrapper {
@@ -366,6 +379,7 @@
 
     .playbar-progress {
         font-size: 18px;
+        width: 80%;
     }
 
     .reset-seeker {
