@@ -61,7 +61,7 @@ function UserNavbar({ onLogoutClick }) {
                 <li className={location.pathname === "/" ? "active" : ""} onClick={() => navigate("/")}>Home</li>
                 <li className={location.pathname === "/songs" ? "active" : ""} onClick={() => navigate("/songs")}>Songs/Mixes</li>
                 <li className={location.pathname === "/saved" ? "active" : ""} onClick={() => navigate("/saved")}><Heart /></li>
-                <li className="wallet-display">{auth.wallet.slice(0, 6)}...{auth.wallet.slice(-4)}</li>
+                <li className={`wallet-display ${location.pathname === "/myaccount" ? "active" : ""}`} onClick={() => navigate("/myaccount")}>{auth.wallet.slice(0, 6)}...{auth.wallet.slice(-4)}</li>
                 <li className="connect-wallet-btn"><button type="button" onClick={onLogoutClick}>Disconnect</button></li>
             </ul>
         </nav>

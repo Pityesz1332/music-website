@@ -6,6 +6,7 @@ import UserLayout from "./layouts/UserLayout"
 import Home from "./pages/Home"
 import Songs from "./pages/Songs"
 import SongPage from "./pages/SongPage"
+import MyAccount from "./pages/MyAccount"
 import AdminDashboard from "./pages/admin/AdminDashboard"
 import ManageSongs from "./pages/admin/ManageSongs"
 import ManageUsers from "./pages/admin/ManageUsers"
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/songs" element={<Songs />} />
                 <Route path="/songs/:id" element={<SongPage />} />
+                <Route path="/myaccount" element={<MyAccount />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
               <Route element={<AdminLayout />}>
