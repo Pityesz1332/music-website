@@ -184,6 +184,15 @@
     animation: spin 0.7s linear infinite;
 }
 
+.playbar-save-btn {
+    background: none;
+    border: none;
+    color: var(--main-text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
 @keyframes spin {
     to {
         transform: rotate(360deg);

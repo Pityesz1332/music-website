@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { Play, Pause, TimerReset, Repeat } from "lucide-react";
+import { Play, Pause, TimerReset, Repeat, FileMusic } from "lucide-react";
 import "../styles/Playbar.css";
 
 function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
@@ -234,6 +234,9 @@ function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
                 </button>
                 <button className={`loop-btn ${isLooping ? "active" : ""}`} onClick={() => setIsLooping(!isLooping)}>
                     <Repeat size={20} />
+                </button>
+                <button className="playbar-save-btn">
+                    <FileMusic size={18} />
                 </button>
             </div>
         </div>
