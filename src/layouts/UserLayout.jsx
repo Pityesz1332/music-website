@@ -3,7 +3,6 @@ import { Outlet } from "react-router-dom";
 import { useMusic } from "../context/MusicContext";
 import Navbar from "../components/Navbar";
 import Playbar from "../components/Playbar";
-import { Play } from "lucide-react";
 
 function UserLayout() {
     const { currentSong, isPlaying, togglePlay, nextSong, prevSong } = useMusic();

@@ -1,115 +1,42 @@
-import { useNavigate, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { Wallet, Menu, X } from "lucide-react";
-import "../styles/Navbar.css";
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import ConfirmModal from "./ConfirmModal";
+import PublicNavbar from "./PublicNavbar";
+import UserNavbar from "./UserNavbar";
+import AdminNavbar from "./admin/AdminNavbar";
 
 function Navbar() {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const [isShrunk, setIsShrunk] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [demoConnect, setDemoConnect] = useState(false);
-    const [clickCount, setClickCount] = useState(0);
+    const { auth, logout } = useAuth();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY > 50) {
-                setIsShrunk(true);
-            } else {
-                setIsShrunk(false);
-            }
-        }
-
-        window.addEventListener("scroll", handleScroll);
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
-
-    function handleSearch(e) {
-        if (e.key === "Enter") {
-            navigate(`/songs?search=${encodeURIComponent(searchTerm)}`);
-            setSearchTerm("");
-        }
+    function handleLogoutClick() {
+        setIsModalOpen(true);
     }
 
-    function handleDemoConnect() {
-        setClickCount(prev => {
-            const newCount = prev + 1;
-
-            if (newCount === 2) {
-                setDemoConnect(true);
-                return 0;
-            }
-
-            setTimeout(() => {
-                setClickCount(curr => (curr === 1 ? 0 : curr));
-            }, 500);
-
-            return newCount;
-        });
+    function handleConfirmLogout() {
+        logout();
+        setIsModalOpen(false);
     }
 
-    function handleDemoDisconnect() {
-        setDemoConnect(false);
-        setClickCount(0);
+    function handleCancelLogout() {
+        setIsModalOpen(false);
     }
 
-    function toggleMenu() {
-        setIsMenuOpen(!isMenuOpen);
-    }
+    let content;
+    if (!auth) content = <PublicNavbar onLogoutClick={handleLogoutClick} />;
+    else if (auth.role === "user") content = <UserNavbar onLogoutClick={handleLogoutClick} />;
+    else if (auth.role === "admin") content = <AdminNavbar onLogoutClick={handleLogoutClick} />;
 
     return (
         <>
-        <nav className={`navbar ${isShrunk ? "shrink" : ""}`}>
-            <div className="logo" onClick={() => navigate("/")}>DJ Enez</div>
-
-            <div className="nav-center">
-                <input
-                    className="searchbar"
-                    type="text"
-                    placeholder="Search..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    onKeyDown={handleSearch}
-                />
-            </div>
-
-            <div className="hamburger" onClick={toggleMenu}>
-                {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-            </div>
-
-            <ul className={isMenuOpen ? "open" : ""}>
-                <li
-                    className={location.pathname === "/" ? "active" : ""}
-                    onClick={() => navigate("/")}
-                >
-                Home
-                </li>
-                <li
-                    className={location.pathname === "/songs" ? "active" : ""}
-                    onClick={() => { navigate("/songs"); setIsMenuOpen(false); }}
-                >
-                Songs/Mixes
-                </li>
-
-                {demoConnect ? (
-                    <>
-                        <li className="connect-wallet-btn" onClick={() => { handleDemoDisconnect(); setIsMenuOpen(false); }}>
-                            <button>Disconnect</button>
-                        </li>
-                    </>
-                ) : (
-                    <li className="connect-wallet-btn">
-                    <button onClick={() => { handleDemoConnect(); setIsMenuOpen(false); }}>
-                        <Wallet size={13} style={{ paddingRight: "0.3rem" }} />
-                        Connect Wallet
-                    </button>
-                    </li>
-                )}
-            </ul>
-        </nav>
+            {content}
+            <ConfirmModal
+                isOpen={isModalOpen}
+                title="Are you sure?"
+                message="Do you want to disconnect?"
+                onConfirm={handleConfirmLogout}
+                onCancel={handleCancelLogout}
+            />
         </>
     );
 }

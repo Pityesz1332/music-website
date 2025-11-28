@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 import "../../styles/AdminNavbar.css";
 
 function AdminNavbar() {
@@ -9,6 +10,7 @@ function AdminNavbar() {
     const [shrink, setShrink] = useState(false);
     const isActive = (path) => location.pathname === path;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { logout } = useAuth();
 
     useEffect(() => {
         function handleScroll() {
@@ -24,6 +26,7 @@ function AdminNavbar() {
     }, []);
 
     function handleLogout() {
+        logout();
         navigate("/");
     }
 
