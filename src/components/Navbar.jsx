@@ -1,42 +1,86 @@
-import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Wallet, Menu, X } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import ConfirmModal from "./ConfirmModal";
-import PublicNavbar from "./PublicNavbar";
-import UserNavbar from "./UserNavbar";
-import AdminNavbar from "./admin/AdminNavbar";
+import "../styles/Navbar.css";
 
 function Navbar() {
-    const { auth, logout } = useAuth();
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { connect } = useAuth();
+    const [searchTerm, setSearchTerm] = useState("");
+    const [isShrunk, setIsShrunk] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    function handleLogoutClick() {
-        setIsModalOpen(true);
+    useEffect(() => {
+        function handleScroll() {
+            if (window.scrollY > 50) {
+                setIsShrunk(true);
+            } else {
+                setIsShrunk(false);
+            }
+        }
+
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
+    function handleSearch(e) {
+        if (e.key === "Enter") {
+            navigate(`/songs?search=${encodeURIComponent(searchTerm)}`);
+            setSearchTerm("");
+        }
     }
 
-    function handleConfirmLogout() {
-        logout();
-        setIsModalOpen(false);
+    function toggleMenu() {
+        setIsMenuOpen(prev => !prev);
     }
 
-    function handleCancelLogout() {
-        setIsModalOpen(false);
+    function handleDemoConnect() {
+        connect();
+        navigate("/connected");
     }
-
-    let content;
-    if (!auth) content = <PublicNavbar onLogoutClick={handleLogoutClick} />;
-    else if (auth.role === "user") content = <UserNavbar onLogoutClick={handleLogoutClick} />;
-    else if (auth.role === "admin") content = <AdminNavbar onLogoutClick={handleLogoutClick} />;
 
     return (
         <>
-            {content}
-            <ConfirmModal
-                isOpen={isModalOpen}
-                title="Are you sure?"
-                message="Do you want to disconnect?"
-                onConfirm={handleConfirmLogout}
-                onCancel={handleCancelLogout}
-            />
+        <nav className={`navbar ${isShrunk ? "shrink" : ""}`}>
+            <div className="logo" onClick={() => navigate("/")}>DJ Enez</div>
+
+            <div className="nav-center">
+                <input
+                    className="searchbar"
+                    type="text"
+                    placeholder="Search..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onKeyDown={handleSearch}
+                />
+            </div>
+
+            <div className="hamburger" onClick={toggleMenu}>
+                {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </div>
+
+            <ul className={isMenuOpen ? "open" : ""}>
+                <li
+                    className={location.pathname === "/" ? "active" : ""}
+                    onClick={() => { navigate("/"); setIsMenuOpen(false) }}
+                >
+                Home
+                </li>
+                <li
+                    className={location.pathname === "/songs" ? "active" : ""}
+                    onClick={() => { navigate("/songs"); setIsMenuOpen(false); }}
+                >
+                Songs/Mixes
+                </li>
+                <li className="connect-wallet-btn">
+                    <button type="button" onClick={handleDemoConnect}><Wallet size={10} />Connect Wallet</button>
+                </li>
+            </ul>
+        </nav>
         </>
     );
 }

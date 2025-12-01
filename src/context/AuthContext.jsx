@@ -1,24 +1,32 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
-    const [auth, setAuth] = useState(null);
+    const [isConnected, setIsConnected] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    function loginUser(wallet) {
-        setAuth({ role: "user", wallet: "0x123456789DEMO" });
-    }
+    useEffect(() => {
+        const saved = localStorage.getItem("isConnected");
+        if (saved === "true") {
+            setIsConnected(true);
+        }
+        setLoading(false);
+    }, []);
 
-    function loginAdmin() {
-        setAuth({ role: "admin" });
-    }
+    const connect = () =>  {
+        setIsConnected(true);
+        localStorage.setItem("isConnected", "true");
+    };
 
-    function logout() {
-        setAuth(null);
-    }
+
+    const disconnect = () => {
+        setIsConnected(false);
+        localStorage.removeItem("isConnected");
+    };
 
     return (
-        <AuthContext.Provider value={{ auth, loginUser, loginAdmin, logout }}>
+        <AuthContext.Provider value={{ isConnected, loading, connect, disconnect }}>
             {children}
         </AuthContext.Provider>
     );

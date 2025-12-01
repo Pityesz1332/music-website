@@ -152,7 +152,7 @@
 .reset-seeker {
     background: transparent;
     border: none;
-    color: var(--accent);
+    color: var(--main-text);
     font-size: 20px;
     cursor: pointer;
     transition: 0.2s;
