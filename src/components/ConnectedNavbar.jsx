@@ -46,7 +46,7 @@ function ConnectedNavbar() {
     return (
         <>
             <nav className={`navbar ${isShrunk ? "shrink" : ""}`}>
-                <div className="logo" onClick={() => navigate("/connected")}>DJ Enez</div>
+                <div className="logo" onClick={() => navigate("/")}>DJ Enez</div>
 
                 <div className="nav-center">
                     <input
@@ -65,30 +65,30 @@ function ConnectedNavbar() {
 
                 <ul className={isMenuOpen ? "open" : ""}>
                     <li
-                        className={location.pathname === "/connected" ? "active" : ""}
-                        onClick={() => { navigate("/connected"); setIsMenuOpen(false); }}
+                        className={location.pathname === "/" ? "active" : ""}
+                        onClick={() => { navigate("/"); setIsMenuOpen(false); }}
                     >
                     Home
                     </li>
                     <li
                         className={location.pathname === "/songs"}
-                        onClick={() => { navigate("/connected/songs"); setIsMenuOpen(false); }}
+                        onClick={() => { navigate("/songs"); setIsMenuOpen(false); }}
                     >
                         Songs/Mixes
                     </li>
                     <li
-                        className={location.pathname === "/connected/saved"}
-                        onClick={() => { navigate("/connected/saved"); setIsMenuOpen(false); }}
+                        className={location.pathname === "/saved"}
+                        onClick={() => { navigate("/saved"); setIsMenuOpen(false); }}
                     >
                         <Heart size={28} />
                     </li>
                     <li
-                        className={location.pathname === "/connected/myaccount"}
-                        onClick={() => { navigate("/connected/myaccount"); setIsMenuOpen(false); }}
+                        className={location.pathname === "/myaccount"}
+                        onClick={() => { navigate("/myaccount"); setIsMenuOpen(false); }}
                     >
                         0x123...9DEMO
                     </li>
-                    <li className="connext-wallet-btn">
+                    <li className="connect-wallet-btn">
                         <button type="button" onClick={handleDisconnect}>Disconnect Wallet</button>
                     </li>
                 </ul>

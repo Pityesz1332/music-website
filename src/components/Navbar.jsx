@@ -40,7 +40,6 @@ function Navbar() {
 
     function handleDemoConnect() {
         connect();
-        navigate("/connected");
     }
 
     return (
