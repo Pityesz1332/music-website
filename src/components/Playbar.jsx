@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { Play, Pause, TimerReset, Repeat, FileMusic } from "lucide-react";
+import { useMusic } from "../context/MusicContext";
 import "../styles/Playbar.css";
 
 function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
@@ -13,6 +14,8 @@ function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
     const [isSeeking, setIsSeeking] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isLooping, setIsLooping] = useState(false);
+    const { savedSongs, saveSong, removeSavedSong } = useMusic();
+    const isSaved = savedSongs.some(s => s.id === song.id);
     const audioRef = useRef(null);
 
     useEffect(() => {
@@ -235,7 +238,15 @@ function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
                 <button className={`loop-btn ${isLooping ? "active" : ""}`} onClick={() => setIsLooping(!isLooping)}>
                     <Repeat size={20} />
                 </button>
-                <button className="playbar-save-btn">
+                <button 
+                    className={`playbar-save-btn ${isSaved ? "saved" : ""}`}  
+                    onClick={() => {
+                        if (isSaved) {
+                            removeSavedSong(song.id);
+                        } else {
+                            saveSong(song);
+                        }
+                    }}>
                     <FileMusic size={18} />
                 </button>
             </div>

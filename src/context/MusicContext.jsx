@@ -6,6 +6,7 @@ function MusicProvider({ children }) {
     const [currentSong, setCurrentSong] = useState(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [playlist, setPlaylist] = useState([]);
+    const [savedSongs, setSavedSongs] = useState([]);
 
     function playSong(song) {
         setCurrentSong(prev => {
@@ -35,6 +36,19 @@ function MusicProvider({ children }) {
         setIsPlaying(true);
     }
 
+    function saveSong(song) {
+        setSavedSongs(prev => {
+            if (!prev.find(s => s.id === song.id)) {
+                return [...prev, song];
+            }
+            return prev;
+        });
+    }
+
+    function removeSavedSong(songId) {
+        setSavedSongs(prev => prev.filter(s => s.id !== songId));
+    }
+
     return (
         <MusicContext.Provider value={{
             currentSong,
@@ -44,7 +58,10 @@ function MusicProvider({ children }) {
             togglePlay,
             nextSong,
             prevSong,
-            setPlaylist
+            setPlaylist,
+            savedSongs,
+            saveSong,
+            removeSavedSong
         }}>
             {children}
         </MusicContext.Provider>

@@ -193,6 +193,10 @@
     align-items: center;
 }
 
+.playbar-save-btn.saved svg {
+    color: var(--accent);
+}
+
 @keyframes spin {
     to {
         transform: rotate(360deg);

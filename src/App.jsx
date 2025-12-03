@@ -8,6 +8,8 @@ import AdminLayout from "./layouts/AdminLayout"
 import Home from "./pages/Home"
 import Songs from "./pages/Songs"
 import SongPage from "./pages/SongPage"
+import Saved from "./pages/Saved"
+import MyAccount from "./pages/MyAccount"
 import AdminDashboard from "./pages/admin/AdminDashboard"
 import ManageSongs from "./pages/admin/ManageSongs"
 import ManageUsers from "./pages/admin/ManageUsers"
@@ -36,6 +38,8 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/songs" element={<Songs />} />
                 <Route path="/songs/:id" element={<SongPage />} />
+                <Route path="/saved" element={<Saved />} />
+                <Route path="/myaccount" element={<MyAccount />} />
               </Route>
 
               {/* Admin */}
