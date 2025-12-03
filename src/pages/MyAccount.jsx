@@ -29,7 +29,7 @@ function MyAccount() {
 
             <div className="profile-block">
                 <div className="avatar-wrapper">
-                    <img src={avatar || "/default-avatar.png"} alt="Avatar" className="avatar" />
+                    <img src={avatar || "/assets/default-avatar.jpg"} alt="Avatar" className="avatar" />
                     <input type="file" accept="image/*" onChange={handleAvatarChange} className="avatar-input" />
                 </div>
 
