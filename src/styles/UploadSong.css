@@ -1,0 +1,136 @@
+.upload-container {
+    background: var(--bg);
+    color: var(--main-text);
+    padding: 20px;
+    border-radius: 12px;
+    width: 400px;
+    max-width: 90%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.upload-container h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.dropzone {
+    border: 2px dashed var(--accent);
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--card);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted-text);
+}
+
+.dropzone:hover {
+    border-color: var(--dark-accent);
+    color: var(--main-text);
+}
+
+.cover-upload {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: var(--card);
+    border: 1px solid var(--muted-text);
+    color: var(--muted-text);
+    transition: all 0.2s ease;
+}
+
+.cover-upload:hover {
+    color: var(--main-text);
+}
+
+input[type="text"] {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--muted-text);
+    background: var(--card);
+    color: var(--muted-text);
+}
+
+.progres-bar {
+    background: var(--card);
+    border-radius: 6px;
+    height: 8px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.progres-bar div {
+    height: 100%;
+    background: var(--card);
+    width: 0;
+    transition: width 0.2s ease;
+}
+
+.upload-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.upload-save {
+    background: var(--accent);
+    color: var(--main-text);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.upload-save:hover {
+    background: var(--dark-accent)
+}
+
+.upload-cancel {
+    background: var(--dark-accent);
+    color: var(--main-text);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.upload-cancel:hover {
+    background: var(--accent);
+}
+
+@media (max-width: 480px) {
+    .upload-container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .dropzone {
+        padding: 20px;
+        font-size: 14px;
+    }
+
+    .cover-upload {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+
+    input[type="text"] {
+        font-size: 14px;
+    }
+}
