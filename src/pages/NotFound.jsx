@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
-import "../styles/NotFound.css";
+import "../styles/pages/NotFound.css";
 
 function NotFound() {
     return (

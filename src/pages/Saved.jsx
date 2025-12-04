@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useMusic } from "../context/MusicContext";
-import "../styles/Songs.css";
+import "../styles/pages/Songs.css";
 
 function Saved() {
     const navigate = useNavigate();

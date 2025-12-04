@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../styles/MyAccount.css";
+import "../styles/pages/MyAccount.css";
 import { Copy } from "lucide-react";
 import { useNotification } from "../context/NotificationContext";
 

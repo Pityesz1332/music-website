@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { UploadCloud, Music, Image as ImageIcon, X } from "lucide-react";
-import "../../styles/UploadSong.css";
+import "../../styles/admin/UploadSong.css";
 
 function UploadSong({ onCancel, onSave }) {
     const [audioFile, setAudioFile] = useState(null);

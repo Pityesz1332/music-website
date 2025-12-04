@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/admin/AdminNavbar";
-import "../styles/AdminLayout.css";
+import "../styles/admin/AdminLayout.css";
 
 function AdminLayout() {
     return (

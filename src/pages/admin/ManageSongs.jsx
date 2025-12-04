@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { PlusCircle, Trash2, Edit, X} from "lucide-react";
 import songsData from "../../data/songs.json";
 import UploadSong from "../../components/admin/UploadSong";
-import "../../styles/ManageSongs.css";
+import "../../styles/admin/ManageSongs.css";
 
 function ManageSongs() {
     const [songs, setSongs] = useState(songsData);

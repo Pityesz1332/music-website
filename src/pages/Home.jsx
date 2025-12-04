@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../styles/Home.css";
+import "../styles/pages/Home.css";
 import { useNavigate } from "react-router-dom";
 
 const backgrounds = [

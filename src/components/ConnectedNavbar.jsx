@@ -4,7 +4,7 @@ import { Menu, X, Heart } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useNotification } from "../context/NotificationContext";
 import { useLoading } from "../context/LoadingContext";
-import "../styles/Navbar.css";
+import "../styles/components/Navbar.css";
 
 function ConnectedNavbar() {
     const navigate = useNavigate();

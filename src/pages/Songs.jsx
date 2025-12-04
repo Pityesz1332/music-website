@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useMusic } from "../context/MusicContext";
 import { apiFetch } from "../utils/api";
 import songsData from "../data/songs.json";
-import "../styles/Songs.css";
+import "../styles/pages/Songs.css";
 
 function Songs() {
     const navigate = useNavigate();

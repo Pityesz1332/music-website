@@ -4,7 +4,7 @@ import { Play, Pause, TimerReset, Repeat, FileMusic } from "lucide-react";
 import { useMusic } from "../context/MusicContext";
 import { useAuth } from "../context/AuthContext";
 import { useNotification } from "../context/NotificationContext";
-import "../styles/Playbar.css";
+import "../styles/components/Playbar.css";
 
 function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
     const location = useLocation();

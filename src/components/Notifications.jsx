@@ -1,5 +1,5 @@
 import { useNotification } from "../context/NotificationContext";
-import "../styles/Notifications.css";
+import "../styles/components/Notifications.css";
 
 function Notifications() {
     const { notifications } = useNotification();

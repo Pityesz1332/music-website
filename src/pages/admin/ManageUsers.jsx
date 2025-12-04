@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Trash2, Edit } from "lucide-react";
 import { usersData } from "../../data/usersData";
-import "../../styles/ManageUsers.css";
+import "../../styles/admin/ManageUsers.css";
 
 function ManageUsers() {
     const [users, setUsers] = useState(usersData);

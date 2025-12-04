@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import "../../styles/AdminNavbar.css";
+import "../../styles/admin/AdminNavbar.css";
 
 function AdminNavbar() {
     const navigate = useNavigate();
@@ -24,7 +24,6 @@ function AdminNavbar() {
     }, []);
 
     function handleLogout() {
-        logout();
         navigate("/");
     }
 

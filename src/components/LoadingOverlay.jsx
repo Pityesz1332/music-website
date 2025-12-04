@@ -1,4 +1,4 @@
-import "../styles/LoadingOverlay.css";
+import "../styles/components/LoadingOverlay.css";
 import { useLoading } from "../context/LoadingContext";
 
 function LoadingOverlay() {

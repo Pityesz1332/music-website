@@ -4,7 +4,7 @@ import { Play, Pause, ArrowLeft } from "lucide-react";
 import { useMusic } from "../context/MusicContext";
 import ScrollToTop from "../components/ScrollToTop";
 import songsData from "../data/songs.json";
-import "../styles/SongPage.css";
+import "../styles/pages/SongPage.css";
 
 function SongPage() {
     const navigate = useNavigate();

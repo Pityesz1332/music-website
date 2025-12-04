@@ -4,7 +4,7 @@ import { Wallet, Menu, X } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useNotification } from "../context/NotificationContext";
 import { useLoading } from "../context/LoadingContext";
-import "../styles/Navbar.css";
+import "../styles/components/Navbar.css";
 
 function Navbar() {
     const navigate = useNavigate();
