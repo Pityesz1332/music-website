@@ -17,9 +17,11 @@ function AuthProvider({ children }) {
     const connect = async () =>  {
         return new Promise((resolve, reject) => {
             try {
-                setIsConnected(true);
-                localStorage.setItem("isConnected", "true");
-                resolve(true);
+                setTimeout(() => {
+                    setIsConnected(true);
+                    localStorage.setItem("isConnected", "true");
+                    resolve(true);
+                }, 1200);
             } catch(err) {
                 reject(err);
             }
@@ -27,9 +29,18 @@ function AuthProvider({ children }) {
     };
 
 
-    const disconnect = () => {
-        setIsConnected(false);
-        localStorage.removeItem("isConnected");
+    const disconnect = async () => {
+        return new Promise((resolve, reject) => {
+            try {
+                setTimeout(() => {
+                    setIsConnected(false);
+                    localStorage.removeItem("isConnected");
+                    resolve(true);
+                }, 500);
+            } catch(err) {
+                reject(err);
+            }
+        });
     };
 
     return (

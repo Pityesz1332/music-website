@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import { MusicProvider } from "./context/MusicContext"
 import { AuthProvider } from "./context/AuthContext"
 import { NotificationProvider } from "./context/NotificationContext"
+import { LoadingProvider } from "./context/LoadingContext"
 
 import MainLayout from "./layouts/MainLayout"
 import AdminLayout from "./layouts/AdminLayout"
@@ -19,6 +20,7 @@ import NotFound from "./pages/NotFound"
 
 import ErrorBoundary from "./components/ErrorBoundary"
 import Notifications from "./components/Notifications"
+import LoadingOverlay from "./components/LoadingOverlay"
 
 {/*function ProtectedRoute({ children }) {
   const { isConnected, loading } = useAuth();
@@ -32,12 +34,13 @@ function App() {
   return (
     <ErrorBoundary>
       <NotificationProvider>
-        <AuthProvider>
-          <MusicProvider>
-            <Notifications />
+        <LoadingProvider>
+          <AuthProvider>
+            <MusicProvider>
+              <Notifications />
+              <LoadingOverlay />
               <Router>
                 <Routes>
-
                   {/* Main (Public/Connected) */}
                   <Route element={<MainLayout />}>
                     <Route path="/" element={<Home />} />
@@ -46,20 +49,19 @@ function App() {
                     <Route path="/saved" element={<Saved />} />
                     <Route path="/myaccount" element={<MyAccount />} />
                   </Route>
-
                   {/* Admin */}
                   <Route element={<AdminLayout />}>
                     <Route path="/admin" element={<AdminDashboard />} />
                     <Route path="/admin/songs" element={<ManageSongs />} />
                     <Route path="/admin/users" element={<ManageUsers />} />
                   </Route>
-
                   {/* Error */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Router>
-          </MusicProvider>
-        </AuthProvider>
+            </MusicProvider>
+          </AuthProvider>
+        </LoadingProvider>
       </NotificationProvider>
     </ErrorBoundary>
   );

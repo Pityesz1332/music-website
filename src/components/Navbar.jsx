@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Wallet, Menu, X } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useNotification } from "../context/NotificationContext";
+import { useLoading } from "../context/LoadingContext";
 import "../styles/Navbar.css";
 
 function Navbar() {
@@ -10,6 +11,7 @@ function Navbar() {
     const location = useLocation();
     const { connect } = useAuth();
     const { notify } = useNotification();
+    const { showLoading, hideLoading } = useLoading();
     const [searchTerm, setSearchTerm] = useState("");
     const [isShrunk, setIsShrunk] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -42,9 +44,12 @@ function Navbar() {
 
     async function handleDemoConnect() {
         try {
+            showLoading();
             await connect();
+            hideLoading();
             notify("Wallet connected", "success");
         } catch(err) {
+            hideLoading();
             console.error(err);
             notify("Something went wrong", "error");
         }

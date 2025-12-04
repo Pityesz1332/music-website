@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, Heart } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useNotification } from "../context/NotificationContext";
+import { useLoading } from "../context/LoadingContext";
 import "../styles/Navbar.css";
 
 function ConnectedNavbar() {
@@ -10,6 +11,7 @@ function ConnectedNavbar() {
     const location = useLocation();
     const { disconnect } = useAuth();
     const { notify } = useNotification();
+    const { showLoading, hideLoading } = useLoading();
     const [searchTerm, setSearchTerm] = useState("");
     const [isShrunk, setIsShrunk] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,10 +42,17 @@ function ConnectedNavbar() {
         setIsMenuOpen(prev => !prev);
     }
 
-    function handleDisconnect() {
-        disconnect();
-        navigate("/");
-        notify("Disconnected", "success");
+    async function handleDisconnect() {
+        try {
+            showLoading();
+            await disconnect();
+            hideLoading();
+            navigate("/");
+            notify("Disconnected", "success");
+        } catch(err) {
+            hideLoading();
+            notify("Error", "error");
+        }
     }
 
     return (
