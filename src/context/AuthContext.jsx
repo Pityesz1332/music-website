@@ -14,9 +14,16 @@ function AuthProvider({ children }) {
         setLoading(false);
     }, []);
 
-    const connect = () =>  {
-        setIsConnected(true);
-        localStorage.setItem("isConnected", "true");
+    const connect = async () =>  {
+        return new Promise((resolve, reject) => {
+            try {
+                setIsConnected(true);
+                localStorage.setItem("isConnected", "true");
+                resolve(true);
+            } catch(err) {
+                reject(err);
+            }
+        });
     };
 
 

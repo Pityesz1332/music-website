@@ -1,11 +1,13 @@
 import { useState } from "react";
 import "../styles/MyAccount.css";
 import { Copy } from "lucide-react";
+import { useNotification } from "../context/NotificationContext";
 
 function MyAccount() {
     const [avatar, setAvatar] = useState(null);
     const walletAddress = "0x123456789DEMO";
     const shortWallet = walletAddress.slice(0, 6) + "..." + walletAddress.slice(-4);
+    const { notify } = useNotification();
     
     function handleAvatarChange(e) {
         const file = e.target.files[0];
@@ -20,8 +22,8 @@ function MyAccount() {
 
     function copyWallet() {
         navigator.clipboard.writeText(walletAddress);
+        notify("Wallet address copied to clipboard", "success");
     }
-
 
     return (
         <div className="myaccount-container">

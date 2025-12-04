@@ -2,12 +2,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Menu, X, Heart } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { useNotification } from "../context/NotificationContext";
 import "../styles/Navbar.css";
 
 function ConnectedNavbar() {
     const navigate = useNavigate();
     const location = useLocation();
     const { disconnect } = useAuth();
+    const { notify } = useNotification();
     const [searchTerm, setSearchTerm] = useState("");
     const [isShrunk, setIsShrunk] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -41,6 +43,7 @@ function ConnectedNavbar() {
     function handleDisconnect() {
         disconnect();
         navigate("/");
+        notify("Disconnected", "success");
     }
 
     return (

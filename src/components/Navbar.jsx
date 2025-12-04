@@ -2,12 +2,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Wallet, Menu, X } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { useNotification } from "../context/NotificationContext";
 import "../styles/Navbar.css";
 
 function Navbar() {
     const navigate = useNavigate();
     const location = useLocation();
     const { connect } = useAuth();
+    const { notify } = useNotification();
     const [searchTerm, setSearchTerm] = useState("");
     const [isShrunk, setIsShrunk] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,8 +40,14 @@ function Navbar() {
         setIsMenuOpen(prev => !prev);
     }
 
-    function handleDemoConnect() {
-        connect();
+    async function handleDemoConnect() {
+        try {
+            await connect();
+            notify("Wallet connected", "success");
+        } catch(err) {
+            console.error(err);
+            notify("Something went wrong", "error");
+        }
     }
 
     return (
