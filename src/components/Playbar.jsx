@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Play, Pause, TimerReset, Repeat, FileMusic } from "lucide-react";
 import { useMusic } from "../context/MusicContext";
 import { useAuth } from "../context/AuthContext";
+import { useNotification } from "../context/NotificationContext";
 import "../styles/Playbar.css";
 
 function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
@@ -16,9 +17,10 @@ function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
     const [isLoading, setIsLoading] = useState(false);
     const [isLooping, setIsLooping] = useState(false);
     const { savedSongs, saveSong, removeSavedSong } = useMusic();
+    const { isConnected } = useAuth();
+    const { notify } = useNotification();
     const isSaved = savedSongs.some(s => s.id === song.id);
     const audioRef = useRef(null);
-    const { isConnected } = useAuth();
 
     useEffect(() => {
         if (!audioRef.current) return;
@@ -246,8 +248,10 @@ function Playbar({ song, isPlaying, onPlayPause, onNext, onPrev }) {
                         onClick={() => {
                             if (isSaved) {
                                 removeSavedSong(song.id);
+                                notify("Deleted from Saved Songs", "success");
                             } else {
                                 saveSong(song);
+                                notify("Saved", "success");
                             }
                         }}>
                         <FileMusic size={18} />
