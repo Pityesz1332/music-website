@@ -23,7 +23,7 @@ function AdminNavbar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    function handleLogout() {
+    function handleDisconnect() {
         navigate("/");
     }
 
@@ -51,12 +51,12 @@ function AdminNavbar() {
                 </li>
                 
                 <li className="mobile-logout">
-                    <button className="admin-logout-btn" onClick={handleLogout}>Logout</button>
+                    <button className="admin-logout-btn" onClick={handleDisconnect}>Disconnect</button>
                 </li>
             </ul>
 
             <div className="admin-right">
-                <button className="admin-logout-btn" onClick={handleLogout}>Logout</button>
+                <button className="admin-logout-btn" onClick={handleDisconnect}>Disconnect</button>
             </div>
         </nav>
     );

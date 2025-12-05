@@ -41,12 +41,14 @@
 }
 
 .edit-btn,
-.delete.btn {
+.delete-btn {
     padding: 8px 12px;
     border-radius: 6px;
     margin-left: 10px;
     border: none;
     cursor: pointer;
+    color: var(--accent);
+    background: none;
 }
 
 .modal {
