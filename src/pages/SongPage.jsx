@@ -47,12 +47,21 @@ function SongPage() {
         if (!currentSong || !playlistRef.current) return;
 
         const activeCard = playlistRef.current.querySelector(`.mini-card.active`);
+        if (!activeCard) return;
 
-        if (activeCard) {
-            const container = playlistRef.current;
-            const containerRect = container.getBoundingClientRect();
-            const cardRect = activeCard.getBoundingClientRect();
 
+        const container = playlistRef.current;
+        const containerStyles = window.getComputedStyle(container);
+        const flexDirection = containerStyles.flexDirection;
+
+        const containerRect = container.getBoundingClientRect();
+        const cardRect = activeCard.getBoundingClientRect();
+
+        if (flexDirection === "row") {
+            const scrollLeft = activeCard.offsetLeft - containerRect.width / 2 + cardRect.width / 2;
+
+            container.scrollTo({ left: scrollLeft, behavior: "smooth" });
+        } else {
             const scrollTop = activeCard.offsetTop - (containerRect.height / 2) + (cardRect.height / 2);
 
             container.scrollTo({

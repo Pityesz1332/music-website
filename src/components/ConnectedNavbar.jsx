@@ -57,7 +57,7 @@ function ConnectedNavbar() {
 
     return (
         <>
-            <nav className={`navbar ${isShrunk ? "shrink" : ""}`}>
+            <nav className={`navbar connected-navbar ${isShrunk ? "shrink" : ""}`}>
                 <div className="logo" onClick={() => navigate("/")}>DJ Enez</div>
 
                 <div className="nav-center">

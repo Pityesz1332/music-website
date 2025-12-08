@@ -23,7 +23,7 @@ import NotFound from "./pages/NotFound"
 import ErrorBoundary from "./components/ErrorBoundary"
 import Notifications from "./components/Notifications"
 import LoadingOverlay from "./components/LoadingOverlay"
-import AdminRoute from "./components/admin/AdminRoute"
+import AdminRoute from "./routes/AdminRoute"
 
 {/*function ProtectedRoute({ children }) {
   const { isConnected, loading } = useAuth();

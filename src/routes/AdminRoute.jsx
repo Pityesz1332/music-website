@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useAdmin } from "../../context/AdminContext";
+import { useAdmin } from "../context/AdminContext";
 
 function AdminRoute({ children }) {
     const { isAdmin } = useAdmin();

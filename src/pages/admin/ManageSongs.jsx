@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PlusCircle, Trash2, Edit, X} from "lucide-react";
+import { PlusCircle, Trash2, Edit, X, UploadIcon} from "lucide-react";
 import songsData from "../../data/songs.json";
 import UploadSong from "../../components/admin/UploadSong";
 import "../../styles/admin/ManageSongs.css";
@@ -88,9 +88,25 @@ function ManageSongs() {
                             <input type="text" placeholder="Title" value={editSong.title} onChange={(e) => handleEditChange("title", e.target.value)} />
                             <input type="text" placeholder="Artist" value={editSong.artist} onChange={(e) => handleEditChange("artist", e.target.value)} />
                             <input type="text" placeholder="Genre" value={editSong.genre} onChange={(e) => handleEditChange("genre", e.target.value)} />
-                            <input type="text" placeholder="Cover" value={editSong.cover} onChange={(e) => handleEditChange("cover", e.target.value)} />
-                            <input type="text" placeholder="Audio" value={editSong.audio} onChange={(e) => handleEditChange("audio", e.target.value)} />
+                            <label className="cover-label">Change Cover:</label>
+                            <input id="cover-upload" type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => {
+                                    const file = e.target.files[0];
+                                    if (file) {
+                                        const previewURL = URL.createObjectURL(file);
+                                        handleEditChange("cover", previewURL);
+                                    }
+                                }}
+                            />
+
+                            <label htmlFor="cover-upload" className="custom-upload-btn">
+                                <UploadIcon size={20} /> Upload Cover
+                            </label>
+
+                            {editSong.cover && (
+                                <img src={editSong.cover} alt="cover preview" className="edit-cover-preview" />
+                            )}
                         </div>
+
                         <div className="modal-footer">
                             <button onClick={saveEdit}>Save</button>
                             <button onClick={closeModal}>Cancel</button>

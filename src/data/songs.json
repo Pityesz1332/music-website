@@ -20,5 +20,39 @@
         "src": "/songs/Dj-Enez-Favorites-2.mp3",
         "defaultBgVideo": "/assets/animation1.mp4",
         "playingBgVideo": "/assets/waveform-to3.mp4"
+    },
+    {
+        "id": 3,
+        "title": "DJ Enez Favorites 1",
+        "artist": "DJ Enez",
+        "genre": "Mix",
+        "duration": "29:03",
+        "cover": "/covers/Radio-mixes.png",
+        "src": "/songs/Dj-Enez-Favorites-1.mp3",
+        "defaultBgVideo": "/assets/animation1.mp4",
+        "playingBgVideo": "/assets/waveform-to3.mp4"
+    },
+    {
+        "id": 4,
+        "title": "DJ Enez Favorites 2",
+        "artist": "DJ Enez",
+        "genre": "Mix",
+        "duration": "14:14",
+        "cover": "/covers/Radio-mixes.png",
+        "src": "/songs/Dj-Enez-Favorites-2.mp3",
+        "defaultBgVideo": "/assets/animation1.mp4",
+        "playingBgVideo": "/assets/waveform-to3.mp4"
+    },
+    {
+        "id": 5,
+        "title": "DJ Enez Favorites 1",
+        "artist": "DJ Enez",
+        "genre": "Mix",
+        "duration": "29:03",
+        "cover": "/covers/Radio-mixes.png",
+        "src": "/songs/Dj-Enez-Favorites-1.mp3",
+        "defaultBgVideo": "/assets/animation1.mp4",
+        "playingBgVideo": "/assets/waveform-to3.mp4"
     }
+
 ]

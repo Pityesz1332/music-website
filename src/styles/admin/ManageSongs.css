@@ -167,6 +167,29 @@ th, td {
     color: var(--muted-text);
 }
 
+.edit-cover-preview {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.cover-label {
+    font-weight: 600;
+    margin-top: 10px;
+    display: block;
+}
+
+.custom-upload-btn {
+    display: inline-block;
+    padding: 10px 16px;
+    color: var(--main-text);
+    cursor: pointer;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
 .modal-body textarea {
     resize: vertical;
     min-height: 60px;

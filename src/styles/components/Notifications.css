@@ -1,6 +1,6 @@
 .notifications-wrapper {
     position: fixed;
-    top: 20px;
+    top: 3.5rem;
     right: 20px;
     z-index: 20;
     display: flex;
