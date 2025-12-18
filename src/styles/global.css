@@ -15,6 +15,9 @@
     --muted-text: #9ca3af;
     --placeholder: #6b7280;
     --inverse: #0c1018;
+    /* Fonts */
+    --font-main: "Inter", sans-serif;
+    --font-heading: "Space Grotesk", sans-serif;
 }
 
 html, body {
@@ -30,7 +33,18 @@ body::-webkit-scrollbar {
 body {
     background-color: var(--bg);
     color: var(--main-text);
-    font-family: "Inter", sans-serif;
+    font-family: var(--font-main);
     margin: 0;
     padding: 0;
+}
+
+h1, h2, h3, h4, .logo, .nav-link {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+button, input, textarea, select {
+    font-family: inherit;
+    font-weight: 700;
 }

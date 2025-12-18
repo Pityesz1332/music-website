@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 
 import { MusicProvider } from "./context/MusicContext"
 import { AuthProvider } from "./context/AuthContext"
@@ -24,14 +24,6 @@ import ErrorBoundary from "./components/ErrorBoundary"
 import Notifications from "./components/Notifications"
 import LoadingOverlay from "./components/LoadingOverlay"
 import AdminRoute from "./routes/AdminRoute"
-
-{/*function ProtectedRoute({ children }) {
-  const { isConnected, loading } = useAuth();
-
-  if (loading) return null;
-
-  return isConnected ? children : <Navigate to="/" replace />;
-}*/}
 
 function App() {
   return (

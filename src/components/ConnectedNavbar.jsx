@@ -89,13 +89,13 @@ function ConnectedNavbar() {
                         Songs/Mixes
                     </li>
                     <li
-                        className={location.pathname === "/saved"}
+                        className={`nav-menu-item ${location.pathname === "/saved" ? "active" : ""}`}
                         onClick={() => { navigate("/saved"); setIsMenuOpen(false); }}
                     >
-                        <Heart size={28} />
+                        <Heart size={28} /> Favorites
                     </li>
                     <li
-                        className={location.pathname === "/myaccount"}
+                        className={`${location.pathname === "/myaccount" ? "active" : ""}`}
                         onClick={() => { navigate("/myaccount"); setIsMenuOpen(false); }}
                     >
                         0x123...9DEMO

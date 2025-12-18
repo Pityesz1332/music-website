@@ -18,12 +18,16 @@
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
+    gap: 50px;
     justify-items: center;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .song-card {
-    width: 280px;
+    width: 100%;
+    max-width: 320px;
     background: var(--card);
     border-radius: 15px;
     overflow: hidden;
