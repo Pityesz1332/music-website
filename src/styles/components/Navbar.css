@@ -57,8 +57,8 @@
 .navbar ul {
     list-style: none;
     display: flex;
-    gap: 100px;
-    font-size: 1.3rem;
+    gap: 40px;
+    font-size: 1.1rem;
     margin: 0;
     align-items: center;
     flex: 1;
@@ -87,7 +87,12 @@
 }
 
 .connect-wallet-btn button {
-    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+    font-size: 1rem;
     font-weight: 700;
     padding: 10px 20px;
     background: var(--accent);
@@ -96,6 +101,7 @@
     cursor: pointer;
     color: var(--main-text);
     transition: background 0.3s ease, transform 0.2s ease;
+    width: fit-content;
 }
 
 .connect-wallet-btn button:hover {
@@ -110,21 +116,37 @@
 
 @media (max-width: 1024px) {
     .navbar {
-        padding: 0 30px;
+        padding: 0 20px;
         height: 60px;
+        justify-content: space-between;
     }
 
     .navbar ul {
-        gap: 50px;
-        font-size: 1.1rem;
+        gap: 20px;
+        font-size: 1rem;
+        flex: 2;
+    }
+
+    .nav-center {
+        flex: 1;
+        margin: 0 15px;
     }
 
     .nav-center input {
-        width: 40%;
+        width: 100%;
+        min-width: 120px;
+        padding: 6px 10px;
     }
 
-    .connect-wallet-btn {
-        display: flex;
+    .nav-menu-item {
+        gap: 8px;
+        padding: 8px 10px;
+    }
+
+    .connect-wallet-btn button {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+        white-space: nowrap;
     }
 }
 

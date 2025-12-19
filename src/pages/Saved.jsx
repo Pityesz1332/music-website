@@ -47,7 +47,7 @@ function Saved() {
         return (
             <div className="songs-page">
                 <div className="songs-container">
-                    <h2>You have no saved songs yet.</h2>
+                    <h2>You have no saved songs.</h2>
                     <button className="reset-btn" onClick={() => navigate("/songs")}>
                         Browse songs
                     </button>

@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Wallet, Menu, X } from "lucide-react";
+import { Wallet, Menu, X, House, Music } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useNotification } from "../context/NotificationContext";
 import { useLoading } from "../context/LoadingContext";
@@ -77,19 +77,19 @@ function Navbar() {
 
             <ul className={isMenuOpen ? "open" : ""}>
                 <li
-                    className={location.pathname === "/" ? "active" : ""}
+                    className={`nav-menu-item ${location.pathname === "/" ? "active" : ""}`}
                     onClick={() => { navigate("/"); setIsMenuOpen(false) }}
                 >
-                Home
+                <House size={28} />Home
                 </li>
                 <li
-                    className={location.pathname === "/songs" ? "active" : ""}
+                    className={`nav-menu-item ${location.pathname === "/songs" ? "active" : ""}`}
                     onClick={() => { navigate("/songs"); setIsMenuOpen(false); }}
                 >
-                Songs/Mixes
+                <Music size={28} />Songs/Mixes
                 </li>
                 <li className="connect-wallet-btn">
-                    <button type="button" onClick={handleDemoConnect}><Wallet size={10} />Connect Wallet</button>
+                    <button type="button" onClick={handleDemoConnect}><Wallet size={20} />Connect Wallet</button>
                 </li>
             </ul>
         </nav>

@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Menu, X, Heart } from "lucide-react";
+import { Menu, X, Heart, House, Music, User } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useNotification } from "../context/NotificationContext";
 import { useLoading } from "../context/LoadingContext";
@@ -77,16 +77,16 @@ function ConnectedNavbar() {
 
                 <ul className={isMenuOpen ? "open" : ""}>
                     <li
-                        className={location.pathname === "/" ? "active" : ""}
+                        className={`nav-menu-item ${location.pathname === "/" ? "active" : ""}`}
                         onClick={() => { navigate("/"); setIsMenuOpen(false); }}
                     >
-                    Home
+                    <House size={28} /> Home
                     </li>
                     <li
-                        className={location.pathname === "/songs"}
+                        className={`nav-menu-item ${location.pathname === "/songs" ? "active" : ""}`}
                         onClick={() => { navigate("/songs"); setIsMenuOpen(false); }}
                     >
-                        Songs/Mixes
+                    <Music size={28} />Songs/Mixes
                     </li>
                     <li
                         className={`nav-menu-item ${location.pathname === "/saved" ? "active" : ""}`}
@@ -98,10 +98,10 @@ function ConnectedNavbar() {
                         className={`${location.pathname === "/myaccount" ? "active" : ""}`}
                         onClick={() => { navigate("/myaccount"); setIsMenuOpen(false); }}
                     >
-                        0x123...9DEMO
+                    <User size={28} />
                     </li>
                     <li className="connect-wallet-btn">
-                        <button type="button" onClick={handleDisconnect}>Disconnect Wallet</button>
+                        <button type="button" onClick={handleDisconnect}>Disconnect</button>
                     </li>
                 </ul>
             </nav>
