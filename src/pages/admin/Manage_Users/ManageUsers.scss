@@ -1,0 +1,170 @@
+@import '../../../styles/variables';
+
+.manage-users {
+    color: $main-text-color;
+    
+    h1 {
+        margin-bottom: 20px;
+    }
+}
+
+.search-box {
+    width: 250px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 20px;
+    background: $card-color;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    
+    th,
+    td {
+        padding: 14px;
+        text-align: left;
+        border-bottom: 1px solid $muted-text-color;
+    }
+}
+
+
+.role {
+    text-transform: capitalize;
+}
+
+.actions-col {
+    text-align: right;
+}
+
+.actions {
+    text-align: right;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-left: 10px;
+    border: none;
+    cursor: pointer;
+    color: $accent-color;
+    background: none;
+}
+
+.modal {
+    margin: 0 auto;
+    position: fixed;
+    inset: 0;
+    background: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    &-content {
+        background: $card-color;
+        padding: 30px;
+        border-radius: 12px;
+        width: 350px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        border: 1px solid $muted-text-color;
+        
+        .admin-edit-input {
+            background: $card-color;
+            pointer-events: none;
+            cursor: default;
+        }
+        
+        .admin-edit-input,
+            select {
+                padding: 10px;
+                border-radius: 6px;
+                border: none;
+        }
+    }
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.save-btn, .cancel-btn {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    background: $accent-color;
+    color: $main-text-color;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    
+    &:hover {
+        background: $dark-accent-color;
+    }
+}
+
+@media (max-width: 768px) {
+    .manage-users {
+        h1 {
+            font-size: 1.7rem;
+        }
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .users-table {
+        th,
+        td {
+            padding: 12px;
+            font-size: 0.95rem;
+        }
+    }
+
+    .edit-btn, .delete.btn {
+        padding: 6px 10px;
+        margin-left: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .manage-users {
+        h1 {
+            font-size: 1.5rem;
+        }
+    }
+
+    .users-table {
+        display: block;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .edit-btn, .delete.btn {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 6px;
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        text-align: left;
+    }
+
+    .modal {
+        &-content {
+            padding: 20px;
+            width: 90%;
+        }
+    }
+}

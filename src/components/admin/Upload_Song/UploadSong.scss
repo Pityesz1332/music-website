@@ -1,0 +1,144 @@
+@import '../../../styles/variables';
+
+.upload-container {
+    background: $bg-color;
+    color: $main-text-color;
+    padding: 20px;
+    border-radius: 12px;
+    width: 400px;
+    max-width: 90%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    
+    h2 {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+}
+
+
+.dropzone {
+    border: 2px dashed $accent-color;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: $card-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: $muted-text-color;
+    
+    &:hover {
+        border-color: $dark-accent-color;
+        color: $main-text-color;
+    }
+}
+
+
+.cover-upload {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: $card-color;
+    border: 1px solid $muted-text-color;
+    color: $muted-text-color;
+    transition: all 0.2s ease;
+    
+    &:hover {
+        color: $main-text-color;
+    }
+}
+
+
+input[type="text"] {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid $muted-text-color;
+    background: $card-color;
+    color: $muted-text-color;
+}
+
+.progres-bar {
+    background: $card-color;
+    border-radius: 6px;
+    height: 8px;
+    overflow: hidden;
+    margin-top: 5px;
+    
+    div {
+        height: 100%;
+        background: $card-color;
+        width: 0;
+        transition: width 0.2s ease;
+    }
+}
+
+
+.upload-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.upload-save {
+    background: $accent-color;
+    color: $main-text-color;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+        background: $dark-accent-color
+    }
+}
+
+
+.upload-cancel {
+    background: $dark-accent-color;
+    color: $main-text-color;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    
+    &:hover {
+        background: $accent-color;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .upload-container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .dropzone {
+        padding: 20px;
+        font-size: 14px;
+    }
+
+    .cover-upload {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+
+    input[type="text"] {
+        font-size: 14px;
+    }
+}

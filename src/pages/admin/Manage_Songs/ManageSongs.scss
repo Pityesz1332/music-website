@@ -1,0 +1,357 @@
+@import '../../../styles/variables';
+
+.manage-songs {
+    padding: 2rem;
+    color: $main-text-color;
+    min-height: 100vh;
+    
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        color: $main-text-color;
+    }
+}
+
+
+.upload-btn-container {
+    margin-bottom: 1.5rem;
+}
+
+.upload-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    background: $accent-color;
+    color: $main-text-color;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    
+    &:hover {
+        background: $dark-accent-color;
+    }
+}
+
+
+.add-song-form {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    
+    input,
+    textarea {
+        padding: 0.6rem 1rem;
+        border: none;
+        border-radius: 6px;
+        background: $card-color;
+        color: $main-text-color;
+        flex: 1;
+        min-width: 180px;
+    }
+    
+    textarea {
+        resize: vertical;
+        min-height: 60px;
+    }
+    
+    button {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0.6rem 1rem;
+        border: none;
+        border-radius: 6px;
+        background: $accent-color;
+        color: $main-text-color;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+        
+        &:hover {
+            background: $dark-accent-color;
+        }
+    }
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: $card-color;
+    border-radius: 8px;
+    overflow: hidden;
+    
+    th, td {
+        padding: 0.8rem 1rem;
+        border-bottom: 1px solid $muted-text-color;
+        text-align: left;
+    }
+}
+
+.song-cover {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.manage-actions {
+    button {
+        margin-right: 0.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: $accent-color;
+        transition: 0.2s;
+    }
+    
+    .edit-btn,
+    .delete-btn {
+        &hover {
+            background: none;
+            color: $dark-accent-color;
+        }
+    }
+}
+
+/* Modal */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal {
+    background: $card-color;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 500px;
+    max-width: 90%;
+    color: $main-text-color;
+    display: flex;
+    flex-direction: column;
+    
+    &-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        h2 {
+            margin: 0;
+            color: $main-text-color;
+        }
+        
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: $highlight-color;
+        }
+    }
+    
+    &-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin: 1rem 0;
+        
+        input,
+        textarea {
+            padding: 0.5rem;
+            border-radius: 6px;
+            border: none;
+            background: $bg-color;
+            color: $muted-text-color;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+    }
+    
+    &-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            
+            &:first-child {
+                background: $highlight-color;
+                color: $bg-color;
+            }
+            
+            &:last-child {
+                background: $highlight-color;
+                color: $bg-color;
+            }
+        }
+    }
+}
+
+.edit-cover-preview {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.cover-label {
+    font-weight: 600;
+    margin-top: 10px;
+    display: block;
+}
+
+.custom-upload-btn {
+    display: inline-block;
+    padding: 10px 16px;
+    color: $main-text-color;
+    cursor: pointer;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 1024px) {
+    .manage-songs {
+        padding: 1.5rem;
+        
+        h1 {
+            font-size: 1.7rem;
+        }
+    }
+
+
+    table {
+        th, td {
+            padding: 0.7rem 0.8rem;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .manage-songs {
+        padding: 1.2rem;
+        
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+    }
+
+
+    .add-song-form {
+        flex-direction: column;
+        gap: 0.8rem;
+        
+        input,
+        textarea {
+            min-width: 100%;
+            font-size: 0.95rem;
+        }
+    }
+
+    table {
+        min-width: 600px;
+    }
+
+    .song-cover {
+        width: 40px;
+        height: 40px;
+    }
+
+    .actions {
+        button {
+            margin-right: 0.3rem;
+            font-size: 0.9rem;
+        }
+    }
+
+    .modal {
+        width: 100%;
+        max-width: 95%;
+        padding: 1.5rem;
+        
+        &-header h2 {
+            font-size: 1.2rem;
+        }
+    }
+
+}
+
+@media (max-width: 480px) {
+    .manage-songs {
+        padding: 1rem;
+    }
+
+    .upload-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.7rem 1rem;
+    }
+
+    .add-song-form {
+        button {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    .song-cover {
+        width: 35px;
+        height: 35px;
+    }
+
+    th, td {
+        font-size: 0.85rem;
+        padding: 0.6rem;
+    }
+
+    .modal-body {
+        input,
+        textarea {
+            font-size: 0.9rem;
+        }
+    }
+
+    .modal-footer {
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    .modal-footer {
+        button {
+            width: 100%;
+            text-align: center;
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    .song-cover {
+        width: 30px;
+        height: 30px;
+    }
+
+    table {
+        min-width: 500px;
+    }
+
+    .modal {
+        padding: 1.2rem;
+    }
+}
