@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useMusic } from "../../context/MusicContext";
 import { apiFetch } from "../../utils/api";
 import songsData from "../../data/songs.json";
+import { Filter } from "lucide-react";
 import "./Songs.scss";
 import type { Song } from "../../types/music";
 
@@ -13,6 +14,8 @@ export const Songs = () => {
     const [songs, setSongs] = useState<Song[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
+    const filterRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         async function loadSongs() {
@@ -70,6 +73,7 @@ export const Songs = () => {
     function handleGenreChange(genre: string) {
         setSelectedGenre(genre);
         setCurrentPage(1);
+        setIsFilterOpen(false);
     }
 
     function handleSongClick(song: Song) {
@@ -106,26 +110,40 @@ export const Songs = () => {
             <div className="songs-container">
                 <h1 className="page-title">Sounds for Every Moment</h1>
 
-                <div className="filter-bar">
-                    {genres.map((genre) => (
-                        <button
-                            key={genre}
-                            className={`filter-btn ${selectedGenre === genre ? "active" : ""}`}
-                            onClick={() => handleGenreChange(genre)}
-                        >
-                            {genre}
-                        </button>
-                    ))}
+                <div className="filter-dropdown-container" ref={filterRef}>
+                    <button
+                        className={`filter-toggle-btn ${selectedGenre !== "All" ? "active-filter" : ""}`}
+                        onClick={() => setIsFilterOpen(!isFilterOpen)}
+                    >
+                        <div className="filter-btn-left">
+                            <Filter size={18} className="icon-filter" />
+                            <span>{selectedGenre === "All" ? "Filter" : `Selected genre: ${selectedGenre}`}</span>
+                        </div>
+                    </button>
                 </div>
 
-                {filteredSongs.length === 0 && (
-                    <div className="no-results">
-                        <h2>No song or mix found with this word: "{searchQuery}". Reset the page</h2>
-                        <button className="reset-btn" onClick={() => navigate("/songs")}>
-                            Reset page
-                        </button>
+                {isFilterOpen && (
+                    <div className="filter-bar">
+                        {genres.map((genre) => (
+                            <button
+                                key={genre}
+                                className={`filter-btn ${selectedGenre === genre ? "active" : ""}`}
+                                onClick={() => handleGenreChange(genre)}
+                            >
+                                {genre}
+                            </button>
+                        ))}
                     </div>
                 )}
+                    
+                    {filteredSongs.length === 0 && (
+                        <div className="no-results">
+                            <h2>No song or mix found with this word: "{searchQuery}". Reset the page</h2>
+                            <button className="reset-btn" onClick={() => navigate("/songs")}>
+                                Reset page
+                            </button>
+                        </div>
+                    )}
 
                 <div className="grid">
                     {currentSongs.map((song) => (

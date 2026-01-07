@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { Menu, X, Heart, Music, User } from "lucide-react";
+import { Menu, X, Heart, Music, User, Search } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useNotification } from "../../context/NotificationContext";
 import { useLoading } from "../../context/LoadingContext";
@@ -15,6 +15,7 @@ const ConnectedNavbar = () => {
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [isShrunk, setIsShrunk] = useState<boolean>(false);
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+    const [isFocused, setIsFocused] = useState<boolean>(false);
 
     useEffect(() => {
         function handleScroll() {
@@ -31,10 +32,17 @@ const ConnectedNavbar = () => {
         };
     }, []);
 
-    function handleSearch(e: React.KeyboardEvent<HTMLInputElement>) {
-        if (e.key === "Enter") {
+    const executeSearch = () => {
+        if (searchTerm.trim() !== "") {
             navigate(`/songs?search=${encodeURIComponent(searchTerm)}`);
             setSearchTerm("");
+            setIsFocused(false);
+        }
+    };
+
+    function handleSearch(e: React.KeyboardEvent<HTMLInputElement>) {
+        if (e.key === "Enter") {
+            executeSearch();
         }
     }
 
@@ -61,14 +69,22 @@ const ConnectedNavbar = () => {
                 <div className="logo" onClick={() => navigate("/")}>DJ Enez</div>
 
                 <div className="nav-center">
-                    <input
-                        className="searchbar"                        
-                        type="text"
-                        placeholder="Search..."
-                        value={searchTerm}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
-                        onKeyDown={handleSearch}
-                    />
+                    <div className="search-wrapper">
+                        <input
+                            className="searchbar"                        
+                            type="text"
+                            placeholder="Search..."
+                            value={searchTerm}
+                            onFocus={() => setIsFocused(true)}
+                            onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
+                            onKeyDown={handleSearch}
+                        />
+
+                        {(searchTerm || isFocused) && (
+                            <Search className="search-icon" size={18} onClick={executeSearch} />
+                        )}
+                    </div>
                 </div>
 
                 <div className="hamburger" onClick={toggleMenu}>

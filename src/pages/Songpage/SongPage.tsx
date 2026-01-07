@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Play, Pause } from "lucide-react";
+import { Play, Pause, FileMusic, Download } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
+import { useAuth } from "../../context/AuthContext";
+import { useNotification } from "../../context/NotificationContext";
 import ScrollToTop from "../../components/Scroll_to_top/ScrollToTop";
 import songsData from "../../data/songs.json";
 import "./SongPage.scss";
@@ -25,8 +27,17 @@ export const SongPage = () => {
         togglePlay,
         setPlaylist,
         nextSong,
-        prevSong
+        prevSong,
+        savedSongs,
+        saveSong,
+        removeSavedSong
     } = useMusic();
+
+    const auth = useAuth();
+    const { notify } = useNotification();
+    const isConnected = auth?.isConnected;
+
+    const isSaved = currentSong ? savedSongs.some(s => s.id === currentSong.id) : false;
 
     useEffect(() => {
         if (state?.playlist) {
@@ -123,6 +134,29 @@ export const SongPage = () => {
 
                         <button className="nav-btn" onClick={nextSong}>Next ⏭</button>
                     </div>
+
+                        {isConnected && (
+                            <div className="songpage-btn-wrapper">
+                                <button
+                                    className={`songpage-action-btn ${isSaved ? "saved" : ""}`}
+                                    onClick={() => {
+                                        if (isSaved) {
+                                            removeSavedSong(currentSong.id);
+                                            notify("Deleted from saved songs", "success");
+                                        } else {
+                                            saveSong(currentSong);
+                                            notify("Saved", "success");
+                                        }
+                                    }}
+                                >
+                                    <FileMusic size={24} />
+                                </button>
+
+                                <button className="songpage-action-btn">
+                                    <Download size={24} />
+                                </button>
+                            </div>
+                        )}
                 </div>
             </div>
 

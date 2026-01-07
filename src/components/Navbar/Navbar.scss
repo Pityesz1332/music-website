@@ -65,19 +65,37 @@
     display: flex;
     justify-content: center;
     
-    input {
+    .search-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
         width: 50%;
-        padding: 8px 12px;
-        border-radius: 6px;
-        border: none;
-        outline: none;
-        background: rgba(255, 255, 255, 0.1);
-        color: $main-text-color;
-    }
-    
-    .searchbar:focus::placeholder {
-        color: $main-text-color;
-    }
+        transition: width 0.3s ease;
+        
+        input {
+            width: 100%;
+            padding: 8px 35px 8px 12px;
+            border-radius: 6px;
+            border: none;
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: $main-text-color;
+
+            &:focus {
+                background: rgba(255, 255, 255, 0.15);
+            }
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 10px;
+            color: $accent-color;
+            pointer-events: auto;
+            animation: fadeIn 0.25s ease-in-out;
+            cursor: pointer;
+            display: block;
+        }
+    }    
 }
 
 .nav-menu-item {
@@ -119,6 +137,11 @@
     z-index: 10;
 }
 
+@keyframes fadeIn {
+    from {  opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
 @media (max-width: 1024px) {
     .navbar {
         padding: 0 20px;
@@ -144,12 +167,19 @@
         margin: 0 15px;
         display: flex;
         justify-content: center;
-
-        input {
+        
+        .search-wrapper {
             width: 100%;
             max-width: 250px;
-            padding: 8px 12px;
-            font-size: 0.9rem;
+
+            input {
+                padding: 8px 35px 8px 12px;
+                font-size: 0.9rem;
+            }
+
+            .search-icon {
+                display: none !important;
+            }
         }
     }
 
@@ -201,6 +231,14 @@
         .nav-center {
             flex: 0 1 auto;
             margin: 0 10px;
+        
+            .search-wrapper {
+                width: 120px;
+
+                input {
+                    font-size: 0.9rem;
+                }
+            }
         }
 
         .connect-wallet-btn {
@@ -215,11 +253,6 @@
                 white-space: nowrap;
             }
         }
-    }
-
-    .nav-center input {
-        width: 60%;
-        font-size: 0.9rem;
     }
 
     .connect-wallet-btn button {
