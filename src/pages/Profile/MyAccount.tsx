@@ -26,18 +26,18 @@ export const MyAccount = () => {
     }
 
     return (
-        <div className="myaccount-container">
-            <h1>My Account</h1>
+        <div className="my-account">
+            <h1 className="my-account__title">My Account</h1>
 
-            <div className="profile-block">
-                <div className="avatar-wrapper">
-                    <img src={avatar || "/assets/default-avatar.jpg"} alt="Avatar" className="avatar" />
-                    <input type="file" accept="image/*" onChange={handleAvatarChange} className="avatar-input" />
+            <div className="my-account__profile-section">
+                <div className="my-account__avatar-container">
+                    <img src={avatar || "/assets/default-avatar.jpg"} alt="Avatar" className="my-account__avatar-image" />
+                    <input type="file" accept="image/*" onChange={handleAvatarChange} className="my-account__avatar-input" />
                 </div>
 
-                <div className="wallet-block">
-                    <span className="wallet-address">{shortWallet}</span>
-                    <button onClick={copyWallet} className="copy-button"><Copy />Copy</button>
+                <div className="my-account__wallet-info">
+                    <span className="my-account__wallet-address">{shortWallet}</span>
+                    <button onClick={copyWallet} className="my-account__copy-button"><Copy size={16} /><span className="my-account__copy-text">Copy</span></button>
                 </div>
             </div>
         </div>

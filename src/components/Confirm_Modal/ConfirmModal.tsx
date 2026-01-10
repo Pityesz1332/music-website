@@ -1,9 +1,9 @@
-import "../styles/components/ConfirmModal.scss";
+import "./ConfirmModal.scss";
 
 interface ConfirmModalProps {
     isOpen: boolean;
     title: string;
-    message: String;
+    message: string;
     onConfirm: () => void;
     onCancel: () => void;
 }
@@ -12,13 +12,16 @@ const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }: ConfirmMo
     if (!isOpen) return null;
 
     return (
-        <div className={`modal-overlay ${isOpen ? "open" : "close"}`}>
-            <div className={`modal-content ${isOpen ? "open" : "close"}`}>
-                <h2>{title}</h2>
-                <p>{message}</p>
-                <div className="modal-buttons">
-                    <button type="button" className="modal-btn modal-confirm" onClick={onConfirm}>Confirm</button>
-                    <button type="button" className="modal-btn modal-cancel" onClick={onCancel}>Cancel</button>
+        <div className={`confirm-modal ${isOpen ? "confirm-modal--visible" : ""}`}>
+            <div className="confirm-modal__overlay" onClick={onCancel} />
+            
+            <div className="confirm-modal__content">
+                <h2 className="confirm-modal__title">{title}</h2>
+                <p className="confirm-modal__message">{message}</p>
+
+                <div className="confirm-modal__actions">
+                    <button type="button" className="confirm-modal__button confirm-modal__button--confirm" onClick={onConfirm}>Confirm</button>
+                    <button type="button" className="confirm-modal__button confirm-modal__button--cancel" onClick={onCancel}>Cancel</button>
                 </div>
             </div>
         </div>

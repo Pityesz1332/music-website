@@ -21,7 +21,7 @@ export const ManageSongs = () => {
         const newId = songs.length + 1;
         setSongs([
             ...songs, 
-            { 
+            {
                 id: newId,
                 title: song.title,
                 artist: song.artist,
@@ -55,9 +55,9 @@ export const ManageSongs = () => {
 
     return (
         <div className="manage-songs">
-            <h1>Manage Songs</h1>
+            <h1 className="manage-songs__title">Manage Songs</h1>
 
-            <button className="upload-btn" onClick={() => setIsUploadOpen(true)}>
+            <button className="manage-songs__add-button" onClick={() => setIsUploadOpen(true)}>
                 <PlusCircle size={18} /> Add Song
             </button>
 
@@ -68,49 +68,54 @@ export const ManageSongs = () => {
                 />
             )}
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Cover</th>
-                        <th>Title</th>
-                        <th>Artist</th>
-                        <th>Genre</th>
-                        <th>Duration</th>
-                        <th>Actions</th>
+            <table className="manage-songs__table">
+                <thead className="manage-songs__thead">
+                    <tr className="manage-songs__row">
+                        <th className="manage-songs__header">ID</th>
+                        <th className="manage-songs__header">Cover</th>
+                        <th className="manage-songs__header">Title</th>
+                        <th className="manage-songs__header">Artist</th>
+                        <th className="manage-songs__header">Genre</th>
+                        <th className="manage-songs__header">Duration</th>
+                        <th className="manage-songs__header">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="manage-songs__tbody">
                     {songs.map((song) => (
-                        <tr key={song.id}>
-                            <td>{song.id}</td>
-                            <td><img src={song.cover} alt="song cover" className="song-cover" /></td>
-                            <td>{song.title}</td>
-                            <td>{song.artist}</td>
-                            <td>{song.genre}</td>
-                            <td>{song.duration}</td>
-                            <td className="manage-actions">
-                                <button onClick={() => setEditSong(song)}><Edit size={16} /></button>
-                                <button onClick={() => deleteSong(song.id)}><Trash2 size={16} /></button>
+                        <tr key={song.id} className="manage-songs__row">
+                            <td className="manage-songs__cell" data-label="ID">{song.id}</td>
+                            <td className="manage-songs__cell" data-label="Cover">
+                                <img src={song.cover} alt="song cover" className="manage-songs__cover-image" />
+                            </td>
+                            <td className="manage-songs__cell" data-label="Title">{song.title}</td>
+                            <td className="manage-songs__cell" data-label="Artist">{song.artist}</td>
+                            <td className="manage-songs__cell" data-label="Genre">{song.genre}</td>
+                            <td className="manage-songs__cell" data-label="Duration">{song.duration}</td>
+                            <td className="manage-songs__cell manage-songs__cell--actions" data-label="Actions">
+                                <button className="manage-songs__action-button manage-songs__action-button--edit" onClick={() => setEditSong(song)}>
+                                    <Edit size={16} />
+                                </button>
+                                <button className="manage-songs__action-button manage-songs__action-button--delete" onClick={() => deleteSong(song.id)}><Trash2 size={16} /></button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-            {editSong && ( 
-                <div className="modal-backdrop">
-                    <div className="modal">
-                        <div className="modal-header">
-                            <h2>Edit Song</h2>
-                            <button onClick={closeModal}><X /></button>
+            {editSong && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <div className="modal-content__header">
+                            <h2 className="modal-content__title">Edit Song</h2>
+                            <button className="modal-content__close-button" onClick={closeModal}><X /></button>
                         </div>
-                        <div className="modal-body">
-                            <input type="text" placeholder="Title" value={editSong.title} onChange={(e) => handleEditChange("title", e.target.value)} />
-                            <input type="text" placeholder="Artist" value={editSong.artist} onChange={(e) => handleEditChange("artist", e.target.value)} />
-                            <input type="text" placeholder="Genre" value={editSong.genre} onChange={(e) => handleEditChange("genre", e.target.value)} />
-                            <label className="cover-label">Change Cover:</label>
-                            <input id="cover-upload" type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => {
+                        <div className="modal-content__body">
+                            <input className="modal-content__input" type="text" placeholder="Title" value={editSong.title} onChange={(e) => handleEditChange("title", e.target.value)} />
+                            <input className="modal-content__input" type="text" placeholder="Artist" value={editSong.artist} onChange={(e) => handleEditChange("artist", e.target.value)} />
+                            <input className="modal-content__input" type="text" placeholder="Genre" value={editSong.genre} onChange={(e) => handleEditChange("genre", e.target.value)} />
+                            
+                            <label className="modal-content__label">Change Cover:</label>
+                            <input className="modal-content__file-input" id="cover-upload" type="file" accept="image/*" onChange={(e) => {
                                     const file = e.target.files?.[0];
                                     if (file) {
                                         const previewURL = URL.createObjectURL(file);
@@ -119,18 +124,18 @@ export const ManageSongs = () => {
                                 }}
                             />
 
-                            <label htmlFor="cover-upload" className="custom-upload-btn">
+                            <label htmlFor="cover-upload" className="modal-content__upload-button">
                                 <UploadIcon size={20} /> Upload Cover
                             </label>
 
                             {editSong.cover && (
-                                <img src={editSong.cover} alt="cover preview" className="edit-cover-preview" />
+                                <img src={editSong.cover} alt="cover preview" className="modal-content__image-preview" />
                             )}
                         </div>
 
-                        <div className="modal-footer">
-                            <button onClick={saveEdit}>Save</button>
-                            <button onClick={closeModal}>Cancel</button>
+                        <div className="modal-content__footer">
+                            <button className="modal-content__button modal-content__button--save" onClick={saveEdit}>Save</button>
+                            <button className="modal-content__button modal-content__button--cancel" onClick={closeModal}>Cancel</button>
                         </div>
                     </div>
                 </div>

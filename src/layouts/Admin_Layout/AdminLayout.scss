@@ -1,16 +1,16 @@
 @import '../../styles/variables';
 
-.admin-container {
+.admin-layout {
     display: flex;
     height: 100vh;
     width: 100%;
     background: $bg-color;
     color: $main-text-color;
     overflow: hidden;
-}
-
-.admin-content {
-    flex: 1;
-    padding: 70px;
-    overflow-y: auto;
+    
+    &__content {
+        flex: 1;
+        padding: 70px;
+        overflow-y: auto;
+    }
 }

@@ -64,14 +64,13 @@ const ConnectedNavbar = () => {
     }
 
     return (
-        <>
-            <nav className={`navbar connected-navbar ${isShrunk ? "shrink" : ""}`}>
-                <div className="logo" onClick={() => navigate("/")}>DJ Enez</div>
+            <nav className={`navbar navbar--connected ${isShrunk ? "navbar--shrunk" : ""}`}>
+                <div className="navbar__logo" onClick={() => navigate("/")}>DJ Enez</div>
 
-                <div className="nav-center">
-                    <div className="search-wrapper">
+                <div className="navbar__center">
+                    <div className="navbar__search-wrapper">
                         <input
-                            className="searchbar"                        
+                            className="navbar__search-input"                        
                             type="text"
                             placeholder="Search..."
                             value={searchTerm}
@@ -82,40 +81,42 @@ const ConnectedNavbar = () => {
                         />
 
                         {(searchTerm || isFocused) && (
-                            <Search className="search-icon" size={18} onClick={executeSearch} />
+                            <Search className="navbar__search-icon" size={18} onClick={executeSearch} />
                         )}
                     </div>
                 </div>
 
-                <div className="hamburger" onClick={toggleMenu}>
+                <div className="navbar__hamburger" onClick={toggleMenu}>
                     {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
                 </div>
 
-                <ul className={isMenuOpen ? "open" : ""}>
+                <ul className={`navbar__menu ${isMenuOpen ? "navbar__menu--open" : ""}`}>
                     <li
-                        className={`nav-menu-item ${location.pathname === "/songs" ? "active" : ""}`}
+                        className={`navbar__item ${location.pathname === "/songs" ? "navbar__item--active" : ""}`}
                         onClick={() => { navigate("/songs"); setIsMenuOpen(false); }}
                     >
-                    <Music size={28} />Songs/Mixes
+                    <Music className="navbar__item-icon" size={28} /><span className="navbar__item-text">Songs/Mixes</span>
                     </li>
+
                     <li
-                        className={`nav-menu-item ${location.pathname === "/saved" ? "active" : ""}`}
+                        className={`navbar__item ${location.pathname === "/saved" ? "navbar__item--active" : ""}`}
                         onClick={() => { navigate("/saved"); setIsMenuOpen(false); }}
                     >
-                        <Heart size={28} /> Favorites
+                        <Heart className="navbar__item-icon" size={28} /><span className="navbar__item-text">Favorites</span>
                     </li>
+                    
                     <li
-                        className={`${location.pathname === "/myaccount" ? "active" : ""}`}
+                        className={`navbar__item ${location.pathname === "/myaccount" ? "navbar__item--active" : ""}`}
                         onClick={() => { navigate("/myaccount"); setIsMenuOpen(false); }}
                     >
-                    <User size={28} />
+                    <User className="navbar__item-icon" size={28} /><span className="navbar__item-text">Account</span>
                     </li>
-                    <li className="connect-wallet-btn">
-                        <button type="button" onClick={handleDisconnect}>Disconnect</button>
+
+                    <li className="navbar__item navbar__item--wallet">
+                        <button className="navbar__button" type="button" onClick={handleDisconnect}>Disconnect</button>
                     </li>
                 </ul>
             </nav>
-        </>
     );
 }
 

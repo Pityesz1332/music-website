@@ -24,6 +24,11 @@ const AdminNavbar = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    useEffect(() => {
+        console.log("navbar set to false");
+        setIsMenuOpen(false);
+    }, [location]);
+
     function handleDisconnect() {
         navigate("/");
     }
@@ -33,31 +38,33 @@ const AdminNavbar = () => {
     }
 
     return (
-        <nav className={`admin-navbar ${shrink ? "shrink" : ""}`}>
-            <div className="admin-logo">DJ Enez (Admin)</div>
+        <nav className={`admin-navbar ${shrink ? "admin-navbar--shrink" : ""}`}>
+            <div className="admin-navbar__logo">DJ Enez (Admin)</div>
 
-            <div className="admin-hamburger" onClick={toggleMenu}>
+            <div className="admin-navbar__hamburger" onClick={toggleMenu}>
                 {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </div>
 
-            <ul className={isMenuOpen ? "open" : ""}>
-                <li className={isActive("/admin") ? "active" : ""}>
-                    <Link to="/admin">Dashboard</Link>
+            <ul className={`admin-navbar__list ${isMenuOpen ? "admin-navbar__list--open" : ""}`}>
+                <li className={`admin-navbar__item ${isActive("/admin") ? "admin-navbar__item--active" : ""}`}>
+                    <Link className="admin-navbar__link" to="/admin">Dashboard</Link>
                 </li>
-                <li className={isActive("/admin/songs") ? "active" : ""}>
-                    <Link to="/admin/songs">Songs/Mixes</Link>
+
+                <li className={`admin-navbar__item ${isActive("/admin/songs") ? "admin-navbar__item--active" : ""}`}>
+                    <Link className="admin-navbar__link" to="/admin/songs">Songs/Mixes</Link>
                 </li>
-                <li className={isActive("/admin/users") ? "active" : ""}>
-                    <Link to="/admin/users">Users</Link>
+
+                <li className={`admin-navbar__item ${isActive("/admin/users") ? "admin-navbar__item--active" : ""}`}>
+                    <Link className="admin-navbar__link" to="/admin/users">Users</Link>
                 </li>
                 
-                <li className="mobile-logout">
-                    <button className="admin-logout-btn" onClick={handleDisconnect}>Disconnect</button>
+                <li className="admin-navbar__item admin-navbar__item--mobile-only">
+                    <button className="admin-navbar__logout-button" onClick={handleDisconnect}>Go Back</button>
                 </li>
             </ul>
 
-            <div className="admin-right">
-                <button className="admin-logout-btn" onClick={handleDisconnect}>Disconnect</button>
+            <div className="admin-navbar__actions">
+                <button className="admin-navbar__logout-button" onClick={handleDisconnect}>Go Back</button>
             </div>
         </nav>
     );

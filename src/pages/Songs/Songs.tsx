@@ -84,10 +84,10 @@ export const Songs = () => {
 
     if (loading) {
         return (
-            <div className="songs-page">
-                <div className="songs-container loading-container">
-                    <div className="loading-spinner"></div>
-                    <p>Loading songs...</p>
+            <div className="songs songs--loading">
+                <div className="songs__status-container">
+                    <div className="songs__spinner"></div>
+                    <p className="songs__status-text">Loading songs...</p>
                 </div>
             </div>
         );
@@ -95,39 +95,39 @@ export const Songs = () => {
 
     if (error) {
         return (
-            <div className="songs-page">
-                <div className="songs-container">
-                    <h2>Failed to load songs</h2>
-                    <p>{error}</p>
-                    <button className="reset-btn" onClick={retry}>Try Again</button>
+            <div className="songs songs--error">
+                <div className="songs__status-container">
+                    <h2 className="songs__error-title">Failed to load songs</h2>
+                    <p className="songs__error-text">{error}</p>
+                    <button className="songs__retry-button" onClick={retry}>Try Again</button>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="songs-page">
-            <div className="songs-container">
-                <h1 className="page-title">Sounds for Every Moment</h1>
+        <div className="songs">
+            <div className="songs__container">
+                <h1 className="songs__title">Sounds for Every Moment</h1>
 
-                <div className="filter-dropdown-container" ref={filterRef}>
+                <div className="songs__filter-wrapper" ref={filterRef}>
                     <button
-                        className={`filter-toggle-btn ${selectedGenre !== "All" ? "active-filter" : ""}`}
+                        className={`songs__filter-toggle ${selectedGenre !== "All" ? "songs__filter-toggle--active" : ""}`}
                         onClick={() => setIsFilterOpen(!isFilterOpen)}
                     >
-                        <div className="filter-btn-left">
-                            <Filter size={18} className="icon-filter" />
-                            <span>{selectedGenre === "All" ? "Filter" : `Selected genre: ${selectedGenre}`}</span>
+                        <div className="songs__filter-label">
+                            <Filter size={18} className="songs__filter-icon" />
+                            <span>{selectedGenre === "All" ? "Filter" : `Genre: ${selectedGenre}`}</span>
                         </div>
                     </button>
                 </div>
 
                 {isFilterOpen && (
-                    <div className="filter-bar">
+                    <div className="songs__filter-bar">
                         {genres.map((genre) => (
                             <button
                                 key={genre}
-                                className={`filter-btn ${selectedGenre === genre ? "active" : ""}`}
+                                className={`songs__genre-button ${selectedGenre === genre ? "songs__genre-button--active" : ""}`}
                                 onClick={() => handleGenreChange(genre)}
                             >
                                 {genre}
@@ -137,53 +137,56 @@ export const Songs = () => {
                 )}
                     
                     {filteredSongs.length === 0 && (
-                        <div className="no-results">
-                            <h2>No song or mix found with this word: "{searchQuery}". Reset the page</h2>
-                            <button className="reset-btn" onClick={() => navigate("/songs")}>
+                        <div className="songs__no-results">
+                            <h2 className="songs__no-results-title">No song or mix found with this word: "{searchQuery}". Reset the page</h2>
+                            <button className="songs__reset-button" onClick={() => navigate("/songs")}>
                                 Reset page
                             </button>
                         </div>
                     )}
 
-                <div className="grid">
+                <div className="songs__grid">
                     {currentSongs.map((song) => (
                         <div 
                             key={song.id} 
-                            className="song-card"
+                            className="songs__card"
                             onClick={() => handleSongClick(song)}
                         >
-                            <img src={song.cover} alt={song.title} />
-                            <h3>{song.title}</h3>
-                            <p>{song.genre}</p>
+                            <img className="songs__card-image" src={song.cover} alt={song.title} />
+                            <h3 className="songs__card-title">{song.title}</h3>
+                            <p className="songs__card-genre">{song.genre}</p>
                         </div>
                     ))}
                 </div>
 
-                <div className="pagination">
+                <div className="songs__pagination">
                     <button
+                        className="songs__pagination-button"
                         onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                         disabled={currentPage === 1}
                     >Prev</button>
-                    <span>
+                    <span className="songs__pagination-info">
                         Page {currentPage} / {totalPages}
                     </span>
                     <button
+                        className="songs__pagination-button"
                         onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
                         disabled={currentPage === totalPages}
                     >Next</button>
                 </div> 
             </div>
-            <footer className="songs-footer">
+
+            <footer className="songs__footer">
                 <p>© {new Date().getFullYear()} DJ Enez - All rights reserved</p>
 
                 <a 
                     href="https://soundcloud.com/djenez"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="sc-btn"
+                    className="songs__soundcloud-link"
                 >
-                    <img src="/assets/soundcloud-logo.svg" alt="SoundCloud" />
-                    <span>Follow <strong><span style={{ color: "var(--inverse)" }}>DJ Enez</span></strong> on SoundCloud</span>
+                    <img className="songs__soundcloud-logo" src="/assets/soundcloud-logo.svg" alt="SoundCloud" />
+                    <span>Follow <strong className="songs__brand-name"><span style={{ color: "var(--inverse)" }}>DJ Enez</span></strong> on SoundCloud</span>
                 </a>
             </footer>
         </div>

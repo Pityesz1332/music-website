@@ -35,8 +35,8 @@ export const Saved = () => {
 
     if (loading) {
         return (
-            <div className="songs-page">
-                <div className="songs-container loading-container">
+            <div className="songs">
+                <div className="songs__status-container loading-container">
                     <div className="loading-spinner"></div>
                     <p>Loading saved songs...</p>
                 </div>
@@ -46,10 +46,10 @@ export const Saved = () => {
 
     if (!songs || songs.length === 0) {
         return (
-            <div className="songs-page">
-                <div className="songs-container">
-                    <h2>You have no saved songs.</h2>
-                    <button className="reset-btn" onClick={() => navigate("/songs")}>
+            <div className="songs">
+                <div className="songs__no-results">
+                    <h2 className="songs__no-results-title">You have no saved songs.</h2>
+                    <button className="songs__reset-button" onClick={() => navigate("/songs")}>
                         Browse songs
                     </button>
                 </div>
@@ -58,37 +58,37 @@ export const Saved = () => {
     }
 
     return (
-        <div className="songs-page">
-            <div className="songs-container">
-                <h1 className="page-title">Your Saved Songs</h1>
+        <div className="songs">
+            <div className="songs__container">
+                <h1 className="songs__title">Your Saved Songs</h1>
 
                 {filteredSongs.length === 0 && (
-                    <div className="no-results">
-                        <h2>No song found with "{searchQuery}"</h2>
-                        <button className="reset-btn" onClick={() => navigate("/saved")}>
+                    <div className="songs__no-results">
+                        <h2 className="songs__no-results-title">No song found with "{searchQuery}"</h2>
+                        <button className="songs__reset-button" onClick={() => navigate("/saved")}>
                             Reset search
                         </button>
                     </div>
                 )}
 
-                <div className="grid">
+                <div className="songs__grid">
                     {currentSongs.map((song) => (
                         <div
                             key={song.id}
-                            className="song-card"
+                            className="song__card"
                             onClick={() => handleSongClick(song)}
                         >
-                            <img src={song.cover} alt={song.title} />
-                            <h3>{song.title}</h3>
-                            <p>{song.genre}</p>
+                            <img className="songs__card-image" src={song.cover} alt={song.title} />
+                            <h3 className="songs__card-title">{song.title}</h3>
+                            <p className="songs__card-genre">{song.genre}</p>
                         </div>
                     ))}
                 </div>
 
-                <div className="pagination">
-                    <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>Prev</button>
+                <div className="songs__pagination">
+                    <button className="songs__pagination-button" onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>Prev</button>
                     <span>Page {currentPage} / {totalPages}</span>
-                    <button onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages}>Next</button>
+                    <button className="songs__pagination-button" onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages}>Next</button>
                 </div>
             </div>
         </div>

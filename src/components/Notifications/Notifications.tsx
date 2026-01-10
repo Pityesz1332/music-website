@@ -12,11 +12,11 @@ const Notifications = () => {
     const { notifications } = useNotification();
 
     return (
-        <div className="notifications-wrapper">
+        <div className="notifications">
             {notifications.map((n: Notification) => (
-                <div key={n.id} className={`notification ${n.type}`}>
-                    <div className="notification-message">{n.message}</div>
-                    <div className="progress" style={{ animationDuration: `${n.duration}ms` }}></div>
+                <div key={n.id} className={`notifications__item notifications__item--${n.type}`}>
+                    <div className="notifications__message">{n.message}</div>
+                    <div className="notifications__progress" style={{ animationDuration: `${n.duration}ms` }}></div>
                 </div>
             ))}
         </div>

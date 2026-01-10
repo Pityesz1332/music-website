@@ -15,53 +15,109 @@
     border-bottom: 1px solid $accent-color;
     z-index: 10;
     transition: all 0.3s ease;
+
+    @media (max-width: 1024px) { height: 60px; padding: 0 30px; }
+    @media (max-width: 768px) { justify-content: space-between; padding: 0 20px; }
+    @media (max-width: 640px) { height: 55px; padding: 0 15px; }
     
-    &.shrink {
+    &--shrink {
         height: 50px;
         padding: 0 30px;
         background: rgba(15, 15, 15);
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         
-        .admin-logo {
+        .admin-navbar__logo {
             font-size: 1rem;
-            transition: font-size 0.3s ease;
         }
     }
-    
-    ul {
+
+    &__logo {
+        font-size: 1.3rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: $accent-color;
+        cursor: default;
+        transition: font-size 0.3s ease;
+
+        @media (max-width: 1024px) { font-size: 1.1rem; }
+        @media (max-width: 640px) { font-size: 1rem; letter-spacing: 0.5px; }
+    }
+
+    &__hamburger {
+        display: none;
+        cursor: pointer;
+        color: $main-text-color;
+
+        @media (max-width: 768px) { display: block; }
+    }
+
+    &__list {
         display: flex;
         gap: 3rem;
         list-style: none;
-        
-        li {
-            &.active a {
-                color: $accent-color;
-            }
 
-            a {
-                color: $main-text-color;
-                text-decoration: none;
-                font-size: 1.3rem;
-                transition: 0.2s;
-                
-                &:hover {
-                    color: $accent-color;
+        @media (max-width: 1024px) { gap: 40px; font-size: 1.1rem; }
+
+        @media (max-width: 768px) {
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            width: 200px;
+            background: $card-color;
+            flex-direction: column;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        &--open {
+            @media (max-width: 768px) { display: flex; }
+        }
+    }
+        
+    &__item {
+        &--active {
+            .admin-navbar__link { color: $accent-color; }
+        }
+
+        &--mobile-only {
+            display: none;
+
+            @media (max-width: 768px) {
+                display: block;
+
+                .admin-navbar__logout-button {
+                    width: 100%;
+                    text-align: center;
+                    padding: 10px;
+                    background: $accent-color;
+                    color: $main-text-color;
+                    border-radius: 10px;
+                    border: none;
+                    transition: 0.2s;
                 }
             }
         }
     }
-}
 
-.admin-logo {
-    font-size: 1.3rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: $accent-color;
-    cursor: default;
-}
+    &__link {
+        color: $main-text-color;
+        text-decoration: none;
+        font-size: 1.3rem;
+        transition: 0.2s;
+        
+        &:hover { color: $accent-color; }
+    }
 
-.admin-right {
-    .admin-logout-btn {
+    &__actions {
+        display: flex;
+        align-items: center;
+
+        @media (max-width: 768px) { display: none; }
+    }
+
+    &__logout-button {
         font-size: 1.1rem;
         font-weight: 700;
         padding: 10px 20px;
@@ -71,138 +127,9 @@
         cursor: pointer;
         color: $main-text-color;
         transition: background 0.3s ease, transform 0.2s ease;
-        
-        &:hover {
-            background: $dark-accent-color;
-        }
-    }
-}
 
+        &:hover { background: $dark-accent-color; }
 
-.admin-hamburger {
-    display: none;
-    cursor: pointer;
-}
-
-.mobile-logout {
-    display: none;
-}
-
-@media (max-width: 1024px) {
-    .admin-navbar {
-        padding: 0 30px;
-        height: 60px;
-    }
-
-    .admin-logo {
-        font-size: 1.1rem;
-    }
-
-    .admin-links {
-        gap: 40px;
-        font-size: 1.1rem;
-    }
-
-    .admin-right {
-        .admin-logout-btn {
-            padding: 8px 18px;
-            font-size: 1rem;
-        }
-    }
-}
-
-@media (max-width: 768px) {
-    .admin-hamburger {
-        display: block;
-    }
-
-    .admin-navbar {
-        justify-content: space-between;
-        padding: 0 20px;
-        
-        ul {
-            position: absolute;
-            top: 70px;
-            right: 20px;
-            width: 200px;
-            background: var(--card);
-            flex-direction: column;
-            padding: 15px;
-            border-radius: 10px;
-            display: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-            
-            .open {
-                display: flex;
-            }
-        }
-    }
-
-    .admin-links {
-        display: none;
-    }
-
-    .admin-right {
-        display: none;
-        
-        .admin-logout-btn {
-            padding: 6px 14px;
-            font-size: 0.95rem;
-        }
-    }
-
-
-    .mobile-logout {
-        display: block;
-        
-        .admin-logout-btn {
-            width: 100%;
-            text-align: center;
-            padding: 10px;
-            background: $accent-color;
-            color: $main-text-color;
-            border-radius: 10px;
-            border: none;
-            transition: 0.2s;
-            
-            &:hover {
-                background: $dark-accent-color;
-                cursor: pointer;
-            }
-        }
-    }
-}
-
-@media (max-width: 640px) {
-    .admin-navbar {
-        height: 55px;
-        padding: 0 15px;
-    }
-
-    .admin-logo {
-        font-size: 1rem;
-        letter-spacing: 0.5px;
-    }
-
-    .admin-right .admin-logout-btn {
-        padding: 6px 12px;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 420px) {
-    .admin-navbar {
-        padding: 0 10px;
-    }
-
-    .admin-logo {
-        font-size: 0.9rem;
-    }
-
-    .admin-right {
-        .admin-logout-btn {
-            padding: 5px 10px;
-            font-size: 0.85rem;
-        }
+        @media (max-width: 1024px) { padding: 8px 18px; font-size: 1rem; }
     }
 }

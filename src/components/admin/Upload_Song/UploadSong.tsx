@@ -83,27 +83,26 @@ export const UploadSong = ({ onCancel, onSave }: UploadSongProps) => {
         }, 150);
     }
 
-
-
     return (
-        <div className="upload-container">
-            <h2>Upload New Song</h2>
+        <div className="upload-song">
+            <h2 className="upload-song__title">Upload New Song</h2>
 
-            <div 
-                className="dropzone" 
+            <div
+                className={`upload-song__dropzone ${audioFile ? 'upload-song__dropzone--active' : ''}`}
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={handleDrop}
             >
                 {audioFile ? (
-                    <p><Music size={18}/>{audioFile.name}</p>
+                    <p className="upload-song__file-info"><Music size={18}/>{audioFile.name}</p>
                 ) : (
-                    <p><UploadCloud size={18}/>Drag & Drop your audio</p>
+                    <p className="upload-song__placeholder"><UploadCloud size={18}/>Drag & Drop your audio</p>
                 )}
             </div>
 
-            <label className="cover-upload">
+            <label className="upload-song__cover-label">
                 <ImageIcon size={18}/> Upload Cover
-                <input 
+                <input
+                    className="upload-song__file-input"
                     type="file" 
                     accept="image/*"
                     hidden
@@ -114,24 +113,24 @@ export const UploadSong = ({ onCancel, onSave }: UploadSongProps) => {
                 />
             </label>
 
-            <input type="text" placeholder="Title" value={form.title}
+            <input className="upload-song__input" type="text" placeholder="Title" value={form.title}
                 onChange={(e) => setForm({ ...form, title: e.target.value })} />
 
-            <input type="text" placeholder="Artist" value={form.artist}
+            <input className="upload-song__input" type="text" placeholder="Artist" value={form.artist}
                 onChange={(e) => setForm({ ...form, artist: e.target.value })} />
             
-            <input type="text" placeholder="Genre" value={form.genre}
+            <input className="upload-song__input" type="text" placeholder="Genre" value={form.genre}
                 onChange={(e) => setForm({ ...form, genre: e.target.value })} />
 
             {progress > 0 && (
-                <div className="progress-bar">
-                    <div style={{ width: `${progress}%` }} />
+                <div className="upload-song__progress-container">
+                    <div className="upload-song__progress-filler" style={{ width: `${progress}%` }} />
                 </div>
             )}
 
-            <div className="upload-actions">
-                <button className="upload-save" onClick={handleUpload}>Save</button>
-                <button className="upload-cancel" onClick={onCancel}><X size={16} /></button>
+            <div className="upload-song__actions">
+                <button className="upload-song__button upload-song__button--save" onClick={handleUpload}>Save</button>
+                <button className="upload-song__button upload-song__button--cancel" onClick={onCancel}><X size={16} /></button>
             </div>
         </div>
     );

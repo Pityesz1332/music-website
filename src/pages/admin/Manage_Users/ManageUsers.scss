@@ -2,169 +2,189 @@
 
 .manage-users {
     color: $main-text-color;
+    padding: 2rem;
+    min-height: 100vh;
+    overflow-x: hidden;
     
-    h1 {
+    @media (max-width: 768px) { padding: 1rem; }
+
+    &__title {
         margin-bottom: 20px;
+
+        @media (max-width: 768px) { font-size: 1.7rem; }
+        @media (max-width: 480px) { font-size: 1.5rem; }
     }
-}
 
-.search-box {
-    width: 250px;
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    margin-bottom: 20px;
-    background: $card-color;
-}
+    &__search {
+        width: 250px;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        margin-bottom: 20px;
+        background: $card-color;
+        color: inherit;
 
-.users-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
+        @media (max-width: 768px) { width: 100%; }
+    }
     
-    th,
-    td {
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        
+        @media (max-width: 768px) { display: block; }
+    }
+    
+    &__table-head {
+        @media (max-width: 768px) { display: none; }
+    }
+    
+    &__table-body {
+        @media (max-width: 768px) { display: block; }
+    }
+    
+    &__tr {
+        @media (max-width: 768px) {
+            display: block;
+            background: $card-color;
+            margin-bottom: 1.2rem;
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid rgba($muted-text-color, 0.1);
+        }
+    }
+    
+    &__th, &__td {
         padding: 14px;
         text-align: left;
         border-bottom: 1px solid $muted-text-color;
     }
-}
 
+    &__td {
+        word-break: break-word;
+        overflow-wrap: anywhere;
 
-.role {
-    text-transform: capitalize;
-}
+        @media (max-width: 768px) {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba($muted-text-color, 0.1);
+            text-align: right;
+            gap: 15px;
 
-.actions-col {
-    text-align: right;
-}
+            &::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: $accent-color;
+                text-align: left;
+                min-width: 80px;
+                flex-shrink: 0;
+            }
 
-.actions {
-    text-align: right;
-}
+            &:last-child { border-bottom: none; }
+        }
 
-.edit-btn,
-.delete-btn {
-    padding: 8px 12px;
-    border-radius: 6px;
-    margin-left: 10px;
-    border: none;
-    cursor: pointer;
-    color: $accent-color;
-    background: none;
-}
+        &--role {
+            text-transform: capitalize;
+        }
 
-.modal {
-    margin: 0 auto;
-    position: fixed;
-    inset: 0;
-    background: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    &-content {
-        background: $card-color;
-        padding: 30px;
-        border-radius: 12px;
-        width: 350px;
+        &--actions {
+            @media (max-width: 768px) {
+                justify-content: flex-end;
+                gap: 15px;
+                padding-top: 1rem;
+                margin-top: 0.5rem;
+
+                &::before { margin-right: auto; }
+            }
+        }
+    }
+
+    &__button {
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+
+        &--edit, &--delete {
+            background: none;
+            color: $accent-color;
+            margin-left: 10px;
+
+            &:hover {
+                color: $dark-accent-color;
+            }
+
+            @media (max-width: 768px) { padding: 6px 10px; margin-left: 6px; flex: 1; }
+
+            @media (max-width: 480px) {
+                width: 100%;
+                margin-left: 0;
+                margin-top: 6px;
+            }
+        }
+
+        &--save, &--cancel {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: none;
+            background: $accent-color;
+            color: $main-text-color;
+            cursor: pointer;
+            transition: background 0.2s ease;
+
+            &:hover {
+                background: $dark-accent-color;
+            }
+        }
+    }
+
+    &__modal {
+        margin: 0 auto;
+        position: fixed;
+        inset: 0;
+        background: none;
         display: flex;
-        flex-direction: column;
-        gap: 12px;
-        border: 1px solid $muted-text-color;
-        
-        .admin-edit-input {
-            background: $card-color;
-            pointer-events: none;
-            cursor: default;
-        }
-        
-        .admin-edit-input,
-            select {
-                padding: 10px;
-                border-radius: 6px;
-                border: none;
-        }
-    }
-}
+        justify-content: center;
+        align-items: center;
 
-.modal-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-
-.save-btn, .cancel-btn {
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: none;
-    background: $accent-color;
-    color: $main-text-color;
-    cursor: pointer;
-    transition: background 0.2s ease;
-    
-    &:hover {
-        background: $dark-accent-color;
-    }
-}
-
-@media (max-width: 768px) {
-    .manage-users {
-        h1 {
-            font-size: 1.7rem;
-        }
-    }
-
-    .search-box {
-        width: 100%;
-    }
-
-    .users-table {
-        th,
-        td {
-            padding: 12px;
-            font-size: 0.95rem;
-        }
-    }
-
-    .edit-btn, .delete.btn {
-        padding: 6px 10px;
-        margin-left: 6px;
-    }
-}
-
-@media (max-width: 480px) {
-    .manage-users {
-        h1 {
-            font-size: 1.5rem;
-        }
-    }
-
-    .users-table {
-        display: block;
-    }
-
-    .search-box {
-        width: 100%;
-    }
-
-    .edit-btn, .delete.btn {
-        width: 100%;
-        margin-left: 0;
-        margin-top: 6px;
-    }
-
-    .actions {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        text-align: left;
-    }
-
-    .modal {
         &-content {
-            padding: 20px;
-            width: 90%;
+            background: $card-color;
+            padding: 30px;
+            border-radius: 12px;
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border: 1px solid $muted-text-color;
+
+            @media (max-width: 480px) { padding: 20px; width: 90%; }
+        }
+        
+        &-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+    }
+
+    &__form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    &__input, &__select {
+        padding: 10px;
+        border-radius: 6px;
+        border: none;
+        background: $card-color;
+        color: $main-text-color;
+
+        &:focus {
+            outline: none;
+            border-color: $accent-color;
         }
     }
 }

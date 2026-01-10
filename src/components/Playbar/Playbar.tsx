@@ -18,6 +18,7 @@ interface PlaybarProps {
 const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps) => {
     const location = useLocation();
     const isSongPage = location.pathname.startsWith("/songs/");
+    
     const [progress, setProgress] = useState<number>(0);
     const [currentTime, setCurrentTime] = useState<number>(0);
     const [volume, setVolume] = useState<number>(1);
@@ -36,8 +37,15 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
     const isSaved = song ? savedSongs.some(s => s.id === song.id) : false;
     
     const audioRef = useRef<HTMLAudioElement>(null);
+    //const progressBarRef = useRef<HTMLDivElement>(null);
+    //const volumeWrapperRef = useRef<HTMLDivElement>(null);
 
-    const playbarClasses = `playbar ${isSongPage ? "expanded" : "collapsed"} ${isManuallyCollapsed ? "manually-collapsed" : ""}`;
+    const playbarBaseClass = "playbar";
+    const playbarClasses = [
+        playbarBaseClass,
+        isSongPage ? `${playbarBaseClass}--expanded` : `${playbarBaseClass}--collapsed`,
+        isManuallyCollapsed ? `${playbarBaseClass}--manually-collapsed` : ""
+    ].filter(Boolean).join(" ");
 
     useEffect(() => {
         if (!audioRef.current || !song) return;
@@ -129,7 +137,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
 
     function handleSeekPosition(e: { clientX: number }) {
         const audio = audioRef.current;
-        const bar = document.querySelector<HTMLDivElement>(".playbar-progress");
+        const bar = document.querySelector<HTMLDivElement>(".playbar__progress");
 
         if (!audio || !bar) return;
 
@@ -165,7 +173,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
     function handleVolumeDragMove(e: globalThis.MouseEvent) {
         if (!isDragging) return;
 
-        const wrapper = document.querySelector<HTMLDivElement>(".volume-wrapper");
+        const wrapper = document.querySelector<HTMLDivElement>(".playbar__volume-wrapper");
         if (!wrapper) return;
 
         const rect = wrapper.getBoundingClientRect();
@@ -188,9 +196,10 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
 
     return (
         <div className={playbarClasses}>
-            <button className="mobile-collapse-toggle" onClick={() => setIsManuallyCollapsed(!isManuallyCollapsed)}>
+            <button className="playbar__collapse-toggle" onClick={() => setIsManuallyCollapsed(!isManuallyCollapsed)}>
                 {isManuallyCollapsed ? <ChevronUp size={24}/> : <ChevronDown size={24} />}
             </button>
+
             <audio
                 src={song.src}
                 ref={audioRef}
@@ -209,43 +218,45 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
                 }}
             />
             
-            <div className="playbar-left">
-                <img src={song.cover} alt={song.title} className="playbar-cover" />
-                <div className="playbar-info">
-                    <h4>{song.title}</h4>
-                    <p>{song.artist}</p>
+            <div className="playbar__left">
+                <img src={song.cover} alt={song.title} className="playbar__cover" />
+                <div className="playbar__info">
+                    <h4 className="playbar__title">{song.title}</h4>
+                    <p className="playbar__artist">{song.artist}</p>
                 </div>
             </div>
 
-            <div className="playbar-controls">
-                <button onClick={onPrev}>⏮</button>
-                <button onClick={handlePlay}>{isLoading ? (
-                    <div className="loading-spinner"></div>
-                ) : isPlaying ? (
-                    <Pause />
-                ) : (
-                    <Play />
-                )}</button>
-                <button onClick={onNext}>⏭</button>
+            <div className="playbar__controls">
+                <button className="playbar__control-button" onClick={onPrev}>⏮</button>
+                <button className="playbar__control-button playbar__control-button--main" onClick={handlePlay}>
+                    {isLoading ? (
+                        <div className="playbar__loader"></div>
+                    ) : isPlaying ? (
+                        <Pause />
+                    ) : (
+                        <Play />
+                    )}
+                </button>
+                <button className="playbar__control-button" onClick={onNext}>⏭</button>
             </div>
 
-            <div className="playbar-right">
-                <span className="playbar-time">{formatTime(currentTime)}</span>
+            <div className="playbar__right">
+                <span className="playbar__time">{formatTime(currentTime)}</span>
                 
-                <div className="playbar-progress" onMouseDown={startSeek}>
-                    <div className="playbar-progress-filled" style={{ width: `${progress}%` }}></div>
+                <div className="playbar__progress" onMouseDown={startSeek}>
+                    <div className="playbar__progress-filled" style={{ width: `${progress}%` }}></div>
                 </div>
-                <span className="playbar-time">{song.duration}</span>
+                <span className="playbar__time">{song.duration}</span>
             </div>
 
-            <div className="playbar-extra">
-                <div className="volume-wrapper" onMouseDown={handleVolumeDragStart}>
-                    <div className="volume-track">
-                        <div className="volume-fill" style={{ width: `${volume * 100}%` }}></div>
-                        <div className="volume-thumb" style={{ left: `${volume * 100}%` }}></div>
+            <div className="playbar__extra">
+                <div className="playbar__volume-wrapper" onMouseDown={handleVolumeDragStart}>
+                    <div className="playbar__volume-track">
+                        <div className="playbar__volume-fill" style={{ width: `${volume * 100}%` }}></div>
+                        <div className="playbar__volume-thumb" style={{ left: `${volume * 100}%` }}></div>
                     </div>
                     <input
-                        className="volume-hidden"
+                        className="playbar__volume-hidden"
                         type="range"
                         min="0"
                         max="1"
@@ -254,19 +265,20 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
                         onChange={handleVolumeChanger}
                     />
                 </div>
-                <div className="extra-buttons">
-                    <button className="reset-seeker" onClick={handleResetSong}>
+
+                <div className="playbar__extra-buttons">
+                    <button className="playbar__reset-seeker" onClick={handleResetSong}>
                         <TimerReset size={20} />
                     </button>
-                    <button className={`loop-btn ${isLooping ? "active" : ""}`} onClick={() => setIsLooping(!isLooping)}>
+                    <button className={`playbar__extra-button ${isLooping ? "playbar__extra-button--active" : ""}`} onClick={() => setIsLooping(!isLooping)}>
                         <Repeat size={20} />
                     </button>
                 </div>
 
                 {isConnected && (
-                    <div className="connected-buttons">
-                        <button 
-                            className={`playbar-save-btn ${isSaved ? "saved" : ""}`}  
+                    <div className="playbar__connected-buttons">
+                        <button
+                            className={`playbar__save-button ${isSaved ? "playbar__save-button--saved" : ""}`}  
                             onClick={() => {
                                 if (isSaved) {
                                     removeSavedSong(song.id);
@@ -278,7 +290,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
                             }}>
                             <FileMusic size={20} />
                         </button>
-                        <button className="playbar-download-btn">
+                        <button className="playbar__download-button">
                             <Download size={20} />
                         </button>
                     </div>

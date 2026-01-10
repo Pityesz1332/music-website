@@ -1,6 +1,6 @@
 @import '../../../styles/variables';
 
-.upload-container {
+.upload-song {
     background: $bg-color;
     color: $main-text-color;
     padding: 20px;
@@ -13,132 +13,123 @@
     gap: 15px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     
-    h2 {
+    @media (max-width: 480px) { width: 95%; padding: 15px; }
+
+    &__title {
         text-align: center;
         margin-bottom: 10px;
     }
-}
 
-
-.dropzone {
-    border: 2px dashed $accent-color;
-    border-radius: 10px;
-    padding: 30px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    background: $card-color;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    color: $muted-text-color;
-    
-    &:hover {
-        border-color: $dark-accent-color;
-        color: $main-text-color;
-    }
-}
-
-
-.cover-upload {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    padding: 8px 12px;
-    border-radius: 8px;
-    background: $card-color;
-    border: 1px solid $muted-text-color;
-    color: $muted-text-color;
-    transition: all 0.2s ease;
-    
-    &:hover {
-        color: $main-text-color;
-    }
-}
-
-
-input[type="text"] {
-    padding: 8px 10px;
-    border-radius: 6px;
-    border: 1px solid $muted-text-color;
-    background: $card-color;
-    color: $muted-text-color;
-}
-
-.progres-bar {
-    background: $card-color;
-    border-radius: 6px;
-    height: 8px;
-    overflow: hidden;
-    margin-top: 5px;
-    
-    div {
-        height: 100%;
+    &__dropzone {
+        border: 2px dashed $accent-color;
+        border-radius: 10px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
         background: $card-color;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        color: $muted-text-color;
+        
+        @media (max-width: 480px) { padding: 20px; font-size: 14px; }
+
+        &:hover {
+            border-color: $dark-accent-color;
+            color: $main-text-color;
+        }
+
+        &--active {
+            border-color: $dark-accent-color;
+            background: rgba($accent-color, 0.1);
+        }
+    }
+
+    &__cover-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        padding: 8px 12px;
+        border-radius: 8px;
+        background: $card-color;
+        border: 1px solid $muted-text-color;
+        color: $muted-text-color;
+        transition: all 0.2s ease;
+
+        @media (max-width: 480px) { padding: 6px 10px; font-size: 14px; }
+
+        &:hover {
+            color: $main-text-color;
+            border-color: $main-text-color;
+        }
+    }
+
+    &__input {
+        padding: 8px 10px;
+        border-radius: 6px;
+        border: 1px solid $muted-text-color;
+        background: $card-color;
+        color: $main-text-color;
+        outline: none;
+
+        @media (max-width: 480px) { font-size: 14px; }
+
+        &::placeholder {
+            color: $muted-text-color
+        }
+
+        &:focus {
+            border-color: $accent-color;
+        }
+    }
+
+    &__progress-container {
+        background: $card-color;
+        border-radius: 6px;
+        height: 8px;
+        overflow: hidden;
+        margin-top: 5px;
+    }
+
+    &__progress-filler {
+        height: 100%;
+        background: $accent-color;
         width: 0;
         transition: width 0.2s ease;
     }
-}
 
-
-.upload-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
-.upload-save {
-    background: $accent-color;
-    color: $main-text-color;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    
-    &:hover {
-        background: $dark-accent-color
-    }
-}
-
-
-.upload-cancel {
-    background: $dark-accent-color;
-    color: $main-text-color;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    
-    &:hover {
-        background: $accent-color;
-    }
-}
-
-
-@media (max-width: 480px) {
-    .upload-container {
-        width: 95%;
-        padding: 15px;
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
     }
 
-    .dropzone {
-        padding: 20px;
-        font-size: 14px;
-    }
+    &__button {
+        border: none;
+        padding: 8px 15px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-    .cover-upload {
-        padding: 6px 10px;
-        font-size: 14px;
-    }
+        &--save {
+            background: $accent-color;
+            color: $main-text-color;
 
-    input[type="text"] {
-        font-size: 14px;
+            &:hover { background: $dark-accent-color }
+        }
+
+        &--cancel {
+            background: $dark-accent-color;
+            color: $main-text-color;
+            padding: 8px 12px;
+
+            &:hover { background: $accent-color; }
+        }
     }
 }

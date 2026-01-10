@@ -10,7 +10,7 @@ const LoadingOverlay = () => {
 
     return (
         <div className="loading-overlay">
-            <div className="loader"></div>
+            <div className="loading-overlay__loader"></div>
         </div>
     );
 }

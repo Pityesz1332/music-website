@@ -28,16 +28,19 @@ export const AdminConnect = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="admin-connect-form">
-            <h2>Admin Connect</h2>
-            <input
-                type="text"
-                placeholder="Admin Code"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}    
-            />
-            <button type="submit">Connect</button>
-            {error && <p style={{ color: "red" }} className="invalid-code-error">{error}</p>}
-        </form>
+        <div className="admin-connect-wrapper">
+            <form onSubmit={handleSubmit} className="admin-connect">
+                <h2 className="admin-connect__title">Admin Connect</h2>
+                <input
+                    className="admin-connect__input"
+                    type="text"
+                    placeholder="Admin Code"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}    
+                />
+                <button className="admin-connect__button" type="submit">Connect</button>
+                {error && <p className="admin-connect__error admin-connect__error--active">{error}</p>}
+            </form>
+        </div>
     );
 }

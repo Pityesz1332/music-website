@@ -4,9 +4,9 @@ import "./AdminLayout.scss";
 
 function AdminLayout() {
     return (
-        <div className="admin-container">
+        <div className="admin-layout">
             <AdminNavbar />
-            <main className="admin-content">
+            <main className="admin-layout__content">
                 <Outlet />
             </main>
         </div>

@@ -1,6 +1,6 @@
 @import '../../styles/variables';
 
-.notfound-container {
+.not-found {
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -14,69 +14,68 @@
     padding: 20px;
     max-width: 700px;
     margin: 0 auto;
-    
-    h1 {
-        font-size: 2.5rem;
-    }
-    
-    p {
-        font-size: 1.2rem;
-        opacity: 0.8;
-        max-width: 500px;
-    }
-}
+    box-sizing: border-box;
 
-.notfound-btn {
-    padding: 12px 24px;
-    border-radius: 10px;
-    background: $accent-color;
-    color: $main-text-color;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: 0.2s ease;
-    font-weight: 600;
-    
-    &:hover {
-        background: $dark-accent-color;
-    }
-}
-
-@media (max-width: 768px) {
-    .notfound-container {
-        width: auto;
-        
-        h1 {
-            font-size: 2.2rem;
-        }
-        
-        p {
-            font-size: 1.1rem;
-        }
-    }
-}
-
-@media (max-width: 480px) {
-    .notfound-container {
+    @media (max-width: 480px) {
         gap: 16px;
         padding: 16px;
-        
-        h1 {
-            font-size: 1.8rem;
-        }
-        
-        p {
-            font-size: 1rem;
-        }
-        
-        svg {
+    }
+
+    &__icon {
+        @media (max-width: 480px) {
             width: 60px;
             height: 60px;
         }
     }
 
-    .notfound-btn {
-        width: 100%;
-        padding: 14px 0;
-        font-size: 1.1rem;
+    &__title {
+        font-size: 2.5rem;
+        margin: 0;
+
+        @media (max-width: 768px) {
+            font-size: 2.2rem;
+        }
+
+        @media (max-width: 480px) {
+            font-size: 1.8rem;
+        }
+    }
+
+    &__text {
+        font-size: 1.2rem;
+        opacity: 0.8;
+        max-width: 500px;
+        margin: 0;
+
+        @media (max-width: 768px) {
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 480px) {
+            font-size: 1rem;
+        }
+    }
+
+    &__button {
+        padding: 12px 24px;
+        border-radius: 10px;
+        background: $accent-color;
+        color: $main-text-color;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: 0.2s ease;
+        font-weight: 600;
+        display: inline-block;
+
+        &:hover {
+            background: $dark-accent-color;
+        }
+
+        @media (max-width: 480px) {
+            width: 100%;
+            padding: 14px 0;
+            font-size: 1.1rem;
+            box-sizing: border-box;
+        }
     }
 }

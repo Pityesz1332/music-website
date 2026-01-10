@@ -50,7 +50,7 @@ export const SongPage = () => {
     useEffect(() => {
         if (!currentSong || !playlistRef.current) return;
 
-        const activeCard = playlistRef.current.querySelector<HTMLDivElement>(`.mini-card.active`);
+        const activeCard = playlistRef.current.querySelector<HTMLDivElement>(`.song-page__mini-card--active`);
         if (!activeCard) return;
 
 
@@ -83,62 +83,57 @@ export const SongPage = () => {
     if (!currentSong) {
         return (
             <div className="song-page">
-                <p className="not-found">Song not found</p>
+                <p className="song-page__not-found">Song not found</p>
             </div>
         );
     }
 
     return (
         <div className="song-page">
-
                 <video
-                    className={`song-bg-video ${isPlaying ? "fade-out" : "fade-in"}`}
+                    className={`song-page__video ${isPlaying ? "song-page__video--fade-out" : "song-page__video--fade-in"}`}
                     src={currentSong.defaultBgVideo}
-                    autoPlay
-                    loop
-                    muted
+                    autoPlay loop muted
                     key={`default-${currentSong.id}`}
                 ></video>
 
                 <video
-                    className={`song-bg-video ${isPlaying ? "fade-in" : "fade-out"}`}
+                    className={`song-page__video ${isPlaying ? "song-page__video--fade-in" : "song-page__video--fade-out"}`}
                     src={currentSong.playingBgVideo}
-                    autoPlay
-                    loop
-                    muted
+                    autoPlay loop muted
                     key={`playing-${currentSong.id}`}
                 ></video>
         
-            <div className="song-content">
-                <div className="song-cover-wrapper">
-                    <img src={currentSong.cover} alt={currentSong.title} className="song-cover-main" />
-                    <div className={`glow ${isPlaying ? "active" : ""}`}></div>
+            <div className="song-page__content">
+                <div className="song-page__cover-wrapper">
+                    <img src={currentSong.cover} alt={currentSong.title} className="song-page__main-cover" />
+                    <div className={`song-page__glow ${isPlaying ? "song-page__glow--active" : ""}`}></div>
                 </div>
 
-                <div className="song-info glass">
-                    <h1>{currentSong.title}</h1>
-                    <h2>{currentSong.artist}</h2>
-                    <p>Genre: <span>{currentSong.genre}</span></p>
-                    <p>Duration: <span>{currentSong.duration}</span></p>
+                <div className="song-page__info song-page__info--glass">
+                    <h1 className="song-page__title">{currentSong.title}</h1>
+                    <h2 className="song-page__artist">{currentSong.artist}</h2>
+                    <p className="song-page__meta">Genre: <span className="song-page__meta-value">{currentSong.genre}</span></p>
+                    <p className="song-page__meta">Duration: <span className="song-page__meta-value">{currentSong.duration}</span></p>
 
-                    <div className="controls">
-                        <button className="nav-btn" onClick={prevSong}>⏮ Prev</button>
+                    <div className="song-page__controls">
+                        <button className="song-page__nav-button" onClick={prevSong}>⏮ Prev</button>
                         
                         <button
-                            className={`play-btn neon-btn ${isPlaying ? "playing" : ""}`}
+                            className={`song-page__play-button song-page__play-button--neon-button ${isPlaying ? "song-page__play-button--playing" : ""}`}
                             onClick={togglePlay}
                         >
                             {isPlaying ? <Pause size={18} /> : <Play size={18} />}
                             {isPlaying ? "Stop" : "Play"}
                         </button>
 
-                        <button className="nav-btn" onClick={nextSong}>Next ⏭</button>
+                        <button className="song-page__nav-button" onClick={nextSong}>Next ⏭</button>
                     </div>
 
                         {isConnected && (
-                            <div className="songpage-btn-wrapper">
+                            <div className="song-page__actions">
                                 <button
-                                    className={`songpage-action-btn ${isSaved ? "saved" : ""}`}
+                                    className={`song-page__action-button ${isSaved ? "song-page__action-button--saved" : ""}`}
                                     onClick={() => {
                                         if (isSaved) {
                                             removeSavedSong(currentSong.id);
@@ -149,26 +144,26 @@ export const SongPage = () => {
                                         }
                                     }}
                                 >
-                                    <FileMusic size={24} />
+                                    <FileMusic className="song-page__action-button__icon" size={24} />
                                 </button>
 
-                                <button className="songpage-action-btn">
-                                    <Download size={24} />
+                                <button className="song-page__action-button">
+                                    <Download className="song-page__action-button__icon" size={24} />
                                 </button>
                             </div>
                         )}
                 </div>
             </div>
 
-            <div className="right-playlist" ref={playlistRef}>
+            <div className="song-page__playlist" ref={playlistRef}>
                 {playlist.map((song) => (
                     <div
                         key={song.id}
-                        className={`mini-card ${song.id === currentSong.id ? "active" : ""}`}
+                        className={`song-page__mini-card ${song.id === currentSong.id ? "song-page__mini-card--active" : ""}`}
                         onClick={() => handleSongClick(song)}
                     >
-                        <img src={song.cover} alt={song.title} />
-                        <p>{song.title}</p>
+                        <img className="song-page__card-image" src={song.cover} alt={song.title} />
+                        <p className="song-page__card-title">{song.title}</p>
                     </div>
                 ))}
             </div>

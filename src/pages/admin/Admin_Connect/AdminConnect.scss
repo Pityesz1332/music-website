@@ -1,9 +1,19 @@
 @import '../../../styles/variables';
 
-.admin-connect-form {
+.admin-connect-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.admin-connect {
     max-width: 400px;
     width: 100%;
-    margin: 100px auto;
+    margin: 0;
     padding: 30px 25px;
     background: $card-color;
     border: 2px solid $dark-accent-color;
@@ -13,20 +23,34 @@
     flex-direction: column;
     align-items: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
     
+    @media (max-width: 480px) {
+        margin: 40px auto;
+        padding: 25px 15px;
+        width: 95%;
+    }
+
     &:hover {
-        transform: scale(1.02);
-        box-shadow: 0 0 25px rgba(50, 50, 70, 0.9);
+        @media (min-width: 768px) {
+            transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(50, 50, 70, 0.9);
+        }
     }
     
-    h2 {
+    &__title {
         color: $accent-color;
         margin-bottom: 20px;
         font-size: 1.8rem;
         text-align: center;
+        width: 100%;
+
+        @media (max-width: 480px) {
+            font-size: 1.5rem;
+        }
     }
     
-    input {
+    &__input {
         width: 100%;
         padding: 12px 15px;
         margin-bottom: 20px;
@@ -34,16 +58,21 @@
         border-radius: 8px;
         background: $card-color;
         color: $main-text-color;
-        font-size: 1rem;
+        font-size: 16px;
         outline: none;
         transition: border 0.2s ease;
+        box-sizing: border-box;
+
+        @media (max-width: 480px) {
+            font-size: 16px;
+        }
         
         &:focus {
             border-color: $dark-accent-color;
         }
     }
 
-    button {
+    &__button {
         width: 100%;
         padding: 12px 15px;
         background: $accent-color;
@@ -55,31 +84,24 @@
         font-weight: bold;
         transition: background 0.2s ease, transform 0.1s ease;
         
+        @media (max-width: 480px) {
+            font-size: 14px;
+        }
+
         &:hover {
             background: $dark-accent-color;
             transform: scale(1.03);
         }
     }
     
-    .invalid-code-error {
+    &__error {
         font-size: 0.9rem;
         margin-top: 5px;
         text-align: center;
-    }
-}
 
-
-@media (max-width: 480px) {
-    .admin-connect-form {
-        padding: 25px 15px;
-        
-        h2 {
-            font-size: 1.5rem;
-        }
-        
-        input,
-        button {
-            font-size: 0.95rem;
+        &--active {
+            color: red;
+            font-weight: bold;
         }
     }
 }

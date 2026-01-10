@@ -25,45 +25,38 @@ export const Home = () => {
     }, []);
 
     return (
-        <div className="home-container">
+        <div className="home">
             {backgrounds.map((bg, i) => {
                 const isActive = i === bgIndex;
+                const bgClass = `home__background ${isActive ? "home__background--active" : ""}`
+
                 if (bg.type === "image") {
                     return (
                         <div
                             key={i}
-                            className="background-layer"
+                            className={bgClass}
                             style={{
-                                backgroundImage: `url(${bg.src})`,
-                                opacity: isActive ? 1 : 0,
-                                transition: "opacity 1s ease"
+                                backgroundImage: `url(${bg.src})`
                             }}
                         ></div>
                     );
-                } else if (bg.type === "video") {
+                } else {
                     return (
                         <video
                             key={i}
-                            className="background-layer"
+                            className={bgClass}
                             src={bg.src}
-                            autoPlay
-                            muted
-                            loop
-                            style={{
-                                opacity: isActive ? 1 : 0,
-                                transition: "opacity 1s ease",
-                                objectFit: "cover"
-                            }}
+                            autoPlay muted loop
                         />
                     );
                 }
             })}
-            <div className="overlay"></div>
-            <div className="home-content">
-                <h1>Unleash Sound Beyond Limits</h1>
-                <h2>The next evolution of music - Powered by <span className="web3-txt">Web3</span></h2>
-                <p>Explore, collect and stream music like never before</p>
-                <button onClick={() => navigate("/songs")}>Explore Now</button>
+            <div className="home__overlay"></div>
+            <div className="home__content">
+                <h1 className="home__title">Unleash Sound Beyond Limits</h1>
+                <h2 className="home__subtitle">The next evolution of music - Powered by <span className="home__highlight">Web3</span></h2>
+                <p className="home__text">Explore, collect and stream music like never before</p>
+                <button className="home__button" onClick={() => navigate("/songs")}>Explore Now</button>
             </div>
         </div>
     );

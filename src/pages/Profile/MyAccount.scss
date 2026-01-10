@@ -1,28 +1,28 @@
 @import '../../styles/variables';
 
-.myaccount-container {
+.my-account {
     max-width: 500px;
     margin: 100px auto;
     text-align: center;
-}
 
-.profile-block {
-    margin-top: 30px;
-}
+    &__profile-section {
+        margin-top: 30px;
+    }
 
-.avatar-wrapper {
-    position: relative;
-    display: inline-block;
-    
-    .avatar {
+    &__avatar-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    &__avatar-image {
         width: 120px;
         height: 120px;
         border-radius: 50%;
         object-fit: cover;
         border: 2px solid $accent-color;
     }
-    
-    .avatar-input {
+
+    &__avatar-input {
         position: absolute;
         bottom: 0;
         left: 0;
@@ -31,21 +31,24 @@
         opacity: 0;
         cursor: pointer;
     }
-}
 
-.wallet-block {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    
-    .wallet-address {
+    &__wallet-info {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    &__wallet-address {
         font-weight: bold;
         font-size: 16px;
     }
-    
-    .copy-button {
+
+    &__copy-button {
+        display: flex;
+        align-items: center;
+        gap: 6px;
         padding: 5px 12px;
         font-size: 14px;
         cursor: pointer;
@@ -54,9 +57,9 @@
         color: $main-text-color;
         border-radius: 4px;
         transition: background 0.2s;
-        
+
         &:hover {
             background: $dark-accent-color;
         }
-    }   
+    }
 }
