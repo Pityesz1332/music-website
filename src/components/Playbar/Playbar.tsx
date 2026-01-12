@@ -27,6 +27,8 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isLooping, setIsLooping] = useState<boolean>(false);
     const [isManuallyCollapsed, setIsManuallyCollapsed] = useState<boolean>(false);
+    const [hoverTime, setHoverTime] = useState<number | null>(null);
+    const [hoverPos, setHoverPos] = useState<number>(0);
 
     const auth = useAuth();
     if (!auth) throw new Error("useAuth must be used within AuthProvider");
@@ -149,6 +151,22 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
         audio.currentTime = percent * audio.duration;
     }
 
+    function handleMouseMove (e: React.MouseEvent<HTMLDivElement>) {
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const percent = Math.min(Math.max(x / rect.width, 0), 1);
+
+        setHoverTime(percent * audio.duration);
+        setHoverPos(x);
+    }
+
+    function handleMouseLeave() {
+        setHoverTime(null);
+    }
+
     function handleVolumeChanger(e: React.ChangeEvent<HTMLInputElement>) {
         const vol = parseFloat(e.target.value);
         setVolume(vol);
@@ -243,7 +261,27 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
             <div className="playbar__right">
                 <span className="playbar__time">{formatTime(currentTime)}</span>
                 
-                <div className="playbar__progress" onMouseDown={startSeek}>
+                <div
+                    className="playbar__progress"
+                    onMouseDown={startSeek}
+                    onMouseMove={handleMouseMove}
+                    onMouseLeave={handleMouseLeave}
+                    style={{ position: "relative" }}
+                >
+                    {hoverTime !== null && (
+                        <div
+                            className="playbar__tooltip"
+                            style={{
+                                left: `${hoverPos}px`,
+                                position: "absolute",
+                                bottom: "100%",
+                                transform: "translateX(-50%)",
+                                pointerEvents: "none"
+                            }}
+                        >
+                            {formatTime(hoverTime)}
+                        </div>
+                    )}
                     <div className="playbar__progress-filled" style={{ width: `${progress}%` }}></div>
                 </div>
                 <span className="playbar__time">{song.duration}</span>
