@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar/Navbar";
 import ConnectedNavbar from "../components/Connected_Navbar/ConnectedNavbar";
 import Playbar from "../components/Playbar/Playbar";
 
-const MainLayout: React.FC = () => {
+const MainLayout = () => {
     const { isConnected } = useAuth();
     const { currentSong, isPlaying, togglePlay, nextSong, prevSong } = useMusic();
 
