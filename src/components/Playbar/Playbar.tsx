@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { Play, Pause, TimerReset, Repeat, FileMusic, ChevronDown, ChevronUp, Download } from "lucide-react";
+import { Play, Pause, SkipBack, SkipForward, TimerReset, Repeat, FileMusic, ChevronDown, ChevronUp, Download } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
 import { useAuth } from "../../context/AuthContext";
 import { useNotification } from "../../context/NotificationContext";
@@ -99,6 +99,54 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
             window.removeEventListener("mouseup", handleVolumeDragEnd);
         };
     }, [isDragging]);
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+                return;
+            }
+
+            if (!audioRef.current) return;
+            const audio = audioRef.current;
+
+            switch (e.code) {
+                case "Space":
+                    e.preventDefault();
+                    handlePlay();
+                    break;
+                case "ArrowUp":
+                    e.preventDefault();
+                    setVolume(prev => {
+                        const newVol = Math.min(prev + 0.1, 1);
+                        audio.volume = newVol;
+                        return newVol;
+                    });
+                    break;
+                case "ArrowDown":
+                    e.preventDefault();
+                    setVolume(prev => {
+                        const newVol = Math.max(prev - 0.1, 0);
+                        audio.volume = newVol;
+                        return newVol;
+                    });
+                    break;
+                case "ArrowLeft":
+                    e.preventDefault();
+                    audio.currentTime = Math.max(audio.currentTime - 5, 0);
+                    break;
+                case "ArrowRight":
+                    e.preventDefault();
+                    audio.currentTime = Math.min(audio.currentTime + 5, audio.duration);
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        console.log("key pressed");
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [isPlaying, song]);
 
     function handlePlay() {
         if (isPlaying) {
@@ -245,17 +293,21 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
             </div>
 
             <div className="playbar__controls">
-                <button className="playbar__control-button" onClick={onPrev}>⏮</button>
+                <button className="playbar__control-button" onClick={onPrev}>
+                    <SkipBack size={24} />
+                </button>
                 <button className="playbar__control-button playbar__control-button--main" onClick={handlePlay}>
                     {isLoading ? (
                         <div className="playbar__loader"></div>
                     ) : isPlaying ? (
-                        <Pause />
+                        <Pause size={28} />
                     ) : (
-                        <Play />
+                        <Play size={28} />
                     )}
                 </button>
-                <button className="playbar__control-button" onClick={onNext}>⏭</button>
+                <button className="playbar__control-button" onClick={onNext}>
+                    <SkipForward size={24} />
+                </button>
             </div>
 
             <div className="playbar__right">

@@ -45,10 +45,10 @@
         letter-spacing: 1px;
         color: $accent-color;
         cursor: pointer;
+        flex-shrink: 0;
 
         @media (max-width: 1024px) {
             font-size: 1.1rem;
-            flex-shrink: 0;
         }
     }
 
@@ -56,19 +56,25 @@
         flex: 1;
         display: flex;
         justify-content: center;
+        min-width: 200px;
+        margin: 0 20px;
 
-        @media (max-width: 1024px) { margin: 0 15px; }
-        @media (max-width: 768px) { flex: 0 1 auto; margin: 0 10px; }
+        @media (max-width: 1024px) { margin: 0 10px; flex: 1; }
+        @media (max-width: 768px) { flex: 1; margin: 0 10px; min-width: 0; }
     }
 
     &__search-wrapper {
         position: relative;
         display: flex;
         align-items: center;
-        width: 50%;
+        width: 100%;
+        max-width: 500px;
         transition: width 0.3s ease;
 
-        @media (max-width: 1024px) { width: 100%; max-width: 250px; }
+        @media (max-width: 1024px) {
+            max-width: 400px;
+        }
+
         @media (max-width: 768px) { width: 120px; }
         @media (max-width: 400px) { width: 100px; }
     }
@@ -81,8 +87,13 @@
         outline: none;
         background: rgba(255, 255, 255, 0.1);
         color: $main-text-color;
+        font-size: 1rem;
 
-        @media (max-width: 1024px) { font-size: 0.9rem; }
+        @media (max-width: 1024px) {
+            font-size: 0.9rem;
+            padding: 10px 15px;
+            height: 20px;
+        }
 
         &:focus {
             background: rgba(255, 255, 255, 0.15);
@@ -106,23 +117,33 @@
         cursor: pointer;
         z-index: 10;
 
-        @media (max-width: 768px) { display: block; margin-left: 15px; }
+        @media (max-width: 1024px) { display: block; margin-left: 15px; }
     }
 
     &__menu {
         list-style: none;
         display: flex;
-        gap: 40px;
+        gap: 30px;
         font-size: 1.1rem;
         margin: 0;
         align-items: center;
-        flex: 1;
-        justify-content: flex-end;
+        flex-shrink: 0;
 
         @media (max-width: 1024px) {
-            gap: 10px;
-            font-size: 0.95rem;
-            flex: 0 1 auto;
+            position: fixed;
+            top: 65px;
+            right: -100%;
+            width: 250px;
+            height: auto;
+            background: rgba(15, 15, 15, 0.95);
+            flex-direction: column;
+            gap: 2rem;
+            align-items: flex-start;
+            padding: 40px 20px;
+            transition: right 0.3s ease;
+            backdrop-filter: blur(10px);
+            gap: 15px;
+            font-size: 0.90rem;
         }
 
         @media (max-width: 768px) {
@@ -135,7 +156,7 @@
             flex-direction: column;
             gap: 3rem;
             align-items: flex-start;
-            padding: 20px 0;
+            padding: 20px 10px;
             transition: right 0.3s ease;
         }
 
