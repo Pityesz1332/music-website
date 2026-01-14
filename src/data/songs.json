@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": "1",
         "title": "DJ Enez Favorites 1",
         "artist": "DJ Enez",
         "genre": "Mix",
@@ -11,7 +11,7 @@
         "playingBgVideo": "/assets/waveform-to3.mp4"
     },
     {
-        "id": 2,
+        "id": "2",
         "title": "DJ Enez Favorites 2",
         "artist": "DJ Enez",
         "genre": "Mix",
@@ -22,7 +22,7 @@
         "playingBgVideo": "/assets/waveform-to3.mp4"
     },
     {
-        "id": 3,
+        "id": "3",
         "title": "DJ Enez Favorites 1",
         "artist": "DJ Enez",
         "genre": "Mix",
@@ -33,7 +33,7 @@
         "playingBgVideo": "/assets/waveform-to3.mp4"
     },
     {
-        "id": 4,
+        "id": "4",
         "title": "DJ Enez Favorites 2",
         "artist": "DJ Enez",
         "genre": "Mix",
@@ -44,7 +44,7 @@
         "playingBgVideo": "/assets/waveform-to3.mp4"
     },
     {
-        "id": 5,
+        "id": "5",
         "title": "DJ Enez Favorites 1",
         "artist": "DJ Enez",
         "genre": "Mix",
@@ -54,5 +54,4 @@
         "defaultBgVideo": "/assets/animation1.mp4",
         "playingBgVideo": "/assets/waveform-to3.mp4"
     }
-
 ]

@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Play, Pause, FileMusic, Download } from "lucide-react";
+import { Play, Pause, FileMusic, Download, Pencil, Trash2, ChevronUp, ChevronDown, X } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
 import { useAuth } from "../../context/AuthContext";
 import { useNotification } from "../../context/NotificationContext";
@@ -18,6 +18,9 @@ export const SongPage = () => {
     const { state } = useLocation();
     const { id } = useParams<{ id: string }>();
     const playlistRef = useRef<HTMLDivElement | null>(null);
+    const [contextMenu, setContextMenu] = useState<{ x: number, y: number, songId: string} | null>(null);
+    const menuRef = useRef<HTMLDivElement | null>(null);
+    const [editingSongId, setEditingSongId] = useState<string | null>(null);
 
     const {
         currentSong,
@@ -39,20 +42,30 @@ export const SongPage = () => {
 
     const isSaved = currentSong ? savedSongs.some(s => s.id === currentSong.id) : false;
 
-    useEffect(() => {
-        if (state?.playlist) {
-            setPlaylist(state.playlist);
-        } else if (playlist.length === 0) {
-            setPlaylist(songsData as Song[]);
-        }
-    }, [state?.playlist, playlist.length, setPlaylist]);
+    const isInitialMount = useRef<boolean>(true);
     
     useEffect(() => {
-        if (!currentSong || !playlistRef.current) return;
+        console.log("testing");
+        if (isInitialMount.current) {
+            if (state?.playlist) {
+                setPlaylist(state.playlist);
+            } else if (playlist.length === 0) {
+                setPlaylist(songsData as Song[]);
+            }
+            isInitialMount.current = false;
+        }
+    }, [state?.playlist, setPlaylist]);
+    
+    useEffect(() => {
+        if (!playlistRef.current || (!currentSong && !editingSongId)) return;
 
-        const activeCard = playlistRef.current.querySelector<HTMLDivElement>(`.song-page__mini-card--active`);
+        const targetSelector = editingSongId
+            ? `.song-page__mini-card:has(.song-page__edit-controls)`
+            : `.song-page__mini-card--active`;
+
+        const activeCard = playlistRef.current.querySelector<HTMLDivElement>(targetSelector);
+        
         if (!activeCard) return;
-
 
         const container = playlistRef.current;
         const containerStyles = window.getComputedStyle(container);
@@ -63,17 +76,83 @@ export const SongPage = () => {
 
         if (flexDirection === "row") {
             const scrollLeft = activeCard.offsetLeft - containerRect.width / 2 + cardRect.width / 2;
-
             container.scrollTo({ left: scrollLeft, behavior: "smooth" });
         } else {
             const scrollTop = activeCard.offsetTop - (containerRect.height / 2) + (cardRect.height / 2);
-
             container.scrollTo({
                 top: scrollTop,
                 behavior: "smooth",
             });
         }
-    }, [currentSong]);
+    }, [currentSong, playlist, editingSongId]);
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+                setContextMenu(null);
+            }
+        };
+
+        window.addEventListener("click", handleClickOutside);
+        return () => window.removeEventListener("click", handleClickOutside);
+    }, []);
+
+    const handleContextMenu = (e: React.MouseEvent, songId: string) => {
+        e.preventDefault();
+        setContextMenu({
+            x: e.clientX,
+            y: e.clientY,
+            songId: songId
+        });
+    };
+
+    const handleEdit = (songId: string) => {
+        console.log("Editing mode:", songId);
+        setEditingSongId(songId);
+        setContextMenu(null);
+    };
+
+    const closeEditMode = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setEditingSongId(null);
+    };
+
+    const moveSong = (e: React.MouseEvent, direction: "up" | "down", songId: string) => {
+        console.log(`Move ${songId} ${direction}`);
+        e.stopPropagation();
+
+        const currentIndex = playlist.findIndex((s) => s.id === songId);
+        
+        if (currentIndex === -1) return;
+        const newIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+
+        if (newIndex < 0 || newIndex >= playlist.length) return;
+        const newPlaylist = [...playlist];
+        
+        [newPlaylist[currentIndex], newPlaylist[newIndex]] = [newPlaylist[newIndex], newPlaylist[currentIndex]];
+        setPlaylist(newPlaylist);
+    }
+
+    const handleDelete = (songId: string) => {
+        console.log("Delete:", songId);
+
+        const songToDelete = playlist.find(s => s.id === songId);
+        const confirmDelete = window.confirm(
+            `Are you sure you want to delete ${songToDelete?.title} from the playlist?`
+        );
+
+        if (confirmDelete) {
+            const newPlaylist = playlist.filter(s => s.id !== songId);
+            setPlaylist(newPlaylist);
+            notify("Song deleted from playlist", "success");
+
+            if (currentSong?.id === songId && newPlaylist.length > 0) {
+                nextSong();
+            }
+        }
+
+        setContextMenu(null);
+    }
 
     function handleSongClick(song: Song) {
         playSong(song);
@@ -161,12 +240,57 @@ export const SongPage = () => {
                         key={song.id}
                         className={`song-page__mini-card ${song.id === currentSong.id ? "song-page__mini-card--active" : ""}`}
                         onClick={() => handleSongClick(song)}
+                        onContextMenu={(e) => handleContextMenu(e, song.id)}
                     >
                         <img className="song-page__card-image" src={song.cover} alt={song.title} />
                         <p className="song-page__card-title">{song.title}</p>
+                    
+                        {editingSongId === song.id && (
+                            <div className="song-page__edit-controls">
+                                <button
+                                    disabled={playlist.findIndex(s => s.id === song.id) === 0}
+                                    onClick={(e) => moveSong(e, "up", song.id)}
+                                    className="song-page__move-btn"
+                                >
+                                    <ChevronUp size={16} />
+                                </button>
+                                <button onClick={(e) => closeEditMode(e)}><X size={16} /></button>
+                                <button
+                                    disabled={playlist.findIndex(s => s.id === song.id) === playlist.length - 1}
+                                    onClick={(e) => moveSong(e, "down", song.id)}
+                                    className="song-page__move-btn"
+                                >
+                                    <ChevronDown size={16} />
+                                </button>
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>
+
+            {contextMenu && (
+                <div
+                    className="song-page__context-menu"
+                    ref={menuRef}
+                    style={{ top: contextMenu.y, left: contextMenu.x }}
+                >
+                    <button onClick={() => handleEdit(contextMenu.songId)} className="menu-item edit">
+                        <Pencil size={16} />
+                        <span>Edit</span>
+                    </button>
+                    <div className="menu-divider"></div>
+                    <button onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(contextMenu.songId);
+                    }}
+                        className="menu-item delete"
+                    >
+                        <Trash2 size={16} />
+                        <span>Delete</span>
+                    </button>
+                </div>
+            )}
+
             <ScrollToTop />
         </div>
     );

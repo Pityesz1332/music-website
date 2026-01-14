@@ -13,7 +13,7 @@ interface MusicContextType {
     prevSong: () => void;
     setPlaylist: (song: Song[]) => void;
     saveSong: (song: Song) => void;
-    removeSavedSong: (songId: number) => void;
+    removeSavedSong: (songId: string) => void;
 }
 
 const MusicContext = createContext<MusicContextType | undefined>(undefined);
@@ -65,7 +65,7 @@ export function MusicProvider({ children }: MusicProviderProps) {
         });
     }
 
-    function removeSavedSong(songId: number) {
+    function removeSavedSong(songId: string) {
         setSavedSongs(prev => prev.filter(s => s.id !== songId));
     }
 

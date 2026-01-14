@@ -8,6 +8,9 @@
     padding-top: 5rem;
     padding-bottom: 6rem;
     justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
 
     @media (max-width: 1024px) {
         flex-direction: column;
@@ -257,7 +260,7 @@
         display: flex;
         flex-direction: column;
         gap: 15px;
-        width: 260px;
+        width: 280px;
         height: calc(100vh - 260px);
         overflow-y: auto;
         overflow-x: hidden;
@@ -293,6 +296,12 @@
         cursor: pointer;
         text-align: center;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+        text-align: left;
         
         &:hover {
             transform: translateY(-5px);
@@ -302,26 +311,81 @@
         &--active {
             transform: scale(1.05) !important;
             box-shadow: 0 0 12px $accent-color !important;
+            border-left: 4px solid $accent-color;
         }
 
-        @media (max-width: 1024px) { flex: 0 0 150px; }
+        &--editing {
+            border: 1px solid $accent-color;
+            background: rgba($accent-color, 0.1);
+        }
+
+        @media (max-width: 1024px) { flex: 0 0 150px; flex-direction: column; text-align: center; }
         @media (max-width: 768px) { flex: 0 0 140px; }
     }
 
+    &__edit-controls {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 40px;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(5px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        border-radius: 0 12px 12px 0;
+        z-index: 5;
+        animation: fadeIn 0.2s ease;
+
+        button {
+            background: none;
+            border: none;
+            color: $main-text-color;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s, transform 0.2s;
+
+            &:hover:not(:disabled) {
+                color: $accent-color;
+                transform: scale(1.2);
+            }
+
+            &:disabled {
+                opacity: 0.2;
+                cursor: not-allowed;
+                filter: grayscale(1);
+            }
+
+            &:nth-child(2) {
+                color: $accent-color;
+                &:hover { color: $dark-accent-color; }
+            }
+        }
+    }
+
     &__card-image {
-        width: 100%;
-        height: 80px;
+        width: 60px;
+        height: 60px;
+        aspect-ratio: 1 / 1;
         object-fit: cover;
-        border-radius: 8px;
+        border-radius: 6px;
+        flex-shrink: 0;
     }
 
     &__card-title {
-        margin-top: 8px;
-        font-size: 0.9rem;
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 500;
         color: $main-text-color;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        flex: 1;
     }
 
     &__actions {
@@ -349,5 +413,77 @@
         }
 
         &__icon { display: block; }
+    }
+
+    &__context-menu {
+        position: fixed;
+        z-index: 100;
+        background: rgba(20, 20, 20, 0.8);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 6px;
+        min-width: 150px;
+        animation: menuFadeIn 0.2s ease-out;
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px 14px;
+            background: none;
+            border: none;
+            color: $accent-color;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-radius: 8px;
+
+            svg {
+                opacity: 0.6;
+                color: inherit;
+                transition: transform 0.2s ease;
+            }
+
+            &:hover {
+                background: rgba($card-color, 0.1);
+
+                svg {
+                    transform: scale(1.1);
+                }
+
+                &.edit {
+                    color: $accent-color;
+                }
+
+                &.delete {
+                    color: $dark-accent-color;
+                }
+            }
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: rgba($card-color, 0.1);
+            margin: 4px 8px;
+        }
+    }
+
+    @keyframes menuFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-5px) scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 }
