@@ -6,6 +6,7 @@ interface MusicContextType {
     isPlaying: boolean;
     playlist: Song[];
     savedSongs: Song[];
+    recentlyPlayed: Song[];
 
     playSong: (song: Song) => void;
     togglePlay: () => void;
@@ -14,6 +15,7 @@ interface MusicContextType {
     setPlaylist: (song: Song[]) => void;
     saveSong: (song: Song) => void;
     removeSavedSong: (songId: string) => void;
+    clearRecentlyPlayed: () => void;
 }
 
 const MusicContext = createContext<MusicContextType | undefined>(undefined);
@@ -28,6 +30,20 @@ export function MusicProvider({ children }: MusicProviderProps) {
     const [playlist, setPlaylist] = useState<Song[]>([]);
     const [savedSongs, setSavedSongs] = useState<Song[]>([]);
 
+    const [recentlyPlayed, setRecentlyPlayed] = useState<Song[]>(() => {
+        try {
+            const saved = localStorage.getItem("recentlyPlayed");
+            return saved ? JSON.parse(saved) : [];
+        } catch (error) {
+            console.error("Failed to load recent playlist:", error);
+            return [];
+        }
+    });
+
+    useEffect(() => {
+        localStorage.setItem("recentlyPlayed", JSON.stringify(recentlyPlayed));
+    }, [recentlyPlayed]);
+
     useEffect(() => {
         if (currentSong) {
             const statusEmoji = isPlaying ? "▶" : "⏸";
@@ -37,12 +53,24 @@ export function MusicProvider({ children }: MusicProviderProps) {
         }
     }, [currentSong, isPlaying]);
 
+    function addToRecentlyPlayed(song: Song) {
+        setRecentlyPlayed(prev => {
+            const filtered = prev.filter(s => s.id !== song.id);
+            return [song, ...filtered].slice(0, 5);
+        });
+    }
+
+    function clearRecentlyPlayed() {
+        setRecentlyPlayed([]);
+    }
+
     function playSong(song: Song) {
         setCurrentSong(prev => {
             if (prev?.id === song.id) return prev;
             return song;
         });
         setIsPlaying(true);
+        addToRecentlyPlayed(song);
     }
 
     function togglePlay() {
@@ -53,16 +81,20 @@ export function MusicProvider({ children }: MusicProviderProps) {
         if (!playlist.length || !currentSong) return;
         const currentIndex = playlist.findIndex(s => s.id === currentSong.id);
         const nextIndex = (currentIndex + 1) % playlist.length;
-        setCurrentSong(playlist[nextIndex]);
+        const next = playlist[nextIndex];
+        setCurrentSong(next);
         setIsPlaying(true);
+        addToRecentlyPlayed(next);
     }
 
     function prevSong() {
         if(!playlist.length || !currentSong) return;
         const currentIndex = playlist.findIndex(s => s.id === currentSong.id);
         const prevIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-        setCurrentSong(playlist[prevIndex]);
+        const prev = playlist[prevIndex];
+        setCurrentSong(prev);
         setIsPlaying(true);
+        addToRecentlyPlayed(prev);
     }
 
     function saveSong(song: Song) {
@@ -90,7 +122,9 @@ export function MusicProvider({ children }: MusicProviderProps) {
             setPlaylist,
             savedSongs,
             saveSong,
-            removeSavedSong
+            removeSavedSong,
+            recentlyPlayed,
+            clearRecentlyPlayed
         }}>
             {children}
         </MusicContext.Provider>

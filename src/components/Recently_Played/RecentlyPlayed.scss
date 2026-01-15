@@ -1,0 +1,130 @@
+@import "../../styles/variables";
+
+.recently-played {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    &__title {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: $main-text-color;
+        width: 100%;
+        text-align: center;
+    }
+
+    &__card {
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease;
+        width: fit-content;
+        max-width: 280px;
+        
+        &:hover {
+            transform: scale(1.02);
+        }
+
+        &--faded {
+            opacity: 0;
+            transform: translateX(10px);
+        }
+    }
+
+    &__list {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 1rem;
+
+        &-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 10px;
+        background: rgba($card-color, 0.05);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+
+        &:hover {
+            background: rgba($card-color, 0.9);
+        }
+
+        &-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        &-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        &-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: $main-text-color;
+        }
+
+        &-artist {
+            font-size: 0.9rem;
+            color: $muted-text-color;
+        }
+    }
+
+    &__image-container {
+        width: 50px;
+        height: 50px;
+        flex-shrink: 0;
+        margin-bottom: 1rem;
+        box-shadow: 0 10px 30px rgba($card-color, 0.5);
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    &__image {
+        width: 100%;
+        height: 100%;
+        display: block;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: right;
+        overflow: hidden;
+    }
+
+    &__artist {
+        font-size: 0.9rem;
+        color: $muted-text-color;
+        opacity: 0.8;
+        text-align: left;
+    }
+
+    &__song-title {
+        font-size: 1.2rem;
+        margin: 0;
+        font-weight: 700;
+    }
+}

@@ -1,7 +1,8 @@
 import { ChangeEvent, useState } from "react";
-import "./MyAccount.scss";
 import { Copy } from "lucide-react";
 import { useNotification } from "../../context/NotificationContext";
+import { RecentlyPlayed } from "../../components/Recently_Played/RecentlyPlayed";
+import "./MyAccount.scss";
 
 export const MyAccount = () => {
     const [avatar, setAvatar] = useState<string | null>(null);
@@ -38,6 +39,10 @@ export const MyAccount = () => {
                 <div className="my-account__wallet-info">
                     <span className="my-account__wallet-address">{shortWallet}</span>
                     <button onClick={copyWallet} className="my-account__copy-button"><Copy size={16} /><span className="my-account__copy-text">Copy</span></button>
+                </div>
+                
+                <div className="recent-wrapper__profile">
+                    <RecentlyPlayed />
                 </div>
             </div>
         </div>

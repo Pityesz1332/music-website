@@ -4,6 +4,13 @@
     max-width: 500px;
     margin: 100px auto;
     text-align: center;
+    padding: 0 20px;
+
+    &__title {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: $main-text-color;
+    }
 
     &__profile-section {
         margin-top: 30px;
@@ -60,6 +67,25 @@
 
         &:hover {
             background: $dark-accent-color;
+        }
+    }
+
+    .recent-wrapper__profile {
+        width: 100%;
+        margin-top: 40px;
+        padding: 30px;
+        border-top: 1px solid rgba($main-text-color, 0.1);
+        text-align: left;
+
+        .recently-played__title {
+            text-align: left;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: $accent-color;
+        }
+
+        .recently-played__item {
+            text-align: left;
         }
     }
 }
