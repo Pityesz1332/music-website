@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import type { Song } from "../types/music";
 
 interface MusicContextType {
@@ -27,6 +27,15 @@ export function MusicProvider({ children }: MusicProviderProps) {
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [playlist, setPlaylist] = useState<Song[]>([]);
     const [savedSongs, setSavedSongs] = useState<Song[]>([]);
+
+    useEffect(() => {
+        if (currentSong) {
+            const statusEmoji = isPlaying ? "▶" : "⏸";
+            document.title = `${statusEmoji} ${currentSong.title} - ${currentSong.artist}`;
+        } else {
+            document.title = "DJ Enez";
+        }
+    }, [currentSong, isPlaying]);
 
     function playSong(song: Song) {
         setCurrentSong(prev => {

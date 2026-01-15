@@ -250,6 +250,17 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
         setIsDragging(false);
     }
 
+    function adjustVolume(scrollVol: number) {
+        setVolume(prev => {
+            const step = 0.05;
+            const newVol = Math.min(Math.max(prev - scrollVol * step, 0), 1);
+            if (audioRef.current) {
+                audioRef.current.volume = newVol;
+            }
+            return newVol
+        });
+    }
+
     function handleResetSong() {
         if (audioRef.current) {
             audioRef.current.currentTime = 0;
@@ -340,7 +351,16 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
             </div>
 
             <div className="playbar__extra">
-                <div className="playbar__volume-wrapper" onMouseDown={handleVolumeDragStart}>
+                <div
+                    className="playbar__volume-wrapper"
+                    onMouseDown={handleVolumeDragStart}
+                    onWheel={(e) => {
+                        if (e.deltaY !== 0) {
+                            const direction = e.deltaY > 0 ? 1 : -1;
+                            adjustVolume(direction);
+                        }
+                    }}
+                >
                     <div className="playbar__volume-track">
                         <div className="playbar__volume-fill" style={{ width: `${volume * 100}%` }}></div>
                         <div className="playbar__volume-thumb" style={{ left: `${volume * 100}%` }}></div>
