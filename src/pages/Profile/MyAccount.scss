@@ -84,6 +84,23 @@
             color: $accent-color;
         }
 
+        .recent-wrapper__clear-history-btn {
+            background: transparent;
+            border: none;
+            color: rgba($accent-color, 0.8);
+            padding: 6px 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 200;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            &:hover {
+                color: $dark-accent-color;
+            }
+        }
+
         .recently-played__item {
             text-align: left;
         }

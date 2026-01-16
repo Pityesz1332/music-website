@@ -1,9 +1,5 @@
 @import './_variables.scss';
 
-html {
-    scrollbar-gutter: stable;
-}
-
 ::-webkit-scrollbar {
     width: 8px;
 }

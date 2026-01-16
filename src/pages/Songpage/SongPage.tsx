@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Play, Pause, FileMusic, Download, Pencil, Trash2, ChevronUp, ChevronDown, X } from "lucide-react";
+import { Play, Pause, FileMusic, Download, Pencil, Trash2, ChevronUp, ChevronDown, X, ChevronRight, ChevronLeft } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
 import { useAuth } from "../../context/AuthContext";
 import { useNotification } from "../../context/NotificationContext";
@@ -17,11 +17,12 @@ export const SongPage = () => {
     const navigate = useNavigate();
     const { state } = useLocation();
     const { id } = useParams<{ id: string }>();
-    const playlistRef = useRef<HTMLDivElement | null>(null);
     const [contextMenu, setContextMenu] = useState<{ x: number, y: number, songId: string} | null>(null);
-    const menuRef = useRef<HTMLDivElement | null>(null);
     const [editingSongId, setEditingSongId] = useState<string | null>(null);
-
+    const [isPlaylistOpen, setIsPlaylistOpen] = useState<boolean>(true);
+    const playlistRef = useRef<HTMLDivElement | null>(null);
+    const menuRef = useRef<HTMLDivElement | null>(null);
+    
     const {
         currentSong,
         isPlaying,
@@ -168,7 +169,7 @@ export const SongPage = () => {
     }
 
     return (
-        <div className="song-page">
+        <div className={`song-page ${isPlaylistOpen ? "song-page__playlist--open" : "song-page__playlist--closed"}`}>
                 <video
                     className={`song-page__video ${isPlaying ? "song-page__video--fade-out" : "song-page__video--fade-in"}`}
                     src={currentSong.defaultBgVideo}
@@ -234,39 +235,80 @@ export const SongPage = () => {
                 </div>
             </div>
 
-            <div className="song-page__playlist" ref={playlistRef}>
-                {playlist.map((song) => (
-                    <div
-                        key={song.id}
-                        className={`song-page__mini-card ${song.id === currentSong.id ? "song-page__mini-card--active" : ""}`}
-                        onClick={() => handleSongClick(song)}
-                        onContextMenu={(e) => handleContextMenu(e, song.id)}
-                    >
-                        <img className="song-page__card-image" src={song.cover} alt={song.title} />
-                        <p className="song-page__card-title">{song.title}</p>
-                    
-                        {editingSongId === song.id && (
-                            <div className="song-page__edit-controls">
-                                <button
-                                    disabled={playlist.findIndex(s => s.id === song.id) === 0}
-                                    onClick={(e) => moveSong(e, "up", song.id)}
-                                    className="song-page__move-btn"
-                                >
-                                    <ChevronUp size={16} />
-                                </button>
-                                <button onClick={(e) => closeEditMode(e)}><X size={16} /></button>
-                                <button
-                                    disabled={playlist.findIndex(s => s.id === song.id) === playlist.length - 1}
-                                    onClick={(e) => moveSong(e, "down", song.id)}
-                                    className="song-page__move-btn"
-                                >
-                                    <ChevronDown size={16} />
-                                </button>
+            <button
+                className="song-page__playlist-toggle"
+                onClick={() => setIsPlaylistOpen(!isPlaylistOpen)}
+            >
+                {isPlaylistOpen ? <ChevronRight size={24} /> : <ChevronLeft size={24} />}
+            </button>
+
+            <div className={`song-page__playlist ${isPlaylistOpen ? "" : "song-page__playlist--hidden"}`} ref={playlistRef}>
+                {playlist.map((song) => {
+                    const isSongSaved = savedSongs.some(s => s.id === song.id);
+
+                    return (
+                        <div
+                            key={song.id}
+                            className={`song-page__mini-card ${song.id === currentSong.id ? "song-page__mini-card--active" : ""}`}
+                            onClick={() => handleSongClick(song)}
+                            onContextMenu={(e) => handleContextMenu(e, song.id)}
+                        >
+                            <img className="song-page__card-image" src={song.cover} alt={song.title} />
+                            <div className="song-page__card-info">
+                                <p className="song-page__card-title">{song.title}</p>
                             </div>
-                        )}
-                    </div>
-                ))}
-            </div>
+
+                            {isConnected && (
+                                <div className="song-page__card-actions">
+                                    <button
+                                        className={`song-page__card-action-btn ${isSongSaved ? "song-page__card-action-btn--saved" : ""}`}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            if (isSongSaved) {
+                                                removeSavedSong(song.id);
+                                                notify("Deleted from saved songs", "success");
+                                            } else {
+                                                saveSong(song);
+                                                notify("Saved", "success");
+                                            }
+                                        }}
+                                    >
+                                        <FileMusic size={16} />
+                                    </button>
+                                    <button
+                                        className="song-page__card-action-btn"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                        }}
+                                    >
+                                        <Download size={16} />
+                                    </button>
+                                </div>
+                            )}
+                        
+                            {editingSongId === song.id && (
+                                <div className="song-page__edit-controls">
+                                    <button
+                                        disabled={playlist.findIndex(s => s.id === song.id) === 0}
+                                        onClick={(e) => moveSong(e, "up", song.id)}
+                                        className="song-page__move-btn"
+                                    >
+                                        <ChevronUp size={16} />
+                                    </button>
+                                    <button onClick={(e) => closeEditMode(e)}><X size={16} /></button>
+                                    <button
+                                        disabled={playlist.findIndex(s => s.id === song.id) === playlist.length - 1}
+                                        onClick={(e) => moveSong(e, "down", song.id)}
+                                        className="song-page__move-btn"
+                                    >
+                                        <ChevronDown size={16} />
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                        );
+                    })}
+                </div>
 
             {contextMenu && (
                 <div

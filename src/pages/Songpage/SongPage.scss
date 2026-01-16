@@ -11,6 +11,8 @@
     align-items: center;
     min-height: 100vh;
     box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
 
     @media (max-width: 1024px) {
         flex-direction: column;
@@ -26,6 +28,7 @@
         height: auto;
         padding-top: 4rem;
         padding-bottom: 5.5rem;
+        overflow: visible;
     }
 
     &__video {
@@ -43,18 +46,19 @@
     }
     
     &__content {
-        flex: 0 1 auto;
+        flex: 1;
         min-width: 600px;
         display: flex;
         gap: 20px;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
         max-height: calc(100vh - 260px);
         border-radius: 20px;
         padding: 40px;
         overflow: hidden;
         position: relative;
         z-index: 2;
+        transition: all 0.4s ease-in-out;
 
         @media (max-width: 1024px) {
             width: 100%;
@@ -260,7 +264,7 @@
         display: flex;
         flex-direction: column;
         gap: 15px;
-        width: 280px;
+        width: 700px;
         height: calc(100vh - 260px);
         overflow-y: auto;
         overflow-x: hidden;
@@ -272,13 +276,30 @@
         box-shadow: 0 0 25px rgba(0, 0, 0, 0.45);
         z-index: 3;
         flex-shrink: 0;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 1;
+        transform: translateX(0);
+
+        &--hidden {
+            @media (min-width: 1025px) {
+                width: 0;
+                padding: 20px 0;
+                margin-right: -30px;
+                opacity: 0;
+                transform: translateX(50px);
+                pointer-events: none;
+            }
+        }
 
         @media (max-width: 1024px) {
-            width: 100%;
+            width: 100% !important;
+            opacity: 1 !important;
+            transform: none !important;
+            pointer-events: all !important;
+            margin-right: 0 !important;
             max-width: 800px;
             height: auto;
             max-height: 400px;
-            margin-top: 0;
             flex-direction: row;
             overflow-x: auto;
             overflow-y: hidden;
@@ -289,23 +310,59 @@
         @media (max-width: 400px) { max-height: 200px; }
     }
 
+    &__playlist-toggle {
+        display: none;
+
+        @media (min-width: 1025px) {
+            display: flex;
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            background: rgba($accent-color, 0.7);
+            border: none;
+            border-radius: 50%;
+            padding: 12px;
+            color: $main-text-color;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        &:hover {
+            background: $dark-accent-color;
+        }
+    }
+
+    &.song-page__playlist--open {
+        .song-page__playlist-toggle {
+            right: 800px;
+            top: 50%;
+        }
+    }
+
     &__mini-card {
         background: rgba(255, 255, 255, 0.08);
         padding: 10px;
         border-radius: 12px;
         cursor: pointer;
-        text-align: center;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
         position: relative;
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: 15px;
         text-align: left;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         
         &:hover {
             transform: translateY(-5px);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+            @media (min-width: 1025px) {
+                .song-page__card-actions {
+                    opacity: 1;
+                }
+            }
         }
 
         &--active {
@@ -321,6 +378,45 @@
 
         @media (max-width: 1024px) { flex: 0 0 150px; flex-direction: column; text-align: center; }
         @media (max-width: 768px) { flex: 0 0 140px; }
+    }
+
+    &__card-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    &__card-actions {
+        display: flex;
+        gap: 10px;
+        margin-left: auto;
+        margin-right: 2rem;
+        opacity: 0.6;
+        transition: opacity 0.2s ease;
+
+        @media (max-width: 1024px) {
+            display: none;
+        }
+    }
+
+    &__card-action-btn {
+        background: transparent;
+        border: none;
+        color: $main-text-color;
+        cursor: pointer;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        &--saved {
+            color: $accent-color;
+        }
     }
 
     &__edit-controls {

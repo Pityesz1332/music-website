@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { Copy } from "lucide-react";
+import { useMusic } from "../../context/MusicContext";
 import { useNotification } from "../../context/NotificationContext";
 import { RecentlyPlayed } from "../../components/Recently_Played/RecentlyPlayed";
 import "./MyAccount.scss";
@@ -9,7 +10,8 @@ export const MyAccount = () => {
     const walletAddress = "0x123456789DEMO";
     const shortWallet = walletAddress.slice(0, 6) + "..." + walletAddress.slice(-4);
     const { notify } = useNotification();
-    
+    const { clearRecentlyPlayed, recentlyPlayed } = useMusic();
+
     function handleAvatarChange(e: ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0];
         if (file) {
@@ -43,6 +45,20 @@ export const MyAccount = () => {
                 
                 <div className="recent-wrapper__profile">
                     <RecentlyPlayed />
+
+                    <div className="recent-wrapper__header">
+                        {recentlyPlayed.length > 0 && (
+                            <button 
+                                className="recent-wrapper__clear-history-btn"
+                                onClick={() => {
+                                    clearRecentlyPlayed();
+                                    notify("History cleared", "success");
+                                }}
+                            >
+                                Clear History
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
