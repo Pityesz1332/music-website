@@ -260,11 +260,23 @@
         @media (max-width: 400px) { padding: 6px 16px; font-size: 0.8rem; }
     }
 
+    &__playlist-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        z-index: 3;
+
+        @media (max-width: 1024px) {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
     &__playlist {
         display: flex;
         flex-direction: column;
         gap: 15px;
-        width: 700px;
+        width: 500px;
         height: calc(100vh - 260px);
         overflow-y: auto;
         overflow-x: hidden;
@@ -315,15 +327,15 @@
 
         @media (min-width: 1025px) {
             display: flex;
-            position: fixed;
-            right: 20px;
+            position: absolute;
+            left: -50px;
             top: 50%;
             transform: translateY(-50%);
             z-index: 100;
             background: rgba($accent-color, 0.7);
             border: none;
             border-radius: 50%;
-            padding: 12px;
+            padding: 5px;
             color: $main-text-color;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -331,13 +343,6 @@
 
         &:hover {
             background: $dark-accent-color;
-        }
-    }
-
-    &.song-page__playlist--open {
-        .song-page__playlist-toggle {
-            right: 800px;
-            top: 50%;
         }
     }
 
