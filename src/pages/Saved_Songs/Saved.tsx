@@ -10,6 +10,8 @@ export const Saved = () => {
     const [songs, setSongs] = useState<Song[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
+    // a MusicContext-ből érkező mentett dalokat szinkronizálja
+    // a helyi állapottal, amikor betölt a komponens
     useEffect(() => {
         setSongs(savedSongs ?? []);
         setLoading(false);
@@ -19,6 +21,7 @@ export const Saved = () => {
     const queryParams = new URLSearchParams(location.search);
     const searchQuery = queryParams.get("search")?.toLowerCase() ?? "";
 
+    // kiszűri a mentett zenéket
     const filteredSongs = songs.filter((song) => searchQuery === "" ? true : song.title.toLowerCase().includes(searchQuery));
 
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -27,12 +30,14 @@ export const Saved = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentSongs = filteredSongs.slice(startIndex, startIndex + itemsPerPage);
 
+    // zene lejátszása -> csak a mentett zenéket teszi a playlist-re
     function handleSongClick(song: Song) {
         setPlaylist(filteredSongs);
         playSong(song);
         navigate(`/songs/${song.id}`, { state: { song, playlist: filteredSongs } });
     }
 
+    // loading screen amíg az adatok megérkeznek
     if (loading) {
         return (
             <div className="songs">
@@ -44,6 +49,7 @@ export const Saved = () => {
         );
     }
 
+    // üres állapot kezelése
     if (!songs || songs.length === 0) {
         return (
             <div className="songs">

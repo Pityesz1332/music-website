@@ -6,12 +6,13 @@ import { RecentlyPlayed } from "../../components/Recently_Played/RecentlyPlayed"
 import "./MyAccount.scss";
 
 export const MyAccount = () => {
-    const [avatar, setAvatar] = useState<string | null>(null);
     const walletAddress = "0x123456789DEMO";
     const shortWallet = walletAddress.slice(0, 6) + "..." + walletAddress.slice(-4);
+    const [avatar, setAvatar] = useState<string | null>(null);
     const { notify } = useNotification();
     const { clearRecentlyPlayed, recentlyPlayed } = useMusic();
 
+    // profilkép feltöltése
     function handleAvatarChange(e: ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0];
         if (file) {
@@ -23,6 +24,7 @@ export const MyAccount = () => {
         }
     }
 
+    // ez csak sima copy gomb
     function copyWallet() {
         navigator.clipboard.writeText(walletAddress);
         notify("Wallet address copied to clipboard", "success");
@@ -45,7 +47,8 @@ export const MyAccount = () => {
                 
                 <div className="recent-wrapper__profile">
                     <RecentlyPlayed />
-
+                
+                {/* előzmények törlése (ha van) */}
                     <div className="recent-wrapper__header">
                         {recentlyPlayed.length > 0 && (
                             <button 

@@ -13,11 +13,13 @@ interface AdminProviderProps {
     children: ReactNode;
 }
 
+// egyelőre csak tesztfunkció, de jó alap lehet később backend-hez.
 export function AdminProvider({ children }: AdminProviderProps) {
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
-    function connectAsAdmin(wallet: string) {
-        if (wallet.toLowerCase() === ADMIN_CODE.toLowerCase()) {
+    // admin beléptetés. ha megfelel az adott kód, elérhetővé válik az admin oldal.
+    function connectAsAdmin(code: string) {
+        if (code.toLowerCase() === ADMIN_CODE.toLowerCase()) {
             setIsAdmin(true);
             localStorage.setItem("isAdmin", "true");
         } else {
@@ -26,11 +28,13 @@ export function AdminProvider({ children }: AdminProviderProps) {
         }
     }
 
+    // kiléptetés
     function disconnectAdmin() {
         setIsAdmin(false);
         localStorage.removeItem("isAdmin");
     }
 
+    // frissítésnél is megmarad a belépett állapot
     useEffect(() => {
         const saved = localStorage.getItem("isAdmin");
         if (saved === "true") setIsAdmin(true);
@@ -45,6 +49,7 @@ export function AdminProvider({ children }: AdminProviderProps) {
 
 export function useAdmin(): AdminContextType {
     const context = useContext(AdminContext);
+    // hibakezelés nekem
     if (!context) {
         throw new Error("useAdmin must be used within an AdminProvider");
     }

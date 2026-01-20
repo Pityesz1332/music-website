@@ -31,17 +31,20 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
     const [hoverPos, setHoverPos] = useState<number>(0);
 
     const auth = useAuth();
+    // ez biztonsági ellenőrzés magamnak
     if (!auth) throw new Error("useAuth must be used within AuthProvider");
     const { isConnected } = auth;
     const { savedSongs, saveSong, removeSavedSong } = useMusic();
     const { notify } = useNotification();
 
+    //megnézzük, hogy mentve van-e az adott zene
     const isSaved = song ? savedSongs.some(s => s.id === song.id) : false;
     
     const audioRef = useRef<HTMLAudioElement>(null);
     //const progressBarRef = useRef<HTMLDivElement>(null);
     //const volumeWrapperRef = useRef<HTMLDivElement>(null);
 
+    // playbar állapotváltozásai változókba mentve
     const playbarBaseClass = "playbar";
     const playbarClasses = [
         playbarBaseClass,
@@ -49,6 +52,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
         isManuallyCollapsed ? `${playbarBaseClass}--manually-collapsed` : ""
     ].filter(Boolean).join(" ");
 
+    // automatikus lejátszás
     useEffect(() => {
         if (!audioRef.current || !song) return;
 
@@ -70,16 +74,19 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
         };
     }, [song?.src]);
 
+    // play-pause gomb logika
     useEffect(() => {
         if (!audioRef.current) return;
 
         if (isPlaying) {
-            audioRef.current.play().catch((err) => {console.log(err)});
+            audioRef.current.play().catch((err) => { console.log(err) });
         } else {
             audioRef.current.pause();
         }
     }, [isPlaying]);
 
+    // figyeli az egérmozgást és elengedést, 
+    // hogy sima legyen a tekerés a playbar-on
     useEffect(() => {
         window.addEventListener("mousemove", moveSeek);
         window.addEventListener("mouseup", endSeek);
@@ -90,6 +97,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
         };
     }, [isSeeking]);
 
+    // figyeli a hangerőszabályzó csúszkát
     useEffect(() => {
         window.addEventListener("mousemove", handleVolumeDragMove);
         window.addEventListener("mouseup", handleVolumeDragEnd);
@@ -100,6 +108,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
         };
     }, [isDragging]);
 
+    // billenytyűzettel való playbarkezelés
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
@@ -143,11 +152,11 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
             }
         };
 
-        console.log("key pressed");
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [isPlaying, song]);
 
+    // indítja a playbar-on a zenét
     function handlePlay() {
         if (isPlaying) {
             onPlayPause();
@@ -158,6 +167,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
         onPlayPause();
     }
 
+    // frissíti az aktuális időt (ahol éppen tart a zene)
     function handleTimeUpdate() {
         if (isSeeking) return;
 
@@ -169,6 +179,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
         setProgress(percent || 0);
     }
 
+    // a playbar-on való csúszkát kezelő függvények - indítás, mozgatás, elengedés -
     function startSeek(e: React.MouseEvent<HTMLDivElement>) {
         if (!audioRef.current) return;
         setIsSeeking(true);
@@ -185,6 +196,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
         setIsSeeking(false);
     }
 
+    // ez a függvény számolja ki, hogy hol van az egér a csúszkához képest
     function handleSeekPosition(e: { clientX: number }) {
         const audio = audioRef.current;
         const bar = document.querySelector<HTMLDivElement>(".playbar__progress");
@@ -199,6 +211,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
         audio.currentTime = percent * audio.duration;
     }
 
+    // figyeli hover-nél, hogy éppen hová ugrana a zene (tooltip-hez van)
     function handleMouseMove (e: React.MouseEvent<HTMLDivElement>) {
         const audio = audioRef.current;
         if (!audio) return;
@@ -215,12 +228,14 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
         setHoverTime(null);
     }
 
+    // az <input type="range"> eseményfigyelője 
     function handleVolumeChanger(e: React.ChangeEvent<HTMLInputElement>) {
         const vol = parseFloat(e.target.value);
         setVolume(vol);
         if (audioRef.current) audioRef.current.volume = vol;
     }
-
+    
+    // ez a függvény a hangot állítja
     function updateVolumeFromEvent(e: {clientX: number}, rect: DOMRect) {
         const x = e.clientX - rect.left;
         const percent = x / rect.width;
@@ -230,6 +245,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
         if (audioRef.current) audioRef.current.volume = vol
     }
 
+    // ezekkel lehet drag-elni a hangerő csúszkát
     function handleVolumeDragStart(e: React.MouseEvent<HTMLDivElement>) {
         const rect = e.currentTarget.getBoundingClientRect();
         setIsDragging(true);
@@ -250,6 +266,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
         setIsDragging(false);
     }
 
+    // növeli a hangerőt egérgörgővel (hover a hangerőre)
     function adjustVolume(scrollVol: number) {
         setVolume(prev => {
             const step = 0.05;
@@ -261,6 +278,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
         });
     }
 
+    // 0:00-ra állítja az aktuális zenét
     function handleResetSong() {
         if (audioRef.current) {
             audioRef.current.currentTime = 0;
@@ -410,6 +428,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
     );
 }
 
+// idő formázása
 function formatTime(seconds: number) {
     if (seconds == null || isNaN(seconds)) return "0:00";
     const min = Math.floor(seconds / 60);

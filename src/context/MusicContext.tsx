@@ -24,12 +24,14 @@ interface MusicProviderProps {
     children: ReactNode;
 }
 
+// innen működnek a zenekezeléshez szükséges funkciók
 export function MusicProvider({ children }: MusicProviderProps) {
     const [currentSong, setCurrentSong] = useState<Song | null>(null);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [playlist, setPlaylist] = useState<Song[]>([]);
     const [savedSongs, setSavedSongs] = useState<Song[]>([]);
 
+    // korábban hallgatott zenék tömbje
     const [recentlyPlayed, setRecentlyPlayed] = useState<Song[]>(() => {
         try {
             const saved = localStorage.getItem("recentlyPlayed");
@@ -40,10 +42,12 @@ export function MusicProvider({ children }: MusicProviderProps) {
         }
     });
 
+    // mentjük előzményként a zenéket, így kilépés után is megmarad
     useEffect(() => {
         localStorage.setItem("recentlyPlayed", JSON.stringify(recentlyPlayed));
     }, [recentlyPlayed]);
 
+    // a tab címének átírása, hogy ha a user elnavigál, jól látható maradjon, mi szól  
     useEffect(() => {
         if (currentSong) {
             const statusEmoji = isPlaying ? "▶" : "⏸";
@@ -53,6 +57,7 @@ export function MusicProvider({ children }: MusicProviderProps) {
         }
     }, [currentSong, isPlaying]);
 
+    // mindig hozzáadjuk az előzményhez az aktuálisan hallgatott zenét
     function addToRecentlyPlayed(song: Song) {
         setRecentlyPlayed(prev => {
             const filtered = prev.filter(s => s.id !== song.id);
@@ -60,10 +65,13 @@ export function MusicProvider({ children }: MusicProviderProps) {
         });
     }
 
+    // előzmények törlése
     function clearRecentlyPlayed() {
         setRecentlyPlayed([]);
     }
 
+    // zenelejátszás indítása és előzményekhez adása
+    // ha nem ugyanaz a zene megy, betölti azt, amire kattintunk
     function playSong(song: Song) {
         setCurrentSong(prev => {
             if (prev?.id === song.id) return prev;
@@ -73,10 +81,13 @@ export function MusicProvider({ children }: MusicProviderProps) {
         addToRecentlyPlayed(song);
     }
 
+    // zene megállítása/elindítása
     function togglePlay() {
         setIsPlaying(prev => !prev);
     }
 
+    // következő zenére váltás logikája
+    // ha a lista végére érünk, a % miatt automatikusan az elejéről kezdi
     function nextSong() {
         if (!playlist.length || !currentSong) return;
         const currentIndex = playlist.findIndex(s => s.id === currentSong.id);
@@ -87,6 +98,7 @@ export function MusicProvider({ children }: MusicProviderProps) {
         addToRecentlyPlayed(next);
     }
 
+    // az előző zenére ugrás logikája
     function prevSong() {
         if(!playlist.length || !currentSong) return;
         const currentIndex = playlist.findIndex(s => s.id === currentSong.id);
@@ -97,6 +109,7 @@ export function MusicProvider({ children }: MusicProviderProps) {
         addToRecentlyPlayed(prev);
     }
 
+    // zene mentési logikája
     function saveSong(song: Song) {
         setSavedSongs(prev => {
             if (!prev.find(s => s.id === song.id)) {
@@ -106,6 +119,7 @@ export function MusicProvider({ children }: MusicProviderProps) {
         });
     }
 
+    // törlés a mentettek közül
     function removeSavedSong(songId: string) {
         setSavedSongs(prev => prev.filter(s => s.id !== songId));
     }

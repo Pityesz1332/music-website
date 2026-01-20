@@ -5,6 +5,8 @@ import Navbar from "../components/Navbar/Navbar";
 import ConnectedNavbar from "../components/Connected_Navbar/ConnectedNavbar";
 import Playbar from "../components/Playbar/Playbar";
 
+// eldönti, hogy a sima vagy a connected navbar-t mutatja,
+// illetve a playbar-nak átadja a szükséges prop-okat
 const MainLayout = () => {
     const { isConnected } = useAuth();
     const { currentSong, isPlaying, togglePlay, nextSong, prevSong } = useMusic();

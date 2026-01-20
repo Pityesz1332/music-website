@@ -8,6 +8,7 @@ export interface Notification {
     duration: number;
 }
 
+// notifications popup felülete
 const Notifications = () => {
     const { notifications } = useNotification();
 

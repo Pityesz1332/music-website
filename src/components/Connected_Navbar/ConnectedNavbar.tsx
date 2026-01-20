@@ -6,6 +6,7 @@ import { useNotification } from "../../context/NotificationContext";
 import { useLoading } from "../../context/LoadingContext";
 import "../Navbar/Navbar.scss";
 
+// külön navbar a bejelentkezett felhasználóknak
 const ConnectedNavbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -17,6 +18,7 @@ const ConnectedNavbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
     const [isFocused, setIsFocused] = useState<boolean>(false);
 
+    // navbar összenyomódása scroll-nál
     useEffect(() => {
         function handleScroll() {
             if (window.scrollY > 50) {
@@ -32,6 +34,7 @@ const ConnectedNavbar = () => {
         };
     }, []);
 
+    // keresőmező (csak ha van text a searchbar-ban)
     const executeSearch = () => {
         if (searchTerm.trim() !== "") {
             navigate(`/songs?search=${encodeURIComponent(searchTerm)}`);
@@ -40,16 +43,20 @@ const ConnectedNavbar = () => {
         }
     };
 
+    // keresés enter gomb lenyomására
     function handleSearch(e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.key === "Enter") {
             executeSearch();
         }
     }
 
+    // kisebb kijelzőkön hamburgermenü kinyitás/becsukás
     function toggleMenu() {
         setIsMenuOpen(prev => !prev);
     }
 
+    // kijelentkezés -> sima navbar-ra váltás
+    // ez kicsit késleltetve van a töltés tesztje miatt
     async function handleDisconnect() {
         try {
             showLoading();
@@ -80,6 +87,7 @@ const ConnectedNavbar = () => {
                             onKeyDown={handleSearch}
                         />
 
+                        {/* nagyító megjelenése, ha a searchbar fókuszban van */}
                         {(searchTerm || isFocused) && (
                             <Search className="navbar__search-icon" size={18} onClick={executeSearch} />
                         )}

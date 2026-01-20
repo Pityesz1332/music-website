@@ -13,10 +13,12 @@ interface AuthProviderProps {
     children: ReactNode;
 }
 
+// itt történik a bejelentkezéskezelés
 export function AuthProvider({ children }: AuthProviderProps) {
     const [isConnected, setIsConnected] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
 
+    // ha bejelentkezünk, a bejelentkezett állapot marad, frissítésnél is
     useEffect(() => {
         const saved = localStorage.getItem("isConnected");
         if (saved === "true") {
@@ -25,6 +27,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setLoading(false);
     }, []);
 
+    // connecting logika (kis timeout-tal, a vizualitás kedvéért)
     const connect = async (): Promise<void> =>  {
         return new Promise((resolve, reject) => {
             try {
@@ -39,7 +42,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         });
     };
 
-
+    // disconnect logika
     const disconnect = async (): Promise<void> => {
         return new Promise((resolve, reject) => {
             try {
@@ -63,7 +66,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
 export function useAuth() {
     const context = useContext(AuthContext);
+    // hibakezelés a fejlesztéshez
     if (context === undefined) throw new Error("useAuth must be used within an AuthProvider");
-
     return context;
 }

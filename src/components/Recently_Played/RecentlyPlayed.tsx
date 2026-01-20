@@ -10,12 +10,16 @@ export const RecentlyPlayed = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [fade, setFade] = useState<boolean>(true);
 
+    // csak annyi elemet nézünk, ami éppen a tömbben van.
+    // ha rövidebb a lista, mint ahol állunk, visszaugrik az első elemre
     useEffect(() => {
         if (currentIndex >= recentlyPlayed.length) {
             setCurrentIndex(0);
         }
     }, [recentlyPlayed.length, currentIndex]);
 
+    // 3 mp-ként váltakoznak az elemek a listában 
+    // (homepage only, profilepage-en lista van)
     useEffect(() => {
         if (recentlyPlayed.length <= 1 || isProfilePage) return;
 
@@ -34,6 +38,7 @@ export const RecentlyPlayed = () => {
 
     if (recentlyPlayed.length === 0) return null;
 
+    // ha a profilepage-en vagyunk, akkor lista
     if (isProfilePage) {
         return (
             <section className="recently-played__list">
@@ -53,8 +58,10 @@ export const RecentlyPlayed = () => {
         );
     }
 
+    // az aktuális elem kiválasztása a tömbből az index alapján
     const currentItem = recentlyPlayed[currentIndex];
 
+    // jelenlegi homepage megjelenítés
     return (
         <section className="recently-played">
             <h2 className="recently-played__title">Recently Played</h2>

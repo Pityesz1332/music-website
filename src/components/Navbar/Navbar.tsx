@@ -17,6 +17,7 @@ const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
     const [isFocused, setIsFocused] = useState<boolean>(false);
 
+    // scroll-ra összenyomódik a navbar
     useEffect(() => {
         function handleScroll() {
             if (window.scrollY > 50) {
@@ -32,6 +33,7 @@ const Navbar = () => {
         };
     }, []);
 
+    // searchbar keresés
     const executeSearch = () => {
         if (searchTerm.trim() !== "") {
             navigate(`/songs?search=${encodeURIComponent(searchTerm)}`);
@@ -40,16 +42,19 @@ const Navbar = () => {
         }
     }
 
+    // enter gombra keres
     function handleSearch(e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.key === "Enter") {
             executeSearch();
         }
     }
 
+    // hamburgermenü ki/bezárás
     function toggleMenu() {
         setIsMenuOpen(prev => !prev);
     }
 
+    // demo bejelentkezés (wallet connect)
     async function handleDemoConnect() {
         try {
             showLoading();

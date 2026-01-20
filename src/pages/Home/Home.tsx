@@ -17,6 +17,7 @@ export const Home = () => {
     const navigate = useNavigate();
     const [bgIndex, setBgIndex] = useState<number>(0);
 
+    // háttér váltakozása
     useEffect(() => {
         const interval = setInterval(() => {
             setBgIndex(prev => (prev + 1) % backgrounds.length);

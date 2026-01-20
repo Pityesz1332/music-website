@@ -17,6 +17,7 @@ export const Songs = () => {
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
     const filterRef = useRef<HTMLDivElement>(null);
 
+    // zenék betöltése
     useEffect(() => {
         async function loadSongs() {
             setLoading(true);
@@ -25,7 +26,7 @@ export const Songs = () => {
             setSongs(songsData as Song[]);
             setLoading(false);
 
-// --- Ez majd később kell ---
+// --- Ez majd később kell ha lesz backend ---
 //            try {
 //                const data = await apiFetch<Song[]>("/data/songs.json");
 //                setSongs(songsData as Song[]);
@@ -39,6 +40,7 @@ export const Songs = () => {
         loadSongs();
     }, []);
 
+    // sima retry logika
     function retry() {
         setLoading(true);
         setError(null);
@@ -49,12 +51,15 @@ export const Songs = () => {
             .finally(() => setLoading(false));
     }
 
-    const genres: string[] = ["All", ...new Set(songs.map(song => song.genre))];
-    const [selectedGenre, setSelectedGenre] = useState<string>("All");
     
+    // zenék keresése genre alapján
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const searchQuery = queryParams.get("search")?.toLowerCase() ?? "";
+    
+    // szűrés genre alapján
+    const genres: string[] = ["All", ...new Set(songs.map(song => song.genre))];
+    const [selectedGenre, setSelectedGenre] = useState<string>("All");
 
     const filteredSongs = songs
                             .filter((song) =>
@@ -70,18 +75,21 @@ export const Songs = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentSongs = filteredSongs.slice(startIndex, startIndex + itemsPerPage);
 
+    // beállítja a választott genre-t
     function handleGenreChange(genre: string) {
         setSelectedGenre(genre);
         setCurrentPage(1);
         setIsFilterOpen(false);
     }
 
+    // zenelejátszás
     function handleSongClick(song: Song) {
         setPlaylist(filteredSongs);
         playSong(song);
         navigate(`/songs/${song.id}`, { state: { song, playlist: filteredSongs } });
     }
 
+    // töltési logika
     if (loading) {
         return (
             <div className="songs songs--loading">
@@ -93,6 +101,7 @@ export const Songs = () => {
         );
     }
 
+    // hibakezelés, fallback oldal
     if (error) {
         return (
             <div className="songs songs--error">

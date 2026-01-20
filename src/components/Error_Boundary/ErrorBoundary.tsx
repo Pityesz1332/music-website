@@ -8,20 +8,25 @@ interface ErrorBoundaryState {
     hasError: boolean;
 }
 
+// elkapja a renderelés közbeni hibákat, 
+// így fehér képernyő helyett hibaüzenet látható
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps) {
         super(props);
         this.state = { hasError: false };
     }
 
+    // hibánál true-ra állítjuk a hasError-t
     static getDerivedStateFromError(_: Error): ErrorBoundaryState {
         return { hasError: true };
     }
 
+    // konzol error-t dob
     componentDidCatch(error: Error, info: ErrorInfo) {
         console.error("React error:", error, info);
     }
 
+    // feltételes renderelés és stílus
     render() {
         if (this.state.hasError) {
             return (
