@@ -2,34 +2,17 @@
 
 .song-page {
     display: flex;
-    flex-direction: row;
-    gap: 30px;
-    padding: 40px;
-    padding-top: 5rem;
-    padding-bottom: 6rem;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    gap: clamp(0.625rem, 3vw, 1.875rem);
+    padding-inline: clamp(1.25rem, 5vw, 2.5rem);
+    padding-top: clamp(4rem, 10vh, 5rem);
+    padding-bottom: clamp(5.5rem, 12vh, 6rem);
     min-height: 100vh;
-    box-sizing: border-box;
+    overflow-y: auto;
     position: relative;
-    overflow: hidden;
-
-    @media (max-width: 1024px) {
-        flex-direction: column;
-        align-items: center;
-        height: 100vh;
-        overflow: hidden;
-        gap: 10px;
-        padding: 30px 20px;
-        box-sizing: border-box;
-    }
-
-    @media (max-width: 768px) {
-        height: auto;
-        padding-top: 4rem;
-        padding-bottom: 5.5rem;
-        overflow: visible;
-    }
+    box-sizing: border-box;
 
     &__video {
         position: fixed;
@@ -38,107 +21,52 @@
         height: 100%;
         object-fit: cover;
         z-index: 0;
-        transition: opacity 1s ease-in-out;
         pointer-events: none;
+        transition: opacity 1s ease-in-out;
         
         &--fade-in { opacity: 1; }
         &--fade-out { opacity: 0; }
     }
     
     &__content {
-        flex: 1;
-        min-width: 0;
-        max-width: 100%;
+        flex: 1 1 35rem;
+        flex-wrap: wrap;
         display: flex;
-        gap: 20px;
-        align-items: center;
         justify-content: center;
-        max-height: calc(100vh - 260px);
-        border-radius: 20px;
-        padding: 40px;
-        overflow: hidden;
+        align-items: center;
+        gap: clamp(0.9rem, 2vw, 1.25rem);
+        padding: clamp(1.25rem, 4vw, 2.5rem);
+        max-height: min(calc(100vh - 10rem), 50rem);
+        border-radius: 1.25rem;
         position: relative;
         z-index: 2;
         transition: all 0.4s ease-in-out;
-
-        @media (min-width: 1025px) and (max-width: 1270px) {
-            min-width: 500px;
-            padding: 20px;
-            gap: 15px;
-        }
-
-        @media (max-width: 1024px) {
-            width: 100%;
-            max-width: auto;
-            flex-direction: row;
-            justify-content: space-around;
-            max-height: none;
-            margin: 1.5rem 0 0 0;
-            border-radius: 20px;
-            padding: 20px;
-            gap: 15px;
-        }
-
-        @media (max-width: 768px) {
-            flex-direction: column;
-            text-align: center;
-            padding: 30px 20px;
-            gap: 30px;
-        }
-
-        @media (max-width: 640px) {
-            gap: 15px;
-        }
     }
         
     &__cover-wrapper {
         position: relative;
         display: inline-block;
         z-index: 1;
+        width: clamp(9.375rem, 25vw, 18.75rem);
+        flex-shrink: 0;
     }
 
     &__main-cover {
-        width: 300px;
-        height: 300px;
+        width: 100%;
+        height: auto;
         aspect-ratio: 1 / 1;
-        border-radius: 16px;
+        border-radius: 1rem;
         object-fit: cover;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-
-        @media (min-width: 1025px) and (max-width: 1270px) {
-            width: 200px;
-            height: 200px;
-            aspect-ratio: 1 / 1;
-        }
-
-        @media (max-width: 1024px) {
-            width: 220px;
-            height: 220px;
-        }
-
-        @media (max-width: 768px) {
-            width: 150px;
-            height: 150px;
-        }
-
-        @media (max-width: 640px) {
-            width: 180px;
-            height: 180px;
-        }
-
-        @media (max-width: 400px) {
-            width: 150px;
-            height: 150px;
-        }
+        box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.5);
     }
         
     &__glow {
         position: absolute;
-        inset: -10px;
-        border-radius: 25px;
+        inset: -3%;
+        border-radius: 1.5rem;
         opacity: 0;
         background: linear-gradient(45deg, $accent-color, $dark-accent-color);
-        filter: blur(5px);
+        filter: blur(0.3rem);
         transition: opacity 0.4s ease;
         z-index: -1;
         
@@ -146,301 +74,217 @@
     }
         
     &__info {
-        max-width: 400px;
+        width: 100%;
+        max-width: 25rem;
         z-index: 1;
         position: relative;
-        padding-bottom: 80px;
+        padding-bottom: clamp(1rem, 8vh, 5rem);
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-
-        @media (min-width: 1025px) and (max-width: 1270px) {
-            max-width: 300px;
-
-            &--glass { padding: 1.2rem; }
-        }
-
-        @media (min-width: 769px) and (max-width: 1024px) {
-            max-width: 320px;
-            padding-bottom: 10px;
-
-            &--glass {
-                padding: 1rem;
-            }
-        }
-
-        @media (max-width: 768px) { max-width: 100%; }
+        flex: 1 1 15rem;
 
         &--glass {
             background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 16px;
+            backdrop-filter: blur(0.625rem);
+            border: 0.0625rem solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: clamp(1rem, 3vw, 2rem);
         }
     }
         
     &__title {
-        font-size: 2rem;
-        margin-bottom: 10px;
-
-        @media (min-width: 1025px) and (max-width: 1270px) { font-size: 1.6rem; }
-        @media (min-width: 769px) and (max-width: 1024px) { font-size: 1.3rem; margin-bottom: 5px; }
-        @media (max-width: 640px) { font-size: 1.4rem; }
-        @media (max-width: 400px) { font-size: 1.2rem; }
+        font-size: clamp(1.2rem, 4vw, 2rem);
+        margin-bottom: clamp(0.3125rem, 1vw, 0.625rem);
+        font-weight: 700;
+        text-align: center;
     }
     
     &__artist {
         color: $muted-text-color;
-        margin-bottom: 15px;
-
-        @media (max-width: 640px) { font-size: 1rem; }
-        @media (max-width: 400px) { font-size: 0.95rem; }
+        font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+        margin-bottom: clamp(0.5rem, 2vw, 1rem);
+        text-align: center;
     }
     
     &__meta {
-        margin: 6px 0;
+        font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+        margin-block: 0.4rem;
         color: $main-text-color;
-
-        @media (max-width: 640px) { font-size: 0.85rem; }
-        @media (max-width: 400px) { font-size: 0.8rem; }
     }
 
     &__controls {
         display: flex;
+        flex-wrap: nowrap;
         align-items: center;
         justify-content: center;
-        gap: 15px;
-        margin-top: 1.5rem;
-
-        @media (min-width: 769px) and (max-width: 1024px) { margin-top: 0.8rem; gap: 10px; }
-
-        @media (max-width: 768px) {
-            flex-direction: row;
-            gap: 8px;
-            margin-top: 1rem;
-        }
+        gap: clamp(0.3rem, 2vw, 0.9375rem);
+        margin-top: clamp(1rem, 3vh, 1.5rem);
+        width: 100%;
+        overflow: hidden;
     }
 
     &__nav-button, &__play-button {
-        height: 50px;
+        height: clamp(2.5rem, 6vh, 3.125rem);
         display: flex;
         align-items: center;
         justify-content: center;
+        box-sizing: border-box;
+        flex-shrink: 1;
+        min-width: 0;
     }
 
     &__nav-button {
-        gap: 8px;
+        gap: 0.5rem;
+        font-size: clamp(0.7rem, 1.2vw, 0.9rem);
         background: rgba(255, 255, 255, 0.1);
         color: $main-text-color;
         border: none;
-        padding: 0 18px;
-        border-radius: 50px;
+        padding-inline: clamp(0.4rem, 2vw, 1.125rem);
+        white-space: nowrap;
+        border-radius: 3.125rem;
         cursor: pointer;
         transition: all 0.3s ease;
+        white-space: nowrap;
 
-        &:hover { background: $accent-color; }
-
-        @media (max-width: 768px) {
-            height: 40px;
-            min-width: 45px;
-            padding: 0 10px;
-            justify-content: center;
-            white-space: nowrap;
+        svg {
+            width: clamp(1rem, 2vw, 1.25rem);
+            height: auto;
         }
+
+        &:hover { background: $dark-accent-color; }
     }
         
     &__play-button {
         display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
+        gap: 0.625rem;
         background: $accent-color;
         border: none;
-        padding: 12px 28px;
-        border-radius: 30px;
-        font-size: 1rem;
+        padding: clamp(0.5rem, 1.5vh, 0.75rem) clamp(1rem, 3vw, 1.75rem);
+        border-radius: 1.875rem;
+        font-size: clamp(0.8rem, 2vw, 1rem);
         color: $main-text-color;
         cursor: pointer;
         transition: background 0.3s ease;
 
         &--neon-button {
-            gap: 10px;
             font-weight: 700;
             color: $main-text-color;
-            border: 1px solid $accent-color;
-            border-radius: 10px;
-            padding: 0 2rem;
+            border: 0.0625rem solid $accent-color;
+            border-radius: 0.625rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 0.125rem;
+            padding-inline: clamp(0.8rem, 3vw, 2rem);
+            font-size: clamp(0.75rem, 1.5vw, 1rem);
+            flex-grow: 0;
+            flex-shrink: 0;
             transition: all 0.3s ease;
             cursor: pointer;
 
             &:hover {
-                box-shadow: 0 0 10px $accent-color, 0 0 32px $dark-accent-color;
+                box-shadow: 0 0 0.625rem $accent-color, 0 0 2rem $dark-accent-color;
                 transform: scale(1.05);
             }
-
-            @media (max-width: 768px) {
-                height: 40px;
-                padding: 0 1rem;
-                font-size: 0.75rem;
-                white-space: nowrap;
-            }
         }
-
-        @media (max-width: 640px) { padding: 8px 20px; font-size: 0.85rem; }
-        @media (max-width: 400px) { padding: 6px 16px; font-size: 0.8rem; }
     }
 
     &__playlist-wrapper {
         position: relative;
         display: flex;
+        flex-direction: column;
         align-items: center;
+        justify-content: center;
         z-index: 3;
+        flex: 1 1 21.875rem;
+        width: 100%;
+        max-width: 80rem;
+        gap: clamp(0.5rem, 2vh, 1rem);
+    }
 
-        @media (max-width: 1024px) {
-            width: 100%;
-            justify-content: center;
-        }
+    &__playlist-title {
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
+        font-family: inherit;
+        font-weight: 600;
+        color: $main-text-color;
+        text-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
+        margin: 0;
+        padding-left: clamp(0.5rem, 2vw, 1rem);
+        text-transform: uppercase;
+        letter-spacing: 0.0625rem;
     }
 
     &__playlist {
         display: flex;
         flex-direction: column;
-        gap: 15px;
-        width: 500px;
-        height: calc(100vh - 260px);
+        gap: clamp(0.6rem, 2vw, 1rem);
+        width: clamp(21.875rem, 50vw, 50rem);
+        height: auto;
+        max-height: clamp(12.5rem, 60vh, 43.75rem);
         overflow-y: auto;
         overflow-x: hidden;
         background: $card-color;
         backdrop-filter: blur(10px);
-        border-radius: 20px;
+        border-radius: 1.25rem;
         border: none;
-        padding: 20px;
-        box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+        padding: clamp(0.9rem, 5vw, 2rem);
+        box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.2);
         z-index: 3;
         flex-shrink: 0;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         opacity: 1;
         transform: translateX(0);
-
-        &--hidden {
-            @media (min-width: 1025px) {
-                width: 0;
-                padding: 20px 0;
-                margin-right: -30px;
-                opacity: 0;
-                transform: translateX(50px);
-                pointer-events: none;
-            }
-        }
-
-        @media (min-width: 1025px) and (max-width: 1270px) {
-            width: 350px;
-            padding: 15px;
-            gap: 10px;
-        }
-
-        @media (max-width: 1024px) {
-            width: 100% !important;
-            opacity: 1 !important;
-            transform: none !important;
-            pointer-events: all !important;
-            margin-right: 0 !important;
-            max-width: 800px;
-            height: auto;
-            max-height: 400px;
-            flex-direction: row;
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-
-        @media (max-width: 768px) { max-height: 300px; padding: 15px; }
-        @media (max-width: 640px) { max-height: 250px; }
-        @media (max-width: 400px) { max-height: 200px; }
-    }
-
-    &__playlist-toggle {
-        display: none;
-
-        @media (min-width: 1420px) {
-            display: flex;
-            position: absolute;
-            left: -50px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 100;
-            background: rgba($accent-color, 0.7);
-            border: none;
-            border-radius: 50%;
-            padding: 5px;
-            color: $main-text-color;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        &:hover {
-            background: $dark-accent-color;
-        }
     }
 
     &__mini-card {
         background: rgba(255, 255, 255, 0.08);
-        padding: 10px;
-        border-radius: 12px;
+        padding: clamp(0.5rem, 2vw, 0.75rem);
+        border-radius: 0.75rem;
         cursor: pointer;
         position: relative;
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 15px;
+        gap: clamp(0.5rem, 2vw, 1rem);
         text-align: left;
+        flex: 0 0 clamp(8.75rem, 25vw, 100%);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         
         &:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transform: translateY(-0.3125rem);
+            box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
 
-            @media (min-width: 1025px) {
-                .song-page__card-actions {
-                    opacity: 1;
-                }
+            .song-page__card-actions {
+                opacity: 1;
             }
         }
 
         &--active {
             transform: scale(1.05) !important;
-            box-shadow: 0 0 12px $accent-color !important;
-            border-left: 4px solid $accent-color;
+            box-shadow: 0 0 0.75rem $accent-color !important;
+            border-left: 0.25rem solid $accent-color;
         }
 
         &--editing {
-            border: 1px solid $accent-color;
+            border: 0.0625rem solid $accent-color;
             background: rgba($accent-color, 0.1);
         }
-
-        @media (max-width: 1024px) { flex: 0 0 150px; flex-direction: column; text-align: center; }
-        @media (max-width: 768px) { flex: 0 0 140px; }
     }
 
     &__card-info {
         flex: 1;
         min-width: 0;
+        text-align: inherit;
     }
 
     &__card-actions {
         display: flex;
-        gap: 10px;
+        gap: 0.625rem;
         margin-left: auto;
-        margin-right: 2rem;
-        opacity: 0.6;
+        margin-right: clamp(0rem, 5vw, 2rem);
+        opacity: clamp(0, (100vw - 48rem) * 1000, 0.6);
+        pointer-events: clamp(none, (100vw - 48rem) * 1000, auto);
         transition: opacity 0.2s ease;
-
-        @media (max-width: 1024px) {
-            display: none;
-        }
     }
 
     &__card-action-btn {
@@ -448,12 +292,17 @@
         border: none;
         color: $main-text-color;
         cursor: pointer;
-        padding: 5px;
+        padding: 0.3125rem;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 50%;
         transition: all 0.2s ease;
+
+        svg {
+            width: clamp(1rem, 1.5vw, 1.25rem);
+            height: auto;
+        }
 
         &:hover {
             transform: scale(1.1);
@@ -466,17 +315,17 @@
 
     &__edit-controls {
         position: absolute;
-        top: 0;
+        inset-block: 0;
         right: 0;
-        bottom: 0;
-        width: 40px;
-        background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(5px);
+        width: clamp(1.875rem, 5vw, 2.8rem);
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(0.3rem);
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
-        border-radius: 0 12px 12px 0;
+        border-start-end-radius: 0.75rem;
+        border-end-end-radius: 0.75rem;
         z-index: 5;
         animation: fadeIn 0.2s ease;
 
@@ -485,15 +334,20 @@
             border: none;
             color: $main-text-color;
             cursor: pointer;
-            padding: 5px;
+            padding: 0.3rem;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: color 0.2s, transform 0.2s;
 
+            svg {
+                width: clamp(0.9rem, 2vw, 1.2rem);
+                height: auto;
+            }
+
             &:hover:not(:disabled) {
                 color: $accent-color;
-                transform: scale(1.2);
+                transform: scale(1.15);
             }
 
             &:disabled {
@@ -510,34 +364,34 @@
     }
 
     &__card-image {
-        width: 60px;
-        height: 60px;
+        width: clamp(3.125rem, 8vw, 4.375rem);
+        height: auto;
         aspect-ratio: 1 / 1;
         object-fit: cover;
-        border-radius: 6px;
+        border-radius: 0.375rem;
         flex-shrink: 0;
     }
 
     &__card-title {
         margin: 0;
-        font-size: 0.95rem;
+        font-size: clamp(0.85rem, 2vw, 1rem);
         font-weight: 500;
         color: $main-text-color;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         flex: 1;
+        min-width: 0;
     }
 
     &__actions {
         position: relative;
-        bottom: auto;
-        left: auto;
-        transform: none;
-        margin-top: 2rem;
+        margin-top: clamp(1rem, 5vh, 2rem);
         display: flex;
-        gap: 25px;
+        gap: clamp(0.9375rem, 3vw, 1.5625rem);
         z-index: 10;
+        justify-content: center;
+        align-items: center;
     }
 
     &__action-button {
@@ -548,23 +402,33 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 0.5rem;
+        transition: color 0.2s ease, transform 0.2s ease;
         
+        &:hover {
+            transform: scale(1.1);
+        }
+
         &:active, &--saved {
             color: $accent-color;
         }
 
-        &__icon { display: block; }
+        &__icon {
+            display: block;
+            width: clamp(1.2rem, 2.5vw, 1.5rem);
+            height: auto;
+        }
     }
 
     &__context-menu {
         position: fixed;
         z-index: 100;
-        background: rgba(20, 20, 20, 0.8);
-        backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        padding: 6px;
-        min-width: 150px;
+        background: rgba(20, 20, 20, 0.85);
+        backdrop-filter: blur(0.9375rem);
+        border: 0.0625rem solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.75rem;
+        padding: 0.375rem;
+        min-width: clamp(9.375rem, 15vw, 12.5rem);
         animation: menuFadeIn 0.2s ease-out;
 
         .menu-item {
@@ -572,50 +436,47 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            padding: 10px 14px;
+            padding: clamp(0.5rem, 1.5vh, 0.625rem) 0.875rem;
             background: none;
             border: none;
             color: $accent-color;
             cursor: pointer;
-            font-size: 14px;
+            font-size: clamp(0.8125rem, 1.5vw, 0.9375rem);
             font-weight: 500;
             transition: all 0.2s ease;
-            border-radius: 8px;
+            border-radius: 0.5rem;
 
             svg {
                 opacity: 0.6;
                 color: inherit;
+                height: auto;
                 transition: transform 0.2s ease;
             }
 
             &:hover {
-                background: rgba($card-color, 0.1);
+                background: rgba($card-color, 0.15);
 
                 svg {
                     transform: scale(1.1);
                 }
 
-                &.edit {
-                    color: $accent-color;
-                }
-
-                &.delete {
-                    color: $dark-accent-color;
-                }
+                &.edit { color: $accent-color; }
+                &.delete { color: $dark-accent-color; }
             }
         }
 
         .menu-divider {
-            height: 1px;
+            height: 0.0625rem;
             background: rgba($card-color, 0.1);
-            margin: 4px 8px;
+            margin-block: 0.25rem;
+            margin-inline: 0.5rem;
         }
     }
 
     @keyframes menuFadeIn {
         from {
             opacity: 0;
-            transform: translateY(-5px) scale(0.95);
+            transform: translateY(-0.3125rem) scale(0.95);
         }
         to {
             opacity: 1;

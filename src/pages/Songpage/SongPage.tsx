@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Play, Pause, FileMusic, Download, Pencil, Trash2, ChevronUp, ChevronDown, X, ChevronRight, ChevronLeft } from "lucide-react";
+import { Play, Pause, FileMusic, Download, Pencil, Trash2, ChevronUp, ChevronDown, X, SkipBack, SkipForward } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
 import { useAuth } from "../../context/AuthContext";
 import { useNotification } from "../../context/NotificationContext";
@@ -183,7 +183,7 @@ export const SongPage = () => {
     }
 
     return (
-        <div className={`song-page ${isPlaylistOpen ? "song-page__playlist--open" : "song-page__playlist--closed"}`}>
+        <div className="song-page">
                 <video
                     className={`song-page__video ${isPlaying ? "song-page__video--fade-out" : "song-page__video--fade-in"}`}
                     src={currentSong.defaultBgVideo}
@@ -211,17 +211,21 @@ export const SongPage = () => {
                     <p className="song-page__meta">Duration: <span className="song-page__meta-value">{currentSong.duration}</span></p>
 
                     <div className="song-page__controls">
-                        <button className="song-page__nav-button" onClick={prevSong}>⏮ Prev</button>
+                        <button className="song-page__nav-button" onClick={prevSong}>
+                            <SkipBack size={20} />
+                        </button>
                         
                         <button
                             className={`song-page__play-button song-page__play-button--neon-button ${isPlaying ? "song-page__play-button--playing" : ""}`}
                             onClick={togglePlay}
                         >
                             {isPlaying ? <Pause size={18} /> : <Play size={18} />}
-                            {isPlaying ? "Stop" : "Play"}
+                            {isPlaying ? "STOP" : "PLAY"}
                         </button>
 
-                        <button className="song-page__nav-button" onClick={nextSong}>Next ⏭</button>
+                        <button className="song-page__nav-button" onClick={nextSong}>
+                            <SkipForward size={20} />
+                        </button>
                     </div>
 
                         {/* mentés és letöltés, csak a bejelentkezett user-eknek */}
@@ -251,14 +255,8 @@ export const SongPage = () => {
             </div>
 
             <div className="song-page__playlist-wrapper">
-                <button
-                    className="song-page__playlist-toggle"
-                    onClick={() => setIsPlaylistOpen(!isPlaylistOpen)}
-                >
-                    {isPlaylistOpen ? <ChevronRight size={24} /> : <ChevronLeft size={24} />}
-                </button>
-                
-                <div className={`song-page__playlist ${isPlaylistOpen ? "" : "song-page__playlist--hidden"}`} ref={playlistRef}>
+                <h2 className="song-page__playlist-title">Following up songs</h2>
+                <div className="song-page__playlist" ref={playlistRef}>
                     {playlist.map((song) => {
                         const isSongSaved = savedSongs.some(s => s.id === song.id);
 
