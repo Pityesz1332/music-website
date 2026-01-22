@@ -4,17 +4,15 @@
     position: relative;
     width: 100%;
     height: 100vh;
+    height: 100dvh;
     overflow: hidden;
     color: $main-text-color;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    @media (max-width: 640px) {
-        padding: 0 20px;
-        box-sizing: border-box;
-    }
+    padding: clamp(1rem, 5vw, 5rem);
+    box-sizing: border-box;
 
     &__background {
         position: absolute;
@@ -37,7 +35,7 @@
     &__overlay {
         position: absolute;
         inset: 0;
-        background: rgba(0, 0, 0, 0.6);
+        background: radial-gradient(circle, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%);
         z-index: -1;
     }
 
@@ -48,73 +46,51 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-
-        @media (max-width: 640px) {
-            width: 100%;
-            max-width: 100vw;
-            margin-top: 50px;
-        }
+        margin-top: clamp(5rem, 15vh, 20rem);
+        width: 100%;
+        max-width: 1200px;
     }
 
     &__title {
-        font-size: 4rem;
+        font-size: clamp(2rem, 8vw, 5rem);
         margin: 0;
         text-transform: uppercase;
-        letter-spacing: 3px;
-
-        @media (max-width: 1024px) {
-            font-size: 2.5rem;
-        }
-
-        @media (max-width: 640px) {
-            font-size: clamp(1.8rem, 8vw, 2.5rem);
-            letter-spacing: 1px;
-            line-height: 1.2;
-        }
+        letter-spacing: clamp(1px, 0.5vw, 4px);
+        line-height: 1.1;
+        font-weight: 800;
     }
 
     &__subtitle {
-        font-size: 2rem;
-        margin: 10px 0 30px;
+        font-size: clamp(1.1rem, 3vw, 2.2rem);
+        margin: clamp(0.5rem, 2vh, 1.5rem) 0;
         color: $main-text-color;
-
-        @media (max-width: 1024px) {
-            font-size: 1.5rem;
-        }
-
-        @media (max-width: 640px) {
-            font-size: clamp(1.1rem, 5vw, 1.4rem);
-            margin: 10px 0 15px;
-        }
+        max-width: 800px;
     }
 
     &__highlight {
         color: $highlight-color;
+        display: inline-block;
     }
 
     &__text {
-        font-size: 1.2rem;
-        margin: 10px 0 30px;
+        font-size: clamp(0.9rem, 1.5vw, 1.3rem);
+        margin-bottom: clamp(1.5rem, 4vh, 3rem);
         color: $muted-text-color;
-
-        @media (max-width: 640px) {
-            font-size: 0.95rem;
-            margin: 0 auto 20px;
-            max-width: 90%;
-            line-height: 1.4;
-        }
+        max-width: 40ch;
+        line-height: 1.6;
     }
 
     &__button {
         background: $highlight-color;
         color: $inverse-color;
         border: none;
-        padding: 12px 30px;
-        border-radius: 30px;
+        padding: clamp(0.8rem, 2vh, 1.2rem) clamp(1.5rem, 4vw, 3rem);
+        border-radius: 100px;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
         cursor: pointer;
-        font-size: 1rem;
-        font-weight: 600;
+        font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+        font-weight: 700;
+        text-transform: uppercase;
         transition: all 0.3s ease;
 
         &:hover {
@@ -123,31 +99,14 @@
             transform: scale(1.05);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
         }
-
-        @media (max-width: 640px) {
-            padding: 10px 24px;
-            font-size: 0.9rem;
-            border-radius: 25px;
-        }
     }
 
     &__recent-wrapper {
-        position: absolute;
-        top: 110%;
+        margin-top: clamp(0.5rem, 3vh, 2rem);
         width: 100%;
-        max-width: 320px;
-        pointer-events: all;
-
-        @media (max-width: 640px) {
-            position: relative;
-            top: 0;
-            margin: 20px auto 0;
-            max-width: 280px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
+        max-width: clamp(280px, 40vw, 450px);
+        display: flex;
+        justify-content: center;
     }
 }
 

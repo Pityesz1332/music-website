@@ -129,21 +129,21 @@ export const Songs = () => {
                             <span>{selectedGenre === "All" ? "Filter" : `Genre: ${selectedGenre}`}</span>
                         </div>
                     </button>
+                    {isFilterOpen && (
+                        <div className="songs__filter-bar">
+                            {genres.map((genre) => (
+                                <button
+                                    key={genre}
+                                    className={`songs__genre-button ${selectedGenre === genre ? "songs__genre-button--active" : ""}`}
+                                    onClick={() => handleGenreChange(genre)}
+                                >
+                                    {genre}
+                                </button>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
-                {isFilterOpen && (
-                    <div className="songs__filter-bar">
-                        {genres.map((genre) => (
-                            <button
-                                key={genre}
-                                className={`songs__genre-button ${selectedGenre === genre ? "songs__genre-button--active" : ""}`}
-                                onClick={() => handleGenreChange(genre)}
-                            >
-                                {genre}
-                            </button>
-                        ))}
-                    </div>
-                )}
                     
                     {filteredSongs.length === 0 && (
                         <div className="songs__no-results">
@@ -156,14 +156,15 @@ export const Songs = () => {
 
                 <div className="songs__grid">
                     {currentSongs.map((song) => (
-                        <div 
-                            key={song.id} 
-                            className="songs__card"
-                            onClick={() => handleSongClick(song)}
-                        >
-                            <img className="songs__card-image" src={song.cover} alt={song.title} />
-                            <h3 className="songs__card-title">{song.title}</h3>
-                            <p className="songs__card-genre">{song.genre}</p>
+                        <div key={song.id} className="songs__card-wrapper">
+                            <div
+                                className="songs__card"
+                                onClick={() => handleSongClick(song)}
+                            >
+                                <img className="songs__card-image" src={song.cover} alt={song.title} />
+                                <h3 className="songs__card-title">{song.title}</h3>
+                                <p className="songs__card-genre">{song.genre}</p>
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -182,7 +183,7 @@ export const Songs = () => {
                         onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
                         disabled={currentPage === totalPages}
                     >Next</button>
-                </div> 
+                </div>
             </div>
 
             <footer className="songs__footer">
