@@ -1,6 +1,10 @@
 import { createContext, useContext, useState, useCallback, useEffect, useRef, ReactNode } from "react";
 
-export type NotificationType = "success" | "error" | "info";
+export enum NotificationType {
+    SUCCESS = "success",
+    ERROR = "error",
+    INFO = "info"
+}
 
 export interface Notification {
     id: number;
@@ -27,7 +31,7 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
 
     // ez a függvény feldob egy tetszőleges üzenetet, majd 
     // a 3mp után automatikusan eltünteti a listából és a memóriából is 
-    const notify = useCallback((message: string, type: NotificationType = "info", duration: number = 3000) => {
+    const notify = useCallback((message: string, type: NotificationType = NotificationType.INFO, duration: number = 3000) => {
         const id = Date.now() + Math.random();
 
         const newNotification: Notification = { id, message, type, duration };

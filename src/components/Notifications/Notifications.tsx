@@ -1,12 +1,5 @@
-import { useNotification } from "../../context/NotificationContext";
+import { useNotification, Notification } from "../../context/NotificationContext";
 import "./Notifications.scss";
-
-export interface Notification {
-    id: string | number;
-    message: string;
-    type: "success" | "error" | "info";
-    duration: number;
-}
 
 // notifications popup felülete
 const Notifications = () => {
