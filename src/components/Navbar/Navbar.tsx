@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Wallet, Menu, X, Music, Search } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
-import { useNotification } from "../../context/NotificationContext";
+import { useNotification, NotificationType } from "../../context/NotificationContext";
 import { useLoading } from "../../context/LoadingContext";
 import "./Navbar.scss";
 
@@ -60,11 +60,11 @@ const Navbar = () => {
             showLoading();
             await connect();
             hideLoading();
-            notify("Wallet connected", "success");
+            notify("Wallet connected", NotificationType.SUCCESS);
         } catch(err) {
             hideLoading();
             console.error(err);
-            notify("Something went wrong", "error");
+            notify("Something went wrong", NotificationType.ERROR);
         }
     }
 

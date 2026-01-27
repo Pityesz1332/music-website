@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { Copy } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
-import { useNotification } from "../../context/NotificationContext";
+import { useNotification, NotificationType } from "../../context/NotificationContext";
 import { RecentlyPlayed } from "../../components/Recently_Played/RecentlyPlayed";
 import "./MyAccount.scss";
 
@@ -27,7 +27,7 @@ export const MyAccount = () => {
     // ez csak sima copy gomb
     function copyWallet() {
         navigator.clipboard.writeText(walletAddress);
-        notify("Wallet address copied to clipboard", "success");
+        notify("Wallet address copied to clipboard", NotificationType.SUCCESS);
     }
 
     return (
@@ -55,7 +55,7 @@ export const MyAccount = () => {
                                 className="recent-wrapper__clear-history-btn"
                                 onClick={() => {
                                     clearRecentlyPlayed();
-                                    notify("History cleared", "success");
+                                    notify("History cleared", NotificationType.SUCCESS);
                                 }}
                             >
                                 Clear History

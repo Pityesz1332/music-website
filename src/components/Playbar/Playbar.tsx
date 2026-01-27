@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Play, Pause, SkipBack, SkipForward, TimerReset, Repeat, FileMusic, Download } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
 import { useAuth } from "../../context/AuthContext";
-import { useNotification } from "../../context/NotificationContext";
+import { useNotification, NotificationType } from "../../context/NotificationContext";
 import "./Playbar.scss";
 import type { Song } from "../../types/music";
 
@@ -417,10 +417,10 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
                                     onClick={() => {
                                         if (isSaved) {
                                             removeSavedSong(song.id);
-                                            notify("Deleted from Saved Songs", "success");
+                                            notify("Deleted from Saved Songs", NotificationType.SUCCESS);
                                         } else {
                                             saveSong(song);
-                                            notify("Saved", "success");
+                                            notify("Saved", NotificationType.SUCCESS);
                                         }
                                     }}>
                                     <FileMusic size={20} />
@@ -432,6 +432,36 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
                         )}
                     </div>
                 </div>
+
+                <div className="playbar__extra-buttons">
+                    <button className="playbar__reset-seeker" onClick={handleResetSong}>
+                        <TimerReset size={20} />
+                    </button>
+                    <button className={`playbar__extra-button ${isLooping ? "playbar__extra-button--active" : ""}`} onClick={() => setIsLooping(!isLooping)}>
+                        <Repeat size={20} />
+                    </button>
+                </div>
+
+                {isConnected && (
+                    <div className="playbar__connected-buttons">
+                        <button
+                            className={`playbar__save-button ${isSaved ? "playbar__save-button--saved" : ""}`}  
+                            onClick={() => {
+                                if (isSaved) {
+                                    removeSavedSong(song.id);
+                                    notify("Deleted from Saved Songs", NotificationType.SUCCESS);
+                                } else {
+                                    saveSong(song);
+                                    notify("Saved", NotificationType.SUCCESS);
+                                }
+                            }}>
+                            <FileMusic size={20} />
+                        </button>
+                        <button className="playbar__download-button">
+                            <Download size={20} />
+                        </button>
+                    </div>
+                )}
             </div>
     );
 }
