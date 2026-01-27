@@ -432,36 +432,6 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
                         )}
                     </div>
                 </div>
-
-                <div className="playbar__extra-buttons">
-                    <button className="playbar__reset-seeker" onClick={handleResetSong}>
-                        <TimerReset size={20} />
-                    </button>
-                    <button className={`playbar__extra-button ${isLooping ? "playbar__extra-button--active" : ""}`} onClick={() => setIsLooping(!isLooping)}>
-                        <Repeat size={20} />
-                    </button>
-                </div>
-
-                {isConnected && (
-                    <div className="playbar__connected-buttons">
-                        <button
-                            className={`playbar__save-button ${isSaved ? "playbar__save-button--saved" : ""}`}  
-                            onClick={() => {
-                                if (isSaved) {
-                                    removeSavedSong(song.id);
-                                    notify("Deleted from Saved Songs", NotificationType.SUCCESS);
-                                } else {
-                                    saveSong(song);
-                                    notify("Saved", NotificationType.SUCCESS);
-                                }
-                            }}>
-                            <FileMusic size={20} />
-                        </button>
-                        <button className="playbar__download-button">
-                            <Download size={20} />
-                        </button>
-                    </div>
-                )}
             </div>
     );
 }
