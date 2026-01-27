@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { Menu, X, Heart, Music, User, Search } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
-import { useNotification } from "../../context/NotificationContext";
+import { useNotification, NotificationType } from "../../context/NotificationContext";
 import { useLoading } from "../../context/LoadingContext";
 import "../Navbar/Navbar.scss";
 
@@ -63,10 +63,10 @@ const ConnectedNavbar = () => {
             await disconnect();
             hideLoading();
             navigate("/");
-            notify("Disconnected", "success");
+            notify("Disconnected", NotificationType.SUCCESS);
         } catch(err) {
             hideLoading();
-            notify("Error", "error");
+            notify("Error", NotificationType.ERROR);
         }
     }
 

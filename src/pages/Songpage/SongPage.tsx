@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Play, Pause, FileMusic, Download, Pencil, Trash2, ChevronUp, ChevronDown, X, SkipBack, SkipForward } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
 import { useAuth } from "../../context/AuthContext";
-import { useNotification } from "../../context/NotificationContext";
+import { useNotification, NotificationType } from "../../context/NotificationContext";
 import ScrollToTop from "../../components/Scroll_to_top/ScrollToTop";
 import songsData from "../../data/songs.json";
 import "./SongPage.scss";
@@ -18,7 +18,6 @@ export const SongPage = () => {
     const { state } = useLocation();
     const [contextMenu, setContextMenu] = useState<{ x: number, y: number, songId: string} | null>(null);
     const [editingSongId, setEditingSongId] = useState<string | null>(null);
-    const [isPlaylistOpen, setIsPlaylistOpen] = useState<boolean>(true);
     const playlistRef = useRef<HTMLDivElement | null>(null);
     const menuRef = useRef<HTMLDivElement | null>(null);
     
@@ -157,7 +156,7 @@ export const SongPage = () => {
         if (confirmDelete) {
             const newPlaylist = playlist.filter(s => s.id !== songId);
             setPlaylist(newPlaylist);
-            notify("Song deleted from playlist", "success");
+            notify("Song deleted from playlist", NotificationType.SUCCESS);
 
             if (currentSong?.id === songId && newPlaylist.length > 0) {
                 nextSong();
@@ -236,10 +235,10 @@ export const SongPage = () => {
                                     onClick={() => {
                                         if (isSaved) {
                                             removeSavedSong(currentSong.id);
-                                            notify("Deleted from saved songs", "success");
+                                            notify("Deleted from saved songs", NotificationType.SUCCESS);
                                         } else {
                                             saveSong(currentSong);
-                                            notify("Saved", "success");
+                                            notify("Saved", NotificationType.SUCCESS);
                                         }
                                     }}
                                 >
@@ -281,10 +280,10 @@ export const SongPage = () => {
                                                 e.stopPropagation();
                                                 if (isSongSaved) {
                                                     removeSavedSong(song.id);
-                                                    notify("Deleted from saved songs", "success");
+                                                    notify("Deleted from saved songs", NotificationType.SUCCESS);
                                                 } else {
                                                     saveSong(song);
-                                                    notify("Saved", "success");
+                                                    notify("Saved", NotificationType.SUCCESS);
                                                 }
                                             }}
                                         >
