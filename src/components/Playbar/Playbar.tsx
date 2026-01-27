@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { Play, Pause, SkipBack, SkipForward, TimerReset, Repeat, FileMusic, ChevronDown, ChevronUp, Download } from "lucide-react";
+import { Play, Pause, SkipBack, SkipForward, TimerReset, Repeat, FileMusic, Download } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
 import { useAuth } from "../../context/AuthContext";
 import { useNotification } from "../../context/NotificationContext";
@@ -26,7 +26,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
     const [isSeeking, setIsSeeking] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isLooping, setIsLooping] = useState<boolean>(false);
-    const [isManuallyCollapsed, setIsManuallyCollapsed] = useState<boolean>(false);
+    const [isManuallyCollapsed, setIsManuallyCollapsed] = useState<boolean>(true);
     const [hoverTime, setHoverTime] = useState<number | null>(null);
     const [hoverPos, setHoverPos] = useState<number>(0);
 
@@ -278,6 +278,15 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
         });
     }
 
+    function handlePlaybarTap(e: React.MouseEvent<HTMLDivElement>) {
+        const target = e.target as HTMLElement;
+        const isButtonClick = target.closest("button") || target.closest("input") || target.closest(".playbar__volume-wrapper");
+
+        if (!isButtonClick) {
+            setIsManuallyCollapsed(!isManuallyCollapsed);
+        }
+    }
+
     // 0:00-ra állítja az aktuális zenét
     function handleResetSong() {
         if (audioRef.current) {
@@ -290,10 +299,30 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
     if (!song) return null;
 
     return (
-        <div className={playbarClasses}>
-            <button className="playbar__collapse-toggle" onClick={() => setIsManuallyCollapsed(!isManuallyCollapsed)}>
-                {isManuallyCollapsed ? <ChevronUp size={24}/> : <ChevronDown size={24} />}
-            </button>
+        <div className={playbarClasses} onClick={handlePlaybarTap}>
+            <div
+                className="playbar__progress"
+                onMouseDown={startSeek}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                onClick={(e) => e.stopPropagation()}
+            >
+                {hoverTime !== null && (
+                    <div
+                        className="playbar__tooltip"
+                        style={{
+                            left: `${hoverPos}px`,
+                            position: "absolute",
+                            bottom: "100%",
+                            transform: "translateX(-50%)",
+                            pointerEvents: "none"
+                        }}
+                    >
+                        {formatTime(hoverTime)}
+                    </div>
+                )}
+                <div className="playbar__progress-filled" style={{ width: `${progress}%` }}></div>
+            </div>
 
             <audio
                 src={song.src}
@@ -313,14 +342,19 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
                 }}
             />
             
+            {/* Bal oldal */}
             <div className="playbar__left">
                 <img src={song.cover} alt={song.title} className="playbar__cover" />
                 <div className="playbar__info">
                     <h4 className="playbar__title">{song.title}</h4>
                     <p className="playbar__artist">{song.artist}</p>
                 </div>
+                <div className="playbar__time-container">
+                    <span className="playbar__time">{formatTime(currentTime)} / {song.duration}</span>
+                </div>
             </div>
 
+            {/* Közép */}
             <div className="playbar__controls">
                 <button className="playbar__control-button" onClick={onPrev}>
                     <SkipBack size={24} />
@@ -339,92 +373,66 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
                 </button>
             </div>
 
-            <div className="playbar__right">
-                <span className="playbar__time">{formatTime(currentTime)}</span>
-                
-                <div
-                    className="playbar__progress"
-                    onMouseDown={startSeek}
-                    onMouseMove={handleMouseMove}
-                    onMouseLeave={handleMouseLeave}
-                    style={{ position: "relative" }}
-                >
-                    {hoverTime !== null && (
+            {/* Jobb oldal */}
+            <div className="playbar__right-container">
+                    <div className="playbar__extra">
                         <div
-                            className="playbar__tooltip"
-                            style={{
-                                left: `${hoverPos}px`,
-                                position: "absolute",
-                                bottom: "100%",
-                                transform: "translateX(-50%)",
-                                pointerEvents: "none"
+                            className="playbar__volume-wrapper"
+                            onMouseDown={handleVolumeDragStart}
+                            onWheel={(e) => {
+                                if (e.deltaY !== 0) {
+                                    const direction = e.deltaY > 0 ? 1 : -1;
+                                    adjustVolume(direction);
+                                }
                             }}
                         >
-                            {formatTime(hoverTime)}
+                            <div className="playbar__volume-track">
+                                <div className="playbar__volume-fill" style={{ width: `${volume * 100}%` }}></div>
+                                <div className="playbar__volume-thumb" style={{ left: `${volume * 100}%` }}></div>
+                            </div>
+                            <input
+                                className="playbar__volume-hidden"
+                                type="range"
+                                min="0"
+                                max="1"
+                                step="0.01"
+                                value={volume}
+                                onChange={handleVolumeChanger}
+                            />
                         </div>
-                    )}
-                    <div className="playbar__progress-filled" style={{ width: `${progress}%` }}></div>
-                </div>
-                <span className="playbar__time">{song.duration}</span>
-            </div>
 
-            <div className="playbar__extra">
-                <div
-                    className="playbar__volume-wrapper"
-                    onMouseDown={handleVolumeDragStart}
-                    onWheel={(e) => {
-                        if (e.deltaY !== 0) {
-                            const direction = e.deltaY > 0 ? 1 : -1;
-                            adjustVolume(direction);
-                        }
-                    }}
-                >
-                    <div className="playbar__volume-track">
-                        <div className="playbar__volume-fill" style={{ width: `${volume * 100}%` }}></div>
-                        <div className="playbar__volume-thumb" style={{ left: `${volume * 100}%` }}></div>
+                        <div className="playbar__extra-buttons">
+                            <button className="playbar__reset-seeker" onClick={handleResetSong}>
+                                <TimerReset size={20} />
+                            </button>
+                            <button className={`playbar__extra-button ${isLooping ? "playbar__extra-button--active" : ""}`} onClick={() => setIsLooping(!isLooping)}>
+                                <Repeat size={20} />
+                            </button>
+                        </div>
+
+                        {isConnected && (
+                            <div className="playbar__connected-buttons">
+                                <button
+                                    className={`playbar__save-button ${isSaved ? "playbar__save-button--saved" : ""}`}  
+                                    onClick={() => {
+                                        if (isSaved) {
+                                            removeSavedSong(song.id);
+                                            notify("Deleted from Saved Songs", "success");
+                                        } else {
+                                            saveSong(song);
+                                            notify("Saved", "success");
+                                        }
+                                    }}>
+                                    <FileMusic size={20} />
+                                </button>
+                                <button className="playbar__download-button">
+                                    <Download size={20} />
+                                </button>
+                            </div>
+                        )}
                     </div>
-                    <input
-                        className="playbar__volume-hidden"
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="0.01"
-                        value={volume}
-                        onChange={handleVolumeChanger}
-                    />
                 </div>
-
-                <div className="playbar__extra-buttons">
-                    <button className="playbar__reset-seeker" onClick={handleResetSong}>
-                        <TimerReset size={20} />
-                    </button>
-                    <button className={`playbar__extra-button ${isLooping ? "playbar__extra-button--active" : ""}`} onClick={() => setIsLooping(!isLooping)}>
-                        <Repeat size={20} />
-                    </button>
-                </div>
-
-                {isConnected && (
-                    <div className="playbar__connected-buttons">
-                        <button
-                            className={`playbar__save-button ${isSaved ? "playbar__save-button--saved" : ""}`}  
-                            onClick={() => {
-                                if (isSaved) {
-                                    removeSavedSong(song.id);
-                                    notify("Deleted from Saved Songs", "success");
-                                } else {
-                                    saveSong(song);
-                                    notify("Saved", "success");
-                                }
-                            }}>
-                            <FileMusic size={20} />
-                        </button>
-                        <button className="playbar__download-button">
-                            <Download size={20} />
-                        </button>
-                    </div>
-                )}
             </div>
-        </div>
     );
 }
 

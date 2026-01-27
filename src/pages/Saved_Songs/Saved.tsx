@@ -66,7 +66,7 @@ export const Saved = () => {
     return (
         <div className="songs">
             <div className="songs__container">
-                <h1 className="songs__title">Your Saved Songs</h1>
+                <h1 className="songs__title">Your Favorite Songs</h1>
 
                 {filteredSongs.length === 0 && (
                     <div className="songs__no-results">
@@ -79,14 +79,16 @@ export const Saved = () => {
 
                 <div className="songs__grid">
                     {currentSongs.map((song) => (
-                        <div
-                            key={song.id}
-                            className="song__card"
-                            onClick={() => handleSongClick(song)}
-                        >
-                            <img className="songs__card-image" src={song.cover} alt={song.title} />
-                            <h3 className="songs__card-title">{song.title}</h3>
-                            <p className="songs__card-genre">{song.genre}</p>
+                        <div key={song.id} className="songs__card-wrapper">
+                            <div
+                                key={song.id}
+                                className="songs__card"
+                                onClick={() => handleSongClick(song)}
+                            >
+                                <img className="songs__card-image" src={song.cover} alt={song.title} />
+                                <h3 className="songs__card-title">{song.title}</h3>
+                                <p className="songs__card-genre">{song.genre}</p>
+                            </div>
                         </div>
                     ))}
                 </div>
