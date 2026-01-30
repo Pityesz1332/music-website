@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { MainRoutes, getSongPath } from "../../routes/constants/Main_Routes";
 import { useMusic } from "../../context/MusicContext";
 import { apiFetch } from "../../utils/api";
 import songsData from "../../data/songs.json";
@@ -23,7 +24,14 @@ export const Songs = () => {
             setLoading(true);
             setError(null);
 
-            setSongs(songsData as Song[]);
+            const baseSongs = songsData as Song[];
+            const savedToLocal = localStorage.getItem("admin_songs");
+            const uploadedSongs: Song[] = savedToLocal ? JSON.parse(savedToLocal) : [];
+
+            const allSongs = [...uploadedSongs, ...baseSongs];
+            const uniqueSongs = Array.from(new Map(allSongs.map(s => [s.id, s])).values());
+
+            setSongs(uniqueSongs);
             setLoading(false);
 
 // --- Ez majd később kell ha lesz backend ---
@@ -86,7 +94,7 @@ export const Songs = () => {
     function handleSongClick(song: Song) {
         setPlaylist(filteredSongs);
         playSong(song);
-        navigate(`/songs/${song.id}`, { state: { song, playlist: filteredSongs } });
+        navigate(getSongPath(song.id), { state: { song, playlist: filteredSongs } });
     }
 
     // töltési logika
@@ -148,7 +156,7 @@ export const Songs = () => {
                     {filteredSongs.length === 0 && (
                         <div className="songs__no-results">
                             <h2 className="songs__no-results-title">No song or mix found with this word: "{searchQuery}". Reset the page</h2>
-                            <button className="songs__reset-button" onClick={() => navigate("/songs")}>
+                            <button className="songs__reset-button" onClick={() => navigate(MainRoutes.SONGS)}>
                                 Reset page
                             </button>
                         </div>

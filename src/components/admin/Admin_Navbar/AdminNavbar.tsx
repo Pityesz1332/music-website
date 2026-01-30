@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import { MainRoutes } from "../../../routes/constants/Main_Routes";
 import "./AdminNavbar.scss";
 
 const AdminNavbar = () => {
@@ -25,12 +26,11 @@ const AdminNavbar = () => {
     }, []);
 
     useEffect(() => {
-        console.log("navbar set to false");
         setIsMenuOpen(false);
     }, [location]);
 
     function handleDisconnect() {
-        navigate("/");
+        navigate(MainRoutes.HOME);
     }
 
     function toggleMenu() {
@@ -46,16 +46,16 @@ const AdminNavbar = () => {
             </div>
 
             <ul className={`admin-navbar__list ${isMenuOpen ? "admin-navbar__list--open" : ""}`}>
-                <li className={`admin-navbar__item ${isActive("/admin") ? "admin-navbar__item--active" : ""}`}>
-                    <Link className="admin-navbar__link" to="/admin">Dashboard</Link>
+                <li className={`admin-navbar__item ${isActive(MainRoutes.ADMIN_DASHBOARD) ? "admin-navbar__item--active" : ""}`}>
+                    <Link className="admin-navbar__link" to={MainRoutes.ADMIN_DASHBOARD}>Dashboard</Link>
                 </li>
 
-                <li className={`admin-navbar__item ${isActive("/admin/songs") ? "admin-navbar__item--active" : ""}`}>
-                    <Link className="admin-navbar__link" to="/admin/songs">Songs/Mixes</Link>
+                <li className={`admin-navbar__item ${isActive(MainRoutes.ADMIN_SONGS) ? "admin-navbar__item--active" : ""}`}>
+                    <Link className="admin-navbar__link" to={MainRoutes.ADMIN_SONGS}>Songs/Mixes</Link>
                 </li>
 
-                <li className={`admin-navbar__item ${isActive("/admin/users") ? "admin-navbar__item--active" : ""}`}>
-                    <Link className="admin-navbar__link" to="/admin/users">Users</Link>
+                <li className={`admin-navbar__item ${isActive(MainRoutes.ADMIN_USERS) ? "admin-navbar__item--active" : ""}`}>
+                    <Link className="admin-navbar__link" to={MainRoutes.ADMIN_USERS}>Users</Link>
                 </li>
                 
                 <li className="admin-navbar__item admin-navbar__item--mobile-only">

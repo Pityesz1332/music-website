@@ -1,9 +1,10 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { ADMIN_CODE } from "../utils/config";
+import { useLoading } from "./LoadingContext";
 
 interface AdminContextType {
     isAdmin: boolean;
-    connectAsAdmin: (wallet: string) => void;
+    error: string | null;
+    connectAsAdmin: (username: string, password: string) => Promise<void>;
     disconnectAdmin: () => void;
 }
 
@@ -16,32 +17,49 @@ interface AdminProviderProps {
 // egyelőre csak tesztfunkció, de jó alap lehet később backend-hez.
 export function AdminProvider({ children }: AdminProviderProps) {
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+    const { showLoading, hideLoading } = useLoading();
+
+    useEffect(() => {
+        const token = localStorage.getItem("adminToken");
+        if (token) {
+            setIsAdmin(true);
+        }
+    }, []);
 
     // admin beléptetés. ha megfelel az adott kód, elérhetővé válik az admin oldal.
-    function connectAsAdmin(code: string) {
-        if (code.toLowerCase() === ADMIN_CODE.toLowerCase()) {
-            setIsAdmin(true);
-            localStorage.setItem("isAdmin", "true");
-        } else {
+    async function connectAsAdmin(username: string, password: string) {
+        showLoading();
+        setError(null);
+
+        try {
+            await new Promise(resolve => setTimeout(resolve, 800));
+            // ideiglenes logika amíg nincs backend
+            if (username === "admin" && password === "pass123") {
+                const mockToken = "fake-jwt-token-123";
+                localStorage.setItem("adminToken", mockToken);
+                setIsAdmin(true);
+            } else {
+                throw new Error("Wrong username or password");
+            }
+        } catch (err: any) {
+            setError(err.message);
             setIsAdmin(false);
-            localStorage.removeItem("isAdmin");
+            throw err;
+        } finally {
+            hideLoading();
         }
     }
 
     // kiléptetés
     function disconnectAdmin() {
+        localStorage.removeItem("adminToken");
         setIsAdmin(false);
-        localStorage.removeItem("isAdmin");
+        setError(null);
     }
 
-    // frissítésnél is megmarad a belépett állapot
-    useEffect(() => {
-        const saved = localStorage.getItem("isAdmin");
-        if (saved === "true") setIsAdmin(true);
-    }, []);
-
     return (
-        <AdminContext.Provider value={{ isAdmin, connectAsAdmin, disconnectAdmin }}>
+        <AdminContext.Provider value={{ isAdmin, error, connectAsAdmin, disconnectAdmin }}>
             {children}
         </AdminContext.Provider>
     );

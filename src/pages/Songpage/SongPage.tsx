@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Play, Pause, FileMusic, Download, Pencil, Trash2, ChevronUp, ChevronDown, X, SkipBack, SkipForward } from "lucide-react";
+import { Play, Pause, Heart, Download, Pencil, Trash2, ChevronUp, ChevronDown, X, SkipBack, SkipForward } from "lucide-react";
+import { getSongPath } from "../../routes/constants/Main_Routes";
 import { useMusic } from "../../context/MusicContext";
 import { useAuth } from "../../context/AuthContext";
-import { useNotification } from "../../context/NotificationContext";
+import { useNotification, NotificationType } from "../../context/NotificationContext";
 import ScrollToTop from "../../components/Scroll_to_top/ScrollToTop";
 import songsData from "../../data/songs.json";
 import "./SongPage.scss";
@@ -18,7 +19,6 @@ export const SongPage = () => {
     const { state } = useLocation();
     const [contextMenu, setContextMenu] = useState<{ x: number, y: number, songId: string} | null>(null);
     const [editingSongId, setEditingSongId] = useState<string | null>(null);
-    const [isPlaylistOpen, setIsPlaylistOpen] = useState<boolean>(true);
     const playlistRef = useRef<HTMLDivElement | null>(null);
     const menuRef = useRef<HTMLDivElement | null>(null);
     
@@ -157,7 +157,7 @@ export const SongPage = () => {
         if (confirmDelete) {
             const newPlaylist = playlist.filter(s => s.id !== songId);
             setPlaylist(newPlaylist);
-            notify("Song deleted from playlist", "success");
+            notify("Song deleted from playlist", NotificationType.SUCCESS);
 
             if (currentSong?.id === songId && newPlaylist.length > 0) {
                 nextSong();
@@ -170,7 +170,7 @@ export const SongPage = () => {
     // zenelejátszás
     function handleSongClick(song: Song) {
         playSong(song);
-        navigate(`/songs/${song.id}`, { state: {playlist} });
+        navigate(getSongPath(song.id), { state: {playlist} });
     }
 
     // hibakezelés, ha nem találjuk az adott zenét
@@ -236,14 +236,14 @@ export const SongPage = () => {
                                     onClick={() => {
                                         if (isSaved) {
                                             removeSavedSong(currentSong.id);
-                                            notify("Deleted from saved songs", "success");
+                                            notify("Deleted from saved songs", NotificationType.SUCCESS);
                                         } else {
                                             saveSong(currentSong);
-                                            notify("Saved", "success");
+                                            notify("Saved", NotificationType.SUCCESS);
                                         }
                                     }}
                                 >
-                                    <FileMusic className="song-page__action-button__icon" size={24} />
+                                    <Heart className="song-page__action-button__icon" size={24} />
                                 </button>
 
                                 <button className="song-page__action-button">
@@ -281,14 +281,14 @@ export const SongPage = () => {
                                                 e.stopPropagation();
                                                 if (isSongSaved) {
                                                     removeSavedSong(song.id);
-                                                    notify("Deleted from saved songs", "success");
+                                                    notify("Deleted from saved songs", NotificationType.SUCCESS);
                                                 } else {
                                                     saveSong(song);
-                                                    notify("Saved", "success");
+                                                    notify("Saved", NotificationType.SUCCESS);
                                                 }
                                             }}
                                         >
-                                            <FileMusic size={16} />
+                                            <Heart size={16} />
                                         </button>
                                         <button
                                             className="song-page__card-action-btn"

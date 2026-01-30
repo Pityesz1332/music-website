@@ -86,6 +86,13 @@
         }
     }
 
+    &__progress-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 5px;
+    }
+
     &__progress-container {
         background: $card-color;
         border-radius: 6px;
@@ -99,6 +106,13 @@
         background: $accent-color;
         width: 0;
         transition: width 0.2s ease;
+    }
+
+    &__progress-text {
+        font-size: 12px;
+        font-weight: bold;
+        color: $main-text-color;
+        min-width: 35px;
     }
 
     &__actions {
@@ -116,6 +130,12 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(1);
+        }
 
         &--save {
             background: $accent-color;

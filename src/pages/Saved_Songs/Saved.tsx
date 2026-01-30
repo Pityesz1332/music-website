@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { MainRoutes, getSongPath } from "../../routes/constants/Main_Routes";
 import { useMusic } from "../../context/MusicContext";
 import "../Songs/Songs.scss";
 import type { Song } from "../../types/music";
@@ -34,7 +35,7 @@ export const Saved = () => {
     function handleSongClick(song: Song) {
         setPlaylist(filteredSongs);
         playSong(song);
-        navigate(`/songs/${song.id}`, { state: { song, playlist: filteredSongs } });
+        navigate(getSongPath(song.id), { state: { song, playlist: filteredSongs } });
     }
 
     // loading screen amíg az adatok megérkeznek
@@ -55,7 +56,7 @@ export const Saved = () => {
             <div className="songs">
                 <div className="songs__no-results">
                     <h2 className="songs__no-results-title">You have no saved songs.</h2>
-                    <button className="songs__reset-button" onClick={() => navigate("/songs")}>
+                    <button className="songs__reset-button" onClick={() => navigate(MainRoutes.SONGS)}>
                         Browse songs
                     </button>
                 </div>
@@ -71,7 +72,7 @@ export const Saved = () => {
                 {filteredSongs.length === 0 && (
                     <div className="songs__no-results">
                         <h2 className="songs__no-results-title">No song found with "{searchQuery}"</h2>
-                        <button className="songs__reset-button" onClick={() => navigate("/saved")}>
+                        <button className="songs__reset-button" onClick={() => navigate(MainRoutes.SAVED)}>
                             Reset search
                         </button>
                     </div>

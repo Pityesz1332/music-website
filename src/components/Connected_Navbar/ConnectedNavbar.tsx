@@ -1,8 +1,9 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { Menu, X, Heart, Music, User, Search } from "lucide-react";
+import { MainRoutes, getSongPath } from "../../routes/constants/Main_Routes";
 import { useAuth } from "../../context/AuthContext";
-import { useNotification } from "../../context/NotificationContext";
+import { useNotification, NotificationType } from "../../context/NotificationContext";
 import { useLoading } from "../../context/LoadingContext";
 import "../Navbar/Navbar.scss";
 
@@ -37,7 +38,7 @@ const ConnectedNavbar = () => {
     // keresőmező (csak ha van text a searchbar-ban)
     const executeSearch = () => {
         if (searchTerm.trim() !== "") {
-            navigate(`/songs?search=${encodeURIComponent(searchTerm)}`);
+            navigate(`${MainRoutes.SONGS}?search=${encodeURIComponent(searchTerm)}`);
             setSearchTerm("");
             setIsFocused(false);
         }
@@ -62,17 +63,17 @@ const ConnectedNavbar = () => {
             showLoading();
             await disconnect();
             hideLoading();
-            navigate("/");
-            notify("Disconnected", "success");
+            navigate(MainRoutes.HOME);
+            notify("Disconnected", NotificationType.SUCCESS);
         } catch(err) {
             hideLoading();
-            notify("Error", "error");
+            notify("Error", NotificationType.ERROR);
         }
     }
 
     return (
             <nav className={`navbar navbar--connected ${isShrunk ? "navbar--shrunk" : ""}`}>
-                <div className="navbar__logo" onClick={() => navigate("/")}>DJ Enez</div>
+                <div className="navbar__logo" onClick={() => navigate(MainRoutes.HOME)}>DJ Enez</div>
 
                 <div className="navbar__center">
                     <div className="navbar__search-wrapper">
@@ -100,22 +101,22 @@ const ConnectedNavbar = () => {
 
                 <ul className={`navbar__menu ${isMenuOpen ? "navbar__menu--open" : ""}`}>
                     <li
-                        className={`navbar__item ${location.pathname === "/songs" ? "navbar__item--active" : ""}`}
-                        onClick={() => { navigate("/songs"); setIsMenuOpen(false); }}
+                        className={`navbar__item ${location.pathname === MainRoutes.SONGS ? "navbar__item--active" : ""}`}
+                        onClick={() => { navigate(MainRoutes.SONGS); setIsMenuOpen(false); }}
                     >
                     <Music className="navbar__item-icon" size={28} /><span className="navbar__item-text">Songs/Mixes</span>
                     </li>
 
                     <li
-                        className={`navbar__item ${location.pathname === "/saved" ? "navbar__item--active" : ""}`}
-                        onClick={() => { navigate("/saved"); setIsMenuOpen(false); }}
+                        className={`navbar__item ${location.pathname === MainRoutes.SAVED ? "navbar__item--active" : ""}`}
+                        onClick={() => { navigate(MainRoutes.SAVED); setIsMenuOpen(false); }}
                     >
                         <Heart className="navbar__item-icon" size={28} /><span className="navbar__item-text">Favorites</span>
                     </li>
                     
                     <li
-                        className={`navbar__item ${location.pathname === "/myaccount" ? "navbar__item--active" : ""}`}
-                        onClick={() => { navigate("/myaccount"); setIsMenuOpen(false); }}
+                        className={`navbar__item ${location.pathname === MainRoutes.MY_ACCOUNT ? "navbar__item--active" : ""}`}
+                        onClick={() => { navigate(MainRoutes.MY_ACCOUNT); setIsMenuOpen(false); }}
                     >
                     <User className="navbar__item-icon" size={28} /><span className="navbar__item-text">Account</span>
                     </li>

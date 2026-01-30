@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { MainRoutes } from "../../routes/constants/Main_Routes";
 import { RecentlyPlayed } from "../../components/Recently_Played/RecentlyPlayed";
 import "./Home.scss";
 
@@ -60,7 +61,7 @@ export const Home = () => {
                 <h1 className="home__title">Unleash Sound Beyond Limits</h1>
                 <h2 className="home__subtitle">The next evolution of music - Powered by <span className="home__highlight">Web3</span></h2>
                 <p className="home__text">Explore, collect and stream music like never before</p>
-                <button className="home__button" onClick={() => navigate("/songs")}>Explore Now</button>
+                <button className="home__button" onClick={() => navigate(MainRoutes.SONGS)}>Explore Now</button>
                 <div className="home__recent-wrapper">
                     <RecentlyPlayed />
                 </div>

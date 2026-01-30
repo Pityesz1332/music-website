@@ -1,1 +1,0 @@
-export const ADMIN_CODE = "0xAdmin";

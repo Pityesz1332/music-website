@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { Play, Pause, SkipBack, SkipForward, TimerReset, Repeat, FileMusic, Download } from "lucide-react";
+import { Play, Pause, SkipBack, SkipForward, TimerReset, Repeat, Heart, Download } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
 import { useAuth } from "../../context/AuthContext";
-import { useNotification } from "../../context/NotificationContext";
+import { useNotification, NotificationType } from "../../context/NotificationContext";
 import "./Playbar.scss";
 import type { Song } from "../../types/music";
 
@@ -60,6 +60,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
         setCurrentTime(0);
 
         const audio = audioRef.current;
+        audio.load();
 
         function autoPlay() {
             if (isPlaying) {
@@ -67,10 +68,10 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
             }
         }
 
-        audio.addEventListener("loadeddata", autoPlay);
+        audio.addEventListener("canplay", autoPlay);
 
         return () => {
-            audio.removeEventListener("loadeddata", autoPlay);
+            audio.removeEventListener("canplay", autoPlay);
         };
     }, [song?.src]);
 
@@ -327,6 +328,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
             <audio
                 src={song.src}
                 ref={audioRef}
+                preload="metadata"
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={() => setProgress(0)}
                 onLoadedData={() => setIsLoading(false)}
@@ -417,13 +419,13 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
                                     onClick={() => {
                                         if (isSaved) {
                                             removeSavedSong(song.id);
-                                            notify("Deleted from Saved Songs", "success");
+                                            notify("Deleted from Saved Songs", NotificationType.SUCCESS);
                                         } else {
                                             saveSong(song);
-                                            notify("Saved", "success");
+                                            notify("Saved", NotificationType.SUCCESS);
                                         }
                                     }}>
-                                    <FileMusic size={20} />
+                                    <Heart size={20} />
                                 </button>
                                 <button className="playbar__download-button">
                                     <Download size={20} />

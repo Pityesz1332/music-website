@@ -1,8 +1,9 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Wallet, Menu, X, Music, Search } from "lucide-react";
+import { MainRoutes } from "../../routes/constants/Main_Routes";
 import { useAuth } from "../../context/AuthContext";
-import { useNotification } from "../../context/NotificationContext";
+import { useNotification, NotificationType } from "../../context/NotificationContext";
 import { useLoading } from "../../context/LoadingContext";
 import "./Navbar.scss";
 
@@ -36,7 +37,7 @@ const Navbar = () => {
     // searchbar keresés
     const executeSearch = () => {
         if (searchTerm.trim() !== "") {
-            navigate(`/songs?search=${encodeURIComponent(searchTerm)}`);
+            navigate(`${MainRoutes.SONGS}?search=${encodeURIComponent(searchTerm)}`);
             setSearchTerm("");
             setIsFocused(false);
         }
@@ -60,17 +61,17 @@ const Navbar = () => {
             showLoading();
             await connect();
             hideLoading();
-            notify("Wallet connected", "success");
+            notify("Wallet connected", NotificationType.SUCCESS);
         } catch(err) {
             hideLoading();
             console.error(err);
-            notify("Something went wrong", "error");
+            notify("Something went wrong", NotificationType.ERROR);
         }
     }
 
     return (
         <nav className={`navbar ${isShrunk ? "navbar--shrunk" : ""}`}>
-            <div className="navbar__logo" onClick={() => navigate("/")}>DJ Enez</div>
+            <div className="navbar__logo" onClick={() => navigate(MainRoutes.HOME)}>DJ Enez</div>
 
             <div className="navbar__center">
                 <div className="navbar__search-wrapper">
@@ -97,8 +98,8 @@ const Navbar = () => {
 
             <ul className={`navbar__menu ${isMenuOpen ? "navbar__menu--open" : ""}`}>
                 <li
-                    className={`navbar__item ${location.pathname === "/songs" ? "navbar__item--active" : ""}`}
-                    onClick={() => { navigate("/songs"); setIsMenuOpen(false); }}
+                    className={`navbar__item ${location.pathname === MainRoutes.SONGS ? "navbar__item--active" : ""}`}
+                    onClick={() => { navigate(MainRoutes.SONGS); setIsMenuOpen(false); }}
                 >
                 <Music className="navbar__item-icon" size={28} /><span className="navbar__item-text">Songs/Mixes</span>
                 </li>

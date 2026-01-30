@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PlusCircle, Trash2, Edit, X, UploadIcon} from "lucide-react";
 import songsData from "../../../data/songs.json";
 import { UploadSong } from "../../../components/admin/Upload_Song/UploadSong";
@@ -6,41 +6,42 @@ import "./ManageSongs.scss";
 import type { Song } from "../../../types/music";
 
 export const ManageSongs = () => {
-    const [songs, setSongs] = useState<Song[]>(songsData as Song[]);
+    const [songs, setSongs] = useState<Song[]>(() => {
+        const saved = localStorage.getItem("admin_songs");
+        return saved ? JSON.parse(saved) : (songsData as Song[]);
+    });
     const [isUploadOpen, setIsUploadOpen] = useState(false);
     const [editSong, setEditSong] = useState<Song | null>(null);
     
-    function saveNewSong(song: {
-        title: string;
-        artist: string;
-        genre: string;
-        duration: string;
-        audio: string;
-        coverFile: string;
-    }) {
-        const newId = songs.length + 1;
-        setSongs([
-            ...songs, 
-            {
-                id: newId,
-                title: song.title,
-                artist: song.artist,
-                genre: song.genre,
-                duration: song.duration,
-                src: song.audio,
-                cover: song.coverFile,
-                defaultBgVideo: "",
-                playingBgVideo: ""
-            }
-        ]);
+    useEffect(() => {
+        localStorage.setItem("admin_songs", JSON.stringify(songs));
+    }, [songs]);
+
+    function saveNewSong(song: any) {
+        const maxId = songs.length > 0 ? Math.max(...songs.map(s => Number(s.id))) : 0;
+
+        const newSong: Song = {
+            id: String(maxId + 1),
+            title: song.title,
+            artist: song.artist,
+            genre: song.genre,
+            duration: song.duration,
+            src: song.audio,
+            cover: song.coverFile,
+            defaultBgVideo: "/assets/animation1.mp4",
+            playingBgVideo: "/assets/waveform-to3.mp4"
+        };
+
+        setSongs([...songs, newSong]);
         setIsUploadOpen(false);
     }
 
-    function deleteSong(id: number) {
+    function deleteSong(id: string) {
         setSongs(songs.filter((s) => s.id !== id));
     }
 
     function saveEdit() {
+        if (!editSong) return;
         setSongs(songs.map(s => (s.id === editSong?.id ? editSong : s)));
         setEditSong(null);
     }
