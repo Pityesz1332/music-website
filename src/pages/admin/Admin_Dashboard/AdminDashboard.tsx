@@ -2,6 +2,7 @@ import "./AdminDashboard.scss";
 import songsData from "../../../data/songs.json";
 import type { Song } from "../../../types/music";
 
+// típuskényszerítés
 const songs = songsData as Song[];
 
 export const AdminDashboard = () => {

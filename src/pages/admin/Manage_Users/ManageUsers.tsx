@@ -9,16 +9,19 @@ export const ManageUsers = () => {
     const [search, setSearch] = useState("");
     const [editUser, setEditUser] = useState<User | null>(null);
 
+    // lista szűrése
     const filteredUsers = users.filter(
         user =>
             user.name.toLowerCase().includes(search.toLowerCase()) ||
             user.email.toLowerCase().includes(search.toLowerCase())
     );
 
+    // user törlése
     function deleteUser(id: number) {
         setUsers(prev => prev.filter(u => u.id !== id));
     }
 
+    // szerkesztés mentése
     function saveEdit() {
         if (!editUser) return
         setUsers((prev) =>

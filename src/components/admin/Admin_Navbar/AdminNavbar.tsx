@@ -9,9 +9,11 @@ const AdminNavbar = () => {
     const location = useLocation();
     const [shrink, setShrink] = useState<boolean>(false);
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-    
+
+    // segédfüggvény az aktív menüponthoz
     const isActive = (path: string) => location.pathname === path;
 
+    // görgetés figyelése, navbar összenyomása
     useEffect(() => {
         function handleScroll() {
             if (window.scrollY > 30) {
@@ -25,14 +27,17 @@ const AdminNavbar = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    // automatikus navbar zárás oldalváltáskor
     useEffect(() => {
         setIsMenuOpen(false);
     }, [location]);
 
+    // ez még csak navigációkezelés a kijelentkezéshez
     function handleDisconnect() {
         navigate(MainRoutes.HOME);
     }
 
+    // hamburger menü kapcsolója
     function toggleMenu() {
         setIsMenuOpen(!isMenuOpen);
     }

@@ -36,6 +36,7 @@ export const UploadSong = ({ onCancel, onSave }: UploadSongProps) => {
 
     const audioInputRef = useRef<HTMLInputElement>(null);
 
+    // audio fájl hosszának metadata kinyerése
     const getAudioDuration = (file: File): Promise<string> => {
         return new Promise((resolve) => {
             const audio = new Audio();
@@ -50,6 +51,7 @@ export const UploadSong = ({ onCancel, onSave }: UploadSongProps) => {
         });
     };
 
+    // fájl kiválasztás kezelése és automatikus adatkitöltés
     const handleAudioChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file && file.type.startsWith("audio/")) {
@@ -65,6 +67,7 @@ export const UploadSong = ({ onCancel, onSave }: UploadSongProps) => {
         }
     };
 
+    // adatok küldése a szervernek
     const handleUpload = async() => {
         if (!audioFile || !form.title || !form.artist || !form.genre) {
             alert("Fill every field!");

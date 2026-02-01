@@ -14,6 +14,7 @@ export const AdminConnect = () => {
     const { notify } = useNotification();
     const navigate = useNavigate();
 
+    // input kezelés a "name" alapján
     function handleChange (e: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target;
         setCredentials(prev => ({
@@ -22,6 +23,7 @@ export const AdminConnect = () => {
         }));
     }
 
+    // login folyamat kezelése
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
@@ -31,6 +33,7 @@ export const AdminConnect = () => {
             navigate(MainRoutes.ADMIN_DASHBOARD);
             notify("Welcome, Admin", NotificationType.SUCCESS);
         } catch (err: any) {
+            // hibánál jelszó mező ürítése
             setCredentials({ ...credentials, password: "" });
             notify("Invalid credentials!", NotificationType.ERROR);
         }
