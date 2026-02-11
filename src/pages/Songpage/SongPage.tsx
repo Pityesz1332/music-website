@@ -1,177 +1,52 @@
-import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import { Play, Pause, Heart, Download, Pencil, Trash2, ChevronUp, ChevronDown, X, SkipBack, SkipForward } from "lucide-react";
-import { getSongPath } from "../../routes/constants/Main_Routes";
 import { useMusic } from "../../context/MusicContext";
 import { useAuth } from "../../context/AuthContext";
 import { useNotification, NotificationType } from "../../context/NotificationContext";
+import { usePlaylistActions } from "../../hooks/SongPage_hooks/usePlaylistActions";
+import { usePlaylistScroll } from "../../hooks/SongPage_hooks/usePlaylistScroll";
+import { useSongInit } from "../../hooks/SongPage_hooks/useSongInit";
+import { useSongClick } from "../../hooks/SongPage_hooks/useSongClick";
 import ScrollToTop from "../../components/Scroll_to_top/ScrollToTop";
-import songsData from "../../data/songs.json";
 import "./SongPage.scss";
-import type { Song } from "../../types/music";
 
 //type LocationState = {
 //    playlist?: Song[];
 //};
 
 export const SongPage = () => {
-    const navigate = useNavigate();
-    const { state } = useLocation();
-    const [contextMenu, setContextMenu] = useState<{ x: number, y: number, songId: string} | null>(null);
-    const [editingSongId, setEditingSongId] = useState<string | null>(null);
-    const playlistRef = useRef<HTMLDivElement | null>(null);
-    const menuRef = useRef<HTMLDivElement | null>(null);
-    
-    const {
-        currentSong,
-        isPlaying,
-        playlist,
-        playSong,
-        togglePlay,
-        setPlaylist,
-        nextSong,
-        prevSong,
-        savedSongs,
-        saveSong,
-        removeSavedSong
-    } = useMusic();
-
     const auth = useAuth();
     const { notify } = useNotification();
+
     const isConnected = auth?.isConnected;
+
+    const {
+        currentSong, isPlaying, playlist,
+        togglePlay, setPlaylist, nextSong, prevSong,
+        savedSongs, saveSong, removeSavedSong
+    } = useMusic();
+
+    const { handleSongClick } = useSongClick();
+    useSongInit({ playlist, setPlaylist });
+
+    const {
+        contextMenu, editingSongId, menuRef, handleContextMenu,
+        handleEdit, closeEditMode, moveSong, handleDelete
+    } = usePlaylistActions({
+        playlist,
+        setPlaylist,
+        currentSong,
+        nextSong,
+        notify
+    });
+    
+    const { playlistRef, setItemRef } = usePlaylistScroll({
+        currentSong,
+        playlist,
+        editingSongId
+    });
 
     // nézi, hogy az adott zene mentve van-e
     const isSaved = currentSong ? savedSongs.some(s => s.id === currentSong.id) : false;
-
-    // csak az első betöltéskor állítja be a playlist-et
-    const isInitialMount = useRef<boolean>(true);
-    
-    // megakadályozza a későbbi felülírást állapotváltozáskor
-    useEffect(() => {
-        if (isInitialMount.current) {
-            if (state?.playlist) {
-                setPlaylist(state.playlist);
-            } else if (playlist.length === 0) {
-                setPlaylist(songsData as Song[]);
-            }
-            isInitialMount.current = false;
-        }
-    }, [state?.playlist, setPlaylist]);
-    
-    // ez a useEffect, azért felelős, hogy az adott dalhoz scroll-ozzon
-    // automatikusan. lejátszásnál és szerkesztésnél is működik (playlist rendezése)
-    useEffect(() => {
-        if (!playlistRef.current || (!currentSong && !editingSongId)) return;
-
-        const targetSelector = editingSongId
-            ? `.song-page__mini-card:has(.song-page__edit-controls)`
-            : `.song-page__mini-card--active`;
-
-        const activeCard = playlistRef.current.querySelector<HTMLDivElement>(targetSelector);
-        
-        if (!activeCard) return;
-
-        const container = playlistRef.current;
-        const containerStyles = window.getComputedStyle(container);
-        const flexDirection = containerStyles.flexDirection;
-
-        const containerRect = container.getBoundingClientRect();
-        const cardRect = activeCard.getBoundingClientRect();
-
-        if (flexDirection === "row") {
-            const scrollLeft = activeCard.offsetLeft - containerRect.width / 2 + cardRect.width / 2;
-            container.scrollTo({ left: scrollLeft, behavior: "smooth" });
-        } else {
-            const scrollTop = activeCard.offsetTop - (containerRect.height / 2) + (cardRect.height / 2);
-            container.scrollTo({
-                top: scrollTop,
-                behavior: "smooth",
-            });
-        }
-    }, [currentSong, playlist, editingSongId]);
-
-    // bezárja a jobbklikkes módot (a playlist-en), ha a mezőn kívülre kattintunk
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-                setContextMenu(null);
-            }
-        };
-
-        window.addEventListener("click", handleClickOutside);
-        return () => window.removeEventListener("click", handleClickOutside);
-    }, []);
-
-    // nem a böngésző alapértelmezett menüjét nyitja jobbklikkre, hanem a miénket
-    const handleContextMenu = (e: React.MouseEvent, songId: string) => {
-        e.preventDefault();
-        setContextMenu({
-            x: e.clientX,
-            y: e.clientY,
-            songId: songId
-        });
-    };
-
-    // belépés a szerkesztési módba
-    const handleEdit = (songId: string) => {
-        console.log("Editing mode:", songId);
-        setEditingSongId(songId);
-        setContextMenu(null);
-    };
-
-    // kilépés a szerkesztési módból
-    const closeEditMode = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        setEditingSongId(null);
-    };
-
-    // zenék áthelyezése
-    const moveSong = (e: React.MouseEvent, direction: "up" | "down", songId: string) => {
-        console.log(`Move ${songId} ${direction}`);
-        e.stopPropagation();
-
-        // megnézzük az adott zenét
-        const currentIndex = playlist.findIndex((s) => s.id === songId);
-        
-        // ha az első/utolsó zenénél vagyunk, 
-        // nem enged tovább fölfelé/lefelé menni
-        if (currentIndex === -1) return;
-        const newIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
-
-        if (newIndex < 0 || newIndex >= playlist.length) return;
-        const newPlaylist = [...playlist];
-        
-        [newPlaylist[currentIndex], newPlaylist[newIndex]] = [newPlaylist[newIndex], newPlaylist[currentIndex]];
-        setPlaylist(newPlaylist);
-    }
-
-    // törli a zenét az adott session-ből
-    const handleDelete = (songId: string) => {
-        console.log("Delete:", songId);
-
-        const songToDelete = playlist.find(s => s.id === songId);
-        const confirmDelete = window.confirm(
-            `Are you sure you want to delete ${songToDelete?.title} from the playlist?`
-        );
-
-        if (confirmDelete) {
-            const newPlaylist = playlist.filter(s => s.id !== songId);
-            setPlaylist(newPlaylist);
-            notify("Song deleted from playlist", NotificationType.SUCCESS);
-
-            if (currentSong?.id === songId && newPlaylist.length > 0) {
-                nextSong();
-            }
-        }
-
-        setContextMenu(null);
-    }
-
-    // zenelejátszás
-    function handleSongClick(song: Song) {
-        playSong(song);
-        navigate(getSongPath(song.id), { state: {playlist} });
-    }
 
     // hibakezelés, ha nem találjuk az adott zenét
     if (!currentSong) {
@@ -263,6 +138,7 @@ export const SongPage = () => {
                         return (
                             <div
                                 key={song.id}
+                                ref={(el) => setItemRef(song.id, el)}
                                 className={`song-page__mini-card ${song.id === currentSong.id ? "song-page__mini-card--active" : ""}`}
                                 onClick={() => handleSongClick(song)}
                                 onContextMenu={(e) => handleContextMenu(e, song.id)}
