@@ -5,14 +5,26 @@ import type { Song } from "../../types/music";
 
 export const useSongClick = () => {
     const navigate = useNavigate();
-    const { playSong, playlist } = useMusic();
+    const { playSong, playlist, setPlaylist } = useMusic();
 
+    // sima kattintás egy zenére
+    // zene indítása
+    // adatok átadása az új oldalnak
     const handleSongClick = (song: Song) => {
         playSong(song);
         navigate(getSongPath(song.id), {
-            state: { playlist }
+            state: { song, playlist }
         });
     };
 
-    return { handleSongClick };
+    // kattintás szűrt listában (pl. saved)
+    const handleFilteredSongClick = (song: Song, newPlaylist: Song[]) => {
+        setPlaylist(newPlaylist);
+        playSong(song);
+        navigate(getSongPath(song.id), {
+            state: { song, playlist: newPlaylist }
+        });
+    };
+
+    return { handleSongClick, handleFilteredSongClick };
 };

@@ -1,101 +1,31 @@
-import { useEffect, useState, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { MainRoutes, getSongPath } from "../../routes/constants/Main_Routes";
-import { useMusic } from "../../context/MusicContext";
-import { apiFetch } from "../../utils/api";
-import songsData from "../../data/songs.json";
+import { useState, useRef } from "react";
+import { useNavigate} from "react-router-dom";
 import { Filter } from "lucide-react";
+import { MainRoutes } from "../../routes/constants/Main_Routes";
+import { useSongClick } from "../../hooks/SongPage_hooks/useSongClick";
+import { useFilteringSongs } from "../../hooks/Songs_hooks/useFilteringSongs";
 import "./Songs.scss";
-import type { Song } from "../../types/music";
 
 export const Songs = () => {
     const navigate = useNavigate();
-    const { playSong, setPlaylist } = useMusic();
+    const { handleFilteredSongClick } = useSongClick();
 
-    const [songs, setSongs] = useState<Song[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
     const filterRef = useRef<HTMLDivElement>(null);
 
-    // zenék betöltése
-    useEffect(() => {
-        async function loadSongs() {
-            setLoading(true);
-            setError(null);
-
-            const baseSongs = songsData as Song[];
-            const savedToLocal = localStorage.getItem("admin_songs");
-            const uploadedSongs: Song[] = savedToLocal ? JSON.parse(savedToLocal) : [];
-
-            const allSongs = [...uploadedSongs, ...baseSongs];
-            const uniqueSongs = Array.from(new Map(allSongs.map(s => [s.id, s])).values());
-
-            setSongs(uniqueSongs);
-            setLoading(false);
-
-// --- Ez majd később kell ha lesz backend ---
-//            try {
-//                const data = await apiFetch<Song[]>("/data/songs.json");
-//                setSongs(songsData as Song[]);
-//            } catch (err) {
-//                setError(err instanceof Error ? err.message : "Unknown error");
-//            } finally {
-//                setLoading(false);
-//            }
-        }
-
-        loadSongs();
-    }, []);
-
-    // sima retry logika
-    function retry() {
-        setLoading(true);
-        setError(null);
-
-        apiFetch<Song[]>("/data/songs.json")
-            .then(data => setSongs(data))
-            .catch(err => setError(err.message))
-            .finally(() => setLoading(false));
-    }
-
-    
-    // zenék keresése genre alapján
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const searchQuery = queryParams.get("search")?.toLowerCase() ?? "";
-    
-    // szűrés genre alapján
-    const genres: string[] = ["All", ...new Set(songs.map(song => song.genre))];
-    const [selectedGenre, setSelectedGenre] = useState<string>("All");
-
-    const filteredSongs = songs
-                            .filter((song) =>
-                                selectedGenre === "All" ? true : song.genre === selectedGenre
-                            )
-                            .filter((song) =>
-                                searchQuery === "" ? true : song.title.toLowerCase().includes(searchQuery)
-                            );
-
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const itemsPerPage = 15;
-    const totalPages = Math.ceil(filteredSongs.length / itemsPerPage);
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const currentSongs = filteredSongs.slice(startIndex, startIndex + itemsPerPage);
-
-    // beállítja a választott genre-t
-    function handleGenreChange(genre: string) {
-        setSelectedGenre(genre);
-        setCurrentPage(1);
-        setIsFilterOpen(false);
-    }
-
-    // zenelejátszás
-    function handleSongClick(song: Song) {
-        setPlaylist(filteredSongs);
-        playSong(song);
-        navigate(getSongPath(song.id), { state: { song, playlist: filteredSongs } });
-    }
+    const {
+        currentSongs,
+        filteredSongs,
+        genres,
+        selectedGenre,
+        searchQuery,
+        currentPage, setCurrentPage,
+        totalPages,
+        loading,
+        error,
+        handleGenreChange,
+        retry
+    } = useFilteringSongs(15);
 
     // töltési logika
     if (loading) {
@@ -167,7 +97,7 @@ export const Songs = () => {
                         <div key={song.id} className="songs__card-wrapper">
                             <div
                                 className="songs__card"
-                                onClick={() => handleSongClick(song)}
+                                onClick={() => handleFilteredSongClick(song, filteredSongs)}
                             >
                                 <img className="songs__card-image" src={song.cover} alt={song.title} />
                                 <h3 className="songs__card-title">{song.title}</h3>

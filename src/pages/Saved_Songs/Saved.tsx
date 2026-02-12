@@ -1,45 +1,30 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { MainRoutes, getSongPath } from "../../routes/constants/Main_Routes";
+import { useNavigate } from "react-router-dom";
+import { MainRoutes } from "../../routes/constants/Main_Routes";
 import { useMusic } from "../../context/MusicContext";
+import { useSongClick } from "../../hooks/SongPage_hooks/useSongClick";
+import { useFilteringSaved } from "../../hooks/Saved_hooks/useFilteringSaved";
 import "../Songs/Songs.scss";
-import type { Song } from "../../types/music";
 
 export const Saved = () => {
     const navigate = useNavigate();
-    const { playSong, setPlaylist, savedSongs } = useMusic();
-    const [songs, setSongs] = useState<Song[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const { savedSongs } = useMusic();
 
-    // a MusicContext-ből érkező mentett dalokat szinkronizálja
-    // a helyi állapottal, amikor betölt a komponens
-    useEffect(() => {
-        setSongs(savedSongs ?? []);
-        setLoading(false);
-    }, [savedSongs]);
+    const { handleFilteredSongClick } = useSongClick();
 
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const searchQuery = queryParams.get("search")?.toLowerCase() ?? "";
+    const isLoading = savedSongs === undefined || savedSongs === null;
 
-    // kiszűri a mentett zenéket
-    const filteredSongs = songs.filter((song) => searchQuery === "" ? true : song.title.toLowerCase().includes(searchQuery));
-
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const itemsPerPage = 15;
-    const totalPages = Math.ceil(filteredSongs.length / itemsPerPage);
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const currentSongs = filteredSongs.slice(startIndex, startIndex + itemsPerPage);
-
-    // zene lejátszása -> csak a mentett zenéket teszi a playlist-re
-    function handleSongClick(song: Song) {
-        setPlaylist(filteredSongs);
-        playSong(song);
-        navigate(getSongPath(song.id), { state: { song, playlist: filteredSongs } });
-    }
+    const {
+        searchQuery,
+        filteredSongs,
+        currentSongs,
+        currentPage,
+        totalPages,
+        nextPage,
+        prevPage,
+    } = useFilteringSaved(savedSongs ?? []);
 
     // loading screen amíg az adatok megérkeznek
-    if (loading) {
+    if (isLoading) {
         return (
             <div className="songs">
                 <div className="songs__status-container loading-container">
@@ -51,7 +36,7 @@ export const Saved = () => {
     }
 
     // üres állapot kezelése
-    if (!songs || songs.length === 0) {
+    if (savedSongs.length === 0) {
         return (
             <div className="songs">
                 <div className="songs__no-results">
@@ -82,9 +67,8 @@ export const Saved = () => {
                     {currentSongs.map((song) => (
                         <div key={song.id} className="songs__card-wrapper">
                             <div
-                                key={song.id}
                                 className="songs__card"
-                                onClick={() => handleSongClick(song)}
+                                onClick={() => handleFilteredSongClick(song, filteredSongs)}
                             >
                                 <img className="songs__card-image" src={song.cover} alt={song.title} />
                                 <h3 className="songs__card-title">{song.title}</h3>
@@ -95,9 +79,9 @@ export const Saved = () => {
                 </div>
 
                 <div className="songs__pagination">
-                    <button className="songs__pagination-button" onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>Prev</button>
-                    <span>Page {currentPage} / {totalPages}</span>
-                    <button className="songs__pagination-button" onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages}>Next</button>
+                    <button className="songs__pagination-button" onClick={prevPage} disabled={currentPage === 1}>Prev</button>
+                    <span>Page {currentPage} / {Math.max(totalPages, 1)}</span>
+                    <button className="songs__pagination-button" onClick={nextPage} disabled={currentPage === totalPages}>Next</button>
                 </div>
             </div>
         </div>
