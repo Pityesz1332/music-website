@@ -13,13 +13,13 @@ export const useProgressBar = (audioRef: RefObject<HTMLAudioElement>) => {
     const seekTimeRef = useRef<number>(0);
 
     // frissítjük a csúszkát, ahogy halad a zene
-    const handleTimeUpdate = () => {
+    const handleTimeUpdate = useCallback(() => {
         if (isSeeking || !audioRef.current) return;
         const audio = audioRef.current;
         setCurrentTime(audio.currentTime);
         const percent = (audio.currentTime / audio.duration) * 100;
         setProgress(percent || 0);
-    };
+    }, [isSeeking, audioRef]);
 
     // kiszámoljuk az X koordinátából, hogy hány %, mennyi idő
     const calculateTimeFromX = (clientX: number, target: HTMLElement) => {
@@ -49,13 +49,13 @@ export const useProgressBar = (audioRef: RefObject<HTMLAudioElement>) => {
     const handleMouseLeave = () => setHoverTime(null);
 
     // sima reset
-    const resetSong = () => {
+    const resetSong = useCallback(() => {
         if (audioRef.current) {
             audioRef.current.currentTime = 0;
             setProgress(0);
             setCurrentTime(0);
         }
-    };
+    }, [audioRef]);
 
     // globális egérmozgatás kezelése, ha húzás közben elhagyjuk a progress bar-t
     // useCallback-kel, mert így elkerüljük az infinite loop-ot

@@ -1,4 +1,4 @@
-import { Song } from "../../types/music";
+import { Song } from "../types/music";
 
 // definiáljuk mit kell megkapni a működéshez
 interface PlaybackLogicProps {

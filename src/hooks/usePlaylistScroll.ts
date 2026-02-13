@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import type { Song } from "../../types/music";
+import type { Song } from "../types/music";
 
 // bemeneti adatok
 interface UsePlaylistScrollProps {

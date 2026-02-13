@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import type { Song } from "../../types/music";
+import type { Song } from "../types/music";
 
 // ezen a néven mentjük az adatokat
 const STORAGE_KEY = "recentlyPlayed";

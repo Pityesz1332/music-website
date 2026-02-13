@@ -1,4 +1,4 @@
-import { useNotification, NotificationType } from "../../context/NotificationContext";
+import { useNotification, NotificationType } from "../context/NotificationContext";
 
 export const useClipboard = () => {
     const { notify } = useNotification();

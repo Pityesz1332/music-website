@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { Play, Pause, SkipBack, SkipForward, TimerReset, Repeat, Heart, Download } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
 import { useAuth } from "../../context/AuthContext";
-import { useVolumeControl } from "../../hooks/Playbar_hooks/useVolumeControl";
-import { useProgressBar } from "../../hooks/Playbar_hooks/useProgressBar";
 import { useNotification, NotificationType } from "../../context/NotificationContext";
+import { formatTime } from "../../utils/formatTime";
+import { useVolumeControl } from "../../hooks/useVolumeControl";
+import { useProgressBar } from "../../hooks/useProgressBar";
+import { useKeyboardControls } from "../../hooks/useKeyboardControls";
+import { useAudioSync } from "../../hooks/useAudioSync";
+import { usePlaybarInteractions } from "../../hooks/usePlaybarInteractions";
 import "./Playbar.scss";
 
 const Playbar = () => {
@@ -14,6 +18,18 @@ const Playbar = () => {
     
     const playbarRef = useRef<HTMLDivElement>(null);
     const audioRef = useRef<HTMLAudioElement>(null!);
+
+    const [isLooping, setIsLooping] = useState<boolean>(false);
+
+    const { isManuallyCollapsed, handlePlaybarTap } = usePlaybarInteractions(playbarRef);
+    
+    const {
+        progress, currentTime, hoverTime, hoverPos, progressBarRef,
+        handleTimeUpdate, startSeek, handleMouseMove, handleMouseLeave, resetSong
+    } = useProgressBar(audioRef);
+
+    const { isLoading, setIsLoading, handlePlay, isPlaying, song } = useAudioSync(audioRef, resetSong);
+
     const {
         volume,
         handleVolumeChanger,
@@ -23,22 +39,11 @@ const Playbar = () => {
         updateVolume
     } = useVolumeControl(audioRef);
     
-    const {
-        progress, currentTime, hoverTime, hoverPos, progressBarRef,
-        handleTimeUpdate, startSeek, handleMouseMove, handleMouseLeave, resetSong
-    } = useProgressBar(audioRef);
-
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [isLooping, setIsLooping] = useState<boolean>(false);
-    const [isManuallyCollapsed, setIsManuallyCollapsed] = useState<boolean>(true);
-
     const auth = useAuth();
     // ez biztonsági ellenőrzés magamnak
     if (!auth) throw new Error("useAuth must be used within AuthProvider");
     const { isConnected } = auth;
     const {
-        currentSong: song,
-        isPlaying,
         togglePlay: onPlayPause,
         nextSong: onNext,
         prevSong: onPrev,
@@ -46,11 +51,21 @@ const Playbar = () => {
         saveSong,
         removeSavedSong
     } = useMusic();
-    const { notify } = useNotification();
+    
+    useKeyboardControls({
+        audioRef,
+        isPlaying,
+        volume,
+        updateVolume,
+        handlePlay,
+        songExist: !!song
+    });
 
+    const { notify } = useNotification();
+    
     //megnézzük, hogy mentve van-e az adott zene
     const isSaved = song ? savedSongs.some(s => s.id === song.id) : false;
-
+    
     // playbar állapotváltozásai változókba mentve
     const playbarBaseClass = "playbar";
     const playbarClasses = [
@@ -59,117 +74,6 @@ const Playbar = () => {
         isManuallyCollapsed ? `${playbarBaseClass}--manually-collapsed` : ""
     ].filter(Boolean).join(" ");
 
-    useEffect(() => {
-        const handleGlobalWheel = (e: WheelEvent) => {
-            const playbarElement = playbarRef.current;
-            if (!playbarElement) return;
-
-            const isOverPlaybar = playbarElement.contains(e.target as Node);
-
-            if (isOverPlaybar) {
-                e.preventDefault();
-            }
-        };
-
-        window.addEventListener("wheel", handleGlobalWheel, { passive: false });
-        
-        return () => {
-            window.removeEventListener("wheel", handleGlobalWheel);
-        };
-    }, []);
-
-    // automatikus lejátszás
-    useEffect(() => {
-        if (!audioRef.current || !song) return;
-
-        resetSong();
-
-        const audio = audioRef.current;
-        audio.load();
-
-        function autoPlay() {
-            if (isPlaying) {
-                audio.play().catch(err => console.log(err));
-            }
-        }
-
-        audio.addEventListener("canplay", autoPlay);
-
-        return () => {
-            audio.removeEventListener("canplay", autoPlay);
-        };
-    }, [song?.src]);
-
-    // play-pause gomb logika
-    useEffect(() => {
-        if (!audioRef.current) return;
-
-        if (isPlaying && audioRef.current.paused) {
-            audioRef.current.play().catch((err) => { console.log(err) });
-        } else if (!isPlaying && !audioRef.current.paused) {
-            audioRef.current.pause();
-        }
-    }, [isPlaying]);
-
-    // billenytyűzettel való playbarkezelés
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
-                return;
-            }
-
-            if (!audioRef.current) return;
-            const audio = audioRef.current;
-
-            switch (e.code) {
-                case "Space":
-                    e.preventDefault();
-                    handlePlay();
-                    break;
-                case "ArrowUp":
-                    e.preventDefault();
-                    updateVolume(volume + 0.1);
-                    break;
-                case "ArrowDown":
-                    e.preventDefault();
-                    updateVolume(volume - 0.1)
-                    break;
-                case "ArrowLeft":
-                    e.preventDefault();
-                    audio.currentTime = Math.max(audio.currentTime - 5, 0);
-                    break;
-                case "ArrowRight":
-                    e.preventDefault();
-                    audio.currentTime = Math.min(audio.currentTime + 5, audio.duration);
-                    break;
-                default:
-                    break;
-            }
-        };
-
-        window.addEventListener("keydown", handleKeyDown);
-        return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [isPlaying, song, volume]);
-
-    // indítja a playbar-on a zenét
-    function handlePlay() {
-        if (isPlaying) {
-            onPlayPause();
-            return;
-        }
-
-        setIsLoading(true);
-        onPlayPause();
-    }
-
-    function handlePlaybarTap(e: React.MouseEvent<HTMLDivElement>) {
-        const target = e.target as HTMLElement;
-        const isButtonClick = target.closest("button") || target.closest("input") || target.closest(".playbar__volume-wrapper");
-
-        if (!isButtonClick) {
-            setIsManuallyCollapsed(!isManuallyCollapsed);
-        }
-    }
 
     if (!song) return null;
 
@@ -318,14 +222,6 @@ const Playbar = () => {
                 </div>
             </div>
     );
-}
-
-// idő formázása
-function formatTime(seconds: number) {
-    if (seconds == null || isNaN(seconds)) return "0:00";
-    const min = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${min}:${secs.toString().padStart(2, "0")}`;
 }
 
 export default Playbar;

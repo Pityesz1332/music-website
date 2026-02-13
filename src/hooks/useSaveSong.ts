@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Song } from "../../types/music";
+import type { Song } from "../types/music";
 
 // kezeljük a mentett dalok listáját
 export const useSaveSong = () => {

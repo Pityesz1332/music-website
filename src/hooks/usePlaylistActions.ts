@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import type { Song } from "../../types/music";
-import { NotificationType } from "../../context/NotificationContext";
+import type { Song } from "../types/music";
+import { NotificationType } from "../context/NotificationContext";
 
 // paraméterek meghatározása
 interface UsePlaylistActionsProps {

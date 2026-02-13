@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import type { Song } from "../../types/music";
-import songsData from "../../data/songs.json";
+import type { Song } from "../types/music";
+import songsData from "../data/songs.json";
 
 interface UseSongInitProps {
     playlist: Song[];

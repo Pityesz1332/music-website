@@ -1,12 +1,9 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MainRoutes } from "../../routes/constants/Main_Routes";
 import { RecentlyPlayed } from "../../components/Recently_Played/RecentlyPlayed";
+import { useBackgroundChange } from "../../hooks/useBackgroundChange";
+import { Background } from "../../types/background";
 import "./Home.scss";
-
-type Background = 
-    | { type: "image"; src: string }
-    | { type: "video"; src: string };
 
 const backgrounds: Background[] = [
     { type: "image", src: "/assets/home_background1.jpg" },
@@ -16,16 +13,7 @@ const backgrounds: Background[] = [
 
 export const Home = () => {
     const navigate = useNavigate();
-    const [bgIndex, setBgIndex] = useState<number>(0);
-
-    // háttér váltakozása
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setBgIndex(prev => (prev + 1) % backgrounds.length);
-        }, 5000);
-
-        return () => clearInterval(interval);
-    }, []);
+    const { bgIndex } = useBackgroundChange(backgrounds, 5000);
 
     return (
         <div className="home">

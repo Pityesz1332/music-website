@@ -2,8 +2,8 @@ import { Copy } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
 import { useNotification, NotificationType } from "../../context/NotificationContext";
 import { RecentlyPlayed } from "../../components/Recently_Played/RecentlyPlayed";
-import { useAvatarUpload } from "../../hooks/Profile_hooks/useAvatarUpload";
-import { useClipboard } from "../../hooks/Profile_hooks/useClipboard";
+import { useAvatarUpload } from "../../hooks/useAvatarUpload";
+import { useClipboard } from "../../hooks/useClipboard";
 import "./MyAccount.scss";
 
 export const MyAccount = () => {

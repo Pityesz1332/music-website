@@ -2,8 +2,8 @@ import { useState, useRef } from "react";
 import { useNavigate} from "react-router-dom";
 import { Filter } from "lucide-react";
 import { MainRoutes } from "../../routes/constants/Main_Routes";
-import { useSongClick } from "../../hooks/SongPage_hooks/useSongClick";
-import { useFilteringSongs } from "../../hooks/Songs_hooks/useFilteringSongs";
+import { useSongClick } from "../../hooks/useSongClick";
+import { useFilteringSongs } from "../../hooks/useFilteringSongs";
 import "./Songs.scss";
 
 export const Songs = () => {

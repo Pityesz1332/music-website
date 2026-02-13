@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import type { Song } from "../../types/music";
+import type { Song } from "../types/music";
 
 export const useFilteringSaved = (savedSongs: Song[]) => {
     const location = useLocation();

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useLocation } from "react-router-dom";
-import type { Song } from "../../types/music";
-import songsData from "../../data/songs.json";
+import type { Song } from "../types/music";
+import songsData from "../data/songs.json";
 
 export const useFilteringSongs = (itemsPerPage: number = 15) => {
     const [songs, setSongs] = useState<Song[]>([]);
