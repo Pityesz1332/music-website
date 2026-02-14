@@ -1,9 +1,9 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import type { Song } from "../types/music";
-import { usePlayback } from "../hooks/MusicContext_hooks/usePlayback";
-import { useRecentlyPlayed } from "../hooks/MusicContext_hooks/useRecentlyPlayed";
-import { useSaveSong } from "../hooks/MusicContext_hooks/useSaveSong";
-import { useDocumentTitle } from "../hooks/MusicContext_hooks/useDocumentTitle";
+import { usePlayback } from "../hooks/usePlayback";
+import { useRecentlyPlayed } from "../hooks/useRecentlyPlayed";
+import { useSaveSong } from "../hooks/useSaveSong";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 // ez a lista írja le hogy mit tud a rendszer
 interface MusicContextType {
