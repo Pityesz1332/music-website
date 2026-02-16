@@ -1,75 +1,24 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import React, { useState, useEffect } from "react";
 import { Menu, X, Heart, Music, User, Search } from "lucide-react";
-import { MainRoutes, getSongPath } from "../../routes/constants/Main_Routes";
-import { useAuth } from "../../context/AuthContext";
-import { useNotification, NotificationType } from "../../context/NotificationContext";
-import { useLoading } from "../../context/LoadingContext";
+import { MainRoutes } from "../../routes/constants/Main_Routes";
+import { useNavbarUI } from "../../hooks/useNavbarUI";
+import { useNavbarSearch } from "../../hooks/useNavbarSearch";
+import { useDisconnect } from "../../hooks/useDisconnect";
 import "../Navbar/Navbar.scss";
 
 // külön navbar a bejelentkezett felhasználóknak
 const ConnectedNavbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { disconnect } = useAuth();
-    const { notify } = useNotification();
-    const { showLoading, hideLoading } = useLoading();
-    const [searchTerm, setSearchTerm] = useState<string>("");
-    const [isShrunk, setIsShrunk] = useState<boolean>(false);
-    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-    const [isFocused, setIsFocused] = useState<boolean>(false);
-
-    // navbar összenyomódása scroll-nál
-    useEffect(() => {
-        function handleScroll() {
-            if (window.scrollY > 50) {
-                setIsShrunk(true);
-            } else {
-                setIsShrunk(false);
-            }
-        }
-
-        window.addEventListener("scroll", handleScroll);
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
-
-    // keresőmező (csak ha van text a searchbar-ban)
-    const executeSearch = () => {
-        if (searchTerm.trim() !== "") {
-            navigate(`${MainRoutes.SONGS}?search=${encodeURIComponent(searchTerm)}`);
-            setSearchTerm("");
-            setIsFocused(false);
-        }
-    };
-
-    // keresés enter gomb lenyomására
-    function handleSearch(e: React.KeyboardEvent<HTMLInputElement>) {
-        if (e.key === "Enter") {
-            executeSearch();
-        }
-    }
-
-    // kisebb kijelzőkön hamburgermenü kinyitás/becsukás
-    function toggleMenu() {
-        setIsMenuOpen(prev => !prev);
-    }
-
-    // kijelentkezés -> sima navbar-ra váltás
-    // ez kicsit késleltetve van a töltés tesztje miatt
-    async function handleDisconnect() {
-        try {
-            showLoading();
-            await disconnect();
-            hideLoading();
-            navigate(MainRoutes.HOME);
-            notify("Disconnected", NotificationType.SUCCESS);
-        } catch(err) {
-            hideLoading();
-            notify("Error", NotificationType.ERROR);
-        }
-    }
+    const { isShrunk, isMenuOpen, toggleMenu, closeMenu } = useNavbarUI();
+    const {
+        searchTerm, setSearchTerm,
+        isFocused, setIsFocused,
+        executeSearch,
+        handleKeyDown,
+        handleBlur
+    } = useNavbarSearch(closeMenu);
+    const { handleDisconnect } = useDisconnect();
 
     return (
             <nav className={`navbar navbar--connected ${isShrunk ? "navbar--shrunk" : ""}`}>
@@ -83,9 +32,9 @@ const ConnectedNavbar = () => {
                             placeholder="Search..."
                             value={searchTerm}
                             onFocus={() => setIsFocused(true)}
-                            onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+                            onBlur={handleBlur}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
-                            onKeyDown={handleSearch}
+                            onKeyDown={handleKeyDown}
                         />
 
                         {/* nagyító megjelenése, ha a searchbar fókuszban van */}
@@ -102,21 +51,21 @@ const ConnectedNavbar = () => {
                 <ul className={`navbar__menu ${isMenuOpen ? "navbar__menu--open" : ""}`}>
                     <li
                         className={`navbar__item ${location.pathname === MainRoutes.SONGS ? "navbar__item--active" : ""}`}
-                        onClick={() => { navigate(MainRoutes.SONGS); setIsMenuOpen(false); }}
+                        onClick={() => { navigate(MainRoutes.SONGS); closeMenu(); }}
                     >
                     <Music className="navbar__item-icon" size={28} /><span className="navbar__item-text">Songs/Mixes</span>
                     </li>
 
                     <li
                         className={`navbar__item ${location.pathname === MainRoutes.SAVED ? "navbar__item--active" : ""}`}
-                        onClick={() => { navigate(MainRoutes.SAVED); setIsMenuOpen(false); }}
+                        onClick={() => { navigate(MainRoutes.SAVED); closeMenu(); }}
                     >
                         <Heart className="navbar__item-icon" size={28} /><span className="navbar__item-text">Favorites</span>
                     </li>
                     
                     <li
                         className={`navbar__item ${location.pathname === MainRoutes.MY_ACCOUNT ? "navbar__item--active" : ""}`}
-                        onClick={() => { navigate(MainRoutes.MY_ACCOUNT); setIsMenuOpen(false); }}
+                        onClick={() => { navigate(MainRoutes.MY_ACCOUNT); closeMenu(); }}
                     >
                     <User className="navbar__item-icon" size={28} /><span className="navbar__item-text">Account</span>
                     </li>

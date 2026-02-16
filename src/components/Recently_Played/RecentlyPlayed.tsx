@@ -1,40 +1,13 @@
-import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useMusic } from "../../context/MusicContext";
+import { useRecentlyPlayedUI } from "../../hooks/useRecentlyPlayedUI";
 import "./RecentlyPlayed.scss";
 
 export const RecentlyPlayed = () => {
     const location = useLocation();
     const isProfilePage = location.pathname === "/myaccount"
     const { recentlyPlayed, playSong } = useMusic();
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [fade, setFade] = useState<boolean>(true);
-
-    // csak annyi elemet nézünk, ami éppen a tömbben van.
-    // ha rövidebb a lista, mint ahol állunk, visszaugrik az első elemre
-    useEffect(() => {
-        if (currentIndex >= recentlyPlayed.length) {
-            setCurrentIndex(0);
-        }
-    }, [recentlyPlayed.length, currentIndex]);
-
-    // 3 mp-ként váltakoznak az elemek a listában 
-    // (homepage only, profilepage-en lista van)
-    useEffect(() => {
-        if (recentlyPlayed.length <= 1 || isProfilePage) return;
-
-        const interval = setInterval(() => {
-            setFade(false);
-            setTimeout(() => {
-                setCurrentIndex((prevIndex) =>
-                    prevIndex === recentlyPlayed.length -1 ? 0 : prevIndex + 1
-            );
-            setFade(true);
-            }, 300);
-        }, 3000);
-
-        return () => clearInterval(interval);
-    }, [recentlyPlayed, isProfilePage]);
+    const { currentItem, fade } = useRecentlyPlayedUI(recentlyPlayed, isProfilePage);
 
     if (recentlyPlayed.length === 0) return null;
 
@@ -58,9 +31,6 @@ export const RecentlyPlayed = () => {
         );
     }
 
-    // az aktuális elem kiválasztása a tömbből az index alapján
-    const currentItem = recentlyPlayed[currentIndex];
-
     // jelenlegi homepage megjelenítés
     return (
         <section className="recently-played">
@@ -71,7 +41,7 @@ export const RecentlyPlayed = () => {
                 onClick={() => playSong(currentItem)}
             >
                 <div className="recently-played__image-container">
-                    <img src={currentItem.cover} alt={currentItem.title} className="recently-played__image" />
+                    <img src={currentItem?.cover} alt={currentItem?.title} className="recently-played__image" />
                 </div>
 
                 <div className="recently-played__info">
