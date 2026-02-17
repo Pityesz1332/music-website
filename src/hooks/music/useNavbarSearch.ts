@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MainRoutes } from "../routes/constants/Main_Routes";
+import { MainRoutes } from "../../routes/constants/Main_Routes";
 
 // a navbar keresésért felelős hook-ja
 export const useNavbarSearch = (closeMenu: () => void) => {

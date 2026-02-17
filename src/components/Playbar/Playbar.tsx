@@ -5,11 +5,11 @@ import { useMusic } from "../../context/MusicContext";
 import { useAuth } from "../../context/AuthContext";
 import { useNotification, NotificationType } from "../../context/NotificationContext";
 import { formatTime } from "../../utils/formatTime";
-import { useVolumeControl } from "../../hooks/useVolumeControl";
-import { useProgressBar } from "../../hooks/useProgressBar";
-import { useKeyboardControls } from "../../hooks/useKeyboardControls";
-import { useAudioSync } from "../../hooks/useAudioSync";
-import { usePlaybarInteractions } from "../../hooks/usePlaybarInteractions";
+import { useVolumeControl } from "../../hooks/audio/useVolumeControl";
+import { useProgressBar } from "../../hooks/audio/useProgressBar";
+import { useKeyboardControls } from "../../hooks/general/useKeyboardControls";
+import { useAudioSync } from "../../hooks/audio/useAudioSync";
+import { usePlaybarInteractions } from "../../hooks/audio/usePlaybarInteractions";
 import "./Playbar.scss";
 
 const Playbar = () => {

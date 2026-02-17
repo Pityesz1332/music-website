@@ -2,11 +2,11 @@ import { Play, Pause, Heart, Download, Pencil, Trash2, ChevronUp, ChevronDown, X
 import { useMusic } from "../../context/MusicContext";
 import { useAuth } from "../../context/AuthContext";
 import { useNotification, NotificationType } from "../../context/NotificationContext";
-import { usePlaylistActions } from "../../hooks/usePlaylistActions";
-import { usePlaylistScroll } from "../../hooks/usePlaylistScroll";
-import { useSongInit } from "../../hooks/useSongInit";
-import { useSongClick } from "../../hooks/useSongClick";
-import ScrollToTop from "../../components/Scroll_to_top/ScrollToTop";
+import { usePlaylistActions } from "../../hooks/music/usePlaylistActions";
+import { usePlaylistScroll } from "../../hooks/ui/usePlaylistScroll";
+import { useSongInit } from "../../hooks/audio/useSongInit";
+import { useSongClick } from "../../hooks/music/useSongClick";
+import { ScrollToTop } from "../../hooks/general/ScrollToTop";
 import "./SongPage.scss";
 
 //type LocationState = {

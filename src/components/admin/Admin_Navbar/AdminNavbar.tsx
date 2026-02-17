@@ -1,46 +1,17 @@
-import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { MainRoutes } from "../../../routes/constants/Main_Routes";
 import "./AdminNavbar.scss";
+import { useAdminNavbar } from "../../../hooks/admin/useAdminNavbar";
 
 const AdminNavbar = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const [shrink, setShrink] = useState<boolean>(false);
-    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-
-    // segédfüggvény az aktív menüponthoz
-    const isActive = (path: string) => location.pathname === path;
-
-    // görgetés figyelése, navbar összenyomása
-    useEffect(() => {
-        function handleScroll() {
-            if (window.scrollY > 30) {
-                setShrink(true);
-            } else {
-                setShrink(false);
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
-    // automatikus navbar zárás oldalváltáskor
-    useEffect(() => {
-        setIsMenuOpen(false);
-    }, [location]);
-
-    // ez még csak navigációkezelés a kijelentkezéshez
-    function handleDisconnect() {
-        navigate(MainRoutes.HOME);
-    }
-
-    // hamburger menü kapcsolója
-    function toggleMenu() {
-        setIsMenuOpen(!isMenuOpen);
-    }
+    const {
+        shrink,
+        isMenuOpen,
+        isActive,
+        handleDisconnect,
+        toggleMenu
+    } = useAdminNavbar();
 
     return (
         <nav className={`admin-navbar ${shrink ? "admin-navbar--shrink" : ""}`}>

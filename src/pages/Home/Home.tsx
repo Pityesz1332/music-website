@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { MainRoutes } from "../../routes/constants/Main_Routes";
 import { RecentlyPlayed } from "../../components/Recently_Played/RecentlyPlayed";
-import { useBackgroundChange } from "../../hooks/useBackgroundChange";
+import { useBackgroundChange } from "../../hooks/ui/useBackgroundChange";
 import { Background } from "../../types/background";
 import "./Home.scss";
 

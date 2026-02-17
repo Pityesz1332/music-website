@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { useNotification, NotificationType } from "../context/NotificationContext";
-import { useLoading } from "../context/LoadingContext";
-import { MainRoutes } from "../routes/constants/Main_Routes";
+import { useAuth } from "../../context/AuthContext";
+import { useNotification, NotificationType } from "../../context/NotificationContext";
+import { useLoading } from "../../context/LoadingContext";
+import { MainRoutes } from "../../routes/constants/Main_Routes";
 
 export const useDisconnect = () => {
     const navigate = useNavigate();

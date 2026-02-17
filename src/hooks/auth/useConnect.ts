@@ -1,6 +1,6 @@
-import { useAuth } from "../context/AuthContext";
-import { useNotification, NotificationType } from "../context/NotificationContext";
-import { useLoading } from "../context/LoadingContext";
+import { useAuth } from "../../context/AuthContext";
+import { useNotification, NotificationType } from "../../context/NotificationContext";
+import { useLoading } from "../../context/LoadingContext";
 
 export const useConnect = () => {
     const { connect } = useAuth();

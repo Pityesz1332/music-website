@@ -1,34 +1,17 @@
-import { useState } from "react";
 import { Trash2, Edit } from "lucide-react";
-import { usersData } from "../../../data/usersData";
+import { useUserManager } from "../../../hooks/admin/useUserManager";
 import "./ManageUsers.scss";
-import { User } from "../../../data/usersData";
 
 export const ManageUsers = () => {
-    const [users, setUsers] = useState<User[]>(usersData);
-    const [search, setSearch] = useState("");
-    const [editUser, setEditUser] = useState<User | null>(null);
 
-    // lista szűrése
-    const filteredUsers = users.filter(
-        user =>
-            user.name.toLowerCase().includes(search.toLowerCase()) ||
-            user.email.toLowerCase().includes(search.toLowerCase())
-    );
-
-    // user törlése
-    function deleteUser(id: number) {
-        setUsers(prev => prev.filter(u => u.id !== id));
-    }
-
-    // szerkesztés mentése
-    function saveEdit() {
-        if (!editUser) return
-        setUsers((prev) =>
-            prev.map((u) => (u.id === editUser.id ? editUser : u))
-        );
-        setEditUser(null);
-    }
+    const {
+        search, setSearch,
+        editUser,
+        filteredUsers,
+        deleteUser,
+        startEditing, cancelEditing, handleEditChange,
+        saveEdit
+    } = useUserManager();
 
     return (
         <div className="manage-users">
@@ -60,8 +43,8 @@ export const ManageUsers = () => {
                             <td className="manage-users__td" data-label="Name">{user.name}</td>
                             <td className="manage-users__td" data-label="Email">{user.email}</td>
                             <td className="manage-users__td manage-users__td--role" data-label="Role">{user.role}</td>
-                            <td className="manage-users__td manage-users__td--actions" data-lebel="Actions">
-                                <button onClick={() => setEditUser({ ...user })} className="manage-users__button manage-users__button--edit">
+                            <td className="manage-users__td manage-users__td--actions" data-label="Actions">
+                                <button onClick={() => startEditing(user)} className="manage-users__button manage-users__button--edit">
                                     <Edit size={18} />
                                 </button>
                                 <button onClick={() => deleteUser(user.id)} className="manage-users__button manage-users__button--delete">
@@ -80,16 +63,16 @@ export const ManageUsers = () => {
 
                     <div className="manage-users__form-group">
                         <label className="manage-users__label">Name</label>
-                        <input className="manage-users__input" type="text" value={editUser.name} onChange={(e) => setEditUser((prev) => prev ? { ...prev, name: e.target.value } : prev)}/>
+                        <input className="manage-users__input" type="text" value={editUser.name} onChange={(e) => handleEditChange("name", e.target.value)}/>
                     </div>
                     <div className="manage-users__form-group">
                         <label className="manage-users__label">Email</label>
-                        <input className="manage-users__input" type="text" value={editUser.email} onChange={(e) => setEditUser((prev) => prev ? { ...prev, email: e.target.value } : prev)}/>
+                        <input className="manage-users__input" type="text" value={editUser.email} onChange={(e) => handleEditChange("email", e.target.value)}/>
                     </div>
 
                     <div className="manage-users__form-group">
                         <label className="manage-users__label">Role</label>
-                        <select className="manage-users__select" value={editUser.role} onChange={(e) => setEditUser((prev) => prev ? { ...prev, role: e.target.value as "user" | "admin" } : prev)}>
+                        <select className="manage-users__select" value={editUser.role} onChange={(e) => handleEditChange("role", e.target.value)}>
                             <option value="user">User</option>
                             <option value="admin">Admin</option>
                         </select>
@@ -97,7 +80,7 @@ export const ManageUsers = () => {
 
                         <div className="manage-users__modal-actions">
                             <button onClick={saveEdit} className="manage-users__button manage-users__button--save">Save</button>
-                            <button onClick={() => setEditUser(null)} className="manage-users__button manage-users__button--cancel">Cancel</button>
+                            <button onClick={cancelEditing} className="manage-users__button manage-users__button--cancel">Cancel</button>
                         </div>
                     </div>
                 </div>

@@ -1,9 +1,9 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { Menu, X, Heart, Music, User, Search } from "lucide-react";
 import { MainRoutes } from "../../routes/constants/Main_Routes";
-import { useNavbarUI } from "../../hooks/useNavbarUI";
-import { useNavbarSearch } from "../../hooks/useNavbarSearch";
-import { useDisconnect } from "../../hooks/useDisconnect";
+import { useNavbarUI } from "../../hooks/ui/useNavbarUI";
+import { useNavbarSearch } from "../../hooks/music/useNavbarSearch";
+import { useDisconnect } from "../../hooks/auth/useDisconnect";
 import "../Navbar/Navbar.scss";
 
 // külön navbar a bejelentkezett felhasználóknak

@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { MainRoutes } from "../../routes/constants/Main_Routes";
 import { useMusic } from "../../context/MusicContext";
-import { useSongClick } from "../../hooks/useSongClick";
-import { useFilteringSaved } from "../../hooks/useFilteringSaved";
+import { useSongClick } from "../../hooks/music/useSongClick";
+import { useFilteringSaved } from "../../hooks/music/useFilteringSaved";
 import "../Songs/Songs.scss";
 
 export const Saved = () => {

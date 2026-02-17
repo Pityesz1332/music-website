@@ -1,9 +1,9 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { Wallet, Menu, X, Music, Search } from "lucide-react";
 import { MainRoutes } from "../../routes/constants/Main_Routes";
-import { useNavbarUI } from "../../hooks/useNavbarUI";
-import { useNavbarSearch } from "../../hooks/useNavbarSearch";
-import { useConnect } from "../../hooks/useConnect";
+import { useNavbarUI } from "../../hooks/ui/useNavbarUI";
+import { useNavbarSearch } from "../../hooks/music/useNavbarSearch";
+import { useConnect } from "../../hooks/auth/useConnect";
 import "./Navbar.scss";
 
 const Navbar = () => {

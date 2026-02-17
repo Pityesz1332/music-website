@@ -1,76 +1,32 @@
-import { useEffect, useState } from "react";
 import { PlusCircle, Trash2, Edit, X, UploadIcon} from "lucide-react";
-import songsData from "../../../data/songs.json";
 import { UploadSong } from "../../../components/admin/Upload_Song/UploadSong";
+import { useSongManager } from "../../../hooks/admin/useSongManager";
 import "./ManageSongs.scss";
-import type { Song } from "../../../types/music";
 
 export const ManageSongs = () => {
-    const [songs, setSongs] = useState<Song[]>(() => {
-        const saved = localStorage.getItem("admin_songs");
-        return saved ? JSON.parse(saved) : (songsData as Song[]);
-    });
-    const [isUploadOpen, setIsUploadOpen] = useState(false);
-    const [editSong, setEditSong] = useState<Song | null>(null);
-    
-    // minden változásnál szinkronizáljuk a listát a localstorage-ba
-    useEffect(() => {
-        localStorage.setItem("admin_songs", JSON.stringify(songs));
-    }, [songs]);
 
-    // új zene hozzáadása (kiszámoljuk ID alapján) + a default videók hozzáadása
-    function saveNewSong(song: any) {
-        const maxId = songs.length > 0 ? Math.max(...songs.map(s => Number(s.id))) : 0;
-
-        const newSong: Song = {
-            id: String(maxId + 1),
-            title: song.title,
-            artist: song.artist,
-            genre: song.genre,
-            duration: song.duration,
-            src: song.audio,
-            cover: song.coverFile,
-            defaultBgVideo: "/assets/animation1.mp4",
-            playingBgVideo: "/assets/waveform-to3.mp4"
-        };
-
-        setSongs([...songs, newSong]);
-        setIsUploadOpen(false);
-    }
-
-    // zene törlése
-    function deleteSong(id: string) {
-        setSongs(songs.filter((s) => s.id !== id));
-    }
-
-    // szerkesztés mentése
-    function saveEdit() {
-        if (!editSong) return;
-        setSongs(songs.map(s => (s.id === editSong?.id ? editSong : s)));
-        setEditSong(null);
-    }
-
-    // modal zárása
-    function closeModal() {
-        setEditSong(null);
-    }
-
-    // dinamikus kulcskezelés
-    function handleEditChange(field: keyof Song, value: string) {
-        setEditSong((prev) => prev ? { ...prev, [field]: value }: null);
-    }
+    const {
+        songs,
+        isUploadOpen,
+        editSong,
+        openUploadModal, closeUploadModal,
+        openEditModal, closeEditModal,
+        saveNewSong, deleteSong,
+        saveEdit,
+        handleEditChange        
+    } = useSongManager();
 
     return (
         <div className="manage-songs">
             <h1 className="manage-songs__title">Manage Songs</h1>
 
-            <button className="manage-songs__add-button" onClick={() => setIsUploadOpen(true)}>
+            <button className="manage-songs__add-button" onClick={openUploadModal}>
                 <PlusCircle size={18} /> Add Song
             </button>
 
             {isUploadOpen && (
                 <UploadSong
-                    onCancel={() => setIsUploadOpen(false)}
+                    onCancel={closeUploadModal}
                     onSave={saveNewSong}
                 />
             )}
@@ -99,7 +55,7 @@ export const ManageSongs = () => {
                             <td className="manage-songs__cell" data-label="Genre">{song.genre}</td>
                             <td className="manage-songs__cell" data-label="Duration">{song.duration}</td>
                             <td className="manage-songs__cell manage-songs__cell--actions" data-label="Actions">
-                                <button className="manage-songs__action-button manage-songs__action-button--edit" onClick={() => setEditSong(song)}>
+                                <button className="manage-songs__action-button manage-songs__action-button--edit" onClick={() => openEditModal(song)}>
                                     <Edit size={16} />
                                 </button>
                                 <button className="manage-songs__action-button manage-songs__action-button--delete" onClick={() => deleteSong(song.id)}><Trash2 size={16} /></button>
@@ -114,7 +70,7 @@ export const ManageSongs = () => {
                     <div className="modal-content">
                         <div className="modal-content__header">
                             <h2 className="modal-content__title">Edit Song</h2>
-                            <button className="modal-content__close-button" onClick={closeModal}><X /></button>
+                            <button className="modal-content__close-button" onClick={closeEditModal}><X /></button>
                         </div>
                         <div className="modal-content__body">
                             <input className="modal-content__input" type="text" placeholder="Title" value={editSong.title} onChange={(e) => handleEditChange("title", e.target.value)} />
@@ -142,7 +98,7 @@ export const ManageSongs = () => {
 
                         <div className="modal-content__footer">
                             <button className="modal-content__button modal-content__button--save" onClick={saveEdit}>Save</button>
-                            <button className="modal-content__button modal-content__button--cancel" onClick={closeModal}>Cancel</button>
+                            <button className="modal-content__button modal-content__button--cancel" onClick={closeEditModal}>Cancel</button>
                         </div>
                     </div>
                 </div>
