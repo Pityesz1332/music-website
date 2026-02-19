@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { MainRoutes } from "../../routes/constants/Main_Routes";
 import { RecentlyPlayed } from "../../components/Recently_Played/RecentlyPlayed";
 import { useBackgroundChange } from "../../hooks/ui/useBackgroundChange";
+import { BackgroundItem } from "./home_background/BackgroundItem";
 import { Background } from "../../types/background";
 import "./Home.scss";
 
@@ -17,31 +18,13 @@ export const Home = () => {
 
     return (
         <div className="home">
-            {backgrounds.map((bg, i) => {
-                const isActive = i === bgIndex;
-                const bgClass = `home__background ${isActive ? "home__background--active" : ""}`
-
-                if (bg.type === "image") {
-                    return (
-                        <div
-                            key={i}
-                            className={bgClass}
-                            style={{
-                                backgroundImage: `url(${bg.src})`
-                            }}
-                        ></div>
-                    );
-                } else {
-                    return (
-                        <video
-                            key={i}
-                            className={bgClass}
-                            src={bg.src}
-                            autoPlay muted loop
-                        />
-                    );
-                }
-            })}
+            {backgrounds.map((bg, i) => (
+                <BackgroundItem 
+                    key={i}
+                    bg={bg}
+                    isActive={i === bgIndex}
+                />
+            ))}
             
             <div className="home__overlay"></div>
             
