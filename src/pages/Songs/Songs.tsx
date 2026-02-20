@@ -5,6 +5,7 @@ import { MainRoutes } from "../../routes/constants/Main_Routes";
 import { useSongClick } from "../../hooks/music/useSongClick";
 import { useFilteringSongs } from "../../hooks/music/useFilteringSongs";
 import { ErrorState } from "./subcomponents/ErrorState";
+import { SONGS_STRINGS } from "../../constants/ui/songs";
 import "./Songs.scss";
 
 export const Songs = () => {
@@ -34,7 +35,7 @@ export const Songs = () => {
             <div className="songs songs--loading">
                 <div className="songs__status-container">
                     <div className="songs__spinner"></div>
-                    <p className="songs__status-text">Loading songs...</p>
+                    <p className="songs__status-text">{SONGS_STRINGS.LOADING}</p>
                 </div>
             </div>
         );
@@ -45,9 +46,9 @@ export const Songs = () => {
         return (
             <div className="songs songs--error">
                 <ErrorState 
-                    title="Failed to load songs"
+                    title={SONGS_STRINGS.ERROR.TITLE}
                     txt={error}
-                    btnTxt="Try Again"
+                    btnTxt={SONGS_STRINGS.ERROR.BTN}
                     onBtnClick={retry}
                 />
             </div>
@@ -57,7 +58,7 @@ export const Songs = () => {
     return (
         <div className="songs">
             <div className="songs__container">
-                <h1 className="songs__title">Sounds for Every Moment</h1>
+                <h1 className="songs__title">{SONGS_STRINGS.TITLE}</h1>
 
                 <div className="songs__filter-wrapper" ref={filterRef}>
                     <button
@@ -66,7 +67,7 @@ export const Songs = () => {
                     >
                         <div className="songs__filter-label">
                             <Filter size={18} className="songs__filter-icon" />
-                            <span>{selectedGenre === "All" ? "Filter" : `Genre: ${selectedGenre}`}</span>
+                            <span>{selectedGenre === "All" ? SONGS_STRINGS.FILTER.LABEL : `${SONGS_STRINGS.FILTER.GENRE_PREFIX}${selectedGenre}`}</span>
                         </div>
                     </button>
                     {isFilterOpen && (
@@ -87,9 +88,9 @@ export const Songs = () => {
                     
                     {filteredSongs.length === 0 && (
                         <div className="songs__no-results">
-                            <h2 className="songs__no-results-title">No song or mix found with this word: "{searchQuery}". Reset the page</h2>
+                            <h2 className="songs__no-results-title">{SONGS_STRINGS.NO_RESULTS.MESSAGE(searchQuery)}</h2>
                             <button className="songs__reset-button" onClick={() => navigate(MainRoutes.SONGS)}>
-                                Reset page
+                                {SONGS_STRINGS.NO_RESULTS.RESET_BTN}
                             </button>
                         </div>
                     )}
@@ -114,20 +115,20 @@ export const Songs = () => {
                         className="songs__pagination-button"
                         onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                         disabled={currentPage === 1}
-                    >Prev</button>
+                    >{SONGS_STRINGS.PAGINATION.PREV}</button>
                     <span className="songs__pagination-info">
-                        Page {currentPage} / {totalPages}
+                        {SONGS_STRINGS.PAGINATION.PAGE_INFO(currentPage, totalPages)}
                     </span>
                     <button
                         className="songs__pagination-button"
                         onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
                         disabled={currentPage === totalPages}
-                    >Next</button>
+                    >{SONGS_STRINGS.PAGINATION.NEXT}</button>
                 </div>
             </div>
 
             <footer className="songs__footer">
-                <p>© {new Date().getFullYear()} DJ Enez - All rights reserved</p>
+                <p>© {new Date().getFullYear()} DJ Enez - {SONGS_STRINGS.FOOTER.RIGHTS}</p>
 
                 <a 
                     href="https://soundcloud.com/djenez"
@@ -136,7 +137,10 @@ export const Songs = () => {
                     className="songs__soundcloud-link"
                 >
                     <img className="songs__soundcloud-logo" src="/assets/soundcloud-logo.svg" alt="SoundCloud" />
-                    <span>Follow <strong className="songs__brand-name"><span style={{ color: "var(--inverse)" }}>DJ Enez</span></strong> on SoundCloud</span>
+                    <span>{SONGS_STRINGS.FOOTER.FOLLOW} 
+                        <strong className="songs__brand-name">
+                            <span style={{ color: "var(--inverse)" }}>DJ Enez</span>
+                        </strong> {SONGS_STRINGS.FOOTER.ON_SOUNDCLOUD}</span>
                 </a>
             </footer>
         </div>

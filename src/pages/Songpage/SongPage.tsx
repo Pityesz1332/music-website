@@ -8,6 +8,7 @@ import { useSongInit } from "../../hooks/audio/useSongInit";
 import { useSongClick } from "../../hooks/music/useSongClick";
 import { ScrollToTop } from "../../hooks/general/ScrollToTop";
 import { useToggleSave } from "../../hooks/music/useToggleSave";
+import { SONG_PAGE_STRINGS } from "../../constants/ui/songPage";
 import "./SongPage.scss";
 
 export const SongPage = () => {
@@ -19,7 +20,7 @@ export const SongPage = () => {
     const {
         currentSong, isPlaying, playlist,
         togglePlay, setPlaylist, nextSong, prevSong,
-        savedSongs, saveSong, removeSavedSong
+        savedSongs,
     } = useMusic();
 
     const { handleSongClick } = useSongClick();
@@ -51,7 +52,7 @@ export const SongPage = () => {
     if (!currentSong) {
         return (
             <div className="song-page">
-                <p className="song-page__not-found">Song not found</p>
+                <p className="song-page__not-found">{SONG_PAGE_STRINGS.ERROR.NOT_FOUND}</p>
             </div>
         );
     }
@@ -81,8 +82,8 @@ export const SongPage = () => {
                 <div className="song-page__info song-page__info--glass">
                     <h1 className="song-page__title">{currentSong.title}</h1>
                     <h2 className="song-page__artist">{currentSong.artist}</h2>
-                    <p className="song-page__meta">Genre: <span className="song-page__meta-value">{currentSong.genre}</span></p>
-                    <p className="song-page__meta">Duration: <span className="song-page__meta-value">{currentSong.duration}</span></p>
+                    <p className="song-page__meta">{SONG_PAGE_STRINGS.INFO.GENRE} <span className="song-page__meta-value">{currentSong.genre}</span></p>
+                    <p className="song-page__meta">{SONG_PAGE_STRINGS.INFO.DURATION} <span className="song-page__meta-value">{currentSong.duration}</span></p>
 
                     <div className="song-page__controls">
                         <button className="song-page__nav-button" onClick={prevSong}>
@@ -94,7 +95,7 @@ export const SongPage = () => {
                             onClick={togglePlay}
                         >
                             {isPlaying ? <Pause size={18} /> : <Play size={18} />}
-                            {isPlaying ? "STOP" : "PLAY"}
+                            {isPlaying ? SONG_PAGE_STRINGS.CONTROLS.STOP : SONG_PAGE_STRINGS.CONTROLS.PLAY}
                         </button>
 
                         <button className="song-page__nav-button" onClick={nextSong}>
@@ -121,7 +122,7 @@ export const SongPage = () => {
             </div>
 
             <div className="song-page__playlist-wrapper">
-                <h2 className="song-page__playlist-title">Following up songs</h2>
+                <h2 className="song-page__playlist-title">{SONG_PAGE_STRINGS.PLAYLIST.TITLE}</h2>
                 <div className="song-page__playlist" ref={playlistRef}>
                     {playlist.map((song) => {
                         const isSongSaved = savedSongs.some(s => s.id === song.id);
@@ -197,7 +198,7 @@ export const SongPage = () => {
                 >
                     <button onClick={() => handleEdit(contextMenu.songId)} className="menu-item edit">
                         <Pencil size={16} />
-                        <span>Edit</span>
+                        <span>{SONG_PAGE_STRINGS.CONTEXT_MENU.EDIT}</span>
                     </button>
                     <div className="menu-divider"></div>
                     <button onClick={(e) => {
@@ -207,7 +208,7 @@ export const SongPage = () => {
                         className="menu-item delete"
                     >
                         <Trash2 size={16} />
-                        <span>Delete</span>
+                        <span>{SONG_PAGE_STRINGS.CONTEXT_MENU.DELETE}</span>
                     </button>
                 </div>
             )}

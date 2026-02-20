@@ -4,6 +4,7 @@ import { useMusic } from "../../context/MusicContext";
 import { useSongClick } from "../../hooks/music/useSongClick";
 import { useFilteringSaved } from "../../hooks/music/useFilteringSaved";
 import { EmptyState } from "./subcomponents/EmptyState";
+import { SAVED_STRINGS } from "../../constants/ui/saved";
 import "../Songs/Songs.scss";
 
 export const Saved = () => {
@@ -19,7 +20,7 @@ export const Saved = () => {
             <div className="songs">
                 <div className="songs__status-container loading-container">
                     <div className="loading-spinner"></div>
-                    <p>Loading saved songs...</p>
+                    <p>{SAVED_STRINGS.LOADING}</p>
                 </div>
             </div>
         );
@@ -39,18 +40,18 @@ export const Saved = () => {
         <div className="songs">
             {savedSongs.length === 0 ? (
                 <EmptyState
-                    title="You have no saved songs."
-                    btnTxt="Browse songs"
+                    title={SAVED_STRINGS.EMPTY_STATE.NO_SAVED}
+                    btnTxt={SAVED_STRINGS.EMPTY_STATE.BROWSE_BTN}
                     onBtnClick={() => navigate(MainRoutes.SONGS)}
                 />
             ) : (
                 <div className="songs__container">
-                    <h1 className="songs__title">Your Favorite Songs</h1>
+                    <h1 className="songs__title">{SAVED_STRINGS.TITLE}</h1>
 
                     {filteredSongs.length === 0 ? (
                         <EmptyState
-                            title={`No song found with "${searchQuery}"`}
-                            btnTxt="Reset search"
+                            title={SAVED_STRINGS.SEARCH.NOT_FOUND(searchQuery)}
+                            btnTxt={SAVED_STRINGS.SEARCH.RESET_BTN}
                             onBtnClick={() => navigate(MainRoutes.SAVED)}
                         />
                     ) : (
@@ -71,9 +72,13 @@ export const Saved = () => {
                             </div>
 
                             <div className="songs__pagination">
-                                <button className="songs__pagination-button" onClick={prevPage} disabled={currentPage === 1}>Prev</button>
-                                <span>Page {currentPage} / {Math.max(totalPages, 1)}</span>
-                                <button className="songs__pagination-button" onClick={nextPage} disabled={currentPage === totalPages}>Next</button>
+                                <button className="songs__pagination-button" onClick={prevPage} disabled={currentPage === 1}>
+                                    {SAVED_STRINGS.PAGINATION.PREV}
+                                </button>
+                                <span>{SAVED_STRINGS.PAGINATION.PAGE_INFO(currentPage, totalPages)}</span>
+                                <button className="songs__pagination-button" onClick={nextPage} disabled={currentPage === totalPages}>
+                                    {SAVED_STRINGS.PAGINATION.NEXT}
+                                </button>
                             </div>
                         </>
                     )}

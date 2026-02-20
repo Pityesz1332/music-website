@@ -4,6 +4,7 @@ import { RecentlyPlayed } from "../../components/Recently_Played/RecentlyPlayed"
 import { useBackgroundChange } from "../../hooks/ui/useBackgroundChange";
 import { BackgroundItem } from "./home_background/BackgroundItem";
 import { Background } from "../../types/background";
+import { HOME_STRINGS } from "../../constants/ui/home";
 import "./Home.scss";
 
 const backgrounds: Background[] = [
@@ -29,10 +30,12 @@ export const Home = () => {
             <div className="home__overlay"></div>
             
             <div className="home__content">
-                <h1 className="home__title">Unleash Sound Beyond Limits</h1>
-                <h2 className="home__subtitle">The next evolution of music - Powered by <span className="home__highlight">Web3</span></h2>
-                <p className="home__text">Explore, collect and stream music like never before</p>
-                <button className="home__button" onClick={() => navigate(MainRoutes.SONGS)}>Explore Now</button>
+                <h1 className="home__title">{HOME_STRINGS.TITLE}</h1>
+                <h2 className="home__subtitle">
+                    {HOME_STRINGS.SUBTITLE.PRE_HIGHLIGHT}
+                    <span className="home__highlight">{HOME_STRINGS.SUBTITLE.HIGHLIGHT}</span></h2>
+                <p className="home__text">{HOME_STRINGS.DESCRIPTION}</p>
+                <button className="home__button" onClick={() => navigate(MainRoutes.SONGS)}>{HOME_STRINGS.BUTTONS.EXPLORE}</button>
                 <div className="home__recent-wrapper">
                     <RecentlyPlayed />
                 </div>

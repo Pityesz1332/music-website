@@ -1,9 +1,10 @@
-import { Copy } from "lucide-react";
+import { Copy, Import } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
 import { useNotification, NotificationType } from "../../context/NotificationContext";
 import { RecentlyPlayed } from "../../components/Recently_Played/RecentlyPlayed";
 import { useAvatarUpload } from "../../hooks/general/useAvatarUpload";
 import { useClipboard } from "../../hooks/general/useClipboard";
+import { MY_ACCOUNT_STRINGS } from "../../constants/ui/myAccount";
 import "./MyAccount.scss";
 
 export const MyAccount = () => {
@@ -17,7 +18,7 @@ export const MyAccount = () => {
 
     return (
         <div className="my-account">
-            <h1 className="my-account__title">My Account</h1>
+            <h1 className="my-account__title">{MY_ACCOUNT_STRINGS.TITLE}</h1>
 
             <div className="my-account__profile-section">
                 <div className="my-account__avatar-container">
@@ -27,7 +28,12 @@ export const MyAccount = () => {
 
                 <div className="my-account__wallet-info">
                     <span className="my-account__wallet-address">{shortWallet}</span>
-                    <button onClick={() => copyToClipboard(walletAddress, "Wallet address copied")} className="my-account__copy-button"><Copy size={16} /><span className="my-account__copy-text">Copy</span></button>
+                    <button onClick={() => copyToClipboard(walletAddress, "Wallet address copied")} className="my-account__copy-button">
+                        <Copy size={16} />
+                        <span className="my-account__copy-text">
+                            {MY_ACCOUNT_STRINGS.BUTTONS.COPY}
+                        </span>
+                    </button>
                 </div>
                 
                 <div className="recent-wrapper__profile">
@@ -43,7 +49,7 @@ export const MyAccount = () => {
                                     notify("History cleared", NotificationType.SUCCESS);
                                 }}
                             >
-                                Clear History
+                                {MY_ACCOUNT_STRINGS.BUTTONS.CLEAR_HISTORY}
                             </button>
                         )}
                     </div>
