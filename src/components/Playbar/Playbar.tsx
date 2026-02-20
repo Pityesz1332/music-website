@@ -10,6 +10,8 @@ import { useProgressBar } from "../../hooks/audio/useProgressBar";
 import { useKeyboardControls } from "../../hooks/general/useKeyboardControls";
 import { useAudioSync } from "../../hooks/audio/useAudioSync";
 import { usePlaybarInteractions } from "../../hooks/audio/usePlaybarInteractions";
+import { ProgressBar } from "./subcomponents/ProgressBar";
+import { VolumeControl } from "./subcomponents/VolumeControl";
 import "./Playbar.scss";
 
 const Playbar = () => {
@@ -79,34 +81,20 @@ const Playbar = () => {
 
     return (
         <div ref={playbarRef} className={playbarClasses} onClick={handlePlaybarTap}>
-            <div
-                ref={progressBarRef}
-                className="playbar__progress"
-                onMouseDown={startSeek}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-                onClick={(e) => e.stopPropagation()}
-            >
-                {hoverTime !== null && (
-                    <div
-                        className="playbar__tooltip"
-                        style={{
-                            left: `${hoverPos}px`,
-                            position: "absolute",
-                            bottom: "100%",
-                            transform: "translateX(-50%)",
-                            pointerEvents: "none"
-                        }}
-                    >
-                        {formatTime(hoverTime)}
-                    </div>
-                )}
-                <div className="playbar__progress-filled" style={{ width: `${progress}%` }}></div>
-            </div>
+            <ProgressBar
+                progressBarRef={progressBarRef}
+                progress={progress}
+                hoverTime={hoverTime}
+                hoverPos={hoverPos}
+                startSeek={startSeek}
+                handleMouseMove={handleMouseMove}
+                handleMouseLeave={handleMouseLeave}
+            />
 
             <audio
                 src={song.src}
                 ref={audioRef}
+                loop={isLooping}
                 preload="metadata"
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={resetSong}
@@ -118,15 +106,7 @@ const Playbar = () => {
                 onPause={() => {
                     if (isPlaying) onPlayPause();
                 }}
-                onEnded={() => {
-                    if (isLooping && audioRef.current) {
-                        audioRef.current.currentTime = 0;
-                        audioRef.current.play();
-                        return;
-                    } else {
-                        onNext();
-                    }
-                }}
+                onEnded={onNext}
             />
             
             {/* Bal oldal */}
@@ -163,31 +143,13 @@ const Playbar = () => {
             {/* Jobb oldal */}
             <div className="playbar__right-container">
                     <div className="playbar__extra">
-                        <div
-                            ref={volumeWrapperRef}
-                            className="playbar__volume-wrapper"
-                            onMouseDown={handleVolumeDragStart}
-                            onWheel={(e) => {
-                                if (e.deltaY !== 0) {
-                                    const direction = e.deltaY > 0 ? 1 : -1;
-                                    adjustVolume(direction);
-                                }
-                            }}
-                        >
-                            <div className="playbar__volume-track">
-                                <div className="playbar__volume-fill" style={{ width: `${volume * 100}%` }}></div>
-                                <div className="playbar__volume-thumb" style={{ left: `${volume * 100}%` }}></div>
-                            </div>
-                            <input
-                                className="playbar__volume-hidden"
-                                type="range"
-                                min="0"
-                                max="1"
-                                step="0.01"
-                                value={volume}
-                                onChange={handleVolumeChanger}
-                            />
-                        </div>
+                        <VolumeControl 
+                            volume={volume}
+                            volumeWrapperRef={volumeWrapperRef}
+                            handleVolumeDragStart={handleVolumeDragStart}
+                            handleVolumeChanger={handleVolumeChanger}
+                            adjustVolume={adjustVolume}
+                        />
 
                         <div className="playbar__extra-buttons">
                             <button className="playbar__reset-seeker" onClick={resetSong}>
