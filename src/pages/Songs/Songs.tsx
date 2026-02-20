@@ -4,6 +4,7 @@ import { Filter } from "lucide-react";
 import { MainRoutes } from "../../routes/constants/Main_Routes";
 import { useSongClick } from "../../hooks/music/useSongClick";
 import { useFilteringSongs } from "../../hooks/music/useFilteringSongs";
+import { ErrorState } from "./subcomponents/ErrorState";
 import "./Songs.scss";
 
 export const Songs = () => {
@@ -43,11 +44,12 @@ export const Songs = () => {
     if (error) {
         return (
             <div className="songs songs--error">
-                <div className="songs__status-container">
-                    <h2 className="songs__error-title">Failed to load songs</h2>
-                    <p className="songs__error-text">{error}</p>
-                    <button className="songs__retry-button" onClick={retry}>Try Again</button>
-                </div>
+                <ErrorState 
+                    title="Failed to load songs"
+                    txt={error}
+                    btnTxt="Try Again"
+                    onBtnClick={retry}
+                />
             </div>
         );
     }

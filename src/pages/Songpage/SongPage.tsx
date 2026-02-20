@@ -7,11 +7,8 @@ import { usePlaylistScroll } from "../../hooks/ui/usePlaylistScroll";
 import { useSongInit } from "../../hooks/audio/useSongInit";
 import { useSongClick } from "../../hooks/music/useSongClick";
 import { ScrollToTop } from "../../hooks/general/ScrollToTop";
+import { useToggleSave } from "../../hooks/music/useToggleSave";
 import "./SongPage.scss";
-
-//type LocationState = {
-//    playlist?: Song[];
-//};
 
 export const SongPage = () => {
     const auth = useAuth();
@@ -38,6 +35,8 @@ export const SongPage = () => {
         nextSong,
         notify
     });
+
+    const { toggleSave } = useToggleSave();
     
     const { playlistRef, setItemRef } = usePlaylistScroll({
         currentSong,
@@ -108,15 +107,7 @@ export const SongPage = () => {
                             <div className="song-page__actions">
                                 <button
                                     className={`song-page__action-button ${isSaved ? "song-page__action-button--saved" : ""}`}
-                                    onClick={() => {
-                                        if (isSaved) {
-                                            removeSavedSong(currentSong.id);
-                                            notify("Deleted from saved songs", NotificationType.SUCCESS);
-                                        } else {
-                                            saveSong(currentSong);
-                                            notify("Saved", NotificationType.SUCCESS);
-                                        }
-                                    }}
+                                    onClick={() => toggleSave(currentSong)}
                                 >
                                     <Heart className="song-page__action-button__icon" size={24} />
                                 </button>
@@ -155,13 +146,7 @@ export const SongPage = () => {
                                             className={`song-page__card-action-btn ${isSongSaved ? "song-page__card-action-btn--saved" : ""}`}
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                if (isSongSaved) {
-                                                    removeSavedSong(song.id);
-                                                    notify("Deleted from saved songs", NotificationType.SUCCESS);
-                                                } else {
-                                                    saveSong(song);
-                                                    notify("Saved", NotificationType.SUCCESS);
-                                                }
+                                                toggleSave(song);
                                             }}
                                         >
                                             <Heart size={16} />
