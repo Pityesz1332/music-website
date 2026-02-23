@@ -1,5 +1,6 @@
 import { Trash2, Edit } from "lucide-react";
 import { useUserManager } from "../../../hooks/admin/useUserManager";
+import { ADMIN_MANAGE_USERS_STRINGS } from "../../../constants/ui/admin/manageUsers";
 import "./ManageUsers.scss";
 
 export const ManageUsers = () => {
@@ -15,11 +16,11 @@ export const ManageUsers = () => {
 
     return (
         <div className="manage-users">
-            <h1 className="manage-users__title">Manage Users</h1>
+            <h1 className="manage-users__title">{ADMIN_MANAGE_USERS_STRINGS.TITLE}</h1>
 
             <input 
                 type="text" 
-                placeholder="Search user..." 
+                placeholder={ADMIN_MANAGE_USERS_STRINGS.PLACEHOLDERS.SEARCH}
                 value={search} 
                 onChange={(e) => setSearch(e.target.value)} 
                 className="manage-users__search"
@@ -28,11 +29,11 @@ export const ManageUsers = () => {
             <table className="manage-users__table">
                 <thead className="manage-users__table-head">
                     <tr>
-                        <th className="manage-users__th">ID</th>
-                        <th className="manage-users__th">Name</th>
-                        <th className="manage-users__th">Email</th>
-                        <th className="manage-users__th">Role</th>
-                        <th className="manage-users__th manage-users__th--actions">Actions</th>
+                        <th className="manage-users__th">{ADMIN_MANAGE_USERS_STRINGS.TABLE.ID}</th>
+                        <th className="manage-users__th">{ADMIN_MANAGE_USERS_STRINGS.TABLE.NAME}</th>
+                        <th className="manage-users__th">{ADMIN_MANAGE_USERS_STRINGS.TABLE.EMAIL}</th>
+                        <th className="manage-users__th">{ADMIN_MANAGE_USERS_STRINGS.TABLE.ROLE}</th>
+                        <th className="manage-users__th manage-users__th--actions">{ADMIN_MANAGE_USERS_STRINGS.TABLE.ACTIONS}</th>
                     </tr>
                 </thead>
 
@@ -59,28 +60,28 @@ export const ManageUsers = () => {
             {editUser && (
                 <div className="manage-users__modal">
                     <div className="manage-users__modal-content">
-                        <h2 className="manage-users__modal-title">Edit User</h2>
+                        <h2 className="manage-users__modal-title">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.TITLE}</h2>
 
                     <div className="manage-users__form-group">
-                        <label className="manage-users__label">Name</label>
+                        <label className="manage-users__label">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.LABELS.NAME}</label>
                         <input className="manage-users__input" type="text" value={editUser.name} onChange={(e) => handleEditChange("name", e.target.value)}/>
                     </div>
                     <div className="manage-users__form-group">
-                        <label className="manage-users__label">Email</label>
+                        <label className="manage-users__label">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.LABELS.EMAIL}</label>
                         <input className="manage-users__input" type="text" value={editUser.email} onChange={(e) => handleEditChange("email", e.target.value)}/>
                     </div>
 
                     <div className="manage-users__form-group">
-                        <label className="manage-users__label">Role</label>
+                        <label className="manage-users__label">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.LABELS.ROLE}</label>
                         <select className="manage-users__select" value={editUser.role} onChange={(e) => handleEditChange("role", e.target.value)}>
-                            <option value="user">User</option>
-                            <option value="admin">Admin</option>
+                            <option value="user">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.ROLES.USER}</option>
+                            <option value="admin">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.ROLES.ADMIN}</option>
                         </select>
                     </div>
 
                         <div className="manage-users__modal-actions">
-                            <button onClick={saveEdit} className="manage-users__button manage-users__button--save">Save</button>
-                            <button onClick={cancelEditing} className="manage-users__button manage-users__button--cancel">Cancel</button>
+                            <button onClick={saveEdit} className="manage-users__button manage-users__button--save">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.BUTTONS.SAVE}</button>
+                            <button onClick={cancelEditing} className="manage-users__button manage-users__button--cancel">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.BUTTONS.CANCEL}</button>
                         </div>
                     </div>
                 </div>

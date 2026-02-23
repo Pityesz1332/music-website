@@ -1,6 +1,7 @@
 import { PlusCircle, Trash2, Edit, X, UploadIcon} from "lucide-react";
 import { UploadSong } from "../../../components/admin/Upload_Song/UploadSong";
 import { useSongManager } from "../../../hooks/admin/useSongManager";
+import { ADMIN_MANAGE_SONGS_STRINGS } from "../../../constants/ui/admin/manageSongs";
 import "./ManageSongs.scss";
 
 export const ManageSongs = () => {
@@ -18,10 +19,10 @@ export const ManageSongs = () => {
 
     return (
         <div className="manage-songs">
-            <h1 className="manage-songs__title">Manage Songs</h1>
+            <h1 className="manage-songs__title">{ADMIN_MANAGE_SONGS_STRINGS.TITLE}</h1>
 
             <button className="manage-songs__add-button" onClick={openUploadModal}>
-                <PlusCircle size={18} /> Add Song
+                <PlusCircle size={18} /> {ADMIN_MANAGE_SONGS_STRINGS.ADD_BUTTON}
             </button>
 
             {isUploadOpen && (
@@ -34,13 +35,13 @@ export const ManageSongs = () => {
             <table className="manage-songs__table">
                 <thead className="manage-songs__thead">
                     <tr className="manage-songs__row">
-                        <th className="manage-songs__header">ID</th>
-                        <th className="manage-songs__header">Cover</th>
-                        <th className="manage-songs__header">Title</th>
-                        <th className="manage-songs__header">Artist</th>
-                        <th className="manage-songs__header">Genre</th>
-                        <th className="manage-songs__header">Duration</th>
-                        <th className="manage-songs__header">Actions</th>
+                        <th className="manage-songs__header">{ADMIN_MANAGE_SONGS_STRINGS.TABLE.ID}</th>
+                        <th className="manage-songs__header">{ADMIN_MANAGE_SONGS_STRINGS.TABLE.COVER}</th>
+                        <th className="manage-songs__header">{ADMIN_MANAGE_SONGS_STRINGS.TABLE.TITLE}</th>
+                        <th className="manage-songs__header">{ADMIN_MANAGE_SONGS_STRINGS.TABLE.ARTIST}</th>
+                        <th className="manage-songs__header">{ADMIN_MANAGE_SONGS_STRINGS.TABLE.GENRE}</th>
+                        <th className="manage-songs__header">{ADMIN_MANAGE_SONGS_STRINGS.TABLE.DURATION}</th>
+                        <th className="manage-songs__header">{ADMIN_MANAGE_SONGS_STRINGS.TABLE.ACTIONS}</th>
                     </tr>
                 </thead>
                 <tbody className="manage-songs__tbody">
@@ -69,15 +70,15 @@ export const ManageSongs = () => {
                 <div className="modal">
                     <div className="modal-content">
                         <div className="modal-content__header">
-                            <h2 className="modal-content__title">Edit Song</h2>
+                            <h2 className="modal-content__title">{ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.TITLE}</h2>
                             <button className="modal-content__close-button" onClick={closeEditModal}><X /></button>
                         </div>
                         <div className="modal-content__body">
-                            <input className="modal-content__input" type="text" placeholder="Title" value={editSong.title} onChange={(e) => handleEditChange("title", e.target.value)} />
-                            <input className="modal-content__input" type="text" placeholder="Artist" value={editSong.artist} onChange={(e) => handleEditChange("artist", e.target.value)} />
-                            <input className="modal-content__input" type="text" placeholder="Genre" value={editSong.genre} onChange={(e) => handleEditChange("genre", e.target.value)} />
+                            <input className="modal-content__input" type="text" placeholder={ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.PLACEHOLDERS.TITLE} value={editSong.title} onChange={(e) => handleEditChange("title", e.target.value)} />
+                            <input className="modal-content__input" type="text" placeholder={ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.PLACEHOLDERS.ARTIST} value={editSong.artist} onChange={(e) => handleEditChange("artist", e.target.value)} />
+                            <input className="modal-content__input" type="text" placeholder={ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.PLACEHOLDERS.GENRE} value={editSong.genre} onChange={(e) => handleEditChange("genre", e.target.value)} />
                             
-                            <label className="modal-content__label">Change Cover:</label>
+                            <label className="modal-content__label">{ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.LABEL_CHANGE_COVER}</label>
                             <input className="modal-content__file-input" id="cover-upload" type="file" accept="image/*" onChange={(e) => {
                                     const file = e.target.files?.[0];
                                     if (file) {
@@ -88,7 +89,7 @@ export const ManageSongs = () => {
                             />
 
                             <label htmlFor="cover-upload" className="modal-content__upload-button">
-                                <UploadIcon size={20} /> Upload Cover
+                                <UploadIcon size={20} /> {ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.UPLOAD_BUTTON}
                             </label>
 
                             {editSong.cover && (
@@ -97,8 +98,8 @@ export const ManageSongs = () => {
                         </div>
 
                         <div className="modal-content__footer">
-                            <button className="modal-content__button modal-content__button--save" onClick={saveEdit}>Save</button>
-                            <button className="modal-content__button modal-content__button--cancel" onClick={closeEditModal}>Cancel</button>
+                            <button className="modal-content__button modal-content__button--save" onClick={saveEdit}>{ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.BUTTONS.SAVE}</button>
+                            <button className="modal-content__button modal-content__button--cancel" onClick={closeEditModal}>{ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.BUTTONS.CANCEL}</button>
                         </div>
                     </div>
                 </div>

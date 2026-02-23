@@ -6,12 +6,13 @@ import { useNavbarSearch } from "../../hooks/music/useNavbarSearch";
 import { useAuth } from "../../context/AuthContext";
 import { useConnect } from "../../hooks/auth/useConnect";
 import { useDisconnect } from "../../hooks/auth/useDisconnect";
+import { NAVBAR_STRINGS } from "../../constants/ui/navbar";
 import "./Navbar.scss";
 
 const Navbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { isConnected, connect, disconnect } = useAuth();
+    const { isConnected } = useAuth();
     const { handleDemoConnect } = useConnect();
     const { handleDisconnect } = useDisconnect();
     const { isShrunk, isMenuOpen, toggleMenu, closeMenu } = useNavbarUI();
@@ -32,7 +33,7 @@ const Navbar = () => {
                     <input
                         className="navbar__search-input"
                         type="text"
-                        placeholder="Search..."
+                        placeholder={NAVBAR_STRINGS.PLACEHOLDER}
                         value={searchTerm}
                         onFocus={() => setIsFocused(true)}
                         onBlur={handleBlur}
@@ -54,7 +55,7 @@ const Navbar = () => {
                     className={`navbar__item ${location.pathname === MainRoutes.SONGS ? "navbar__item--active" : ""}`}
                     onClick={() => { navigate(MainRoutes.SONGS); closeMenu(); }}
                 >
-                <Music className="navbar__item-icon" size={28} /><span className="navbar__item-text">Songs/Mixes</span>
+                <Music className="navbar__item-icon" size={28} /><span className="navbar__item-text">{NAVBAR_STRINGS.MENU.SONGS_MIXES}</span>
                 </li>
 
                 {isConnected && (
@@ -64,14 +65,14 @@ const Navbar = () => {
                             onClick={() => { navigate(MainRoutes.SAVED); closeMenu(); }}
                         >
                             <Heart className="navbar__item-icon" size={28} />
-                            <span className="navbar__item-text">Favorites</span>
+                            <span className="navbar__item-text">{NAVBAR_STRINGS.MENU.FAVORITES}</span>
                         </li>
                         <li
                             className={`navbar__item ${location.pathname === MainRoutes.MY_ACCOUNT ? "navbar__item--active" : ""}`}
                             onClick={() => { navigate(MainRoutes.MY_ACCOUNT); closeMenu(); }}
                         >
                             <User className="navbar__item-icon" size={28} />
-                            <span className="navbar__item-text">Account</span>
+                            <span className="navbar__item-text">{NAVBAR_STRINGS.MENU.ACCOUNT}</span>
                         </li>
                     </>
                 )}
@@ -79,12 +80,12 @@ const Navbar = () => {
                 <li className="navbar__item navbar__item--wallet">
                     {isConnected ? (
                         <button className="navbar__button" type="button" onClick={() => { handleDisconnect(); closeMenu(); }}>
-                            Disconnect
+                            {NAVBAR_STRINGS.WALLET.DISCONNECT}
                         </button>
                     ) : (
                         <button className="navbar__button" type="button" onClick={() => { handleDemoConnect(); closeMenu(); }}>
                             <Wallet size={20} />
-                            Connect Wallet
+                            {NAVBAR_STRINGS.WALLET.CONNECT}
                         </button>
                     )}
                 </li>

@@ -3,5 +3,6 @@ export const MY_ACCOUNT_STRINGS = {
     BUTTONS: {
         COPY: "Copy",
         CLEAR_HISTORY: "Clear History",
-    }
+    },
+    MESSAGE: "History cleared",
 }

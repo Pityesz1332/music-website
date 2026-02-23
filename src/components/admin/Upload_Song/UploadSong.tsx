@@ -1,5 +1,6 @@
 import { UploadCloud, Music, Image as ImageIcon, X } from "lucide-react";
 import { useUploadSong } from "../../../hooks/admin/useUploadSong";
+import { ADMIN_UPLOAD_SONG_STRINGS } from "../../../constants/ui/admin/uploadSong";
 import "./UploadSong.scss";
 
 interface UploadSongProps {
@@ -30,7 +31,7 @@ export const UploadSong = ({ onCancel, onSave }: UploadSongProps) => {
     
     return (
         <div className="upload-song">
-            <h2 className="upload-song__title">Upload New Song</h2>
+            <h2 className="upload-song__title">{ADMIN_UPLOAD_SONG_STRINGS.TITLE}</h2>
 
             <div
                 className={`upload-song__dropzone ${audioFile ? 'upload-song__dropzone--active' : ''}`}
@@ -49,13 +50,13 @@ export const UploadSong = ({ onCancel, onSave }: UploadSongProps) => {
                     </p>
                 ) : (
                     <p className="upload-song__placeholder">
-                        <UploadCloud size={18}/>Select your audio
+                        <UploadCloud size={18}/>{ADMIN_UPLOAD_SONG_STRINGS.DROPZONE.PLACEHOLDER}
                     </p>
                 )}
             </div>
 
             <label className="upload-song__cover-label">
-                <ImageIcon size={18}/> {coverFile ? "Cover uploaded" : "Upload Cover"}
+                <ImageIcon size={18}/> {coverFile ? ADMIN_UPLOAD_SONG_STRINGS.COVER.SUCCESS : ADMIN_UPLOAD_SONG_STRINGS.COVER.UPLOAD}
                 <input
                     className="upload-song__file-input"
                     type="file"
@@ -65,13 +66,13 @@ export const UploadSong = ({ onCancel, onSave }: UploadSongProps) => {
                 />
             </label>
 
-            <input className="upload-song__input" type="text" placeholder="Title" value={form.title}
+            <input className="upload-song__input" type="text" placeholder={ADMIN_UPLOAD_SONG_STRINGS.PLACEHOLDERS.TITLE} value={form.title}
                 onChange={(e) => updateForm({ title: e.target.value })} />
 
-            <input className="upload-song__input" type="text" placeholder="Artist" value={form.artist}
+            <input className="upload-song__input" type="text" placeholder={ADMIN_UPLOAD_SONG_STRINGS.PLACEHOLDERS.ARTIST} value={form.artist}
                 onChange={(e) => updateForm({ artist: e.target.value })} />
             
-            <input className="upload-song__input" type="text" placeholder="Genre" value={form.genre}
+            <input className="upload-song__input" type="text" placeholder={ADMIN_UPLOAD_SONG_STRINGS.PLACEHOLDERS.GENRE} value={form.genre}
                 onChange={(e) => updateForm({ genre: e.target.value })} />
 
             {progress > 0 && (
@@ -88,7 +89,7 @@ export const UploadSong = ({ onCancel, onSave }: UploadSongProps) => {
                     className="upload-song__button upload-song__button--save"
                     onClick={handleUpload}
                     disabled={isUploading}>
-                        {isUploading ? "Uploading..." : "Save"}
+                        {isUploading ? ADMIN_UPLOAD_SONG_STRINGS.STATUS.UPLOADING : ADMIN_UPLOAD_SONG_STRINGS.STATUS.SAVE}
                     </button>
                 <button 
                     className="upload-song__button upload-song__button--cancel"

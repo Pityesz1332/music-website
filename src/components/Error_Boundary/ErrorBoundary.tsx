@@ -1,3 +1,4 @@
+import { ERROR_BOUNDARY_STRINGS } from "../../constants/ui/errorBoundary";
 import { ErrorBoundary } from "react-error-boundary";
 
 export const ErrorFallback = () => {
@@ -11,9 +12,9 @@ export const ErrorFallback = () => {
             gap: "20px",
             color: "#fff"
         }}>
-            <h1>Something went wrong</h1>
-            <p>Try reloading the page.</p>
-            <button onClick={() => window.location.reload()}>Reload</button>
+            <h1>{ERROR_BOUNDARY_STRINGS.TITLE}</h1>
+            <p>{ERROR_BOUNDARY_STRINGS.SUBTITLE}</p>
+            <button onClick={() => window.location.reload()}>{ERROR_BOUNDARY_STRINGS.BUTTON}</button>
         </div>
     );
 }

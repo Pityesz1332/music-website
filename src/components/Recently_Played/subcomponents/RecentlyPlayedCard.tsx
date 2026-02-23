@@ -1,4 +1,5 @@
 import type { Song } from "../../../types/music";
+import { RECENTLY_PLAYED_STRINGS } from "../../../constants/ui/recentlyPlayed";
 
 interface RecentlyPlayedCardProps {
     item: Song;
@@ -9,7 +10,7 @@ interface RecentlyPlayedCardProps {
 export const RecentlyPlayedCard = ({ item, fade, onPlay }: RecentlyPlayedCardProps) => {
     return (
         <section className="recently-played">
-            <h2 className="recently-played__title">Recently Played</h2>
+            <h2 className="recently-played__title">{RECENTLY_PLAYED_STRINGS.TITLE}</h2>
         
             <div
                 className={`recently-played__card ${fade ? '' : 'recently-played__card--faded'}`}

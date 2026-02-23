@@ -1,4 +1,5 @@
 import type { Song } from "../../../types/music";
+import { RECENTLY_PLAYED_STRINGS } from "../../../constants/ui/recentlyPlayed";
 
 interface RecentlyPlayedListProps {
     songs: Song[];
@@ -8,7 +9,7 @@ interface RecentlyPlayedListProps {
 export const RecentlyPlayedList = ({songs, onPlay}: RecentlyPlayedListProps) => {
     return (
         <section className="recently-played__list">
-            <h2 className="recently-played__title">Recently Played</h2>
+            <h2 className="recently-played__title">{RECENTLY_PLAYED_STRINGS.TITLE}</h2>
             <div className="recently-played__list-container">
                 {songs.map((song) => (
                     <div key={song.id} onClick={() => onPlay(song)} className="recently-played__item">

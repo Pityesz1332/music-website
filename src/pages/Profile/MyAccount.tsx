@@ -46,7 +46,7 @@ export const MyAccount = () => {
                                 className="recent-wrapper__clear-history-btn"
                                 onClick={() => {
                                     clearRecentlyPlayed();
-                                    notify("History cleared", NotificationType.SUCCESS);
+                                    notify(MY_ACCOUNT_STRINGS.MESSAGE, NotificationType.SUCCESS);
                                 }}
                             >
                                 {MY_ACCOUNT_STRINGS.BUTTONS.CLEAR_HISTORY}

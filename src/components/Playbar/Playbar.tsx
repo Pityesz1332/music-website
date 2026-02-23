@@ -12,6 +12,7 @@ import { useAudioSync } from "../../hooks/audio/useAudioSync";
 import { usePlaybarInteractions } from "../../hooks/audio/usePlaybarInteractions";
 import { ProgressBar } from "./subcomponents/ProgressBar";
 import { VolumeControl } from "./subcomponents/VolumeControl";
+import { PLAYBAR_STRINGS } from "../../constants/ui/playbar";
 import "./Playbar.scss";
 
 const Playbar = () => {
@@ -167,10 +168,10 @@ const Playbar = () => {
                                     onClick={() => {
                                         if (isSaved) {
                                             removeSavedSong(song.id);
-                                            notify("Deleted from Saved Songs", NotificationType.SUCCESS);
+                                            notify(PLAYBAR_STRINGS.MESSAGES.DELETED, NotificationType.SUCCESS);
                                         } else {
                                             saveSong(song);
-                                            notify("Saved", NotificationType.SUCCESS);
+                                            notify(PLAYBAR_STRINGS.MESSAGES.SAVED, NotificationType.SUCCESS);
                                         }
                                     }}>
                                     <Heart size={20} />

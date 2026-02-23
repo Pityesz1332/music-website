@@ -1,5 +1,6 @@
-import "./AdminConnect.scss";
 import { useAdminAuth } from "../../../hooks/admin/useAdminAuth";
+import { ADMIN_CONNECT_STRINGS } from "../../../constants/ui/admin/connect";
+import "./AdminConnect.scss";
 
 export const AdminConnect = () => {
     
@@ -13,13 +14,13 @@ export const AdminConnect = () => {
     return (
         <div className="admin-connect-wrapper">
             <form onSubmit={handleSubmit} className="admin-connect">
-                <h2 className="admin-connect__title">Admin Login</h2>
+                <h2 className="admin-connect__title">{ADMIN_CONNECT_STRINGS.TITLE}</h2>
                 
                 <input
                     className="admin-connect__input"
                     type="text"
                     name="username"
-                    placeholder="Username"
+                    placeholder={ADMIN_CONNECT_STRINGS.PLACEHOLDERS.USERNAME}
                     value={credentials.username}
                     onChange={handleChange}
                     disabled={isLoading}
@@ -29,7 +30,7 @@ export const AdminConnect = () => {
                     className="admin-connect__input"
                     type="password"
                     name="password"
-                    placeholder="Password"
+                    placeholder={ADMIN_CONNECT_STRINGS.PLACEHOLDERS.PASSWORD}
                     value={credentials.password}
                     onChange={handleChange}
                     disabled={isLoading}
@@ -40,7 +41,7 @@ export const AdminConnect = () => {
                     type="submit"
                     disabled={isLoading}
                 >
-                    Login as Admin
+                    {ADMIN_CONNECT_STRINGS.BUTTONS.CONNECT}
                 </button>
             </form>
         </div>
