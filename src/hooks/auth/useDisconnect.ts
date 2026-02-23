@@ -3,6 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useNotification, NotificationType } from "../../context/NotificationContext";
 import { useLoading } from "../../context/LoadingContext";
 import { MainRoutes } from "../../routes/constants/Main_Routes";
+import { WALLET_AUTH_STRINGS } from "../../constants/hooks/walletConnect";
 
 export const useDisconnect = () => {
     const navigate = useNavigate();
@@ -18,10 +19,10 @@ export const useDisconnect = () => {
             await disconnect();
             hideLoading();
             navigate(MainRoutes.HOME);
-            notify("Disconnected", NotificationType.SUCCESS);
+            notify(WALLET_AUTH_STRINGS.DISCONNECT_MESSAGES.DISCONNECT, NotificationType.SUCCESS);
         } catch(err) {
             hideLoading();
-            notify("Error", NotificationType.ERROR);
+            notify(WALLET_AUTH_STRINGS.ERROR, NotificationType.ERROR);
         }
     };
 

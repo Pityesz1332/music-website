@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { MainRoutes } from "../../routes/constants/Main_Routes";
 import { useAdmin } from "../../context/AdminContext";
 import { useNotification, NotificationType } from "../../context/NotificationContext";
+import { ADMIN_AUTH_STRINGS } from "../../constants/hooks/admin/adminAuth";
 
 export const useAdminAuth = () => {
     const [credentials, setCredentials] = useState({
@@ -29,7 +30,7 @@ export const useAdminAuth = () => {
         e.preventDefault();
 
         if (!credentials.username || !credentials.password) {
-            notify("Please fill in all fields", NotificationType.INFO);
+            notify(ADMIN_AUTH_STRINGS.MESSAGES.FILL_FIELDS, NotificationType.INFO);
             return;
         }
 
@@ -39,11 +40,11 @@ export const useAdminAuth = () => {
             await connectAsAdmin(credentials.username, credentials.password);
             
             navigate(MainRoutes.ADMIN_DASHBOARD);
-            notify("Welcome, Admin", NotificationType.SUCCESS);
+            notify(ADMIN_AUTH_STRINGS.MESSAGES.ACCEPT, NotificationType.SUCCESS);
         } catch (err: any) {
             // hibánál jelszó mező ürítése
             setCredentials(prev => ({ ...prev, password: "" }));
-            notify("Invalid credentials!", NotificationType.ERROR);
+            notify(ADMIN_AUTH_STRINGS.MESSAGES.DECLINE, NotificationType.ERROR);
             setIsLoading(false);
         }
     };

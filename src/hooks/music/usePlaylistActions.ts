@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import type { Song } from "../../types/music";
 import { NotificationType } from "../../context/NotificationContext";
+import { PLAYLIST_ACTIONS_STRINGS } from "../../constants/hooks/playlistActions";
 
 // paraméterek meghatározása
 interface UsePlaylistActionsProps {
@@ -75,7 +76,7 @@ export const usePlaylistActions = ({
         if (confirmDelete) {
             const newPlaylist = playlist.filter(s => s.id !== songId);
             setPlaylist(newPlaylist);
-            notify("Song deleted from playlist", NotificationType.SUCCESS);
+            notify(PLAYLIST_ACTIONS_STRINGS.MESSAGE, NotificationType.SUCCESS);
 
             if (currentSong?.id === songId && newPlaylist.length > 0) {
                 nextSong();

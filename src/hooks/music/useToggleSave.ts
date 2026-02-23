@@ -1,6 +1,7 @@
 import type { Song } from "../../types/music"
 import { useNotification, NotificationType } from "../../context/NotificationContext"
 import { useMusic } from "../../context/MusicContext";
+import { TOGGLE_SAVE_STRINGS } from "../../constants/hooks/toggleSave";
 
 export const useToggleSave = () => {
     const { notify } = useNotification();
@@ -11,10 +12,10 @@ export const useToggleSave = () => {
         
         if (isSaved) {
             removeSavedSong(song.id);
-            notify("Deleted from saved songs", NotificationType.SUCCESS);
+            notify(TOGGLE_SAVE_STRINGS.MESSAGES.DELETE, NotificationType.SUCCESS);
         } else {
             saveSong(song);
-            notify("Saved to favorites", NotificationType.SUCCESS);
+            notify(TOGGLE_SAVE_STRINGS.MESSAGES.SAVE, NotificationType.SUCCESS);
         }
     };
 
