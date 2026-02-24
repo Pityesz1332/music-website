@@ -5,13 +5,13 @@ import type { Song } from "../../types/music";
 
 describe("useSaveSong", () => {
   const mockSong: Song = {
-    id: "1",
-    title: "Test Song",
-    artist: "Test Artist",
-    genre: "Mix",
-    duration: "10",
-    cover: "cover.jpg",
-    src: "test.mp3",
+    id: "123",
+    title: "",
+    artist: "",
+    genre: "",
+    duration: "",
+    cover: "",
+    src: "",
     defaultBgVideo: "",
     playingBgVideo: ""
   };
@@ -56,7 +56,7 @@ describe("useSaveSong", () => {
     expect(result.current.savedSongs).toHaveLength(1);
 
     act(() => {
-      result.current.removeSavedSong("1");
+      result.current.removeSavedSong("123");
     });
 
     expect(result.current.savedSongs).toHaveLength(0);

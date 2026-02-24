@@ -24,11 +24,11 @@ describe("useToggleSave", () => {
   const mockRemoveSavedSong = vi.fn();
   
   const mockSong: Song = {
-    id: "789",
-    title: "Toggle Song",
-    artist: "Artist",
-    genre: "Mix",
-    duration: "10",
+    id: "123",
+    title: "",
+    artist: "",
+    genre: "",
+    duration: "",
     cover: "",
     src: "",
     defaultBgVideo: "",

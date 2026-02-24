@@ -9,8 +9,8 @@ vi.mock("react-router-dom", () => ({
 
 vi.mock("../../data/songs.json", () => ({
   default: [
-    { id: "1", title: "Base Song", genre: "Rock" },
-    { id: "2", title: "Another One", genre: "Pop" },
+    { id: "1", title: "Base Song", genre: "Mix1" },
+    { id: "2", title: "Another One", genre: "Mix2" },
   ],
 }));
 
@@ -22,7 +22,7 @@ describe("useFilteringSongs", () => {
   });
 
   it("should load and merge songs from JSON and localStorage", async () => {
-    const localSong = [{ id: "3", title: "Local Song", genre: "Jazz" }];
+    const localSong = [{ id: "3", title: "Local Song", genre: "Mix3" }];
     window.localStorage.setItem("admin_songs", JSON.stringify(localSong));
 
     const { result } = renderHook(() => useFilteringSongs());
@@ -32,11 +32,11 @@ describe("useFilteringSongs", () => {
     });
 
     expect(result.current.songs).toHaveLength(3);
-    expect(result.current.genres).toEqual(["All", "Jazz", "Rock", "Pop"]);
+    expect(result.current.genres).toEqual(["All", "Mix3", "Mix1", "Mix2"]);
   });
 
   it("should filter out duplicate IDs when merging", async () => {
-    const duplicateSong = [{ id: "1", title: "Duplicate", genre: "Rock" }];
+    const duplicateSong = [{ id: "1", title: "Duplicate", genre: "Mix1" }];
     window.localStorage.setItem("admin_songs", JSON.stringify(duplicateSong));
 
     const { result } = renderHook(() => useFilteringSongs());
@@ -51,12 +51,12 @@ describe("useFilteringSongs", () => {
     await waitFor(() => expect(result.current.loading).toBe(false));
 
     act(() => {
-      result.current.handleGenreChange("Rock");
+      result.current.handleGenreChange("Mix1");
     });
 
-    expect(result.current.selectedGenre).toBe("Rock");
+    expect(result.current.selectedGenre).toBe("Mix1");
     expect(result.current.filteredSongs).toHaveLength(1);
-    expect(result.current.filteredSongs[0].genre).toBe("Rock");
+    expect(result.current.filteredSongs[0].genre).toBe("Mix1");
   });
 
   it("should filter songs by search query from URL", async () => {
@@ -96,7 +96,7 @@ describe("useFilteringSongs", () => {
     expect(result.current.currentPage).toBe(2);
 
     act(() => {
-      result.current.handleGenreChange("Pop");
+      result.current.handleGenreChange("Mix2");
     });
 
     expect(result.current.currentPage).toBe(1);

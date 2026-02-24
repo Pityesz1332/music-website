@@ -25,12 +25,12 @@ describe("useSongClick", () => {
   
   const mockSong: Song = {
     id: "123",
-    title: "Test Song",
-    artist: "Test Artist",
-    genre: "Rock",
-    duration: "10",
-    cover: "img.jpg",
-    src: "url.mp3",
+    title: "",
+    artist: "",
+    genre: "",
+    duration: "",
+    cover: "",
+    src: "",
     defaultBgVideo: "",
     playingBgVideo: "",
   };
