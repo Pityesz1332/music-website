@@ -75,7 +75,7 @@ export const useVolumeControl = (audioRef: RefObject<HTMLAudioElement>) => {
         volumeWrapperRef,
         handleVolumeChanger,
         adjustVolume,
-        handleVolumeDragStart,
+        handleVolumeDragStart, handleVolumeDragEnd,
         updateVolume
     };
 };

@@ -35,7 +35,7 @@ export const useFilteringSaved = (savedSongs: Song[]) => {
         filteredSongs,
         currentSongs,
         currentPage, setCurrentPage,
-        totalPages,
+        itemsPerPage, totalPages,
         nextPage,
         prevPage
     };

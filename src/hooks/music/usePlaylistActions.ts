@@ -30,8 +30,9 @@ export const usePlaylistActions = ({
                 setContextMenu(null);
             }
         };
-        window.addEventListener("click", handleClickOutside);
-        return () => window.removeEventListener("click", handleClickOutside);
+
+        document.addEventListener("click", handleClickOutside);
+        return () => document.removeEventListener("click", handleClickOutside);
     }, []);
 
     // jobb klikk -> saját menü, nem a böngésző default

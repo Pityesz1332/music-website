@@ -9,8 +9,10 @@ export const useNavbarSearch = (closeMenu: () => void) => {
     const [isFocused, setIsFocused] = useState<boolean>(false);
 
     const executeSearch = () => {
-        if (searchTerm.trim() !== "") {
-            navigate(`${MainRoutes.SONGS}?search=${encodeURIComponent(searchTerm)}`);
+        const cleaned = searchTerm.trim();
+
+        if (cleaned !== "") {
+            navigate(`${MainRoutes.SONGS}?search=${encodeURIComponent(cleaned)}`);
             setSearchTerm("");
             setIsFocused(false);
             closeMenu();
