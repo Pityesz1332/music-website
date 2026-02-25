@@ -6,7 +6,7 @@ import { usePlaylistActions } from "../../hooks/music/usePlaylistActions";
 import { usePlaylistScroll } from "../../hooks/ui/usePlaylistScroll";
 import { useSongInit } from "../../hooks/audio/useSongInit";
 import { useSongClick } from "../../hooks/music/useSongClick";
-import { ScrollToTop } from "../../hooks/general/ScrollToTop";
+import { ScrollToTop } from "../../components/ScrollToTop/ScrollToTop";
 import { useToggleSave } from "../../hooks/music/useToggleSave";
 import { SONG_PAGE_STRINGS } from "../../constants/ui/songPage";
 import "./SongPage.scss";
