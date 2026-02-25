@@ -19,7 +19,7 @@ export const usePlaylistScroll = ({
     useEffect(() => {
         // megnézzük, melyik elemre kell fókuszálni
         // szerkesztett dal elsőbbséget élvez
-        const targetId = editingSongId || currentSong?.id;
+        const targetId = editingSongId ?? currentSong?.id;
         if (!targetId || !playlistRef.current) return;
 
         // megkeressük a listában a konkrét elemet, id alapján
