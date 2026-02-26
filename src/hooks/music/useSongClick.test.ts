@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useNavigate } from "react-router-dom";
 import { useMusic } from "../../context/MusicContext";
 import { useSongClick } from "./useSongClick";
-import { getSongPath } from "../../routes/constants/Main_Routes";
+import { getSongPath } from "../../routes/constants/MainRoutes";
 import type { Song } from "../../types/music";
 
 vi.mock("react-router-dom", () => ({
@@ -14,7 +14,7 @@ vi.mock("../../context/MusicContext", () => ({
   useMusic: vi.fn(),
 }));
 
-vi.mock("../../routes/constants/Main_Routes", () => ({
+vi.mock("../../routes/constants/MainRoutes", () => ({
   getSongPath: vi.fn((id: string) => `/song/${id}`),
 }));
 

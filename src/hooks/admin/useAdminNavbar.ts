@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { MainRoutes } from "../../routes/constants/Main_Routes";
+import { MainRoutes } from "../../routes/constants/MainRoutes";
 
 export const useAdminNavbar = () => {
     const navigate = useNavigate();

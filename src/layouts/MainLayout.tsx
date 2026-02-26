@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../components/Navbar/Navbar";
-import Playbar from "../components/Playbar/Playbar";
+import Navbar from "../components/navbar/Navbar";
+import Playbar from "../components/playbar/Playbar";
 
 // a playbar-nak átadja a szükséges prop-okat
 const MainLayout = () => {

@@ -40,12 +40,9 @@ export function AdminProvider({ children }: AdminProviderProps) {
                 localStorage.setItem("adminToken", mockToken);
                 setIsAdmin(true);
             } else {
-                throw new Error("Wrong username or password");
+                setError("Wrong username or password");
+                setIsAdmin(false);
             }
-        } catch (err: any) {
-            setError(err.message);
-            setIsAdmin(false);
-            throw err;
         } finally {
             hideLoading();
         }

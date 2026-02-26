@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { MainRoutes } from "../../routes/constants/Main_Routes";
-import { RecentlyPlayed } from "../../components/Recently_Played/RecentlyPlayed";
+import { MainRoutes } from "../../routes/constants/MainRoutes";
+import { RecentlyPlayed } from "../../components/recently-played/RecentlyPlayed";
 import { useBackgroundChange } from "../../hooks/ui/useBackgroundChange";
-import { BackgroundItem } from "./home_background/BackgroundItem";
+import { BackgroundItem } from "./home-background/BackgroundItem";
 import { Background } from "../../types/background";
 import { HOME_STRINGS } from "../../constants/ui/home";
 import "./Home.scss";

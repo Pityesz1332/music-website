@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { MainRoutes } from "../../../routes/constants/Main_Routes";
+import { MainRoutes } from "../../../routes/constants/MainRoutes";
 import { useAdminNavbar } from "../../../hooks/admin/useAdminNavbar";
 import { ADMIN_NAVBAR_STRINGS } from "../../../constants/ui/admin/navbar";
 import "./AdminNavbar.scss";

@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate} from "react-router-dom";
 import { Filter } from "lucide-react";
-import { MainRoutes } from "../../routes/constants/Main_Routes";
+import { MainRoutes } from "../../routes/constants/MainRoutes";
 import { useSongClick } from "../../hooks/music/useSongClick";
 import { useFilteringSongs } from "../../hooks/music/useFilteringSongs";
 import { ErrorState } from "./subcomponents/ErrorState";

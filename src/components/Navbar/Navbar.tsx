@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { Wallet, Menu, X, Music, Search, Heart, User } from "lucide-react";
-import { MainRoutes } from "../../routes/constants/Main_Routes";
+import { MainRoutes } from "../../routes/constants/MainRoutes";
 import { useNavbarUI } from "../../hooks/ui/useNavbarUI";
 import { useNavbarSearch } from "../../hooks/music/useNavbarSearch";
 import { useAuth } from "../../context/AuthContext";

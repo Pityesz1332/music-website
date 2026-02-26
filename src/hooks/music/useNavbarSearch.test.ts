@@ -2,7 +2,7 @@ import { renderHook, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useNavigate } from "react-router-dom";
 import { useNavbarSearch } from "./useNavbarSearch";
-import { MainRoutes } from "../../routes/constants/Main_Routes";
+import { MainRoutes } from "../../routes/constants/MainRoutes";
 
 vi.mock("react-router-dom", () => ({
   useNavigate: vi.fn(),

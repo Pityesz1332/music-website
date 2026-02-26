@@ -1,7 +1,7 @@
 import { Copy, Import } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
 import { useNotification, NotificationType } from "../../context/NotificationContext";
-import { RecentlyPlayed } from "../../components/Recently_Played/RecentlyPlayed";
+import { RecentlyPlayed } from "../../components/recently-played/RecentlyPlayed";
 import { useAvatarUpload } from "../../hooks/general/useAvatarUpload";
 import { useClipboard } from "../../hooks/general/useClipboard";
 import { MY_ACCOUNT_STRINGS } from "../../constants/ui/myAccount";

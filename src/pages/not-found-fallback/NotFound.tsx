@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
-import { MainRoutes } from "../../routes/constants/Main_Routes";
+import { MainRoutes } from "../../routes/constants/MainRoutes";
 import { NOT_FOUND_STRINGS } from "../../constants/ui/notFound";
 import "./NotFound.scss";
 

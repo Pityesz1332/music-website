@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { MainRoutes } from "../../routes/constants/Main_Routes";
+import { MainRoutes } from "../../routes/constants/MainRoutes";
 import { useMusic } from "../../context/MusicContext";
 import { useSongClick } from "../../hooks/music/useSongClick";
 import { useFilteringSaved } from "../../hooks/music/useFilteringSaved";
 import { EmptyState } from "./subcomponents/EmptyState";
 import { SAVED_STRINGS } from "../../constants/ui/saved";
-import "../Songs/Songs.scss";
+import "../songs/Songs.scss";
 
 export const Saved = () => {
     const navigate = useNavigate();

@@ -1,20 +1,20 @@
 import { Routes, Route, } from "react-router-dom";
-import { MainRoutes } from "./constants/Main_Routes";
+import { MainRoutes } from "./constants/MainRoutes";
 import MainLayout from "../layouts/MainLayout";
-import AdminLayout from "../layouts/Admin_Layout/AdminLayout";
+import AdminLayout from "../layouts/admin-layout/AdminLayout";
 
-import {Home} from "../pages/Home/Home";
-import {Songs} from "../pages/Songs/Songs";
-import {SongPage} from "../pages/Songpage/SongPage";
-import {Saved} from "../pages/Saved_Songs/Saved";
-import {MyAccount} from "../pages/Profile/MyAccount";
-import {AdminDashboard} from "../pages/admin/Admin_Dashboard/AdminDashboard";
-import {ManageSongs} from "../pages/admin/Manage_Songs/ManageSongs";
-import {ManageUsers} from "../pages/admin/Manage_Users/ManageUsers";
-import {AdminConnect} from "../pages/admin/Admin_Connect/AdminConnect";
-import {NotFound} from "../pages/Not_found_fallback/NotFound";
+import {Home} from "../pages/home/Home";
+import {Songs} from "../pages/songs/Songs";
+import {SongPage} from "../pages/songpage/SongPage";
+import {Saved} from "../pages/saved-songs/Saved";
+import {MyAccount} from "../pages/profile/MyAccount";
+import {AdminDashboard} from "../pages/admin/admin-dashboard/AdminDashboard";
+import {ManageSongs} from "../pages/admin/manage-songs/ManageSongs";
+import {ManageUsers} from "../pages/admin/manage-users/ManageUsers";
+import {AdminConnect} from "../pages/admin/admin-connect/AdminConnect";
+import {NotFound} from "../pages/not-found-fallback/NotFound";
 
-import { AdminRoute } from "../routes/AdminRoute";
+import { AdminRoute } from "./AdminRoute";
 
 export const EndpointRouter = () => {
     return (
