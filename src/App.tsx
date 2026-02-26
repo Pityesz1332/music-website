@@ -1,5 +1,5 @@
 import { BrowserRouter as Router } from "react-router-dom";
-import { EndpointRouter } from "./routes/Endpoint_Router";
+import { EndpointRouter } from "./routes/EndpointRouter";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { MusicProvider } from "./context/MusicContext";

@@ -4,6 +4,7 @@ export enum MainRoutes {
     SPECIFIC_SONG = '/songs/:id',
     SAVED = '/saved',
     MY_ACCOUNT = '/myaccount',
+    
     ADMIN_CONNECT = '/admin/connect',
     ADMIN_DASHBOARD = '/admin',
     ADMIN_SONGS = '/admin/songs',
