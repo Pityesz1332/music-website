@@ -63,7 +63,7 @@
         color: $main-text-color;
 
         &--confirm {
-            background: $accent-color;
+            background: $primary-color;
             
             &:hover {
                 background: $dark-accent-color;
@@ -74,7 +74,7 @@
             background: $dark-accent-color;
     
             &:hover {
-                background: $accent-color;
+                background: $primary-color;
             }
         }
     }

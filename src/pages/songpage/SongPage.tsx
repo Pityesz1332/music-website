@@ -1,14 +1,14 @@
 import { Play, Pause, Heart, Download, Pencil, Trash2, ChevronUp, ChevronDown, X, SkipBack, SkipForward } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
 import { useAuth } from "../../context/AuthContext";
-import { useNotification, NotificationType } from "../../context/NotificationContext";
+import { useNotification } from "../../context/NotificationContext";
 import { usePlaylistActions } from "../../hooks/music/usePlaylistActions";
 import { usePlaylistScroll } from "../../hooks/ui/usePlaylistScroll";
 import { useSongInit } from "../../hooks/audio/useSongInit";
 import { useSongClick } from "../../hooks/music/useSongClick";
 import { ScrollToTop } from "../../components/scroll-to-top/ScrollToTop";
 import { useToggleSave } from "../../hooks/music/useToggleSave";
-import { SONG_PAGE_STRINGS } from "../../constants/ui/songPage";
+import { SONG_PAGE_STRINGS } from "../../constant-strings/ui/songPage";
 import "./SongPage.scss";
 
 export const SongPage = () => {

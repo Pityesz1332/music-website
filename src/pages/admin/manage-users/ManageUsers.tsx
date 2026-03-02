@@ -1,6 +1,6 @@
 import { Trash2, Edit } from "lucide-react";
 import { useUserManager } from "../../../hooks/admin/useUserManager";
-import { ADMIN_MANAGE_USERS_STRINGS } from "../../../constants/ui/admin/manageUsers";
+import { ADMIN_MANAGE_USERS_STRINGS } from "../../../constant-strings/ui/admin/manageUsers";
 import "./ManageUsers.scss";
 
 export const ManageUsers = () => {

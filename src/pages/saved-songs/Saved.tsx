@@ -4,7 +4,7 @@ import { useMusic } from "../../context/MusicContext";
 import { useSongClick } from "../../hooks/music/useSongClick";
 import { useFilteringSaved } from "../../hooks/music/useFilteringSaved";
 import { EmptyState } from "./subcomponents/EmptyState";
-import { SAVED_STRINGS } from "../../constants/ui/saved";
+import { SAVED_STRINGS } from "../../constant-strings/ui/saved";
 import "../songs/Songs.scss";
 
 export const Saved = () => {

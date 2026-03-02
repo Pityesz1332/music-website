@@ -1,7 +1,7 @@
 import { PlusCircle, Trash2, Edit, X, UploadIcon} from "lucide-react";
 import { UploadSong } from "../../../components/admin/upload-song/UploadSong";
 import { useSongManager } from "../../../hooks/admin/useSongManager";
-import { ADMIN_MANAGE_SONGS_STRINGS } from "../../../constants/ui/admin/manageSongs";
+import { ADMIN_MANAGE_SONGS_STRINGS } from "../../../constant-strings/ui/admin/manageSongs";
 import "./ManageSongs.scss";
 
 export const ManageSongs = () => {

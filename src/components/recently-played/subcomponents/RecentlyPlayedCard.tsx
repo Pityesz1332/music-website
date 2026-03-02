@@ -1,5 +1,5 @@
 import type { Song } from "../../../types/music";
-import { RECENTLY_PLAYED_STRINGS } from "../../../constants/ui/recentlyPlayed";
+import { RECENTLY_PLAYED_STRINGS } from "../../../constant-strings/ui/recentlyPlayed";
 
 interface RecentlyPlayedCardProps {
     item: Song;

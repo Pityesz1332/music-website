@@ -1,6 +1,6 @@
 import songsData from "../../../data/songs.json";
 import type { Song } from "../../../types/music";
-import { ADMIN_DASHBOARD_STRINGS } from "../../../constants/ui/admin/dashboard";
+import { ADMIN_DASHBOARD_STRINGS } from "../../../constant-strings/ui/admin/dashboard";
 import "./AdminDashboard.scss";
 
 // típuskényszerítés

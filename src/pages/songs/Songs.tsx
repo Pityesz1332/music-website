@@ -5,7 +5,7 @@ import { MainRoutes } from "../../routes/constants/MainRoutes";
 import { useSongClick } from "../../hooks/music/useSongClick";
 import { useFilteringSongs } from "../../hooks/music/useFilteringSongs";
 import { ErrorState } from "./subcomponents/ErrorState";
-import { SONGS_STRINGS } from "../../constants/ui/songs";
+import { SONGS_STRINGS } from "../../constant-strings/ui/songs";
 import "./Songs.scss";
 
 export const Songs = () => {

@@ -4,7 +4,7 @@ import { useNotification, NotificationType } from "../../context/NotificationCon
 import { RecentlyPlayed } from "../../components/recently-played/RecentlyPlayed";
 import { useAvatarUpload } from "../../hooks/general/useAvatarUpload";
 import { useClipboard } from "../../hooks/general/useClipboard";
-import { MY_ACCOUNT_STRINGS } from "../../constants/ui/myAccount";
+import { MY_ACCOUNT_STRINGS } from "../../constant-strings/ui/myAccount";
 import "./MyAccount.scss";
 
 export const MyAccount = () => {

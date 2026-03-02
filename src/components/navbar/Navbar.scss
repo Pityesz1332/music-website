@@ -27,7 +27,7 @@
         font-weight: 700;
         font-size: clamp(1rem, 2.5vw, 1.3rem);
         letter-spacing: 1px;
-        color: $accent-color;
+        color: $primary-color;
         cursor: pointer;
         flex-shrink: 0;
         transition: font-size 0.3s ease;
@@ -73,7 +73,7 @@
     &__search-icon {
         position: absolute;
         right: 0.625rem;
-        color: $accent-color;
+        color: $primary-color;
         cursor: pointer;
         opacity: 1;
         pointer-events: auto;
@@ -144,7 +144,7 @@
         font-size: clamp(0.9rem, 2vw, 1.1rem);
         flex: 1 1 auto;
 
-        &:hover, &--active { color: $accent-color; }
+        &:hover, &--active { color: $primary-color; }
 
         &--wallet {
             padding: 0;
@@ -161,7 +161,7 @@
         font-size: clamp(0.85rem, 1.2vh, 1rem);
         font-weight: 700;
         padding: clamp(0.5rem, 1.2vh, 0.625rem) clamp(0.875rem, 2vw, 1.25rem);
-        background: $accent-color;
+        background: $primary-color;
         border-radius: 0.5rem;
         border: none;
         cursor: pointer;

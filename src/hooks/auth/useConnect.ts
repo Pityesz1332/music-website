@@ -1,7 +1,7 @@
 import { useAuth } from "../../context/AuthContext";
 import { useNotification, NotificationType } from "../../context/NotificationContext";
 import { useLoading } from "../../context/LoadingContext";
-import { WALLET_AUTH_STRINGS } from "../../constants/hooks/walletConnect";
+import { WALLET_AUTH_STRINGS } from "../../constant-strings/hooks/walletConnect";
 
 export const useConnect = () => {
     const { connect } = useAuth();

@@ -4,7 +4,7 @@ import { useConnect } from "./useConnect";
 import { useAuth } from "../../context/AuthContext";
 import { useNotification, NotificationType } from "../../context/NotificationContext";
 import { useLoading } from "../../context/LoadingContext";
-import { WALLET_AUTH_STRINGS } from "../../constants/hooks/walletConnect";
+import { WALLET_AUTH_STRINGS } from "../../constant-strings/hooks/walletConnect";
 
 vi.mock("../../context/AuthContext", () => ({
   useAuth: vi.fn(),

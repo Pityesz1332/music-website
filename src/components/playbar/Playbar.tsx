@@ -12,7 +12,7 @@ import { useAudioSync } from "../../hooks/audio/useAudioSync";
 import { usePlaybarInteractions } from "../../hooks/audio/usePlaybarInteractions";
 import { ProgressBar } from "./subcomponents/ProgressBar";
 import { VolumeControl } from "./subcomponents/VolumeControl";
-import { PLAYBAR_STRINGS } from "../../constants/ui/playbar";
+import { PLAYBAR_STRINGS } from "../../constant-strings/ui/playbar";
 import "./Playbar.scss";
 
 const Playbar = () => {

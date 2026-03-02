@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useNotification, NotificationType } from "../../context/NotificationContext";
 import { useLoading } from "../../context/LoadingContext";
 import { MainRoutes } from "../../routes/constants/MainRoutes";
-import { WALLET_AUTH_STRINGS } from "../../constants/hooks/walletConnect";
+import { WALLET_AUTH_STRINGS } from "../../constant-strings/hooks/walletConnect";
 
 vi.mock("react-router-dom", () => ({
   useNavigate: vi.fn(),

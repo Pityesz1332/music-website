@@ -6,7 +6,9 @@ import { useNavbarSearch } from "../../hooks/music/useNavbarSearch";
 import { useAuth } from "../../context/AuthContext";
 import { useConnect } from "../../hooks/auth/useConnect";
 import { useDisconnect } from "../../hooks/auth/useDisconnect";
-import { NAVBAR_STRINGS } from "../../constants/ui/navbar";
+import { NAVBAR_STRINGS } from "../../constant-strings/ui/navbar";
+import { NavLink } from "./subcomponents/NavLink";
+import { PUBLIC_NAV_ITEMS, PROTECTED_NAV_ITEMS } from "../../constants/ui/navbar";
 import "./Navbar.scss";
 
 const Navbar = () => {
@@ -23,6 +25,17 @@ const Navbar = () => {
         handleKeyDown,
         handleBlur
     } = useNavbarSearch(closeMenu);
+
+    const renderNavLink = (item: any) => (
+        <NavLink 
+            key={item.path}
+            path={item.path}
+            label={item.label}
+            Icon={item.Icon}
+            isActive={location.pathname === item.path}
+            onClick={() => { navigate(item.path); closeMenu(); }}
+        />
+    );
 
     return (
         <nav className={`navbar ${isShrunk ? "navbar--shrunk" : ""} ${isConnected ? "navbar--connected" : ""}`}>
@@ -51,31 +64,9 @@ const Navbar = () => {
             </div>
 
             <ul className={`navbar__menu ${isMenuOpen ? "navbar__menu--open" : ""}`}>
-                <li
-                    className={`navbar__item ${location.pathname === MainRoutes.SONGS ? "navbar__item--active" : ""}`}
-                    onClick={() => { navigate(MainRoutes.SONGS); closeMenu(); }}
-                >
-                <Music className="navbar__item-icon" size={28} /><span className="navbar__item-text">{NAVBAR_STRINGS.MENU.SONGS_MIXES}</span>
-                </li>
+                {PUBLIC_NAV_ITEMS.map(renderNavLink)}
 
-                {isConnected && (
-                    <>
-                        <li
-                            className={`navbar__item ${location.pathname === MainRoutes.SAVED ? "navbar__item--active" : ""}`}
-                            onClick={() => { navigate(MainRoutes.SAVED); closeMenu(); }}
-                        >
-                            <Heart className="navbar__item-icon" size={28} />
-                            <span className="navbar__item-text">{NAVBAR_STRINGS.MENU.FAVORITES}</span>
-                        </li>
-                        <li
-                            className={`navbar__item ${location.pathname === MainRoutes.MY_ACCOUNT ? "navbar__item--active" : ""}`}
-                            onClick={() => { navigate(MainRoutes.MY_ACCOUNT); closeMenu(); }}
-                        >
-                            <User className="navbar__item-icon" size={28} />
-                            <span className="navbar__item-text">{NAVBAR_STRINGS.MENU.ACCOUNT}</span>
-                        </li>
-                    </>
-                )}
+                {isConnected && PROTECTED_NAV_ITEMS.map(renderNavLink)}
 
                 <li className="navbar__item navbar__item--wallet">
                     {isConnected ? (

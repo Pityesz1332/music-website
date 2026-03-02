@@ -4,7 +4,7 @@ import { RecentlyPlayed } from "../../components/recently-played/RecentlyPlayed"
 import { useBackgroundChange } from "../../hooks/ui/useBackgroundChange";
 import { BackgroundItem } from "./home-background/BackgroundItem";
 import { Background } from "../../types/background";
-import { HOME_STRINGS } from "../../constants/ui/home";
+import { HOME_STRINGS } from "../../constant-strings/ui/home";
 import "./Home.scss";
 
 const backgrounds: Background[] = [

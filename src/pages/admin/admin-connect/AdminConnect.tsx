@@ -1,5 +1,5 @@
 import { useAdminAuth } from "../../../hooks/admin/useAdminAuth";
-import { ADMIN_CONNECT_STRINGS } from "../../../constants/ui/admin/connect";
+import { ADMIN_CONNECT_STRINGS } from "../../../constant-strings/ui/admin/connect";
 import "./AdminConnect.scss";
 
 export const AdminConnect = () => {

@@ -1,4 +1,4 @@
-import { ERROR_BOUNDARY_STRINGS } from "../../constants/ui/errorBoundary";
+import { ERROR_BOUNDARY_STRINGS } from "../../constant-strings/ui/errorBoundary";
 import { ErrorBoundary } from "react-error-boundary";
 
 export const ErrorFallback = () => {

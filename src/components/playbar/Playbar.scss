@@ -242,7 +242,7 @@
         line-height: 1;
     
         &:hover {
-            color: $accent-color;
+            color: $primary-color;
             transform: scale(1.2);
         }
 
@@ -295,7 +295,7 @@
         &-filled {
             width: 0%;
             height: 100%;
-            background: $accent-color;
+            background: $primary-color;
             transition: width 0.3s ease;
         }
 
@@ -392,7 +392,7 @@
         
         .playbar__volume-fill {
             height: 100%;
-            background: $accent-color;
+            background: $primary-color;
             border-radius: 3px;
             transition: width 0.05s linear;
         }
@@ -428,8 +428,8 @@
         transition: 0.2s;
     
         &:hover { transform: scale(1.2); }
-        &--active { color: $accent-color; }
-        &--saved { svg { color: $accent-color; } }
+        &--active { color: $primary-color; }
+        &--saved { svg { color: $primary-color; } }
     }
     
     &__loader {

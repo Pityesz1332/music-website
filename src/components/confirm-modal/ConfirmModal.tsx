@@ -1,4 +1,4 @@
-import { CONFIRM_MODAL_STRINGS } from "../../constants/ui/confirmModal";
+import { CONFIRM_MODAL_STRINGS } from "../../constant-strings/ui/confirmModal";
 import "./ConfirmModal.scss";
 
 interface ConfirmModalProps {

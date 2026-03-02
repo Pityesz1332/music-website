@@ -1,12 +1,24 @@
-export const NAVBAR_STRINGS = {
-    PLACEHOLDER: "Search...",
-    MENU: {
-        SONGS_MIXES: "Songs/Mixes",
-        FAVORITES: "Favorites",
-        ACCOUNT: "Account",
-    },
-    WALLET: {
-        CONNECT: "Connect Wallet",
-        DISCONNECT: "Disconnect",
+import { Music, Heart, User } from "lucide-react";
+import { MainRoutes } from "../../routes/constants/MainRoutes";
+import { NAVBAR_STRINGS } from "../../constant-strings/ui/navbar";
+
+export const PUBLIC_NAV_ITEMS = [
+    {
+        path: MainRoutes.SONGS,
+        label: NAVBAR_STRINGS.MENU.SONGS_MIXES,
+        Icon: Music,
     }
-} as const;
+];
+
+export const PROTECTED_NAV_ITEMS = [
+    {
+        path: MainRoutes.SAVED,
+        label: NAVBAR_STRINGS.MENU.FAVORITES,
+        Icon: Heart,
+    },
+    {
+        path: MainRoutes.MY_ACCOUNT,
+        label: NAVBAR_STRINGS.MENU.ACCOUNT,
+        Icon: User,
+    }
+];

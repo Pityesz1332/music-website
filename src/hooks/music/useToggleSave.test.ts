@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useToggleSave } from "./useToggleSave";
 import { useNotification, NotificationType } from "../../context/NotificationContext";
 import { useMusic } from "../../context/MusicContext";
-import { TOGGLE_SAVE_STRINGS } from "../../constants/hooks/toggleSave";
+import { TOGGLE_SAVE_STRINGS } from "../../constant-strings/hooks/toggleSave";
 import type { Song } from "../../types/music";
 
 vi.mock("../../context/NotificationContext", () => ({
