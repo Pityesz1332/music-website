@@ -39,7 +39,7 @@
     }
     
     &__title {
-        color: $accent-color;
+        color: $primary-color;
         margin-bottom: 20px;
         font-size: 1.8rem;
         text-align: center;
@@ -75,7 +75,7 @@
     &__button {
         width: 100%;
         padding: 12px 15px;
-        background: $accent-color;
+        background: $primary-color;
         border: none;
         border-radius: 8px;
         color: $main-text-color;

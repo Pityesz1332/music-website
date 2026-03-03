@@ -2,6 +2,7 @@ import { PlusCircle, Trash2, Edit, X, UploadIcon} from "lucide-react";
 import { UploadSong } from "../../../components/admin/upload-song/UploadSong";
 import { useSongManager } from "../../../hooks/admin/useSongManager";
 import { ADMIN_MANAGE_SONGS_STRINGS } from "../../../constant-strings/ui/admin/manageSongs";
+import { Button } from "../../../components/ui/button/Button";
 import "./ManageSongs.scss";
 
 export const ManageSongs = () => {
@@ -21,9 +22,9 @@ export const ManageSongs = () => {
         <div className="manage-songs">
             <h1 className="manage-songs__title">{ADMIN_MANAGE_SONGS_STRINGS.TITLE}</h1>
 
-            <button className="manage-songs__add-button" onClick={openUploadModal}>
+            <Button className="manage-songs__add-button" onClick={openUploadModal}>
                 <PlusCircle size={18} /> {ADMIN_MANAGE_SONGS_STRINGS.ADD_BUTTON}
-            </button>
+            </Button>
 
             {isUploadOpen && (
                 <UploadSong
@@ -56,10 +57,10 @@ export const ManageSongs = () => {
                             <td className="manage-songs__cell" data-label="Genre">{song.genre}</td>
                             <td className="manage-songs__cell" data-label="Duration">{song.duration}</td>
                             <td className="manage-songs__cell manage-songs__cell--actions" data-label="Actions">
-                                <button className="manage-songs__action-button manage-songs__action-button--edit" onClick={() => openEditModal(song)}>
+                                <Button className="manage-songs__action-button manage-songs__action-button--edit" onClick={() => openEditModal(song)}>
                                     <Edit size={16} />
-                                </button>
-                                <button className="manage-songs__action-button manage-songs__action-button--delete" onClick={() => deleteSong(song.id)}><Trash2 size={16} /></button>
+                                </Button>
+                                <Button className="manage-songs__action-button manage-songs__action-button--delete" onClick={() => deleteSong(song.id)}><Trash2 size={16} /></Button>
                             </td>
                         </tr>
                     ))}
@@ -71,7 +72,7 @@ export const ManageSongs = () => {
                     <div className="modal-content">
                         <div className="modal-content__header">
                             <h2 className="modal-content__title">{ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.TITLE}</h2>
-                            <button className="modal-content__close-button" onClick={closeEditModal}><X /></button>
+                            <Button className="modal-content__close-button" onClick={closeEditModal}><X /></Button>
                         </div>
                         <div className="modal-content__body">
                             <input className="modal-content__input" type="text" placeholder={ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.PLACEHOLDERS.TITLE} value={editSong.title} onChange={(e) => handleEditChange("title", e.target.value)} />
@@ -98,8 +99,8 @@ export const ManageSongs = () => {
                         </div>
 
                         <div className="modal-content__footer">
-                            <button className="modal-content__button modal-content__button--save" onClick={saveEdit}>{ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.BUTTONS.SAVE}</button>
-                            <button className="modal-content__button modal-content__button--cancel" onClick={closeEditModal}>{ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.BUTTONS.CANCEL}</button>
+                            <Button className="modal-content__button modal-content__button--save" onClick={saveEdit}>{ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.BUTTONS.SAVE}</Button>
+                            <Button className="modal-content__button modal-content__button--cancel" onClick={closeEditModal}>{ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.BUTTONS.CANCEL}</Button>
                         </div>
                     </div>
                 </div>

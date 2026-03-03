@@ -6,6 +6,7 @@ import { useSongClick } from "../../hooks/music/useSongClick";
 import { useFilteringSongs } from "../../hooks/music/useFilteringSongs";
 import { ErrorState } from "./subcomponents/ErrorState";
 import { SONGS_STRINGS } from "../../constant-strings/ui/songs";
+import { Button } from "../../components/ui/button/Button";
 import "./Songs.scss";
 
 export const Songs = () => {
@@ -61,7 +62,7 @@ export const Songs = () => {
                 <h1 className="songs__title">{SONGS_STRINGS.TITLE}</h1>
 
                 <div className="songs__filter-wrapper" ref={filterRef}>
-                    <button
+                    <Button
                         className={`songs__filter-toggle ${selectedGenre !== "All" ? "songs__filter-toggle--active" : ""}`}
                         onClick={() => setIsFilterOpen(!isFilterOpen)}
                     >
@@ -69,31 +70,34 @@ export const Songs = () => {
                             <Filter size={18} className="songs__filter-icon" />
                             <span>{selectedGenre === "All" ? SONGS_STRINGS.FILTER.LABEL : `${SONGS_STRINGS.FILTER.GENRE_PREFIX}${selectedGenre}`}</span>
                         </div>
-                    </button>
+                    </Button>
                     {isFilterOpen && (
                         <div className="songs__filter-bar">
                             {genres.map((genre) => (
-                                <button
+                                <Button
                                     key={genre}
                                     className={`songs__genre-button ${selectedGenre === genre ? "songs__genre-button--active" : ""}`}
                                     onClick={() => handleGenreChange(genre)}
                                 >
                                     {genre}
-                                </button>
+                                </Button>
                             ))}
                         </div>
                     )}
                 </div>
 
                     
-                    {filteredSongs.length === 0 && (
-                        <div className="songs__no-results">
-                            <h2 className="songs__no-results-title">{SONGS_STRINGS.NO_RESULTS.MESSAGE(searchQuery)}</h2>
-                            <button className="songs__reset-button" onClick={() => navigate(MainRoutes.SONGS)}>
-                                {SONGS_STRINGS.NO_RESULTS.RESET_BTN}
-                            </button>
-                        </div>
-                    )}
+                {filteredSongs.length === 0 && (
+                    <div className="songs__no-results">
+                        <h2 className="songs__no-results-title">{SONGS_STRINGS.NO_RESULTS.MESSAGE(searchQuery)}</h2>
+                        <Button 
+                            className="songs__reset-button" 
+                            to={MainRoutes.SONGS}
+                        >
+                            {SONGS_STRINGS.NO_RESULTS.RESET_BTN}
+                        </Button>
+                    </div>
+                )}
 
                 <div className="songs__grid">
                     {currentSongs.map((song) => (
@@ -111,19 +115,25 @@ export const Songs = () => {
                 </div>
 
                 <div className="songs__pagination">
-                    <button
+                    <Button
                         className="songs__pagination-button"
                         onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                         disabled={currentPage === 1}
-                    >{SONGS_STRINGS.PAGINATION.PREV}</button>
+                    >
+                        {SONGS_STRINGS.PAGINATION.PREV}
+                    </Button>
+                    
                     <span className="songs__pagination-info">
                         {SONGS_STRINGS.PAGINATION.PAGE_INFO(currentPage, totalPages)}
                     </span>
-                    <button
+                    
+                    <Button
                         className="songs__pagination-button"
                         onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
                         disabled={currentPage === totalPages}
-                    >{SONGS_STRINGS.PAGINATION.NEXT}</button>
+                    >
+                        {SONGS_STRINGS.PAGINATION.NEXT}
+                    </Button>
                 </div>
             </div>
 

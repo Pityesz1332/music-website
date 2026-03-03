@@ -1,18 +1,18 @@
 import { useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { Play, Pause, SkipBack, SkipForward, TimerReset, Repeat, Heart, Download } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
 import { useAuth } from "../../context/AuthContext";
-import { useNotification, NotificationType } from "../../context/NotificationContext";
-import { formatTime } from "../../utils/formatTime";
+import { useNotification } from "../../context/NotificationContext";
 import { useVolumeControl } from "../../hooks/audio/useVolumeControl";
 import { useProgressBar } from "../../hooks/audio/useProgressBar";
 import { useKeyboardControls } from "../../hooks/general/useKeyboardControls";
 import { useAudioSync } from "../../hooks/audio/useAudioSync";
 import { usePlaybarInteractions } from "../../hooks/audio/usePlaybarInteractions";
 import { ProgressBar } from "./subcomponents/ProgressBar";
-import { VolumeControl } from "./subcomponents/VolumeControl";
-import { PLAYBAR_STRINGS } from "../../constant-strings/ui/playbar";
+import { SongDetails } from "./subcomponents/SongDetails";
+import { PlaybackControls } from "./subcomponents/PlaybackControls";
+import { TrackActions } from "./subcomponents/TrackActions";
+import { AudioElement } from "./subcomponents/AudioElement";
 import "./Playbar.scss";
 
 const Playbar = () => {
@@ -92,98 +92,48 @@ const Playbar = () => {
                 handleMouseLeave={handleMouseLeave}
             />
 
-            <audio
-                src={song.src}
-                ref={audioRef}
-                loop={isLooping}
-                preload="metadata"
+            <AudioElement
+                audioRef={audioRef}
+                songSrc={song.src}
+                isLooping={isLooping}
+                isPlaying={isPlaying}
                 onTimeUpdate={handleTimeUpdate}
-                onLoadedMetadata={resetSong}
-                onLoadedData={() => setIsLoading(false)}
-                onPlay={() => {
-                    setIsLoading(false);
-                    if (!isPlaying) onPlayPause();
-                }}
-                onPause={() => {
-                    if (isPlaying) onPlayPause();
-                }}
-                onEnded={onNext}
+                resetSong={resetSong}
+                setIsLoading={setIsLoading}
+                onPlayPause={onPlayPause}
+                onNext={onNext}
             />
             
             {/* Bal oldal */}
-            <div className="playbar__left">
-                <img src={song.cover} alt={song.title} className="playbar__cover" />
-                <div className="playbar__info">
-                    <h4 className="playbar__title">{song.title}</h4>
-                    <p className="playbar__artist">{song.artist}</p>
-                </div>
-                <div className="playbar__time-container">
-                    <span className="playbar__time">{formatTime(currentTime)} / {song.duration}</span>
-                </div>
-            </div>
+            <SongDetails song={song} currentTime={currentTime} />
 
             {/* Közép */}
-            <div className="playbar__controls">
-                <button className="playbar__control-button" onClick={onPrev}>
-                    <SkipBack size={24} />
-                </button>
-                <button className="playbar__control-button playbar__control-button--main" onClick={handlePlay}>
-                    {isLoading ? (
-                        <div className="playbar__loader"></div>
-                    ) : isPlaying ? (
-                        <Pause size={28} />
-                    ) : (
-                        <Play size={28} />
-                    )}
-                </button>
-                <button className="playbar__control-button" onClick={onNext}>
-                    <SkipForward size={24} />
-                </button>
-            </div>
+            <PlaybackControls
+                onPrev={onPrev}
+                onNext={onNext}
+                handlePlay={handlePlay}
+                isLoading={isLoading}
+                isPlaying={isPlaying}
+            />
 
             {/* Jobb oldal */}
-            <div className="playbar__right-container">
-                    <div className="playbar__extra">
-                        <VolumeControl 
-                            volume={volume}
-                            volumeWrapperRef={volumeWrapperRef}
-                            handleVolumeDragStart={handleVolumeDragStart}
-                            handleVolumeChanger={handleVolumeChanger}
-                            adjustVolume={adjustVolume}
-                        />
-
-                        <div className="playbar__extra-buttons">
-                            <button className="playbar__reset-seeker" onClick={resetSong}>
-                                <TimerReset size={20} />
-                            </button>
-                            <button className={`playbar__extra-button ${isLooping ? "playbar__extra-button--active" : ""}`} onClick={() => setIsLooping(!isLooping)}>
-                                <Repeat size={20} />
-                            </button>
-                        </div>
-
-                        {isConnected && (
-                            <div className="playbar__connected-buttons">
-                                <button
-                                    className={`playbar__save-button ${isSaved ? "playbar__save-button--saved" : ""}`}  
-                                    onClick={() => {
-                                        if (isSaved) {
-                                            removeSavedSong(song.id);
-                                            notify(PLAYBAR_STRINGS.MESSAGES.DELETED, NotificationType.SUCCESS);
-                                        } else {
-                                            saveSong(song);
-                                            notify(PLAYBAR_STRINGS.MESSAGES.SAVED, NotificationType.SUCCESS);
-                                        }
-                                    }}>
-                                    <Heart size={20} />
-                                </button>
-                                <button className="playbar__download-button">
-                                    <Download size={20} />
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
+            <TrackActions
+                volume={volume}
+                volumeWrapperRef={volumeWrapperRef}
+                handleVolumeDragStart={handleVolumeDragStart}
+                handleVolumeChanger={handleVolumeChanger}
+                adjustVolume={adjustVolume}
+                resetSong={resetSong}
+                isLooping={isLooping}
+                setIsLooping={setIsLooping}
+                isConnected={isConnected}
+                isSaved={isSaved}
+                song={song}
+                removeSavedSong={removeSavedSong}
+                saveSong={saveSong}
+                notify={notify}
+            />
+        </div>
     );
 }
 

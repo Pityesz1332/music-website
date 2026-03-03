@@ -21,7 +21,7 @@
     }
 
     &__dropzone {
-        border: 2px dashed $accent-color;
+        border: 2px dashed $primary-color;
         border-radius: 10px;
         padding: 30px;
         text-align: center;
@@ -43,7 +43,7 @@
 
         &--active {
             border-color: $dark-accent-color;
-            background: rgba($accent-color, 0.1);
+            background: rgba($primary-color, 0.1);
         }
     }
 
@@ -82,7 +82,7 @@
         }
 
         &:focus {
-            border-color: $accent-color;
+            border-color: $primary-color;
         }
     }
 
@@ -103,7 +103,7 @@
 
     &__progress-filler {
         height: 100%;
-        background: $accent-color;
+        background: $primary-color;
         width: 0;
         transition: width 0.2s ease;
     }
@@ -138,7 +138,7 @@
         }
 
         &--save {
-            background: $accent-color;
+            background: $primary-color;
             color: $main-text-color;
 
             &:hover { background: $dark-accent-color }
@@ -149,7 +149,7 @@
             color: $main-text-color;
             padding: 8px 12px;
 
-            &:hover { background: $accent-color; }
+            &:hover { background: $primary-color; }
         }
     }
 }

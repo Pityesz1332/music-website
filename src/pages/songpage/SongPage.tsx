@@ -9,6 +9,7 @@ import { useSongClick } from "../../hooks/music/useSongClick";
 import { ScrollToTop } from "../../components/scroll-to-top/ScrollToTop";
 import { useToggleSave } from "../../hooks/music/useToggleSave";
 import { SONG_PAGE_STRINGS } from "../../constant-strings/ui/songPage";
+import { Button } from "../../components/ui/button/Button";
 import "./SongPage.scss";
 
 export const SongPage = () => {
@@ -86,36 +87,38 @@ export const SongPage = () => {
                     <p className="song-page__meta">{SONG_PAGE_STRINGS.INFO.DURATION} <span className="song-page__meta-value">{currentSong.duration}</span></p>
 
                     <div className="song-page__controls">
-                        <button className="song-page__nav-button" onClick={prevSong}>
+                        <Button 
+                            className="song-page__nav-button" 
+                            onClick={prevSong}>
                             <SkipBack size={20} />
-                        </button>
+                        </Button>
                         
-                        <button
+                        <Button
                             className={`song-page__play-button song-page__play-button--neon-button ${isPlaying ? "song-page__play-button--playing" : ""}`}
                             onClick={togglePlay}
                         >
                             {isPlaying ? <Pause size={18} /> : <Play size={18} />}
                             {isPlaying ? SONG_PAGE_STRINGS.CONTROLS.STOP : SONG_PAGE_STRINGS.CONTROLS.PLAY}
-                        </button>
+                        </Button>
 
-                        <button className="song-page__nav-button" onClick={nextSong}>
+                        <Button className="song-page__nav-button" onClick={nextSong}>
                             <SkipForward size={20} />
-                        </button>
+                        </Button>
                     </div>
 
                         {/* mentés és letöltés, csak a bejelentkezett user-eknek */}
                         {isConnected && (
                             <div className="song-page__actions">
-                                <button
+                                <Button
                                     className={`song-page__action-button ${isSaved ? "song-page__action-button--saved" : ""}`}
                                     onClick={() => toggleSave(currentSong)}
                                 >
                                     <Heart className="song-page__action-button__icon" size={24} />
-                                </button>
+                                </Button>
 
-                                <button className="song-page__action-button">
+                                <Button className="song-page__action-button">
                                     <Download className="song-page__action-button__icon" size={24} />
-                                </button>
+                                </Button>
                             </div>
                         )}
                 </div>
@@ -143,7 +146,7 @@ export const SongPage = () => {
                                 {/* playlist gombok csak bejelentkezett user-eknek */}
                                 {isConnected && (
                                     <div className="song-page__card-actions">
-                                        <button
+                                        <Button
                                             className={`song-page__card-action-btn ${isSongSaved ? "song-page__card-action-btn--saved" : ""}`}
                                             onClick={(e) => {
                                                 e.stopPropagation();
@@ -151,36 +154,36 @@ export const SongPage = () => {
                                             }}
                                         >
                                             <Heart size={16} />
-                                        </button>
-                                        <button
+                                        </Button>
+                                        <Button
                                             className="song-page__card-action-btn"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                             }}
                                         >
                                             <Download size={16} />
-                                        </button>
+                                        </Button>
                                     </div>
                                 )}
                             
                                 {/* zenék mozgatása a playlist-en */}
                                 {editingSongId === song.id && (
                                     <div className="song-page__edit-controls">
-                                        <button
+                                        <Button
                                             disabled={playlist.findIndex(s => s.id === song.id) === 0}
                                             onClick={(e) => moveSong(e, "up", song.id)}
                                             className="song-page__move-btn"
                                         >
                                             <ChevronUp size={16} />
-                                        </button>
-                                        <button onClick={(e) => closeEditMode(e)}><X size={16} /></button>
-                                        <button
+                                        </Button>
+                                        <Button onClick={(e) => closeEditMode(e)}><X size={16} /></Button>
+                                        <Button
                                             disabled={playlist.findIndex(s => s.id === song.id) === playlist.length - 1}
                                             onClick={(e) => moveSong(e, "down", song.id)}
                                             className="song-page__move-btn"
                                         >
                                             <ChevronDown size={16} />
-                                        </button>
+                                        </Button>
                                     </div>
                                 )}
                             </div>
@@ -196,12 +199,12 @@ export const SongPage = () => {
                     ref={menuRef}
                     style={{ top: contextMenu.y, left: contextMenu.x }}
                 >
-                    <button onClick={() => handleEdit(contextMenu.songId)} className="menu-item edit">
+                    <Button onClick={() => handleEdit(contextMenu.songId)} className="menu-item edit">
                         <Pencil size={16} />
                         <span>{SONG_PAGE_STRINGS.CONTEXT_MENU.EDIT}</span>
-                    </button>
+                    </Button>
                     <div className="menu-divider"></div>
-                    <button onClick={(e) => {
+                    <Button onClick={(e) => {
                         e.stopPropagation();
                         handleDelete(contextMenu.songId);
                     }}
@@ -209,7 +212,7 @@ export const SongPage = () => {
                     >
                         <Trash2 size={16} />
                         <span>{SONG_PAGE_STRINGS.CONTEXT_MENU.DELETE}</span>
-                    </button>
+                    </Button>
                 </div>
             )}
 
@@ -217,4 +220,4 @@ export const SongPage = () => {
             <ScrollToTop />
         </div>
     );
-}
+};

@@ -1,6 +1,7 @@
 import { Trash2, Edit } from "lucide-react";
 import { useUserManager } from "../../../hooks/admin/useUserManager";
 import { ADMIN_MANAGE_USERS_STRINGS } from "../../../constant-strings/ui/admin/manageUsers";
+import { Button } from "../../../components/ui/button/Button";
 import "./ManageUsers.scss";
 
 export const ManageUsers = () => {
@@ -45,12 +46,12 @@ export const ManageUsers = () => {
                             <td className="manage-users__td" data-label="Email">{user.email}</td>
                             <td className="manage-users__td manage-users__td--role" data-label="Role">{user.role}</td>
                             <td className="manage-users__td manage-users__td--actions" data-label="Actions">
-                                <button onClick={() => startEditing(user)} className="manage-users__button manage-users__button--edit">
+                                <Button onClick={() => startEditing(user)} className="manage-users__button manage-users__button--edit">
                                     <Edit size={18} />
-                                </button>
-                                <button onClick={() => deleteUser(user.id)} className="manage-users__button manage-users__button--delete">
+                                </Button>
+                                <Button onClick={() => deleteUser(user.id)} className="manage-users__button manage-users__button--delete">
                                     <Trash2 size={18} />
-                                </button>
+                                </Button>
                             </td>
                         </tr>
                     ))}
@@ -80,8 +81,8 @@ export const ManageUsers = () => {
                     </div>
 
                         <div className="manage-users__modal-actions">
-                            <button onClick={saveEdit} className="manage-users__button manage-users__button--save">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.BUTTONS.SAVE}</button>
-                            <button onClick={cancelEditing} className="manage-users__button manage-users__button--cancel">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.BUTTONS.CANCEL}</button>
+                            <Button onClick={saveEdit} className="manage-users__button manage-users__button--save">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.BUTTONS.SAVE}</Button>
+                            <Button onClick={cancelEditing} className="manage-users__button manage-users__button--cancel">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.BUTTONS.CANCEL}</Button>
                         </div>
                     </div>
                 </div>

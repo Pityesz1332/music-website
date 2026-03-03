@@ -5,6 +5,7 @@ import { RecentlyPlayed } from "../../components/recently-played/RecentlyPlayed"
 import { useAvatarUpload } from "../../hooks/general/useAvatarUpload";
 import { useClipboard } from "../../hooks/general/useClipboard";
 import { MY_ACCOUNT_STRINGS } from "../../constant-strings/ui/myAccount";
+import { Button } from "../../components/ui/button/Button";
 import "./MyAccount.scss";
 
 export const MyAccount = () => {
@@ -28,12 +29,12 @@ export const MyAccount = () => {
 
                 <div className="my-account__wallet-info">
                     <span className="my-account__wallet-address">{shortWallet}</span>
-                    <button onClick={() => copyToClipboard(walletAddress, "Wallet address copied")} className="my-account__copy-button">
+                    <Button onClick={() => copyToClipboard(walletAddress, "Wallet address copied")} className="my-account__copy-button">
                         <Copy size={16} />
                         <span className="my-account__copy-text">
                             {MY_ACCOUNT_STRINGS.BUTTONS.COPY}
                         </span>
-                    </button>
+                    </Button>
                 </div>
                 
                 <div className="recent-wrapper__profile">
@@ -42,7 +43,7 @@ export const MyAccount = () => {
                 {/* előzmények törlése (ha van) */}
                     <div className="recent-wrapper__header">
                         {recentlyPlayed.length > 0 && (
-                            <button 
+                            <Button 
                                 className="recent-wrapper__clear-history-btn"
                                 onClick={() => {
                                     clearRecentlyPlayed();
@@ -50,7 +51,7 @@ export const MyAccount = () => {
                                 }}
                             >
                                 {MY_ACCOUNT_STRINGS.BUTTONS.CLEAR_HISTORY}
-                            </button>
+                            </Button>
                         )}
                     </div>
                 </div>

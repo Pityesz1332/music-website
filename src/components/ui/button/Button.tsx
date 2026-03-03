@@ -4,20 +4,18 @@ import { useNavigate } from "react-router-dom";
 interface ButtonProps {
     children: React.ReactNode; 
     className?: string;
-    variant?: "primary" | "secondary";
-    size?: "sm" | "md" | "lg";
     to?: string;
     disabled?: boolean;
+    type?: string;
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const Button = ({
     children,
     className = "",
-    variant = "primary",
-    size = "md",
     to,
     disabled,
+    type,
     onClick
 }: ButtonProps) => {
     const navigate = useNavigate();
@@ -30,7 +28,7 @@ export const Button = ({
 
     return (
         <button
-            className={`btn btn--${variant} btn--${size} ${className}`}
+            className={className}
             onClick={handlePress}
             disabled={disabled}
         >

@@ -5,6 +5,7 @@ import { useBackgroundChange } from "../../hooks/ui/useBackgroundChange";
 import { BackgroundItem } from "./home-background/BackgroundItem";
 import { Background } from "../../types/background";
 import { HOME_STRINGS } from "../../constant-strings/ui/home";
+import { Button } from "../../components/ui/button/Button";
 import "./Home.scss";
 
 const backgrounds: Background[] = [
@@ -35,7 +36,7 @@ export const Home = () => {
                     {HOME_STRINGS.SUBTITLE.PRE_HIGHLIGHT}
                     <span className="home__highlight">{HOME_STRINGS.SUBTITLE.HIGHLIGHT}</span></h2>
                 <p className="home__text">{HOME_STRINGS.DESCRIPTION}</p>
-                <button className="home__button" onClick={() => navigate(MainRoutes.SONGS)}>{HOME_STRINGS.BUTTONS.EXPLORE}</button>
+                <Button className="home__button" to={MainRoutes.SONGS}>{HOME_STRINGS.BUTTONS.EXPLORE}</Button>
                 <div className="home__recent-wrapper">
                     <RecentlyPlayed />
                 </div>

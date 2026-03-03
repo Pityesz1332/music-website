@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { MainRoutes } from "../../../routes/constants/MainRoutes";
 import { useAdminNavbar } from "../../../hooks/admin/useAdminNavbar";
 import { ADMIN_NAVBAR_STRINGS } from "../../../constant-strings/ui/admin/navbar";
 import { ADMIN_NAV_ITEMS } from "../../../constants/ui/admin/adminNavbar";
 import { AdminNavLink } from "./subcomponents/AdminNavLink";
+import { Button } from "../../ui/button/Button";
 import "./AdminNavbar.scss";
 
 const AdminNavbar = () => {
@@ -36,12 +35,12 @@ const AdminNavbar = () => {
                 ))}
                 
                 <li className="admin-navbar__item admin-navbar__item--mobile-only">
-                    <button className="admin-navbar__logout-button" onClick={handleDisconnect}>{ADMIN_NAVBAR_STRINGS.ACTIONS.GO_BACK}</button>
+                    <Button className="admin-navbar__logout-button" onClick={handleDisconnect}>{ADMIN_NAVBAR_STRINGS.ACTIONS.GO_BACK}</Button>
                 </li>
             </ul>
 
             <div className="admin-navbar__actions">
-                <button className="admin-navbar__logout-button" onClick={handleDisconnect}>{ADMIN_NAVBAR_STRINGS.ACTIONS.GO_BACK}</button>
+                <Button className="admin-navbar__logout-button" onClick={handleDisconnect}>{ADMIN_NAVBAR_STRINGS.ACTIONS.GO_BACK}</Button>
             </div>
         </nav>
     );

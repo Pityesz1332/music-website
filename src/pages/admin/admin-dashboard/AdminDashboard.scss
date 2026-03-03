@@ -13,7 +13,7 @@
     }
     
     &__subtitle {
-        color: $accent-color;
+        color: $primary-color;
         margin-bottom: 30px;
 
         @media (max-width: 768px) {
@@ -69,7 +69,7 @@
     &__value {
         font-size: 2rem;
         font-weight: bold;
-        color: $accent-color;
+        color: $primary-color;
 
         @media (max-width: 768px) { font-size: 1.7rem; }
         @media (max-width: 640px) { font-size: 1.5rem; }

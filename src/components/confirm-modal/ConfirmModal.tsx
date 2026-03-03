@@ -1,4 +1,5 @@
 import { CONFIRM_MODAL_STRINGS } from "../../constant-strings/ui/confirmModal";
+import { Button } from "../ui/button/Button";
 import "./ConfirmModal.scss";
 
 interface ConfirmModalProps {
@@ -21,8 +22,8 @@ const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }: ConfirmMo
                 <p className="confirm-modal__message">{message}</p>
 
                 <div className="confirm-modal__actions">
-                    <button type="button" className="confirm-modal__button confirm-modal__button--confirm" onClick={onConfirm}>{CONFIRM_MODAL_STRINGS.CONFIRM}</button>
-                    <button type="button" className="confirm-modal__button confirm-modal__button--cancel" onClick={onCancel}>{CONFIRM_MODAL_STRINGS.CANCEL}</button>
+                    <Button type="button" className="confirm-modal__button confirm-modal__button--confirm" onClick={onConfirm}>{CONFIRM_MODAL_STRINGS.CONFIRM}</Button>
+                    <Button type="button" className="confirm-modal__button confirm-modal__button--cancel" onClick={onCancel}>{CONFIRM_MODAL_STRINGS.CANCEL}</Button>
                 </div>
             </div>
         </div>

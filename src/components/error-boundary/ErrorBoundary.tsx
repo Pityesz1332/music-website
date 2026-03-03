@@ -1,4 +1,5 @@
 import { ERROR_BOUNDARY_STRINGS } from "../../constant-strings/ui/errorBoundary";
+import { Button } from "../ui/button/Button";
 import { ErrorBoundary } from "react-error-boundary";
 
 export const ErrorFallback = () => {
@@ -14,7 +15,7 @@ export const ErrorFallback = () => {
         }}>
             <h1>{ERROR_BOUNDARY_STRINGS.TITLE}</h1>
             <p>{ERROR_BOUNDARY_STRINGS.SUBTITLE}</p>
-            <button onClick={() => window.location.reload()}>{ERROR_BOUNDARY_STRINGS.BUTTON}</button>
+            <Button onClick={() => window.location.reload()}>{ERROR_BOUNDARY_STRINGS.BUTTON}</Button>
         </div>
     );
 }
