@@ -59,6 +59,10 @@
         border-radius: 8px;
         cursor: pointer;
         transition: background 0.2s ease;
+        border: none;
+        width: 100%;
+        text-align: left;
+        font-family: inherit;
 
         &:hover {
             background: rgba($card-color, 0.9);

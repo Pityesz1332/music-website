@@ -17,5 +17,5 @@ export const RecentlyPlayed = () => {
         <RecentlyPlayedList songs={recentlyPlayed} onPlay={playSong} />
     ) : (
         <RecentlyPlayedCard item={currentItem} fade={fade} onPlay={playSong} />
-    )
+    );
 };
