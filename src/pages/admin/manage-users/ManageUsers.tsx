@@ -1,11 +1,10 @@
-import { Trash2, Edit } from "lucide-react";
 import { useUserManager } from "../../../hooks/admin/useUserManager";
+import { UserItem } from "./subcomponents/UserItem";
 import { ADMIN_MANAGE_USERS_STRINGS } from "../../../constant-strings/ui/admin/manageUsers";
-import { Button } from "../../../components/ui/button/Button";
+import { PrimaryButton } from "../../../components/ui/button/PrimaryButton";
 import "./ManageUsers.scss";
 
 export const ManageUsers = () => {
-
     const {
         search, setSearch,
         editUser,
@@ -17,46 +16,36 @@ export const ManageUsers = () => {
 
     return (
         <div className="manage-users">
-            <h1 className="manage-users__title">{ADMIN_MANAGE_USERS_STRINGS.TITLE}</h1>
+            <header className="manage-users__header">
+                <h1 className="manage-users__title">{ADMIN_MANAGE_USERS_STRINGS.TITLE}</h1>
+            </header>
 
             <input 
-                type="text" 
+                type="text"
                 placeholder={ADMIN_MANAGE_USERS_STRINGS.PLACEHOLDERS.SEARCH}
                 value={search} 
                 onChange={(e) => setSearch(e.target.value)} 
                 className="manage-users__search"
             />
 
-            <table className="manage-users__table">
-                <thead className="manage-users__table-head">
-                    <tr>
-                        <th className="manage-users__th">{ADMIN_MANAGE_USERS_STRINGS.TABLE.ID}</th>
-                        <th className="manage-users__th">{ADMIN_MANAGE_USERS_STRINGS.TABLE.NAME}</th>
-                        <th className="manage-users__th">{ADMIN_MANAGE_USERS_STRINGS.TABLE.EMAIL}</th>
-                        <th className="manage-users__th">{ADMIN_MANAGE_USERS_STRINGS.TABLE.ROLE}</th>
-                        <th className="manage-users__th manage-users__th--actions">{ADMIN_MANAGE_USERS_STRINGS.TABLE.ACTIONS}</th>
-                    </tr>
-                </thead>
+            <div className="users-list">
+                <div className="users-list__header-row">
+                    <span>{ADMIN_MANAGE_USERS_STRINGS.TABLE.NAME}</span>
+                    <span>{ADMIN_MANAGE_USERS_STRINGS.TABLE.ROLE}</span>
+                    <span>{ADMIN_MANAGE_USERS_STRINGS.TABLE.ACTIONS}</span>
+                </div>
 
-                <tbody className="manage-users__table-body">
+                <div className="users-list__content">
                     {filteredUsers.map(user => (
-                        <tr key={user.id} className="manage-users__tr">
-                            <td className="manage-users__td" data-label="ID">#{user.id}</td>
-                            <td className="manage-users__td" data-label="Name">{user.name}</td>
-                            <td className="manage-users__td" data-label="Email">{user.email}</td>
-                            <td className="manage-users__td manage-users__td--role" data-label="Role">{user.role}</td>
-                            <td className="manage-users__td manage-users__td--actions" data-label="Actions">
-                                <Button onClick={() => startEditing(user)} className="manage-users__button manage-users__button--edit">
-                                    <Edit size={18} />
-                                </Button>
-                                <Button onClick={() => deleteUser(user.id)} className="manage-users__button manage-users__button--delete">
-                                    <Trash2 size={18} />
-                                </Button>
-                            </td>
-                        </tr>
+                        <UserItem 
+                            key={user.id}
+                            user={user}
+                            onEdit={startEditing}
+                            onDelete={deleteUser}
+                        />
                     ))}
-                </tbody>
-            </table>
+                </div>
+            </div>
 
             {editUser && (
                 <div className="manage-users__modal">
@@ -81,8 +70,8 @@ export const ManageUsers = () => {
                     </div>
 
                         <div className="manage-users__modal-actions">
-                            <Button onClick={saveEdit} className="manage-users__button manage-users__button--save">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.BUTTONS.SAVE}</Button>
-                            <Button onClick={cancelEditing} className="manage-users__button manage-users__button--cancel">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.BUTTONS.CANCEL}</Button>
+                            <PrimaryButton onClick={saveEdit} className="manage-users__button manage-users__button--save">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.BUTTONS.SAVE}</PrimaryButton>
+                            <PrimaryButton onClick={cancelEditing} className="manage-users__button manage-users__button--cancel">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.BUTTONS.CANCEL}</PrimaryButton>
                         </div>
                     </div>
                 </div>

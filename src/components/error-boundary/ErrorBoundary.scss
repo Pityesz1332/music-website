@@ -1,0 +1,24 @@
+@import "../../styles/variables";
+
+.error-boundary {
+    &__container {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+        color: $main-text-color;
+        text-align: center;
+    
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+    
+        p {
+            margin: 0;
+            opacity: 0.8;
+        }
+    }
+}

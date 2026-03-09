@@ -1,7 +1,7 @@
 // "Okos" gomb komponens
 import { useNavigate } from "react-router-dom";
 
-interface ButtonProps {
+interface PrimaryButtonProps {
     children: React.ReactNode; 
     className?: string;
     to?: string;
@@ -10,14 +10,14 @@ interface ButtonProps {
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export const Button = ({
+export const PrimaryButton = ({
     children,
     className = "",
     to,
     disabled,
     type,
     onClick
-}: ButtonProps) => {
+}: PrimaryButtonProps) => {
     const navigate = useNavigate();
 
     const handlePress = (e: React.MouseEvent<HTMLButtonElement>) => {

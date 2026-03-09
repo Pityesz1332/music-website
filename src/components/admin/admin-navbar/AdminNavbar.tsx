@@ -3,7 +3,7 @@ import { useAdminNavbar } from "../../../hooks/admin/useAdminNavbar";
 import { ADMIN_NAVBAR_STRINGS } from "../../../constant-strings/ui/admin/navbar";
 import { ADMIN_NAV_ITEMS } from "../../../constants/ui/admin/adminNavbar";
 import { AdminNavLink } from "./subcomponents/AdminNavLink";
-import { Button } from "../../ui/button/Button";
+import { PrimaryButton } from "../../ui/button/PrimaryButton";
 import "./AdminNavbar.scss";
 
 const AdminNavbar = () => {
@@ -35,12 +35,12 @@ const AdminNavbar = () => {
                 ))}
                 
                 <li className="admin-navbar__item admin-navbar__item--mobile-only">
-                    <Button className="admin-navbar__logout-button" onClick={handleDisconnect}>{ADMIN_NAVBAR_STRINGS.ACTIONS.GO_BACK}</Button>
+                    <PrimaryButton className="admin-navbar__logout-button" onClick={handleDisconnect}>{ADMIN_NAVBAR_STRINGS.ACTIONS.GO_BACK}</PrimaryButton>
                 </li>
             </ul>
 
             <div className="admin-navbar__actions">
-                <Button className="admin-navbar__logout-button" onClick={handleDisconnect}>{ADMIN_NAVBAR_STRINGS.ACTIONS.GO_BACK}</Button>
+                <PrimaryButton className="admin-navbar__logout-button" onClick={handleDisconnect}>{ADMIN_NAVBAR_STRINGS.ACTIONS.GO_BACK}</PrimaryButton>
             </div>
         </nav>
     );

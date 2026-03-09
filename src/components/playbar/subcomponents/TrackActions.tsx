@@ -1,5 +1,5 @@
 import { TimerReset, Repeat, Heart, Download } from "lucide-react";
-import { Button } from "../../ui/button/Button";
+import { PrimaryButton } from "../../ui/button/PrimaryButton";
 import { VolumeControl } from "./VolumeControl";
 import { PLAYBAR_STRINGS } from "../../../constant-strings/ui/playbar";
 import { NotificationType } from "../../../context/NotificationContext";
@@ -50,17 +50,17 @@ export const TrackActions = ({
                 />
 
                 <div className="playbar__extra-buttons">
-                    <Button className="playbar__reset-seeker" onClick={resetSong}>
+                    <PrimaryButton className="playbar__reset-seeker" onClick={resetSong}>
                         <TimerReset size={20} />
-                    </Button>
-                    <Button className={`playbar__extra-button ${isLooping ? "playbar__extra-button--active" : ""}`} onClick={() => setIsLooping(!isLooping)}>
+                    </PrimaryButton>
+                    <PrimaryButton className={`playbar__extra-button ${isLooping ? "playbar__extra-button--active" : ""}`} onClick={() => setIsLooping(!isLooping)}>
                         <Repeat size={20} />
-                    </Button>
+                    </PrimaryButton>
                 </div>
 
                 {isConnected && (
                     <div className="playbar__connected-buttons">
-                        <Button
+                        <PrimaryButton
                             className={`playbar__save-button ${isSaved ? "playbar__save-button--saved" : ""}`}  
                             onClick={() => {
                                 if (isSaved) {
@@ -72,10 +72,10 @@ export const TrackActions = ({
                                 }
                             }}>
                             <Heart size={20} />
-                        </Button>
-                        <Button className="playbar__download-button">
+                        </PrimaryButton>
+                        <PrimaryButton className="playbar__download-button">
                             <Download size={20} />
-                        </Button>
+                        </PrimaryButton>
                     </div>
                 )}
             </div>

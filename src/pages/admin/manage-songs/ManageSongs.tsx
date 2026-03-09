@@ -1,12 +1,12 @@
-import { PlusCircle, Trash2, Edit, X, UploadIcon} from "lucide-react";
+import { PlusCircle, X, UploadIcon} from "lucide-react";
 import { UploadSong } from "../../../components/admin/upload-song/UploadSong";
 import { useSongManager } from "../../../hooks/admin/useSongManager";
+import { SongItem } from "./subcomponents/SongItem";
 import { ADMIN_MANAGE_SONGS_STRINGS } from "../../../constant-strings/ui/admin/manageSongs";
-import { Button } from "../../../components/ui/button/Button";
+import { PrimaryButton } from "../../../components/ui/button/PrimaryButton";
 import "./ManageSongs.scss";
 
 export const ManageSongs = () => {
-
     const {
         songs,
         isUploadOpen,
@@ -15,16 +15,17 @@ export const ManageSongs = () => {
         openEditModal, closeEditModal,
         saveNewSong, deleteSong,
         saveEdit,
-        handleEditChange        
+        handleEditChange
     } = useSongManager();
 
     return (
         <div className="manage-songs">
-            <h1 className="manage-songs__title">{ADMIN_MANAGE_SONGS_STRINGS.TITLE}</h1>
-
-            <Button className="manage-songs__add-button" onClick={openUploadModal}>
-                <PlusCircle size={18} /> {ADMIN_MANAGE_SONGS_STRINGS.ADD_BUTTON}
-            </Button>
+            <header className="manage-songs__header">
+                <h1 className="manage-songs__title">{ADMIN_MANAGE_SONGS_STRINGS.TITLE}</h1>
+                <PrimaryButton className="manage-songs__add-button" onClick={openUploadModal}>
+                    <PlusCircle size={18} /> {ADMIN_MANAGE_SONGS_STRINGS.ADD_BUTTON}
+                </PrimaryButton>
+            </header>
 
             {isUploadOpen && (
                 <UploadSong
@@ -33,46 +34,34 @@ export const ManageSongs = () => {
                 />
             )}
 
-            <table className="manage-songs__table">
-                <thead className="manage-songs__thead">
-                    <tr className="manage-songs__row">
-                        <th className="manage-songs__header">{ADMIN_MANAGE_SONGS_STRINGS.TABLE.ID}</th>
-                        <th className="manage-songs__header">{ADMIN_MANAGE_SONGS_STRINGS.TABLE.COVER}</th>
-                        <th className="manage-songs__header">{ADMIN_MANAGE_SONGS_STRINGS.TABLE.TITLE}</th>
-                        <th className="manage-songs__header">{ADMIN_MANAGE_SONGS_STRINGS.TABLE.ARTIST}</th>
-                        <th className="manage-songs__header">{ADMIN_MANAGE_SONGS_STRINGS.TABLE.GENRE}</th>
-                        <th className="manage-songs__header">{ADMIN_MANAGE_SONGS_STRINGS.TABLE.DURATION}</th>
-                        <th className="manage-songs__header">{ADMIN_MANAGE_SONGS_STRINGS.TABLE.ACTIONS}</th>
-                    </tr>
-                </thead>
-                <tbody className="manage-songs__tbody">
+            <div className="songs-list">
+                <div className="songs-list__header-row">
+                    <span>{ADMIN_MANAGE_SONGS_STRINGS.TABLE.ID}</span>
+                    <span>{ADMIN_MANAGE_SONGS_STRINGS.TABLE.TITLE}</span>
+                    <span>{ADMIN_MANAGE_SONGS_STRINGS.TABLE.ARTIST}</span>
+                    <span>{ADMIN_MANAGE_SONGS_STRINGS.TABLE.GENRE}</span>
+                    <span>{ADMIN_MANAGE_SONGS_STRINGS.TABLE.DURATION}</span>
+                    <span>{ADMIN_MANAGE_SONGS_STRINGS.TABLE.ACTIONS}</span>
+                </div>
+
+                <div className="songs-list__content">
                     {songs.map((song) => (
-                        <tr key={song.id} className="manage-songs__row">
-                            <td className="manage-songs__cell" data-label="ID">{song.id}</td>
-                            <td className="manage-songs__cell" data-label="Cover">
-                                <img src={song.cover} alt="song cover" className="manage-songs__cover-image" />
-                            </td>
-                            <td className="manage-songs__cell" data-label="Title">{song.title}</td>
-                            <td className="manage-songs__cell" data-label="Artist">{song.artist}</td>
-                            <td className="manage-songs__cell" data-label="Genre">{song.genre}</td>
-                            <td className="manage-songs__cell" data-label="Duration">{song.duration}</td>
-                            <td className="manage-songs__cell manage-songs__cell--actions" data-label="Actions">
-                                <Button className="manage-songs__action-button manage-songs__action-button--edit" onClick={() => openEditModal(song)}>
-                                    <Edit size={16} />
-                                </Button>
-                                <Button className="manage-songs__action-button manage-songs__action-button--delete" onClick={() => deleteSong(song.id)}><Trash2 size={16} /></Button>
-                            </td>
-                        </tr>
+                        <SongItem 
+                            key={song.id}
+                            song={song}
+                            onEdit={openEditModal}
+                            onDelete={deleteSong}
+                        />
                     ))}
-                </tbody>
-            </table>
+                </div>
+            </div>
 
             {editSong && (
                 <div className="modal">
                     <div className="modal-content">
                         <div className="modal-content__header">
                             <h2 className="modal-content__title">{ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.TITLE}</h2>
-                            <Button className="modal-content__close-button" onClick={closeEditModal}><X /></Button>
+                            <PrimaryButton className="modal-content__close-button" onClick={closeEditModal}><X /></PrimaryButton>
                         </div>
                         <div className="modal-content__body">
                             <input className="modal-content__input" type="text" placeholder={ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.PLACEHOLDERS.TITLE} value={editSong.title} onChange={(e) => handleEditChange("title", e.target.value)} />
@@ -99,8 +88,8 @@ export const ManageSongs = () => {
                         </div>
 
                         <div className="modal-content__footer">
-                            <Button className="modal-content__button modal-content__button--save" onClick={saveEdit}>{ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.BUTTONS.SAVE}</Button>
-                            <Button className="modal-content__button modal-content__button--cancel" onClick={closeEditModal}>{ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.BUTTONS.CANCEL}</Button>
+                            <PrimaryButton className="modal-content__button modal-content__button--save" onClick={saveEdit}>{ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.BUTTONS.SAVE}</PrimaryButton>
+                            <PrimaryButton className="modal-content__button modal-content__button--cancel" onClick={closeEditModal}>{ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.BUTTONS.CANCEL}</PrimaryButton>
                         </div>
                     </div>
                 </div>

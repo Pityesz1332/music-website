@@ -1,7 +1,7 @@
 import { UploadCloud, Music, Image as ImageIcon, X } from "lucide-react";
 import { useUploadSong } from "../../../hooks/admin/useUploadSong";
 import { ADMIN_UPLOAD_SONG_STRINGS } from "../../../constant-strings/ui/admin/uploadSong";
-import { Button } from "../../ui/button/Button";
+import { PrimaryButton } from "../../ui/button/PrimaryButton";
 import "./UploadSong.scss";
 
 interface UploadSongProps {
@@ -86,17 +86,17 @@ export const UploadSong = ({ onCancel, onSave }: UploadSongProps) => {
             )}
 
             <div className="upload-song__actions">
-                <Button
+                <PrimaryButton
                     className="upload-song__button upload-song__button--save"
                     onClick={handleUpload}
                     disabled={isUploading}>
                         {isUploading ? ADMIN_UPLOAD_SONG_STRINGS.STATUS.UPLOADING : ADMIN_UPLOAD_SONG_STRINGS.STATUS.SAVE}
-                </Button>
-                <Button 
+                </PrimaryButton>
+                <PrimaryButton 
                     className="upload-song__button upload-song__button--cancel"
                     onClick={onCancel}>
                         <X size={16} />
-                </Button>
+                </PrimaryButton>
             </div>
         </div>
     );

@@ -5,7 +5,7 @@ import { useBackgroundChange } from "../../hooks/ui/useBackgroundChange";
 import { BackgroundItem } from "./home-background/BackgroundItem";
 import { Background } from "../../types/background";
 import { HOME_STRINGS } from "../../constant-strings/ui/home";
-import { Button } from "../../components/ui/button/Button";
+import { PrimaryButton } from "../../components/ui/button/PrimaryButton";
 import "./Home.scss";
 
 const backgrounds: Background[] = [
@@ -15,7 +15,6 @@ const backgrounds: Background[] = [
 ];
 
 export const Home = () => {
-    const navigate = useNavigate();
     const { bgIndex } = useBackgroundChange(backgrounds, 5000);
 
     return (
@@ -36,7 +35,7 @@ export const Home = () => {
                     {HOME_STRINGS.SUBTITLE.PRE_HIGHLIGHT}
                     <span className="home__highlight">{HOME_STRINGS.SUBTITLE.HIGHLIGHT}</span></h2>
                 <p className="home__text">{HOME_STRINGS.DESCRIPTION}</p>
-                <Button className="home__button" to={MainRoutes.SONGS}>{HOME_STRINGS.BUTTONS.EXPLORE}</Button>
+                <PrimaryButton className="home__button" to={MainRoutes.SONGS}>{HOME_STRINGS.BUTTONS.EXPLORE}</PrimaryButton>
                 <div className="home__recent-wrapper">
                     <RecentlyPlayed />
                 </div>

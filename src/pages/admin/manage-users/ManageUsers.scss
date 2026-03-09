@@ -1,5 +1,7 @@
 @import '../../../styles/variables';
 
+$user-grid-template: 2.5fr 1fr 120px;
+
 .manage-users {
     color: $main-text-color;
     padding: 2rem;
@@ -7,6 +9,10 @@
     overflow-x: hidden;
     
     @media (max-width: 768px) { padding: 1rem; }
+
+    &__header {
+        margin-bottom: 2rem;
+    }
 
     &__title {
         margin-bottom: 20px;
@@ -26,165 +32,180 @@
 
         @media (max-width: 768px) { width: 100%; }
     }
-    
-    &__table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-        
-        @media (max-width: 768px) { display: block; }
-    }
-    
-    &__table-head {
+}
+
+.users-list {
+    &__header-row {
+        display: grid;
+        grid-template-columns: $user-grid-template;
+        gap: 1rem;
+        padding: 1rem;
+        font-weight: bold;
+        color: $muted-text-color;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        border-bottom: 1px solid rgba($muted-text-color, 0.1);
+
+        span:last-child {
+            text-align: right;
+        }
+
         @media (max-width: 768px) { display: none; }
     }
-    
-    &__table-body {
-        @media (max-width: 768px) { display: block; }
-    }
-    
-    &__tr {
-        @media (max-width: 768px) {
-            display: block;
-            background: $card-color;
-            margin-bottom: 1.2rem;
-            border-radius: 12px;
-            padding: 1rem;
-            border: 1px solid rgba($muted-text-color, 0.1);
-        }
-    }
-    
-    &__th, &__td {
-        padding: 14px;
-        text-align: left;
-        border-bottom: 1px solid $muted-text-color;
-    }
 
-    &__td {
-        word-break: break-word;
-        overflow-wrap: anywhere;
-
-        @media (max-width: 768px) {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba($muted-text-color, 0.1);
-            text-align: right;
-            gap: 15px;
-
-            &::before {
-                content: attr(data-label);
-                font-weight: bold;
-                color: $primary-color;
-                text-align: left;
-                min-width: 80px;
-                flex-shrink: 0;
-            }
-
-            &:last-child { border-bottom: none; }
-        }
-
-        &--role {
-            text-transform: capitalize;
-        }
-
-        &--actions {
-            @media (max-width: 768px) {
-                justify-content: flex-end;
-                gap: 15px;
-                padding-top: 1rem;
-                margin-top: 0.5rem;
-
-                &::before { margin-right: auto; }
-            }
-        }
-    }
-
-    &__button {
-        padding: 8px 12px;
-        border-radius: 6px;
-        border: none;
-        cursor: pointer;
-
-        &--edit, &--delete {
-            background: none;
-            color: $primary-color;
-            margin-left: 10px;
-
-            &:hover {
-                color: $dark-accent-color;
-            }
-
-            @media (max-width: 768px) { padding: 6px 10px; margin-left: 6px; flex: 1; }
-
-            @media (max-width: 480px) {
-                width: 100%;
-                margin-left: 0;
-                margin-top: 6px;
-            }
-        }
-
-        &--save, &--cancel {
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: none;
-            background: $primary-color;
-            color: $main-text-color;
-            cursor: pointer;
-            transition: background 0.2s ease;
-
-            &:hover {
-                background: $dark-accent-color;
-            }
-        }
-    }
-
-    &__modal {
-        margin: 0 auto;
-        position: fixed;
-        inset: 0;
-        background: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        &-content {
-            background: $card-color;
-            padding: 30px;
-            border-radius: 12px;
-            width: 350px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            border: 1px solid $muted-text-color;
-
-            @media (max-width: 480px) { padding: 20px; width: 90%; }
-        }
-        
-        &-actions {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-    }
-
-    &__form-group {
+    &__content {
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 0.8rem;
+        margin-top: 1rem;
+    }
+}
+
+.user-item {
+    display: grid;
+    grid-template-columns: $user-grid-template;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: $card-color;
+    border-radius: 12px;
+    border: 1px solid rgba($muted-text-color, 0.05);
+    transition: transform 0.2s, background 0.2s;
+
+    &:hover {
+        background: lighten($card-color, 5%);
     }
 
-    &__input, &__select {
-        padding: 10px;
-        border-radius: 6px;
-        border: none;
-        background: $card-color;
-        color: $main-text-color;
+    @media (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1.2rem;
+    }
 
-        &:focus {
-            outline: none;
-            border-color: $primary-color;
+    &__info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        @media (max-width: 768px) {
+            border-bottom: 1px solid rgba($muted-text-color, 0.1);
+            padding-bottom: 0.8rem;
+            margin-bottom: 0.5rem;
         }
+    }
+
+    &__id {
+        color: $muted-text-color;
+        font-size: 0.85rem;
+        min-width: 40px;
+    }
+
+    &__name {
+        font-weight: 600;
+        margin: 0;
+    }
+
+    &__email {
+        font-size: 0.85rem;
+        color: $muted-text-color;
+        margin: 0;
+        word-break: break-all;
+    }
+
+    &__role {
+        @media (max-width: 768px) {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            &::before { content: "Role:"; font-weight: bold; font-size: 0.85rem; }
+        }
+        
+        .role-badge {
+            display: inline-block;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: $main-text-color;
+    
+            &--admin {
+                color: $primary-color;
+            }
+        }
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+
+        @media (max-width: 768px) {
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba($muted-text-color, 0.1);
+        }
+
+        .btn--edit, .btn--delete {
+            background: none;
+            border: none;
+            color: $primary-color;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: 0.2s;
+
+            &:hover {
+                background: rgba($primary-color, 0.1);
+                color: $dark-accent-color;
+            }
+        }
+    }
+}
+
+.manage-users__modal {
+    margin: 0 auto;
+    position: fixed;
+    inset: 0;
+    background: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-content {
+        background: $card-color;
+        padding: 30px;
+        border-radius: 12px;
+        width: 350px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        border: 1px solid $muted-text-color;
+        @media (max-width: 480px) { padding: 20px; width: 90%; }
+    }
+    
+    &-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+}
+
+.manage-users__form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.manage-users__input, .manage-users__select {
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    background: $card-color;
+    color: $main-text-color;
+
+    &:focus {
+        outline: none;
+        border-color: $primary-color;
     }
 }

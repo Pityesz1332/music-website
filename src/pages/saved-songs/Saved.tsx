@@ -5,7 +5,7 @@ import { useSongClick } from "../../hooks/music/useSongClick";
 import { useFilteringSaved } from "../../hooks/music/useFilteringSaved";
 import { EmptyState } from "./subcomponents/EmptyState";
 import { SAVED_STRINGS } from "../../constant-strings/ui/saved";
-import { Button } from "../../components/ui/button/Button";
+import { PrimaryButton } from "../../components/ui/button/PrimaryButton";
 import "../songs/Songs.scss";
 
 export const Saved = () => {
@@ -73,13 +73,13 @@ export const Saved = () => {
                             </div>
 
                             <div className="songs__pagination">
-                                <Button className="songs__pagination-button" onClick={prevPage} disabled={currentPage === 1}>
+                                <PrimaryButton className="songs__pagination-button" onClick={prevPage} disabled={currentPage === 1}>
                                     {SAVED_STRINGS.PAGINATION.PREV}
-                                </Button>
+                                </PrimaryButton>
                                 <span>{SAVED_STRINGS.PAGINATION.PAGE_INFO(currentPage, totalPages)}</span>
-                                <Button className="songs__pagination-button" onClick={nextPage} disabled={currentPage === totalPages}>
+                                <PrimaryButton className="songs__pagination-button" onClick={nextPage} disabled={currentPage === totalPages}>
                                     {SAVED_STRINGS.PAGINATION.NEXT}
-                                </Button>
+                                </PrimaryButton>
                             </div>
                         </>
                     )}

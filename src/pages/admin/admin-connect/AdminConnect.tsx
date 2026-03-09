@@ -1,6 +1,6 @@
 import { useAdminAuth } from "../../../hooks/admin/useAdminAuth";
 import { ADMIN_CONNECT_STRINGS } from "../../../constant-strings/ui/admin/connect";
-import { Button } from "../../../components/ui/button/Button";
+import { PrimaryButton } from "../../../components/ui/button/PrimaryButton";
 import "./AdminConnect.scss";
 
 export const AdminConnect = () => {
@@ -37,13 +37,13 @@ export const AdminConnect = () => {
                     disabled={isLoading}
                     />
 
-                <Button
+                <PrimaryButton
                     className="admin-connect__button"
                     type="submit"
                     disabled={isLoading}
                 >
                     {ADMIN_CONNECT_STRINGS.BUTTONS.CONNECT}
-                </Button>
+                </PrimaryButton>
             </form>
         </div>
     );

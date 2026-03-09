@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { Wallet } from "lucide-react";
 import { NavLink } from "./NavLink";
-import { Button } from "../../ui/button/Button";
+import { PrimaryButton } from "../../ui/button/PrimaryButton";
 import { NAVBAR_STRINGS } from "../../../constant-strings/ui/navbar";
 import { PUBLIC_NAV_ITEMS, PROTECTED_NAV_ITEMS } from "../../../constants/ui/navbar";
 import { useAuth } from "../../../context/AuthContext";
@@ -39,14 +39,14 @@ export const NavMenu = ({ isOpen, onClose }: NavMenuProps) => {
 
             <li className="navbar__item navbar__item--wallet">
                 {isConnected ? (
-                    <Button className="navbar__button" type="button" onClick={() => { handleDisconnect(); onClose(); }}>
+                    <PrimaryButton className="navbar__button" type="button" onClick={() => { handleDisconnect(); onClose(); }}>
                         {NAVBAR_STRINGS.WALLET.DISCONNECT}
-                    </Button>
+                    </PrimaryButton>
                 ) : (
-                    <Button className="navbar__button" type="button" onClick={() => { handleDemoConnect(); onClose(); }}>
+                    <PrimaryButton className="navbar__button" type="button" onClick={() => { handleDemoConnect(); onClose(); }}>
                         <Wallet size={20} />
                         {NAVBAR_STRINGS.WALLET.CONNECT}
-                    </Button>
+                    </PrimaryButton>
                 )}
             </li>
         </ul>

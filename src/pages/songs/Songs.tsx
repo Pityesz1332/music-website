@@ -6,11 +6,10 @@ import { useSongClick } from "../../hooks/music/useSongClick";
 import { useFilteringSongs } from "../../hooks/music/useFilteringSongs";
 import { ErrorState } from "./subcomponents/ErrorState";
 import { SONGS_STRINGS } from "../../constant-strings/ui/songs";
-import { Button } from "../../components/ui/button/Button";
+import { PrimaryButton } from "../../components/ui/button/PrimaryButton";
 import "./Songs.scss";
 
 export const Songs = () => {
-    const navigate = useNavigate();
     const { handleFilteredSongClick } = useSongClick();
 
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
@@ -62,7 +61,7 @@ export const Songs = () => {
                 <h1 className="songs__title">{SONGS_STRINGS.TITLE}</h1>
 
                 <div className="songs__filter-wrapper" ref={filterRef}>
-                    <Button
+                    <PrimaryButton
                         className={`songs__filter-toggle ${selectedGenre !== "All" ? "songs__filter-toggle--active" : ""}`}
                         onClick={() => setIsFilterOpen(!isFilterOpen)}
                     >
@@ -70,17 +69,17 @@ export const Songs = () => {
                             <Filter size={18} className="songs__filter-icon" />
                             <span>{selectedGenre === "All" ? SONGS_STRINGS.FILTER.LABEL : `${SONGS_STRINGS.FILTER.GENRE_PREFIX}${selectedGenre}`}</span>
                         </div>
-                    </Button>
+                    </PrimaryButton>
                     {isFilterOpen && (
                         <div className="songs__filter-bar">
                             {genres.map((genre) => (
-                                <Button
+                                <PrimaryButton
                                     key={genre}
                                     className={`songs__genre-button ${selectedGenre === genre ? "songs__genre-button--active" : ""}`}
                                     onClick={() => handleGenreChange(genre)}
                                 >
                                     {genre}
-                                </Button>
+                                </PrimaryButton>
                             ))}
                         </div>
                     )}
@@ -90,12 +89,12 @@ export const Songs = () => {
                 {filteredSongs.length === 0 && (
                     <div className="songs__no-results">
                         <h2 className="songs__no-results-title">{SONGS_STRINGS.NO_RESULTS.MESSAGE(searchQuery)}</h2>
-                        <Button 
+                        <PrimaryButton 
                             className="songs__reset-button" 
                             to={MainRoutes.SONGS}
                         >
                             {SONGS_STRINGS.NO_RESULTS.RESET_BTN}
-                        </Button>
+                        </PrimaryButton>
                     </div>
                 )}
 
@@ -115,25 +114,25 @@ export const Songs = () => {
                 </div>
 
                 <div className="songs__pagination">
-                    <Button
+                    <PrimaryButton
                         className="songs__pagination-button"
                         onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                         disabled={currentPage === 1}
                     >
                         {SONGS_STRINGS.PAGINATION.PREV}
-                    </Button>
+                    </PrimaryButton>
                     
                     <span className="songs__pagination-info">
                         {SONGS_STRINGS.PAGINATION.PAGE_INFO(currentPage, totalPages)}
                     </span>
                     
-                    <Button
+                    <PrimaryButton
                         className="songs__pagination-button"
                         onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
                         disabled={currentPage === totalPages}
                     >
                         {SONGS_STRINGS.PAGINATION.NEXT}
-                    </Button>
+                    </PrimaryButton>
                 </div>
             </div>
 

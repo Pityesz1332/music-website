@@ -1,5 +1,5 @@
 import { Play, Pause, SkipBack, SkipForward } from "lucide-react";
-import { Button } from "../../ui/button/Button";
+import { PrimaryButton } from "../../ui/button/PrimaryButton";
 
 interface PlaybackControlsProps {
     onPrev: () => void;
@@ -18,11 +18,11 @@ export const PlaybackControls = ({
 }: PlaybackControlsProps) => {
     return (
         <div className="playbar__controls">
-            <Button className="playbar__control-button" onClick={onPrev}>
+            <PrimaryButton className="playbar__control-button" onClick={onPrev}>
                 <SkipBack size={24} />
-            </Button>
+            </PrimaryButton>
 
-            <Button className="playbar__control-button playbar__control-button--main" onClick={handlePlay}>
+            <PrimaryButton className="playbar__control-button playbar__control-button--main" onClick={handlePlay}>
                 {isLoading ? (
                     <div className="playbar__loader"></div>
                 ) : isPlaying ? (
@@ -30,11 +30,11 @@ export const PlaybackControls = ({
                 ) : (
                     <Play size={28} />
                 )}
-            </Button>
+            </PrimaryButton>
             
-            <Button className="playbar__control-button" onClick={onNext}>
+            <PrimaryButton className="playbar__control-button" onClick={onNext}>
                 <SkipForward size={24} />
-            </Button>
+            </PrimaryButton>
         </div>
     );
 };
