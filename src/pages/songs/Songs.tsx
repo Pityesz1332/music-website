@@ -1,19 +1,16 @@
-import { useState, useRef } from "react";
-import { useNavigate} from "react-router-dom";
-import { Filter } from "lucide-react";
-import { MainRoutes } from "../../routes/constants/MainRoutes";
 import { useSongClick } from "../../hooks/music/useSongClick";
 import { useFilteringSongs } from "../../hooks/music/useFilteringSongs";
-import { ErrorState } from "./subcomponents/ErrorState";
+import { SongsStatus } from "./subcomponents/SongsStatus";
+import { SongsFilter } from "./subcomponents/SongsFilter";
+import { SongsNoResults } from "./subcomponents/SongsNoResults";
+import { SongsCard } from "./subcomponents/SongsCard";
+import { SongsPagination } from "./subcomponents/SongsPagination";
+import { SongsFooter } from "./subcomponents/SongsFooter";
 import { SONGS_STRINGS } from "../../constant-strings/ui/songs";
-import { PrimaryButton } from "../../components/ui/button/PrimaryButton";
 import "./Songs.scss";
 
 export const Songs = () => {
     const { handleFilteredSongClick } = useSongClick();
-
-    const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
-    const filterRef = useRef<HTMLDivElement>(null);
 
     const {
         currentSongs,
@@ -29,30 +26,8 @@ export const Songs = () => {
         retry
     } = useFilteringSongs(15);
 
-    // töltési logika
-    if (loading) {
-        return (
-            <div className="songs songs--loading">
-                <div className="songs__status-container">
-                    <div className="songs__spinner"></div>
-                    <p className="songs__status-text">{SONGS_STRINGS.LOADING}</p>
-                </div>
-            </div>
-        );
-    }
-
-    // hibakezelés, fallback oldal
-    if (error) {
-        return (
-            <div className="songs songs--error">
-                <ErrorState 
-                    title={SONGS_STRINGS.ERROR.TITLE}
-                    txt={error}
-                    btnTxt={SONGS_STRINGS.ERROR.BTN}
-                    onBtnClick={retry}
-                />
-            </div>
-        );
+    if (loading || error) {
+        return <SongsStatus loading={loading} error={error} retry={retry} />
     }
 
     return (
@@ -60,98 +35,31 @@ export const Songs = () => {
             <div className="songs__container">
                 <h1 className="songs__title">{SONGS_STRINGS.TITLE}</h1>
 
-                <div className="songs__filter-wrapper" ref={filterRef}>
-                    <PrimaryButton
-                        className={`songs__filter-toggle ${selectedGenre !== "All" ? "songs__filter-toggle--active" : ""}`}
-                        onClick={() => setIsFilterOpen(!isFilterOpen)}
-                    >
-                        <div className="songs__filter-label">
-                            <Filter size={18} className="songs__filter-icon" />
-                            <span>{selectedGenre === "All" ? SONGS_STRINGS.FILTER.LABEL : `${SONGS_STRINGS.FILTER.GENRE_PREFIX}${selectedGenre}`}</span>
-                        </div>
-                    </PrimaryButton>
-                    {isFilterOpen && (
-                        <div className="songs__filter-bar">
-                            {genres.map((genre) => (
-                                <PrimaryButton
-                                    key={genre}
-                                    className={`songs__genre-button ${selectedGenre === genre ? "songs__genre-button--active" : ""}`}
-                                    onClick={() => handleGenreChange(genre)}
-                                >
-                                    {genre}
-                                </PrimaryButton>
-                            ))}
-                        </div>
-                    )}
-                </div>
+                <SongsFilter
+                    genres={genres}
+                    selectedGenre={selectedGenre}
+                    onGenreChange={handleGenreChange}
+                />
 
                     
                 {filteredSongs.length === 0 && (
-                    <div className="songs__no-results">
-                        <h2 className="songs__no-results-title">{SONGS_STRINGS.NO_RESULTS.MESSAGE(searchQuery)}</h2>
-                        <PrimaryButton 
-                            className="songs__reset-button" 
-                            to={MainRoutes.SONGS}
-                        >
-                            {SONGS_STRINGS.NO_RESULTS.RESET_BTN}
-                        </PrimaryButton>
-                    </div>
+                    <SongsNoResults searchQuery={searchQuery} />
                 )}
 
                 <div className="songs__grid">
                     {currentSongs.map((song) => (
-                        <div key={song.id} className="songs__card-wrapper">
-                            <div
-                                className="songs__card"
-                                onClick={() => handleFilteredSongClick(song, filteredSongs)}
-                            >
-                                <img className="songs__card-image" src={song.cover} alt={song.title} />
-                                <h3 className="songs__card-title">{song.title}</h3>
-                                <p className="songs__card-genre">{song.genre}</p>
-                            </div>
-                        </div>
+                        <SongsCard
+                            key={song.id}
+                            song={song}
+                            onClick={(s) => handleFilteredSongClick(s, filteredSongs)}
+                        />
                     ))}
                 </div>
 
-                <div className="songs__pagination">
-                    <PrimaryButton
-                        className="songs__pagination-button"
-                        onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-                        disabled={currentPage === 1}
-                    >
-                        {SONGS_STRINGS.PAGINATION.PREV}
-                    </PrimaryButton>
-                    
-                    <span className="songs__pagination-info">
-                        {SONGS_STRINGS.PAGINATION.PAGE_INFO(currentPage, totalPages)}
-                    </span>
-                    
-                    <PrimaryButton
-                        className="songs__pagination-button"
-                        onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-                        disabled={currentPage === totalPages}
-                    >
-                        {SONGS_STRINGS.PAGINATION.NEXT}
-                    </PrimaryButton>
-                </div>
+                <SongsPagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
             </div>
 
-            <footer className="songs__footer">
-                <p>© {new Date().getFullYear()} DJ Enez - {SONGS_STRINGS.FOOTER.RIGHTS}</p>
-
-                <a 
-                    href="https://soundcloud.com/djenez"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="songs__soundcloud-link"
-                >
-                    <img className="songs__soundcloud-logo" src="/assets/soundcloud-logo.svg" alt="SoundCloud" />
-                    <span>{SONGS_STRINGS.FOOTER.FOLLOW} 
-                        <strong className="songs__brand-name">
-                            <span style={{ color: "var(--inverse)" }}>DJ Enez</span>
-                        </strong> {SONGS_STRINGS.FOOTER.ON_SOUNDCLOUD}</span>
-                </a>
-            </footer>
+            <SongsFooter />
         </div>
     );
 };

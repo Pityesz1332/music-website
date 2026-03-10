@@ -4,7 +4,7 @@ import { Background } from "./subcomponents/background";
 import { SongMainInfo } from "./subcomponents/SongMainInfo";
 import { PlaybackControls } from "./subcomponents/PlaybackControls";
 import { SongActions } from "./subcomponents/SongActions";
-import { PlaylistSection } from "./subcomponents/PlaylistSection";
+import { PlaylistSection } from "./subcomponents/playlist/PlaylistSection";
 import { ScrollToTop } from "../../components/scroll-to-top/ScrollToTop";
 import { SONG_PAGE_STRINGS } from "../../constant-strings/ui/songPage";
 import "./SongPage.scss";
