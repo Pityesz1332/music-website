@@ -7,7 +7,6 @@ interface RecentlyPlayedItemProps {
 }
 
 export const RecentlyPlayedItem = React.memo(({ song, onPlay }: RecentlyPlayedItemProps) => {
-    console.log("recentlyplayeditem rendered");
     return (
         <button
             type="button"
