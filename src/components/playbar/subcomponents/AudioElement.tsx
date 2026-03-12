@@ -1,7 +1,7 @@
 import { RefObject } from "react";
 
 interface AudioElementProps {
-    audioRef: RefObject<HTMLAudioElement>;
+    audioRef: RefObject<HTMLAudioElement | null>;
     songSrc: string;
     isLooping: boolean;
     isPlaying: boolean;
