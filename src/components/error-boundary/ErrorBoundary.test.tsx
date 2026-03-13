@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { ErrorFallback } from "./ErrorBoundary";
-import { ERROR_BOUNDARY_STRINGS } from "../../constant-strings/ui/errorBoundary";
+import { ERROR_BOUNDARY_STRINGS } from "../../i18n/ui/error-boundary";
 
 describe("ErrorFallback Component", () => {
   beforeEach(() => {

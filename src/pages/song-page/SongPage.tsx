@@ -1,0 +1,57 @@
+import { useMusic } from "../../context/MusicContext";
+import { useSongInit } from "../../hooks/audio/useSongInit";
+import { Background } from "./_components/background";
+import { SongMainInfo } from "./_components/SongMainInfo";
+import { PlaybackControls } from "./_components/PlaybackControls";
+import { SongActions } from "./_components/SongActions";
+import { PlaylistSection } from "./_components/playlist/PlaylistSection";
+import { ScrollToTop } from "../../components/scroll-to-top/ScrollToTop";
+import { SONG_PAGE_STRINGS } from "../../i18n/ui/song-page";
+import "./SongPage.scss";
+
+export const SongPage = () => {
+    const {
+        currentSong, isPlaying, playlist,
+        togglePlay, setPlaylist, nextSong, prevSong
+    } = useMusic();
+
+    useSongInit({ playlist, setPlaylist });
+
+    // hibakezelés, ha nem találjuk az adott zenét
+    if (!currentSong) {
+        return (
+            <div className="song-page">
+                <p className="song-page__not-found">{SONG_PAGE_STRINGS.ERROR.NOT_FOUND}</p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="song-page">
+            <Background currentSong={currentSong} isPlaying={isPlaying} />
+        
+            <div className="song-page__content">
+                <SongMainInfo.Cover currentSong={currentSong} isPlaying={isPlaying} />
+
+                <div className="song-page__info song-page__info--glass">
+                    <SongMainInfo.Details currentSong={currentSong} />
+
+                    <PlaybackControls
+                        isPlaying={isPlaying}
+                        onPrev={prevSong}
+                        onNext={nextSong}
+                        onTogglePlay={togglePlay}
+                    />
+
+                    {/* mentés és letöltés, csak a bejelentkezett user-eknek */}
+                    <SongActions song={currentSong} />
+                </div>
+            </div>
+
+            <PlaylistSection  />
+
+            {/* mindig az oldal tetejére dob */}
+            <ScrollToTop />
+        </div>
+    );
+};

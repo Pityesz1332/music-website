@@ -1,9 +1,9 @@
 import { useNavbarUI } from "../../hooks/ui/useNavbarUI";
 import { useAuth } from "../../context/AuthContext";
-import { NavLogo } from "./subcomponents/NavLogo";
-import { NavSearch } from "./subcomponents/NavSearch";
-import { NavMenu } from "./subcomponents/NavMenu";
-import { NavMobileToggle } from "./subcomponents/NavMobileToggle";
+import { NavLogo } from "./_components/NavLogo";
+import { NavSearch } from "./_components/NavSearch";
+import { NavMenu } from "./_components/NavMenu";
+import { NavMobileToggle } from "./_components/NavMobileToggle";
 import "./Navbar.scss";
 
 const Navbar = () => {

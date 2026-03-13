@@ -1,6 +1,6 @@
 import { UploadCloud, Music, Image as ImageIcon, X } from "lucide-react";
 import { useUploadSong } from "../../../hooks/admin/useUploadSong";
-import { ADMIN_UPLOAD_SONG_STRINGS } from "../../../constant-strings/ui/admin/uploadSong";
+import { ADMIN_UPLOAD_SONG_STRINGS } from "../../../i18n/ui/admin/upload-song";
 import { PrimaryButton } from "../../ui/button/PrimaryButton";
 import "./UploadSong.scss";
 

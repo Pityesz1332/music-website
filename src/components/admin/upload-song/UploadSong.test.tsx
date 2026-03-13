@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { UploadSong } from "./UploadSong";
 import { useUploadSong } from "../../../hooks/admin/useUploadSong";
-import { ADMIN_UPLOAD_SONG_STRINGS } from "../../../constant-strings/ui/admin/uploadSong";
+import { ADMIN_UPLOAD_SONG_STRINGS } from "../../../i18n/ui/admin/upload-song";
 
 vi.mock("../../../hooks/admin/useUploadSong");
 vi.mock("../../ui/button/PrimaryButton", () => ({

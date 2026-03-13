@@ -1,12 +1,12 @@
 import { useSongClick } from "../../hooks/music/useSongClick";
 import { useFilteringSongs } from "../../hooks/music/useFilteringSongs";
-import { SongsStatus } from "./subcomponents/SongsStatus";
-import { SongsFilter } from "./subcomponents/SongsFilter";
-import { SongsNoResults } from "./subcomponents/SongsNoResults";
-import { SongsCard } from "./subcomponents/SongsCard";
-import { SongsPagination } from "./subcomponents/SongsPagination";
-import { SongsFooter } from "./subcomponents/SongsFooter";
-import { SONGS_STRINGS } from "../../constant-strings/ui/songs";
+import { SongsStatus } from "./_components/SongsStatus";
+import { SongsFilter } from "./_components/SongsFilter";
+import { SongsNoResults } from "./_components/SongsNoResults";
+import { SongsCard } from "./_components/SongsCard";
+import { SongsPagination } from "./_components/SongsPagination";
+import { SongsFooter } from "./_components/SongsFooter";
+import { SONGS_STRINGS } from "../../i18n/ui/songs";
 import "./Songs.scss";
 
 export const Songs = () => {

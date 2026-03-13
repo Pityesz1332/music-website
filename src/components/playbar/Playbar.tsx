@@ -8,11 +8,11 @@ import { useProgressBar } from "../../hooks/audio/useProgressBar";
 import { useKeyboardControls } from "../../hooks/general/useKeyboardControls";
 import { useAudioSync } from "../../hooks/audio/useAudioSync";
 import { usePlaybarInteractions } from "../../hooks/audio/usePlaybarInteractions";
-import { ProgressBar } from "./subcomponents/ProgressBar";
-import { SongDetails } from "./subcomponents/SongDetails";
-import { PlaybackControls } from "./subcomponents/PlaybackControls";
-import { TrackActions } from "./subcomponents/TrackActions";
-import { AudioElement } from "./subcomponents/AudioElement";
+import { ProgressBar } from "./_components/ProgressBar";
+import { SongDetails } from "./_components/SongDetails";
+import { PlaybackControls } from "./_components/PlaybackControls";
+import { TrackActions } from "./_components/TrackActions";
+import { AudioElement } from "./_components/AudioElement";
 import "./Playbar.scss";
 
 const Playbar = () => {

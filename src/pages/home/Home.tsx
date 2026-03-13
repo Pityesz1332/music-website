@@ -1,10 +1,9 @@
-import { useNavigate } from "react-router-dom";
 import { MainRoutes } from "../../routes/constants/MainRoutes";
 import { RecentlyPlayed } from "../../components/recently-played/RecentlyPlayed";
 import { useBackgroundChange } from "../../hooks/ui/useBackgroundChange";
-import { BackgroundItem } from "./home-background/BackgroundItem";
+import { BackgroundItem } from "./_components/BackgroundItem";
 import { Background } from "../../types/background";
-import { HOME_STRINGS } from "../../constant-strings/ui/home";
+import { HOME_STRINGS } from "../../i18n/ui/home";
 import { PrimaryButton } from "../../components/ui/button/PrimaryButton";
 import "./Home.scss";
 

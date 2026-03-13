@@ -1,6 +1,6 @@
 import { useUserManager } from "../../../hooks/admin/useUserManager";
-import { UserItem } from "./subcomponents/UserItem";
-import { ADMIN_MANAGE_USERS_STRINGS } from "../../../constant-strings/ui/admin/manageUsers";
+import { UserItem } from "./_components/UserItem";
+import { ADMIN_MANAGE_USERS_STRINGS } from "../../../i18n/ui/admin/manage-users";
 import { PrimaryButton } from "../../../components/ui/button/PrimaryButton";
 import "./ManageUsers.scss";
 

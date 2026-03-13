@@ -2,7 +2,7 @@ import { renderHook, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { usePlaylistActions } from "./usePlaylistActions";
 import { NotificationType } from "../../context/NotificationContext";
-import { PLAYLIST_ACTIONS_STRINGS } from "../../constant-strings/hooks/playlistActions";
+import { PLAYLIST_ACTIONS_STRINGS } from "../../i18n/feedback/playlist-actions";
 import type { Song } from "../../types/music";
 
 describe("usePlaylistActions", () => {

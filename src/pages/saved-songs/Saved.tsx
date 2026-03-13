@@ -3,8 +3,8 @@ import { MainRoutes } from "../../routes/constants/MainRoutes";
 import { useMusic } from "../../context/MusicContext";
 import { useSongClick } from "../../hooks/music/useSongClick";
 import { useFilteringSaved } from "../../hooks/music/useFilteringSaved";
-import { EmptyState } from "./subcomponents/EmptyState";
-import { SAVED_STRINGS } from "../../constant-strings/ui/saved";
+import { EmptyState } from "./_components/EmptyState";
+import { SAVED_STRINGS } from "../../i18n/ui/saved";
 import { PrimaryButton } from "../../components/ui/button/PrimaryButton";
 import "../songs/Songs.scss";
 

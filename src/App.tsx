@@ -10,7 +10,7 @@ import { AdminProvider } from "./context/AdminContext";
 import { ErrorFallback } from "./components/error-boundary/ErrorBoundary";
 
 import Notifications from "./components/notifications/Notifications";
-import LoadingOverlay from "./components/loading-overlay/LoadingOverlay";
+import LoadingOverlay from "./components/ui/loading-overlay/LoadingOverlay";
 
 function App() {
   return (

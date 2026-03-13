@@ -1,8 +1,8 @@
 import { PlusCircle, X, UploadIcon} from "lucide-react";
 import { UploadSong } from "../../../components/admin/upload-song/UploadSong";
 import { useSongManager } from "../../../hooks/admin/useSongManager";
-import { SongItem } from "./subcomponents/SongItem";
-import { ADMIN_MANAGE_SONGS_STRINGS } from "../../../constant-strings/ui/admin/manageSongs";
+import { SongItem } from "./_components/SongItem";
+import { ADMIN_MANAGE_SONGS_STRINGS } from "../../../i18n/ui/admin/manage-songs";
 import { PrimaryButton } from "../../../components/ui/button/PrimaryButton";
 import "./ManageSongs.scss";
 

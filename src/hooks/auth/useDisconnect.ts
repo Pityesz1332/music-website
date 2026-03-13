@@ -3,7 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useNotification, NotificationType } from "../../context/NotificationContext";
 import { useLoading } from "../../context/LoadingContext";
 import { MainRoutes } from "../../routes/constants/MainRoutes";
-import { WALLET_AUTH_STRINGS } from "../../constant-strings/hooks/walletConnect";
+import { WALLET_AUTH_STRINGS } from "../../i18n/feedback/wallet-connect";
 
 export const useDisconnect = () => {
     const navigate = useNavigate();

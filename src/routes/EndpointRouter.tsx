@@ -3,16 +3,16 @@ import { MainRoutes } from "./constants/MainRoutes";
 import MainLayout from "../layouts/MainLayout";
 import AdminLayout from "../layouts/admin-layout/AdminLayout";
 
-import {Home} from "../pages/home/Home";
-import {Songs} from "../pages/songs/Songs";
-import {SongPage} from "../pages/songpage/SongPage";
-import {Saved} from "../pages/saved-songs/Saved";
-import {MyAccount} from "../pages/profile/MyAccount";
-import {AdminDashboard} from "../pages/admin/admin-dashboard/AdminDashboard";
-import {ManageSongs} from "../pages/admin/manage-songs/ManageSongs";
-import {ManageUsers} from "../pages/admin/manage-users/ManageUsers";
-import {AdminConnect} from "../pages/admin/admin-connect/AdminConnect";
-import {NotFound} from "../pages/not-found-fallback/NotFound";
+import { Home } from "../pages/home/Home";
+import { Songs } from "../pages/songs/Songs";
+import { SongPage } from "../pages/song-page/SongPage";
+import { Saved } from "../pages/saved-songs/Saved";
+import { MyAccount } from "../pages/profile/MyAccount";
+import { AdminDashboard } from "../pages/admin/admin-dashboard/AdminDashboard";
+import { ManageSongs } from "../pages/admin/manage-songs/ManageSongs";
+import { ManageUsers } from "../pages/admin/manage-users/ManageUsers";
+import { AdminConnect } from "../pages/admin/admin-connect/AdminConnect";
+import { NotFound } from "../pages/not-found-fallback/NotFound";
 
 import { AdminRoute } from "./AdminRoute";
 

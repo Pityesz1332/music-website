@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import type { Song } from "../../types/music";
 import { NotificationType } from "../../context/NotificationContext";
-import { PLAYLIST_ACTIONS_STRINGS } from "../../constant-strings/hooks/playlistActions";
+import { PLAYLIST_ACTIONS_STRINGS } from "../../i18n/feedback/playlist-actions";
 
 // paraméterek meghatározása
 interface UsePlaylistActionsProps {

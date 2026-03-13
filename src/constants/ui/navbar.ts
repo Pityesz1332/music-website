@@ -1,6 +1,6 @@
 import { Music, Heart, User } from "lucide-react";
 import { MainRoutes } from "../../routes/constants/MainRoutes";
-import { NAVBAR_STRINGS } from "../../constant-strings/ui/navbar";
+import { NAVBAR_STRINGS } from "../../i18n/ui/navbar";
 
 export const PUBLIC_NAV_ITEMS = [
     {
