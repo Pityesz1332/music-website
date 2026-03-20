@@ -1,10 +1,10 @@
 import { useMusic } from "../../context/MusicContext";
 import { useSongInit } from "../../hooks/audio/useSongInit";
-import { Background } from "./_components/background";
-import { SongMainInfo } from "./_components/SongMainInfo";
-import { PlaybackControls } from "./_components/PlaybackControls";
-import { SongActions } from "./_components/SongActions";
-import { PlaylistSection } from "./_components/playlist/PlaylistSection";
+import { Background } from "./background/Background";
+import { SongMainInfo } from "./song-info/SongMainInfo";
+import { PlaybackControls } from "./playback-controls/PlaybackControls";
+import { SongActions } from "./song-actions/SongActions";
+import { PlaylistSection } from "./playlist/playlist-section/PlaylistSection";
 import { ScrollToTop } from "../../components/scroll-to-top/ScrollToTop";
 import { SONG_PAGE_STRINGS } from "../../i18n/ui/song-page";
 import "./SongPage.scss";

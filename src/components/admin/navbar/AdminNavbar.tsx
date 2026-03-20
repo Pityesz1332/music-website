@@ -2,7 +2,7 @@ import { Menu, X } from "lucide-react";
 import { useAdminNavbar } from "../../../hooks/admin/useAdminNavbar";
 import { ADMIN_NAVBAR_STRINGS } from "../../../i18n/ui/admin/navbar";
 import { ADMIN_NAV_ITEMS } from "../../../constants/ui/admin/adminNavbar";
-import { AdminNavLink } from "./_components/AdminNavLink";
+import { AdminNavLink } from "./admin-nav-link/AdminNavLink";
 import { PrimaryButton } from "../../ui/button/PrimaryButton";
 import "./AdminNavbar.scss";
 
@@ -14,6 +14,15 @@ const AdminNavbar = () => {
         handleDisconnect,
         toggleMenu
     } = useAdminNavbar();
+
+    const goBackBtn = (className: string) => (
+        <PrimaryButton
+            className={className}
+            onClick={handleDisconnect}
+        >
+            {ADMIN_NAVBAR_STRINGS.ACTIONS.GO_BACK}
+        </PrimaryButton>
+    );
 
     return (
         <nav className={`admin-navbar ${shrink ? "admin-navbar--shrink" : ""}`}>
@@ -35,12 +44,12 @@ const AdminNavbar = () => {
                 ))}
                 
                 <li className="admin-navbar__item admin-navbar__item--mobile-only">
-                    <PrimaryButton className="admin-navbar__logout-button" onClick={handleDisconnect}>{ADMIN_NAVBAR_STRINGS.ACTIONS.GO_BACK}</PrimaryButton>
+                    {goBackBtn("admin-navbar__logout-button")}
                 </li>
             </ul>
 
             <div className="admin-navbar__actions">
-                <PrimaryButton className="admin-navbar__logout-button" onClick={handleDisconnect}>{ADMIN_NAVBAR_STRINGS.ACTIONS.GO_BACK}</PrimaryButton>
+                {goBackBtn("admin-navbar__logout-button")}
             </div>
         </nav>
     );

@@ -1,7 +1,9 @@
 import { useUserManager } from "../../../hooks/admin/useUserManager";
-import { UserItem } from "./_components/UserItem";
+import { UserItem } from "./user-item/UserItem";
 import { ADMIN_MANAGE_USERS_STRINGS } from "../../../i18n/ui/admin/manage-users";
-import { PrimaryButton } from "../../../components/ui/button/PrimaryButton";
+import { AdminManageTable } from "../../../components/admin/admin-manage-table/AdminManageTable";
+import { users_headers } from "../table-headers/table-headers";
+import { EditUser } from "./user-edit/EditUser";
 import "./ManageUsers.scss";
 
 export const ManageUsers = () => {
@@ -14,6 +16,10 @@ export const ManageUsers = () => {
         saveEdit
     } = useUserManager();
 
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.target.value);
+    };
+
     return (
         <div className="manage-users">
             <header className="manage-users__header">
@@ -24,58 +30,31 @@ export const ManageUsers = () => {
                 type="text"
                 placeholder={ADMIN_MANAGE_USERS_STRINGS.PLACEHOLDERS.SEARCH}
                 value={search} 
-                onChange={(e) => setSearch(e.target.value)} 
+                onChange={handleSearchChange} 
                 className="manage-users__search"
             />
 
-            <div className="users-list">
-                <div className="users-list__header-row">
-                    <span>{ADMIN_MANAGE_USERS_STRINGS.TABLE.NAME}</span>
-                    <span>{ADMIN_MANAGE_USERS_STRINGS.TABLE.ROLE}</span>
-                    <span>{ADMIN_MANAGE_USERS_STRINGS.TABLE.ACTIONS}</span>
-                </div>
+            <AdminManageTable
+                items={filteredUsers}
+                headers={users_headers}
+                className="users-list"
+                variant="users"
+                renderItem={(user) => (
+                    <UserItem
+                        user={user}
+                        onEdit={startEditing}
+                        onDelete={deleteUser}
+                    />
+                )}
+            />
 
-                <div className="users-list__content">
-                    {filteredUsers.map(user => (
-                        <UserItem 
-                            key={user.id}
-                            user={user}
-                            onEdit={startEditing}
-                            onDelete={deleteUser}
-                        />
-                    ))}
-                </div>
-            </div>
+            <EditUser 
+                user={editUser}
+                onClose={cancelEditing}
+                onSave={saveEdit}
+                onChange={handleEditChange}
+            />
 
-            {editUser && (
-                <div className="manage-users__modal">
-                    <div className="manage-users__modal-content">
-                        <h2 className="manage-users__modal-title">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.TITLE}</h2>
-
-                    <div className="manage-users__form-group">
-                        <label className="manage-users__label">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.LABELS.NAME}</label>
-                        <input className="manage-users__input" type="text" value={editUser.name} onChange={(e) => handleEditChange("name", e.target.value)}/>
-                    </div>
-                    <div className="manage-users__form-group">
-                        <label className="manage-users__label">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.LABELS.EMAIL}</label>
-                        <input className="manage-users__input" type="text" value={editUser.email} onChange={(e) => handleEditChange("email", e.target.value)}/>
-                    </div>
-
-                    <div className="manage-users__form-group">
-                        <label className="manage-users__label">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.LABELS.ROLE}</label>
-                        <select className="manage-users__select" value={editUser.role} onChange={(e) => handleEditChange("role", e.target.value)}>
-                            <option value="user">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.ROLES.USER}</option>
-                            <option value="admin">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.ROLES.ADMIN}</option>
-                        </select>
-                    </div>
-
-                        <div className="manage-users__modal-actions">
-                            <PrimaryButton onClick={saveEdit} className="manage-users__button manage-users__button--save">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.BUTTONS.SAVE}</PrimaryButton>
-                            <PrimaryButton onClick={cancelEditing} className="manage-users__button manage-users__button--cancel">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.BUTTONS.CANCEL}</PrimaryButton>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

@@ -1,7 +1,5 @@
 @import '../../../styles/variables';
 
-$user-grid-template: 2.5fr 1fr 120px;
-
 .manage-users {
     color: $main-text-color;
     padding: 2rem;
@@ -30,182 +28,44 @@ $user-grid-template: 2.5fr 1fr 120px;
         background: $card-color;
         color: inherit;
 
+        &:focus {
+            outline: none;
+            border-color: $muted-text-color;
+        }
+
         @media (max-width: 768px) { width: 100%; }
     }
-}
 
-.users-list {
-    &__header-row {
-        display: grid;
-        grid-template-columns: $user-grid-template;
-        gap: 1rem;
-        padding: 1rem;
-        font-weight: bold;
-        color: $muted-text-color;
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        border-bottom: 1px solid rgba($muted-text-color, 0.1);
-
-        span:last-child {
-            text-align: right;
-        }
-
-        @media (max-width: 768px) { display: none; }
-    }
-
-    &__content {
+    &__form-content {
         display: flex;
         flex-direction: column;
-        gap: 0.8rem;
-        margin-top: 1rem;
-    }
-}
-
-.user-item {
-    display: grid;
-    grid-template-columns: $user-grid-template;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background: $card-color;
-    border-radius: 12px;
-    border: 1px solid rgba($muted-text-color, 0.05);
-    transition: transform 0.2s, background 0.2s;
-
-    &:hover {
-        background: lighten($card-color, 5%);
+        gap: 1.2rem;
     }
 
-    @media (max-width: 768px) {
+    &__form-group {
         display: flex;
         flex-direction: column;
-        align-items: stretch;
-        padding: 1.2rem;
+        gap: 6px;
     }
 
-    &__info {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-
-        @media (max-width: 768px) {
-            border-bottom: 1px solid rgba($muted-text-color, 0.1);
-            padding-bottom: 0.8rem;
-            margin-bottom: 0.5rem;
-        }
-    }
-
-    &__id {
-        color: $muted-text-color;
-        font-size: 0.85rem;
-        min-width: 40px;
-    }
-
-    &__name {
-        font-weight: 600;
-        margin: 0;
-    }
-
-    &__email {
+    &__label {
         font-size: 0.85rem;
         color: $muted-text-color;
-        margin: 0;
-        word-break: break-all;
+        font-weight: 500;
     }
 
-    &__role {
-        @media (max-width: 768px) {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            &::before { content: "Role:"; font-weight: bold; font-size: 0.85rem; }
+    &__input, &__select {
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid rgba($muted-text-color, 0.2);
+        background: darken($card-color, 3%);
+        color: $main-text-color;
+        font-size: 1rem;
+
+        &:focus {
+            outline: none;
+            border-color: $muted-text-color;
+            background: darken($card-color, 5%);
         }
-        
-        .role-badge {
-            display: inline-block;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            color: $main-text-color;
-    
-            &--admin {
-                color: $primary-color;
-            }
-        }
-    }
-
-    &__actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 8px;
-
-        @media (max-width: 768px) {
-            margin-top: 0.8rem;
-            padding-top: 0.8rem;
-            border-top: 1px solid rgba($muted-text-color, 0.1);
-        }
-
-        .btn--edit, .btn--delete {
-            background: none;
-            border: none;
-            color: $primary-color;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 6px;
-            transition: 0.2s;
-
-            &:hover {
-                background: rgba($primary-color, 0.1);
-                color: $dark-accent-color;
-            }
-        }
-    }
-}
-
-.manage-users__modal {
-    margin: 0 auto;
-    position: fixed;
-    inset: 0;
-    background: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &-content {
-        background: $card-color;
-        padding: 30px;
-        border-radius: 12px;
-        width: 350px;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        border: 1px solid $muted-text-color;
-        @media (max-width: 480px) { padding: 20px; width: 90%; }
-    }
-    
-    &-actions {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 10px;
-    }
-}
-
-.manage-users__form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.manage-users__input, .manage-users__select {
-    padding: 10px;
-    border-radius: 6px;
-    border: none;
-    background: $card-color;
-    color: $main-text-color;
-
-    &:focus {
-        outline: none;
-        border-color: $primary-color;
     }
 }

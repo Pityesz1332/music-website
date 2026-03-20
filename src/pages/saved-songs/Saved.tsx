@@ -3,29 +3,21 @@ import { MainRoutes } from "../../routes/constants/MainRoutes";
 import { useMusic } from "../../context/MusicContext";
 import { useSongClick } from "../../hooks/music/useSongClick";
 import { useFilteringSaved } from "../../hooks/music/useFilteringSaved";
-import { EmptyState } from "./_components/EmptyState";
-import { SAVED_STRINGS } from "../../i18n/ui/saved";
 import { PrimaryButton } from "../../components/ui/button/PrimaryButton";
+import { LoadingState } from "../../components/loading-state/LoadingState";
+import { EmptyState } from "./empty-state/EmptyState";
+import { SAVED_STRINGS } from "../../i18n/ui/saved";
+import { SongsCard } from "../songs/songs-card/SongsCard";
+import type { Song } from "../../types/music";
 import "../songs/Songs.scss";
 
 export const Saved = () => {
     const navigate = useNavigate();
     const { savedSongs } = useMusic();
-
     const { handleFilteredSongClick } = useSongClick();
 
-    const isLoading = savedSongs === undefined || savedSongs === null;
     // loading screen amíg az adatok megérkeznek
-    if (isLoading) {
-        return (
-            <div className="songs">
-                <div className="songs__status-container loading-container">
-                    <div className="loading-spinner"></div>
-                    <p>{SAVED_STRINGS.LOADING}</p>
-                </div>
-            </div>
-        );
-    }
+    if (!savedSongs) return <LoadingState message={SAVED_STRINGS.LOADING} />
 
     const {
         searchQuery,
@@ -37,13 +29,17 @@ export const Saved = () => {
         prevPage,
     } = useFilteringSaved(savedSongs ?? []);
 
+    const handleBrowseSongs = () => navigate(MainRoutes.SONGS);
+    const handleResetSearch = () => navigate(MainRoutes.SAVED);
+    const onSongClick = (song: Song) => handleFilteredSongClick(song, filteredSongs);
+
     return (
         <div className="songs">
             {savedSongs.length === 0 ? (
                 <EmptyState
                     title={SAVED_STRINGS.EMPTY_STATE.NO_SAVED}
                     btnTxt={SAVED_STRINGS.EMPTY_STATE.BROWSE_BTN}
-                    onBtnClick={() => navigate(MainRoutes.SONGS)}
+                    onBtnClick={handleBrowseSongs}
                 />
             ) : (
                 <div className="songs__container">
@@ -53,22 +49,17 @@ export const Saved = () => {
                         <EmptyState
                             title={SAVED_STRINGS.SEARCH.NOT_FOUND(searchQuery)}
                             btnTxt={SAVED_STRINGS.SEARCH.RESET_BTN}
-                            onBtnClick={() => navigate(MainRoutes.SAVED)}
+                            onBtnClick={handleResetSearch}
                         />
                     ) : (
                         <>
                             <div className="songs__grid">
                                 {currentSongs.map((song) => (
-                                    <div key={song.id} className="songs__card-wrapper">
-                                        <div
-                                            className="songs__card"
-                                            onClick={() => handleFilteredSongClick(song, filteredSongs)}
-                                        >
-                                            <img className="songs__card-image" src={song.cover} alt={song.title} />
-                                            <h3 className="songs__card-title">{song.title}</h3>
-                                            <p className="songs__card-genre">{song.genre}</p>
-                                        </div>
-                                    </div>
+                                    <SongsCard 
+                                        key={song.id}
+                                        song={song}
+                                        onClick={onSongClick}
+                                    />
                                 ))}
                             </div>
 

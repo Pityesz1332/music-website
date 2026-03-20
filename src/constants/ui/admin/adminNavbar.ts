@@ -14,4 +14,4 @@ export const ADMIN_NAV_ITEMS = [
         path: MainRoutes.ADMIN_USERS,
         label: ADMIN_NAVBAR_STRINGS.LINKS.USERS
     }
-];
+] as const;

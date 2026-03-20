@@ -1,5 +1,5 @@
 import { useNotification, Notification } from "../../context/NotificationContext";
-import { NotificationItem } from "./NotificationItem";
+import { NotificationItem } from "./notification-item/NotificationItem";
 import "./Notifications.scss";
 
 // notifications popup felülete

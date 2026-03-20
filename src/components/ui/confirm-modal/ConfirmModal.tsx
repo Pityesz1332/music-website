@@ -1,5 +1,5 @@
-import { CONFIRM_MODAL_STRINGS } from "../../i18n/ui/confirmModal";
-import { PrimaryButton } from "../ui/button/PrimaryButton";
+import { CONFIRM_MODAL_STRINGS } from "../../../i18n/ui/confirm-modal";
+import { PrimaryButton } from "../ui/../button/PrimaryButton";
 import "./ConfirmModal.scss";
 
 interface ConfirmModalProps {

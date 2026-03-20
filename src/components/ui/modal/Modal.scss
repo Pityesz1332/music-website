@@ -1,0 +1,68 @@
+@import '../../../styles/variables';
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+
+    &__content {
+        background: $card-color;
+        padding: 2rem;
+        border-radius: 12px;
+        position: relative;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    &__header {
+        margin-bottom: 1.5rem;
+    }
+
+    &__title {
+        color: $main-text-color;
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    &__subtitle {
+        margin: 0.25rem 0 0;
+        color: $muted-text-color;
+        font-size: 0.9rem;
+    }
+
+    &__body {
+        margin-bottom: 2rem;
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 1rem;
+
+        button {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: $primary-color;
+            color: $main-text-color;
+
+            &:hover {
+                background: $dark-accent-color;
+            }
+        }
+    }
+}

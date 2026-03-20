@@ -17,6 +17,15 @@ export const MyAccount = () => {
     const { notify } = useNotification();
     const { clearRecentlyPlayed, recentlyPlayed } = useMusic();
 
+    const handleCopyWallet = () => {
+        copyToClipboard(walletAddress, "Wallet address copied");
+    };
+
+    const handleClearHistory = () => {
+        clearRecentlyPlayed();
+        notify(MY_ACCOUNT_STRINGS.MESSAGE, NotificationType.SUCCESS);
+    };
+
     return (
         <div className="my-account">
             <h1 className="my-account__title">{MY_ACCOUNT_STRINGS.TITLE}</h1>
@@ -29,7 +38,7 @@ export const MyAccount = () => {
 
                 <div className="my-account__wallet-info">
                     <span className="my-account__wallet-address">{shortWallet}</span>
-                    <PrimaryButton onClick={() => copyToClipboard(walletAddress, "Wallet address copied")} className="my-account__copy-button">
+                    <PrimaryButton onClick={handleCopyWallet} className="my-account__copy-button">
                         <Copy size={16} />
                         <span className="my-account__copy-text">
                             {MY_ACCOUNT_STRINGS.BUTTONS.COPY}
@@ -45,10 +54,7 @@ export const MyAccount = () => {
                         {recentlyPlayed.length > 0 && (
                             <PrimaryButton 
                                 className="recent-wrapper__clear-history-btn"
-                                onClick={() => {
-                                    clearRecentlyPlayed();
-                                    notify(MY_ACCOUNT_STRINGS.MESSAGE, NotificationType.SUCCESS);
-                                }}
+                                onClick={handleClearHistory}
                             >
                                 {MY_ACCOUNT_STRINGS.BUTTONS.CLEAR_HISTORY}
                             </PrimaryButton>

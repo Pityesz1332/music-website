@@ -3,11 +3,16 @@ import { PrimaryButton } from "../ui/button/PrimaryButton";
 import "./ErrorBoundary.scss";
 
 export const ErrorFallback = () => {
+
+    const handleReload = () => {
+        window.location.reload();
+    };
+
     return (
         <div className="error-boundary__container">
             <h1>{ERROR_BOUNDARY_STRINGS.TITLE}</h1>
             <p>{ERROR_BOUNDARY_STRINGS.SUBTITLE}</p>
-            <PrimaryButton onClick={() => window.location.reload()}>{ERROR_BOUNDARY_STRINGS.BUTTON}</PrimaryButton>
+            <PrimaryButton onClick={handleReload}>{ERROR_BOUNDARY_STRINGS.BUTTON}</PrimaryButton>
         </div>
     );
-}
+};

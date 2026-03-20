@@ -1,8 +1,8 @@
 import { useLocation } from "react-router-dom";
 import { useMusic } from "../../context/MusicContext";
 import { useRecentlyPlayedUI } from "../../hooks/ui/useRecentlyPlayedUI";
-import { RecentlyPlayedList } from "./_components/RecentlyPlayedList";
-import { RecentlyPlayedCard } from "./_components/RecentlyPlayedCard";
+import { RecentlyPlayedList } from "./recently-played-list/RecentlyPlayedList";
+import { RecentlyPlayedCard } from "./recently-played-card/RecentlyPlayedCard";
 import "./RecentlyPlayed.scss";
 
 export const RecentlyPlayed = () => {

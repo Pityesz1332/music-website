@@ -300,6 +300,8 @@
         }
 
         & .playbar__tooltip {
+            position: absolute;
+            transform: translateX(-50%);
             background: $card-color;
             color: $main-text-color;
             padding: 4px 10px;
