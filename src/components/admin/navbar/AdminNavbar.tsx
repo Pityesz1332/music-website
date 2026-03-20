@@ -32,7 +32,7 @@ const AdminNavbar = () => {
                 {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </div>
 
-            <ul className={`admin-navbar__list ${isMenuOpen ? "admin-navbar__list--open" : ""}`}>
+            <div className={`admin-navbar__list ${isMenuOpen ? "admin-navbar__list--open" : ""}`}>
                 {ADMIN_NAV_ITEMS.map((item) => (
                     <AdminNavLink 
                         key={item.path}
@@ -43,10 +43,10 @@ const AdminNavbar = () => {
                     />
                 ))}
                 
-                <li className="admin-navbar__item admin-navbar__item--mobile-only">
+                <div className="admin-navbar__item admin-navbar__item--mobile-only">
                     {goBackBtn("admin-navbar__logout-button")}
-                </li>
-            </ul>
+                </div>
+            </div>
 
             <div className="admin-navbar__actions">
                 {goBackBtn("admin-navbar__logout-button")}

@@ -38,7 +38,7 @@ export const NavMenu = ({ isOpen, onClose }: NavMenuProps) => {
     const menuItems = NAV_CONFIG.filter(item => !item.isProtected || (item.isProtected && isConnected));
 
     return (
-        <ul className={`navbar__menu ${isOpen ? "navbar__menu--open" : ""}`}>
+        <div className={`navbar__menu ${isOpen ? "navbar__menu--open" : ""}`}>
             {menuItems.map((item) => (
                 <NavLink
                     key={item.path}
@@ -50,7 +50,7 @@ export const NavMenu = ({ isOpen, onClose }: NavMenuProps) => {
                 />
             ))}
 
-            <li className="navbar__item navbar__item--wallet">
+            <div className="navbar__item navbar__item--wallet">
                 {isConnected ? (
                     <PrimaryButton className="navbar__button" type="button" onClick={onDisconnectClick}>
                         {NAVBAR_STRINGS.WALLET.DISCONNECT}
@@ -61,7 +61,7 @@ export const NavMenu = ({ isOpen, onClose }: NavMenuProps) => {
                         {NAVBAR_STRINGS.WALLET.CONNECT}
                     </PrimaryButton>
                 )}
-            </li>
-        </ul>
+            </div>
+        </div>
     );
 }

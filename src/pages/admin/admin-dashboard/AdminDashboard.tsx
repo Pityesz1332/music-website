@@ -36,17 +36,17 @@ export const AdminDashboard = () => {
             <div className="admin-dashboard__section">
                 <h2 className="admin-dashboard__section-title">{ADMIN_DASHBOARD_STRINGS.RECENT_SONGS}</h2>
 
-                <ul className="song-list">
+                <div className="song-list">
                     {songsData.slice(0, 5).map(song => (
-                        <li key={song.id} className="song-list__item">
+                        <div key={song.id} className="song-list__item">
                             <img className="song-list__cover" src={song.cover} alt={song.title} />
                             <div className="song-list__info">
                                 <h4 className="song-list__song-title">{song.title}</h4>
                                 <p className="song-list__details">{song.artist} • {song.genre}</p>
                             </div>
-                        </li>
+                        </div>
                     ))}
-                </ul>
+                </div>
             </div>
         </div>
     );

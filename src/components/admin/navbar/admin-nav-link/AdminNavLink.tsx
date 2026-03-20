@@ -10,10 +10,10 @@ interface AdminNavLinkProps {
 
 export const AdminNavLink = ({ path, label, isActive, onClick }: AdminNavLinkProps) => {
     return (
-        <li className={`admin-navbar__item ${isActive ? "admin-navbar__item--active" : ""}`}>
+        <div className={`admin-navbar__item ${isActive ? "admin-navbar__item--active" : ""}`}>
             <Link className="admin-navbar__link" to={path} onClick={onClick}>
                 {label}
             </Link>
-        </li>
+        </div>
     );
 };

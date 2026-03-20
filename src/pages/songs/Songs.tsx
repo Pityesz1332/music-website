@@ -7,6 +7,7 @@ import { SongsCard } from "./songs-card/SongsCard";
 import { SongsPagination } from "./songs-pagination/SongsPagination";
 import { SongsFooter } from "./songs-footer/SongsFooter";
 import { SONGS_STRINGS } from "../../i18n/ui/songs";
+import type { Song } from "../../types/music";
 import "./Songs.scss";
 
 export const Songs = () => {
@@ -26,8 +27,7 @@ export const Songs = () => {
         retry
     } = useFilteringSongs(15);
 
-    // song? majd utána kell néznem
-    const onSongCardClick = (song: any) => {
+    const onSongCardClick = (song: Song) => {
         handleFilteredSongClick(song, filteredSongs);
     };
 

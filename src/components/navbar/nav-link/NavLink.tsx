@@ -11,12 +11,12 @@ interface NavLinkProps {
 
 export const NavLink = ({ path, label, Icon, isActive, onClick }: NavLinkProps) => {
     return (
-        <li
+        <div
             className={`navbar__item ${isActive ? "navbar__item--active" : ""}`}
             onClick={onClick}
         >
             <Icon className="navbar__item-icon" size={28} />
             <span className="navbar__item-text">{label}</span>
-        </li>
+        </div>
     );
 };
