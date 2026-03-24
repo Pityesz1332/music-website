@@ -1,4 +1,4 @@
-@import '../../styles/variables';
+@use '../../styles/variables' as v;
 
 .song-page {
     display: flex;
@@ -65,7 +65,7 @@
         inset: -3%;
         border-radius: 1.5rem;
         opacity: 0;
-        background: linear-gradient(45deg, $primary-color, $dark-accent-color);
+        background: linear-gradient(45deg, v.$primary-color, v.$dark-accent-color);
         filter: blur(0.3rem);
         transition: opacity 0.4s ease;
         z-index: -1;
@@ -102,7 +102,7 @@
     }
     
     &__artist {
-        color: $muted-text-color;
+        color: v.$muted-text-color;
         font-size: clamp(0.95rem, 2.5vw, 1.2rem);
         margin-bottom: clamp(0.5rem, 2vw, 1rem);
         text-align: center;
@@ -111,7 +111,7 @@
     &__meta {
         font-size: clamp(0.95rem, 2.5vw, 1.2rem);
         margin-block: 0.4rem;
-        color: $main-text-color;
+        color: v.$main-text-color;
     }
 
     &__controls {
@@ -139,7 +139,7 @@
         gap: 0.5rem;
         font-size: clamp(0.7rem, 1.2vw, 0.9rem);
         background: rgba(255, 255, 255, 0.1);
-        color: $main-text-color;
+        color: v.$main-text-color;
         border: none;
         padding-inline: clamp(0.4rem, 2vw, 1.125rem);
         white-space: nowrap;
@@ -153,25 +153,25 @@
             height: auto;
         }
 
-        &:hover { background: $dark-accent-color; }
+        &:hover { background: v.$dark-accent-color; }
     }
         
     &__play-button {
         display: inline-flex;
         gap: 0.625rem;
-        background: $primary-color;
+        background: v.$primary-color;
         border: none;
         padding: clamp(0.5rem, 1.5vh, 0.75rem) clamp(1rem, 3vw, 1.75rem);
         border-radius: 1.875rem;
         font-size: clamp(0.8rem, 2vw, 1rem);
-        color: $main-text-color;
+        color: v.$main-text-color;
         cursor: pointer;
         transition: background 0.3s ease;
 
         &--neon-button {
             font-weight: 700;
-            color: $main-text-color;
-            border: 0.0625rem solid $primary-color;
+            color: v.$main-text-color;
+            border: 0.0625rem solid v.$primary-color;
             border-radius: 0.625rem;
             text-transform: uppercase;
             letter-spacing: 0.125rem;
@@ -183,7 +183,7 @@
             cursor: pointer;
 
             &:hover {
-                box-shadow: 0 0 0.625rem $primary-color, 0 0 2rem $dark-accent-color;
+                box-shadow: 0 0 0.625rem v.$primary-color, 0 0 2rem v.$dark-accent-color;
                 transform: scale(1.05);
             }
         }
@@ -206,7 +206,7 @@
         font-size: clamp(1rem, 2.5vw, 1.4rem);
         font-family: inherit;
         font-weight: 600;
-        color: $main-text-color;
+        color: v.$main-text-color;
         text-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
         margin: 0;
         padding-left: clamp(0.5rem, 2vw, 1rem);
@@ -223,7 +223,7 @@
         max-height: clamp(12.5rem, 60vh, 43.75rem);
         overflow-y: auto;
         overflow-x: hidden;
-        background: $card-color;
+        background: v.$card-color;
         backdrop-filter: blur(10px);
         border-radius: 1.25rem;
         border: none;
@@ -261,13 +261,13 @@
 
         &--active {
             transform: scale(1.05) !important;
-            box-shadow: 0 0 0.75rem $primary-color !important;
-            border-left: 0.25rem solid $primary-color;
+            box-shadow: 0 0 0.75rem v.$primary-color !important;
+            border-left: 0.25rem solid v.$primary-color;
         }
 
         &--editing {
-            border: 0.0625rem solid $primary-color;
-            background: rgba($primary-color, 0.1);
+            border: 0.0625rem solid v.$primary-color;
+            background: rgba(v.$primary-color, 0.1);
         }
     }
 
@@ -290,7 +290,7 @@
     &__card-action-btn {
         background: transparent;
         border: none;
-        color: $main-text-color;
+        color: v.$main-text-color;
         cursor: pointer;
         padding: 0.3125rem;
         display: flex;
@@ -309,7 +309,7 @@
         }
 
         &--saved {
-            color: $primary-color;
+            color: v.$primary-color;
         }
     }
 
@@ -332,7 +332,7 @@
         button {
             background: none;
             border: none;
-            color: $main-text-color;
+            color: v.$main-text-color;
             cursor: pointer;
             padding: 0.3rem;
             display: flex;
@@ -346,7 +346,7 @@
             }
 
             &:hover:not(:disabled) {
-                color: $primary-color;
+                color: v.$primary-color;
                 transform: scale(1.15);
             }
 
@@ -357,8 +357,8 @@
             }
 
             &:nth-child(2) {
-                color: $primary-color;
-                &:hover { color: $dark-accent-color; }
+                color: v.$primary-color;
+                &:hover { color: v.$dark-accent-color; }
             }
         }
     }
@@ -376,7 +376,7 @@
         margin: 0;
         font-size: clamp(0.85rem, 2vw, 1rem);
         font-weight: 500;
-        color: $main-text-color;
+        color: v.$main-text-color;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -397,7 +397,7 @@
     &__action-button {
         background: none;
         border: none;
-        color: $main-text-color;
+        color: v.$main-text-color;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -410,7 +410,7 @@
         }
 
         &:active, &--saved {
-            color: $primary-color;
+            color: v.$primary-color;
         }
 
         &__icon {
@@ -439,7 +439,7 @@
             padding: clamp(0.5rem, 1.5vh, 0.625rem) 0.875rem;
             background: none;
             border: none;
-            color: $primary-color;
+            color: v.$primary-color;
             cursor: pointer;
             font-size: clamp(0.8125rem, 1.5vw, 0.9375rem);
             font-weight: 500;
@@ -454,20 +454,20 @@
             }
 
             &:hover {
-                background: rgba($card-color, 0.15);
+                background: rgba(v.$card-color, 0.15);
 
                 svg {
                     transform: scale(1.1);
                 }
 
-                &.edit { color: $primary-color; }
-                &.delete { color: $dark-accent-color; }
+                &.edit { color: v.$primary-color; }
+                &.delete { color: v.$dark-accent-color; }
             }
         }
 
         .menu-divider {
             height: 0.0625rem;
-            background: rgba($card-color, 0.1);
+            background: rgba(v.$card-color, 0.1);
             margin-block: 0.25rem;
             margin-inline: 0.5rem;
         }

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { NavSearch } from './NavSearch';
-import { useNavbarSearch } from '../../../../hooks/music/useNavbarSearch';
+import { useNavbarSearch } from '../../../hooks/music/useNavbarSearch';
 
 vi.mock('../../../hooks/music/useNavbarSearch');
 vi.mock('../../../constant-strings/ui/navbar', () => ({

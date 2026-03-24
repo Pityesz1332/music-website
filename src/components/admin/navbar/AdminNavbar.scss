@@ -1,4 +1,4 @@
-@import '../../../styles/variables';
+@use '../../../styles/variables' as v;
 
 .admin-navbar {
     position: fixed;
@@ -12,7 +12,7 @@
     padding: 0 50px;
     box-sizing: border-box;
     backdrop-filter: blur(8px);
-    border-bottom: 1px solid $primary-color;
+    border-bottom: 1px solid v.$primary-color;
     z-index: 10;
     transition: all 0.3s ease;
 
@@ -35,7 +35,7 @@
         font-size: 1.3rem;
         font-weight: 700;
         letter-spacing: 1px;
-        color: $primary-color;
+        color: v.$primary-color;
         cursor: default;
         transition: font-size 0.3s ease;
 
@@ -46,7 +46,7 @@
     &__hamburger {
         display: none;
         cursor: pointer;
-        color: $main-text-color;
+        color: v.$main-text-color;
 
         @media (max-width: 768px) { display: block; }
     }
@@ -63,7 +63,7 @@
             top: 70px;
             right: 20px;
             width: 200px;
-            background: $card-color;
+            background: v.$card-color;
             flex-direction: column;
             padding: 15px;
             border-radius: 10px;
@@ -78,7 +78,7 @@
         
     &__item {
         &--active {
-            .admin-navbar__link { color: $primary-color; }
+            .admin-navbar__link { color: v.$primary-color; }
         }
 
         &--mobile-only {
@@ -91,8 +91,8 @@
                     width: 100%;
                     text-align: center;
                     padding: 10px;
-                    background: $primary-color;
-                    color: $main-text-color;
+                    background: v.$primary-color;
+                    color: v.$main-text-color;
                     border-radius: 10px;
                     border: none;
                     transition: 0.2s;
@@ -102,12 +102,12 @@
     }
 
     &__link {
-        color: $main-text-color;
+        color: v.$main-text-color;
         text-decoration: none;
         font-size: 1.3rem;
         transition: 0.2s;
         
-        &:hover { color: $primary-color; }
+        &:hover { color: v.$primary-color; }
     }
 
     &__actions {
@@ -121,14 +121,14 @@
         font-size: 1.1rem;
         font-weight: 700;
         padding: 10px 20px;
-        background: $primary-color;
+        background: v.$primary-color;
         border-radius: 8px;
         border: none;
         cursor: pointer;
-        color: $main-text-color;
+        color: v.$main-text-color;
         transition: background 0.3s ease, transform 0.2s ease;
 
-        &:hover { background: $dark-accent-color; }
+        &:hover { background: v.$dark-accent-color; }
 
         @media (max-width: 1024px) { padding: 8px 18px; font-size: 1rem; }
     }

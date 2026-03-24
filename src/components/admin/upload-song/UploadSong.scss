@@ -1,8 +1,8 @@
-@import '../../../styles/variables';
+@use '../../../styles/variables' as v;
 
 .upload-song {
-    background: $bg-color;
-    color: $main-text-color;
+    background: v.$bg-color;
+    color: v.$main-text-color;
     padding: 20px;
     border-radius: 12px;
     width: 400px;
@@ -21,29 +21,29 @@
     }
 
     &__dropzone {
-        border: 2px dashed $primary-color;
+        border: 2px dashed v.$primary-color;
         border-radius: 10px;
         padding: 30px;
         text-align: center;
         cursor: pointer;
         transition: all 0.2s ease;
-        background: $card-color;
+        background: v.$card-color;
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 10px;
-        color: $muted-text-color;
+        color: v.$muted-text-color;
         
         @media (max-width: 480px) { padding: 20px; font-size: 14px; }
 
         &:hover {
-            border-color: $dark-accent-color;
-            color: $main-text-color;
+            border-color: v.$dark-accent-color;
+            color: v.$main-text-color;
         }
 
         &--active {
-            border-color: $dark-accent-color;
-            background: rgba($primary-color, 0.1);
+            border-color: v.$dark-accent-color;
+            background: rgba(v.$primary-color, 0.1);
         }
     }
 
@@ -54,35 +54,35 @@
         cursor: pointer;
         padding: 8px 12px;
         border-radius: 8px;
-        background: $card-color;
-        border: 1px solid $muted-text-color;
-        color: $muted-text-color;
+        background: v.$card-color;
+        border: 1px solid v.$muted-text-color;
+        color: v.$muted-text-color;
         transition: all 0.2s ease;
 
         @media (max-width: 480px) { padding: 6px 10px; font-size: 14px; }
 
         &:hover {
-            color: $main-text-color;
-            border-color: $main-text-color;
+            color: v.$main-text-color;
+            border-color: v.$main-text-color;
         }
     }
 
     &__input {
         padding: 8px 10px;
         border-radius: 6px;
-        border: 1px solid $muted-text-color;
-        background: $card-color;
-        color: $main-text-color;
+        border: 1px solid v.$muted-text-color;
+        background: v.$card-color;
+        color: v.$main-text-color;
         outline: none;
 
         @media (max-width: 480px) { font-size: 14px; }
 
         &::placeholder {
-            color: $muted-text-color
+            color: v.$muted-text-color
         }
 
         &:focus {
-            border-color: $primary-color;
+            border-color: v.$primary-color;
         }
     }
 
@@ -94,7 +94,7 @@
     }
 
     &__progress-container {
-        background: $card-color;
+        background: v.$card-color;
         border-radius: 6px;
         height: 8px;
         overflow: hidden;
@@ -103,7 +103,7 @@
 
     &__progress-filler {
         height: 100%;
-        background: $primary-color;
+        background: v.$primary-color;
         width: 0;
         transition: width 0.2s ease;
     }
@@ -111,7 +111,7 @@
     &__progress-text {
         font-size: 12px;
         font-weight: bold;
-        color: $main-text-color;
+        color: v.$main-text-color;
         min-width: 35px;
     }
 
@@ -138,18 +138,18 @@
         }
 
         &--save {
-            background: $primary-color;
-            color: $main-text-color;
+            background: v.$primary-color;
+            color: v.$main-text-color;
 
-            &:hover { background: $dark-accent-color }
+            &:hover { background: v.$dark-accent-color }
         }
 
         &--cancel {
-            background: $dark-accent-color;
-            color: $main-text-color;
+            background: v.$dark-accent-color;
+            color: v.$main-text-color;
             padding: 8px 12px;
 
-            &:hover { background: $primary-color; }
+            &:hover { background: v.$primary-color; }
         }
     }
 }

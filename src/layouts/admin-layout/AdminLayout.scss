@@ -1,11 +1,11 @@
-@import '../../styles/variables';
+@use '../../styles/variables' as v;
 
 .admin-layout {
     display: flex;
     height: 100vh;
     width: 100%;
-    background: $bg-color;
-    color: $main-text-color;
+    background: v.$bg-color;
+    color: v.$main-text-color;
     overflow: hidden;
     
     &__content {

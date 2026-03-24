@@ -1,4 +1,4 @@
-@import "../../styles/variables";
+@use "../../styles/variables" as v;
 
 .error-boundary {
     &__container {
@@ -8,7 +8,7 @@
         align-items: center;
         flex-direction: column;
         gap: 20px;
-        color: $main-text-color;
+        color: v.$main-text-color;
         text-align: center;
     
         h1 {

@@ -1,4 +1,4 @@
-@import '../../styles/variables';
+@use '../../styles/variables' as v;
 
 .home {
     position: relative;
@@ -6,7 +6,7 @@
     height: 100vh;
     height: 100dvh;
     overflow: hidden;
-    color: $main-text-color;
+    color: v.$main-text-color;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -63,26 +63,26 @@
     &__subtitle {
         font-size: clamp(1.1rem, 3vw, 2.2rem);
         margin: clamp(0.5rem, 2vh, 1.5rem) 0;
-        color: $main-text-color;
+        color: v.$main-text-color;
         max-width: 800px;
     }
 
     &__highlight {
-        color: $highlight-color;
+        color: v.$highlight-color;
         display: inline-block;
     }
 
     &__text {
         font-size: clamp(0.9rem, 1.5vw, 1.3rem);
         margin-bottom: clamp(1.5rem, 4vh, 3rem);
-        color: $muted-text-color;
+        color: v.$muted-text-color;
         max-width: 40ch;
         line-height: 1.6;
     }
 
     &__button {
-        background: $highlight-color;
-        color: $inverse-color;
+        background: v.$highlight-color;
+        color: v.$inverse-color;
         border: none;
         padding: clamp(0.8rem, 2vh, 1.2rem) clamp(1.5rem, 4vw, 3rem);
         border-radius: 100px;
@@ -94,8 +94,8 @@
         transition: all 0.3s ease;
 
         &:hover {
-            background: $secondary-color;
-            color: $main-text-color;
+            background: v.$secondary-color;
+            color: v.$main-text-color;
             transform: scale(1.05);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
         }

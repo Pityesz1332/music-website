@@ -1,7 +1,8 @@
-@import '../../../styles/variables';
+@use '../../../styles/variables' as v;
+@use "sass:color";
 
 .manage-users {
-    color: $main-text-color;
+    color: v.$main-text-color;
     padding: 2rem;
     min-height: 100vh;
     overflow-x: hidden;
@@ -25,12 +26,12 @@
         border-radius: 8px;
         border: none;
         margin-bottom: 20px;
-        background: $card-color;
+        background: v.$card-color;
         color: inherit;
 
         &:focus {
             outline: none;
-            border-color: $muted-text-color;
+            border-color: v.$muted-text-color;
         }
 
         @media (max-width: 768px) { width: 100%; }
@@ -50,22 +51,22 @@
 
     &__label {
         font-size: 0.85rem;
-        color: $muted-text-color;
+        color: v.$muted-text-color;
         font-weight: 500;
     }
 
     &__input, &__select {
         padding: 12px;
         border-radius: 8px;
-        border: 1px solid rgba($muted-text-color, 0.2);
-        background: darken($card-color, 3%);
-        color: $main-text-color;
+        border: 1px solid rgba(v.$muted-text-color, 0.2);
+        background: color.adjust(v.$card-color, $lightness: -3%);
+        color: v.$main-text-color;
         font-size: 1rem;
 
         &:focus {
             outline: none;
-            border-color: $muted-text-color;
-            background: darken($card-color, 5%);
+            border-color: v.$muted-text-color;
+            background: color.adjust(v.$card-color, $lightness: -5%);
         }
     }
 }

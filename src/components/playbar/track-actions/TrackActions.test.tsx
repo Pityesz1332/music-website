@@ -2,8 +2,8 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { TrackActions } from "./TrackActions";
-import { NotificationType } from "../../../../context/NotificationContext";
-import { PLAYBAR_STRINGS } from "../../../../i18n/ui/playbar";
+import { NotificationType } from "../../../context/NotificationContext";
+import { PLAYBAR_STRINGS } from "../../../i18n/ui/playbar";
 
 describe("TrackActions", () => {
   const mockProps = {

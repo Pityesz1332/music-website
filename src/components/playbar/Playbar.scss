@@ -1,4 +1,4 @@
-@import '../../styles/variables';
+@use '../../styles/variables' as v;
 
 .playbar {
     position: fixed;
@@ -143,7 +143,7 @@
         margin: 0;
         font-size: 1rem;
         font-weight: 600;
-        color: $main-text-color;
+        color: v.$main-text-color;
 
         @media (min-width: 769px) and (max-width: 1024px) {
             font-size: 0.9rem;
@@ -160,7 +160,7 @@
     &__artist {
         margin: 2px 0 0 0;
         font-size: 0.85rem;
-        color: $muted-text-color;
+        color: v.$muted-text-color;
 
         @media (min-width: 769px) and (max-width: 1024px) {
             font-size: 0.75rem;
@@ -187,7 +187,7 @@
     
     &__time {
         font-size: 0.85rem;
-        color: $muted-text-color;
+        color: v.$muted-text-color;
         white-space: nowrap;
         font-variant-numeric: tabular-nums;
         
@@ -232,7 +232,7 @@
     &__control-button {
         background: none;
         border: none;
-        color: $main-text-color;
+        color: v.$main-text-color;
         cursor: pointer;
         transition: transform 0.2s ease, color 0.2s ease;
         display: flex;
@@ -242,7 +242,7 @@
         line-height: 1;
     
         &:hover {
-            color: $primary-color;
+            color: v.$primary-color;
             transform: scale(1.2);
         }
 
@@ -295,15 +295,15 @@
         &-filled {
             width: 0%;
             height: 100%;
-            background: $primary-color;
+            background: v.$primary-color;
             transition: width 0.3s ease;
         }
 
         & .playbar__tooltip {
             position: absolute;
             transform: translateX(-50%);
-            background: $card-color;
-            color: $main-text-color;
+            background: v.$card-color;
+            color: v.$main-text-color;
             padding: 4px 10px;
             border-radius: 6px;
             font-size: 0.75rem;
@@ -323,7 +323,7 @@
                 transform: translateX(-50%);
                 border-width: 5px;
                 border-style: solid;
-                border-color: $dark-accent-color transparent transparent transparent;
+                border-color: v.$dark-accent-color transparent transparent transparent;
             }
         }
 
@@ -387,14 +387,14 @@
         .playbar__volume-track {
             width: 100%;
             height: 6px;
-            background: $inverse-color;
+            background: v.$inverse-color;
             border-radius: 3px;
             position: relative;
         }
         
         .playbar__volume-fill {
             height: 100%;
-            background: $primary-color;
+            background: v.$primary-color;
             border-radius: 3px;
             transition: width 0.05s linear;
         }
@@ -406,7 +406,7 @@
             width: 13px;
             height: 13px;
             border-radius: 50%;
-            background: $main-text-color;
+            background: v.$main-text-color;
             pointer-events: none;
             transition: 0.1s ease;
         }
@@ -422,7 +422,7 @@
     &__action-button, &__reset-seeker, &__extra-button, &__save-button, &__download-button {
         background: none;
         border: none;
-        color: $main-text-color;
+        color: v.$main-text-color;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -430,14 +430,14 @@
         transition: 0.2s;
     
         &:hover { transform: scale(1.2); }
-        &--active { color: $primary-color; }
-        &--saved { svg { color: $primary-color; } }
+        &--active { color: v.$primary-color; }
+        &--saved { svg { color: v.$primary-color; } }
     }
     
     &__loader {
         width: 22px;
         height: 22px;
-        border: 3px solid $main-text-color;
+        border: 3px solid v.$main-text-color;
         border-top-color: transparent;
         border-radius: 50%;
         animation: spin 0.7s linear infinite;

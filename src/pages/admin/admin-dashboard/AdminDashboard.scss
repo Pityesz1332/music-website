@@ -1,7 +1,7 @@
-@import '../../../styles/variables';
+@use '../../../styles/variables' as v;
 
 .admin-dashboard {
-    color: $main-text-color;
+    color: v.$main-text-color;
     
     &__title {
         font-size: 2rem;
@@ -13,7 +13,7 @@
     }
     
     &__subtitle {
-        color: $primary-color;
+        color: v.$primary-color;
         margin-bottom: 30px;
 
         @media (max-width: 768px) {
@@ -45,23 +45,23 @@
 }
 
 .stat-card {
-    background: $card-color;
+    background: v.$card-color;
     padding: 20px;
     border-radius: 12px;
     text-align: center;
-    border: 1px solid $muted-text-color;
+    border: 1px solid v.$muted-text-color;
     transition: 0.2s;
 
     @media (max-width: 1024px) { padding: 18px; }
     @media (max-width: 768px) { padding: 16px; }
     @media (max-width: 640px) { padding: 14px; }
     
-    &:hover { background: $bg-color; }
+    &:hover { background: v.$bg-color; }
     
     &__label {
         font-size: 1rem;
         margin-bottom: 10px;
-        color: $main-text-color;
+        color: v.$main-text-color;
 
         @media (max-width: 640px) { font-size: 0.9rem; }
     }
@@ -69,7 +69,7 @@
     &__value {
         font-size: 2rem;
         font-weight: bold;
-        color: $primary-color;
+        color: v.$primary-color;
 
         @media (max-width: 768px) { font-size: 1.7rem; }
         @media (max-width: 640px) { font-size: 1.5rem; }
@@ -84,11 +84,11 @@
         display: flex;
         align-items: center;
         gap: 15px;
-        background: $card-color;
+        background: v.$card-color;
         padding: 15px;
         border-radius: 12px;
         margin-bottom: 15px;
-        border: 1px solid $muted-text-color;
+        border: 1px solid v.$muted-text-color;
 
         @media (max-width: 768px) { padding: 12px; gap: 10px; }
         @media (max-width: 640px) { padding: 10px; gap: 8px; }
@@ -113,7 +113,7 @@
     
     &__details {
         margin: 0;
-        color: $muted-text-color;
+        color: v.$muted-text-color;
         font-size: 0.9rem;
 
         @media (max-width: 640px) { font-size: 0.8rem; }

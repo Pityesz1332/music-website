@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { SongDetails } from "./SongDetails";
-import type { Song } from "../../../../types/music";
+import type { Song } from "../../../types/music";
 
 vi.mock("../../../utils/formatTime", () => ({
   formatTime: vi.fn((time) => `0:${time}`),

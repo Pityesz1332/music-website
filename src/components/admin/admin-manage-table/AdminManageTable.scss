@@ -1,4 +1,5 @@
-@import "../../../styles/variables";
+@use "../../../styles/variables" as v;
+@use "sass:color";
 
 .admin-table {
     &__header-row {
@@ -6,10 +7,10 @@
         gap: 2rem;
         padding: 0.8rem 1rem;
         font-weight: bold;
-        color: $muted-text-color;
+        color: v.$muted-text-color;
         text-transform: uppercase;
         font-size: 0.8rem;
-        border-bottom: 1px solid rgba($muted-text-color, 0.1);
+        border-bottom: 1px solid rgba(v.$muted-text-color, 0.1);
 
         span:last-child { text-align: right; margin-right: 0.7rem; }
         @media (max-width: 768px) { display: none; }
@@ -27,11 +28,11 @@
         align-items: center;
         gap: 1rem;
         padding: 0.8rem 1rem;
-        background: $card-color;
+        background: v.$card-color;
         border-radius: 12px;
         transition: transform 0.2s, background 0.2s;
 
-        &:hover { background: lighten($card-color, 5%) }
+        &:hover { background: color.adjust(v.$card-color, $lightness: 5%) }
     
         &__info {
             display: flex;
@@ -52,7 +53,7 @@
 
         &__title, &__name { font-weight: 600; margin: 0; }
 
-        &__id { color: $muted-text-color; font-size: 0.8rem; }
+        &__id { color: v.$muted-text-color; font-size: 0.8rem; }
 
         &__actions {
             display: flex;
@@ -60,7 +61,7 @@
             justify-content: flex-end;
 
             .btn--edit, .btn--delete {
-                color: $primary-color;
+                color: v.$primary-color;
                 background: none;
                 border: none;
                 padding: 8px;
@@ -70,7 +71,7 @@
                 display: flex;
                 align-items: center;
 
-                &:hover { background: rgba($primary-color, 0.1); color: $dark-accent-color; }
+                &:hover { background: rgba(v.$primary-color, 0.1); color: v.$dark-accent-color; }
             }
         }
 
@@ -81,12 +82,12 @@
             padding: 1.2rem;
 
             &__info {
-                border-bottom: 1px solid rgba($muted-text-color, 0.1);
+                border-bottom: 1px solid rgba(v.$muted-text-color, 0.1);
                 padding-bottom: 0.8rem;
             }
 
             &__actions {
-                border-top: 1px solid rgba($muted-text-color, 0.1);
+                border-top: 1px solid rgba(v.$muted-text-color, 0.1);
                 padding-top: 0.8rem;
                 margin-top: 0.8rem;
             }
@@ -102,7 +103,7 @@
 
         .song-item {
             &__cover { width: 45px; height: 45px; border-radius: 4px; object-fit: cover; }
-            &__genre, &__duration { color: $main-text-color; }
+            &__genre, &__duration { color: v.$main-text-color; }
 
             @media (max-width: 768px) {
                 &__meta {
@@ -110,7 +111,7 @@
                     justify-content: space-between;
                     font-size: 0.9rem;
 
-                    &::before { content: "Details"; font-weight: bold; color: $primary-color; }
+                    &::before { content: "Details"; font-weight: bold; color: v.$primary-color; }
                 }
             }
         }
@@ -122,7 +123,7 @@
         }
 
         .user-item {
-            &__email { font-size: 0.85rem; color: $muted-text-color; word-break: break-all; }
+            &__email { font-size: 0.85rem; color: v.$muted-text-color; word-break: break-all; }
 
             &__role {
                 @media (max-width: 768px) {
@@ -136,7 +137,7 @@
                     font-size: 0.75rem;
                     font-weight: bold;
                     text-transform: uppercase;
-                    &--admin { color: $primary-color; }
+                    &--admin { color: v.$primary-color; }
                 }
             }
         }

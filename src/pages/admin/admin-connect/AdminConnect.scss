@@ -1,4 +1,4 @@
-@import '../../../styles/variables';
+@use '../../../styles/variables' as v;
 
 .admin-connect-wrapper {
     display: flex;
@@ -15,8 +15,8 @@
     width: 100%;
     margin: 0;
     padding: 30px 25px;
-    background: $card-color;
-    border: 2px solid $dark-accent-color;
+    background: v.$card-color;
+    border: 2px solid v.$dark-accent-color;
     border-radius: 12px;
     box-shadow: 0 0 15px rgba(20, 20, 30, 0.9);
     display: flex;
@@ -39,7 +39,7 @@
     }
     
     &__title {
-        color: $primary-color;
+        color: v.$primary-color;
         margin-bottom: 20px;
         font-size: 1.8rem;
         text-align: center;
@@ -54,10 +54,10 @@
         width: 100%;
         padding: 12px 15px;
         margin-bottom: 20px;
-        border: 2px solid $muted-text-color;
+        border: 2px solid v.$muted-text-color;
         border-radius: 8px;
-        background: $card-color;
-        color: $main-text-color;
+        background: v.$card-color;
+        color: v.$main-text-color;
         font-size: 16px;
         outline: none;
         transition: border 0.2s ease;
@@ -68,17 +68,17 @@
         }
         
         &:focus {
-            border-color: $dark-accent-color;
+            border-color: v.$dark-accent-color;
         }
     }
 
     &__button {
         width: 100%;
         padding: 12px 15px;
-        background: $primary-color;
+        background: v.$primary-color;
         border: none;
         border-radius: 8px;
-        color: $main-text-color;
+        color: v.$main-text-color;
         font-size: 1rem;
         cursor: pointer;
         font-weight: bold;
@@ -89,7 +89,7 @@
         }
 
         &:hover {
-            background: $dark-accent-color;
+            background: v.$dark-accent-color;
             transform: scale(1.03);
         }
     }

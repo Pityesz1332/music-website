@@ -1,4 +1,4 @@
-@import '../../styles/variables';
+@use '../../styles/variables' as v;
 
 .notifications {
     position: fixed;
@@ -12,9 +12,9 @@
     &__item {
         padding: 12px 18px;
         border-radius: 8px;
-        color: $inverse-color;
+        color: v.$inverse-color;
         font-size: 15px;
-        background: $main-text-color;
+        background: v.$main-text-color;
         opacity: 0;
         animation: fadeInOut 3s forwards;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -22,19 +22,19 @@
         overflow: hidden;
 
         &--success {
-            .notifications__progress { background: $highlight-color; }
+            .notifications__progress { background: v.$highlight-color; }
         }
 
         &--error {
-            .notifications__progress { background: $primary-color; }
+            .notifications__progress { background: v.$primary-color; }
         }
 
         &--info {
-            .notifications__progress { background: $muted-text-color; }
+            .notifications__progress { background: v.$muted-text-color; }
         }
 
         &--warning {
-            .notifications__progress { background: $dark-accent-color; }
+            .notifications__progress { background: v.$dark-accent-color; }
         }
     }
 

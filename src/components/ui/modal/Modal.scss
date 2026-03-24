@@ -1,4 +1,4 @@
-@import '../../../styles/variables';
+@use '../../../styles/variables' as v;
 
 .modal {
     position: fixed;
@@ -14,7 +14,7 @@
     backdrop-filter: blur(4px);
 
     &__content {
-        background: $card-color;
+        background: v.$card-color;
         padding: 2rem;
         border-radius: 12px;
         position: relative;
@@ -28,14 +28,14 @@
     }
 
     &__title {
-        color: $main-text-color;
+        color: v.$main-text-color;
         margin: 0;
         font-size: 1.5rem;
     }
 
     &__subtitle {
         margin: 0.25rem 0 0;
-        color: $muted-text-color;
+        color: v.$muted-text-color;
         font-size: 0.9rem;
     }
 
@@ -57,11 +57,11 @@
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
-            background: $primary-color;
-            color: $main-text-color;
+            background: v.$primary-color;
+            color: v.$main-text-color;
 
             &:hover {
-                background: $dark-accent-color;
+                background: v.$dark-accent-color;
             }
         }
     }

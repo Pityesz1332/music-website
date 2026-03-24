@@ -1,4 +1,4 @@
-@import "../../styles/variables";
+@use "../../styles/variables" as v;
 
 .recently-played {
     padding: 0.5rem;
@@ -12,7 +12,7 @@
         margin-bottom: 0.5rem;
         text-transform: uppercase;
         letter-spacing: 1px;
-        color: $main-text-color;
+        color: v.$main-text-color;
         width: 100%;
         text-align: center;
     }
@@ -55,7 +55,7 @@
         align-items: center;
         gap: 15px;
         padding: 10px;
-        background: rgba($card-color, 0.05);
+        background: rgba(v.$card-color, 0.05);
         border-radius: 8px;
         cursor: pointer;
         transition: background 0.2s ease;
@@ -65,7 +65,7 @@
         font-family: inherit;
 
         &:hover {
-            background: rgba($card-color, 0.9);
+            background: rgba(v.$card-color, 0.9);
         }
 
         &-image {
@@ -84,12 +84,12 @@
         &-title {
             font-size: 1.1rem;
             font-weight: 600;
-            color: $main-text-color;
+            color: v.$main-text-color;
         }
 
         &-artist {
             font-size: 0.9rem;
-            color: $muted-text-color;
+            color: v.$muted-text-color;
         }
     }
 
@@ -98,7 +98,7 @@
         height: 50px;
         flex-shrink: 0;
         margin-bottom: 1rem;
-        box-shadow: 0 10px 30px rgba($card-color, 0.5);
+        box-shadow: 0 10px 30px rgba(v.$card-color, 0.5);
         border-radius: 6px;
         overflow: hidden;
     }
@@ -121,7 +121,7 @@
 
     &__artist {
         font-size: 0.9rem;
-        color: $muted-text-color;
+        color: v.$muted-text-color;
         opacity: 0.8;
         text-align: left;
     }

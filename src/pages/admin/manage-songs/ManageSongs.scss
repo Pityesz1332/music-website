@@ -1,8 +1,8 @@
-@import '../../../styles/variables';
+@use '../../../styles/variables' as v;
 
 .manage-songs {
     padding: 2rem;
-    color: $main-text-color;
+    color: v.$main-text-color;
     min-height: 100vh;
 
     @media (max-width: 1024px) { padding: 1.5rem; }
@@ -22,7 +22,7 @@
     &__title {
         font-size: 2rem;
         margin-bottom: 1.5rem;
-        color: $main-text-color;
+        color: v.$main-text-color;
 
         @media (max-width: 1024px) { font-size: 1.7rem; }
         @media (max-width: 768px) { font-size: 1.5rem; margin-bottom: 1rem; }
@@ -35,13 +35,13 @@
         padding: 0.8rem 1.2rem;
         border: none;
         border-radius: 8px;
-        background: $primary-color;
-        color: $main-text-color;
+        background: v.$primary-color;
+        color: v.$main-text-color;
         font-weight: bold;
         cursor: pointer;
         transition: 0.2s;
         
-        &:hover { background: $dark-accent-color; }
+        &:hover { background: v.$dark-accent-color; }
 
         @media (max-width: 480px) { width: 100%; justify-content: center; padding: 0.7rem 1rem; }
     }
@@ -60,9 +60,9 @@
     &__input {
         padding: 0.5rem;
         border-radius: 6px;
-        border: 1px solid rgba($muted-text-color, 0.2);
-        background: $bg-color;
-        color: $muted-text-color;
+        border: 1px solid rgba(v.$muted-text-color, 0.2);
+        background: v.$bg-color;
+        color: v.$muted-text-color;
 
         @media (max-width: 480px) { font-size: 0.9rem; }
     }
@@ -78,7 +78,7 @@
         align-items: center;
         gap: 8px;
         padding: 10px 16px;
-        color: $main-text-color;
+        color: v.$main-text-color;
         cursor: pointer;
         font-size: 0.95rem;
         margin-bottom: 10px;
