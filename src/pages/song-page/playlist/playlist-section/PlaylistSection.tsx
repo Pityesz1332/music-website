@@ -1,11 +1,11 @@
-import { useMusic } from "../../../../context/MusicContext";
-import { useNotification } from "../../../../context/NotificationContext";
-import { useSongClick } from "../../../../hooks/music/useSongClick";
-import { usePlaylistActions } from "../../../../hooks/music/usePlaylistActions";
-import { usePlaylistScroll } from "../../../../hooks/ui/usePlaylistScroll";
+import { useMusic } from "@context/MusicContext";
+import { useNotification } from "@context/NotificationContext";
+import { useSongClick } from "@hooks/music/useSongClick";
+import { usePlaylistActions } from "@hooks/music/usePlaylistActions";
+import { usePlaylistScroll } from "@hooks/ui/usePlaylistScroll";
+import { SONG_PAGE_STRINGS } from "@i18n/ui/song-page";
 import { PlaylistItem } from "../playlist-item/PlaylistItem";
 import { PlaylistMenu } from "../playlist-menu/PlaylistMenu";
-import { SONG_PAGE_STRINGS } from "../../../../i18n/ui/song-page";
 
 export const PlaylistSection = () => {
     const { notify } = useNotification();

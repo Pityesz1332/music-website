@@ -1,5 +1,5 @@
 import { ErrorState } from "../error-state/ErrorState";
-import { SONGS_STRINGS } from "../../../i18n/ui/songs";
+import { SONGS_STRINGS } from "@i18n/ui/songs";
 
 interface SongsStatusProps {
     loading: boolean;

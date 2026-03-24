@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Background } from "../../types/background";
+import { Background } from "@interfaces/background";
 
 export const useBackgroundChange = (backgrounds: Background[], intervalMs: number = 5000) => {
     const [bgIndex, setBgIndex] = useState<number>(0);

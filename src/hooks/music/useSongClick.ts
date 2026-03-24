@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { useMusic } from "../../context/MusicContext";
-import { getSongPath } from "../../routes/constants/MainRoutes";
-import type { Song } from "../../types/music";
+import { useMusic } from "@context/MusicContext";
+import { getSongPath } from "@routes/constants/MainRoutes";
+import type { Song } from "@interfaces/music";
 
 export const useSongClick = () => {
     const navigate = useNavigate();

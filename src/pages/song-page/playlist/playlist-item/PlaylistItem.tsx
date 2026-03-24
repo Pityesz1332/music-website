@@ -1,7 +1,7 @@
 import { ChevronUp, ChevronDown, X } from "lucide-react";
+import { PrimaryButton } from "@components/ui/button/PrimaryButton";
+import type { Song } from "@interfaces/music";
 import { SongActions } from "../../song-actions/SongActions";
-import { PrimaryButton } from "../../../../components/ui/button/PrimaryButton";
-import type { Song } from "../../../../types/music";
 
 interface PlaylistItemProps {
     song: Song;

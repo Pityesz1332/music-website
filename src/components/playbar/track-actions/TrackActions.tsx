@@ -1,9 +1,9 @@
 import { TimerReset, Repeat, Heart, Download } from "lucide-react";
 import { PrimaryButton } from "../../ui/button/PrimaryButton";
 import { VolumeControl } from "../volume-control/VolumeControl";
-import { PLAYBAR_STRINGS } from "../../../i18n/ui/playbar";
-import { NotificationType } from "../../../context/NotificationContext";
-import type { Song } from "../../../types/music";
+import { PLAYBAR_STRINGS } from "@i18n/ui/playbar";
+import { NotificationType } from "@context/NotificationContext";
+import type { Song } from "@interfaces/music";
 
 interface TrackActionsProps {
     volume: number;

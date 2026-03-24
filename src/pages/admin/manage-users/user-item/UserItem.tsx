@@ -1,6 +1,6 @@
 import { Edit, Trash2 } from "lucide-react";
-import { PrimaryButton } from "../../../../components/ui/button/PrimaryButton";
-import type { User } from "../../../../data/usersData";
+import { PrimaryButton } from "@components/ui/button/PrimaryButton";
+import type { User } from "@data/usersData";
 
 interface UserItemProps {
     user: User;

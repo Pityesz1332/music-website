@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MainRoutes } from "../../routes/constants/MainRoutes";
-import { useAdmin } from "../../context/AdminContext";
-import { useNotification, NotificationType } from "../../context/NotificationContext";
-import { ADMIN_AUTH_STRINGS } from "../../i18n/feedback/admin/admin-auth";
+import { MainRoutes } from "@routes/constants/MainRoutes";
+import { useAdmin } from "@context/AdminContext";
+import { useNotification, NotificationType } from "@context/NotificationContext";
+import { ADMIN_AUTH_STRINGS } from "@i18n/feedback/admin/admin-auth";
 
 export const useAdminAuth = () => {
     const [credentials, setCredentials] = useState({

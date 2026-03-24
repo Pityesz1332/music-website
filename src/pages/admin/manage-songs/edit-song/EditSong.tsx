@@ -1,8 +1,8 @@
 import { UploadIcon } from "lucide-react";
-import { Modal } from "../../../../components/ui/modal/Modal";
-import { PrimaryButton } from "../../../../components/ui/button/PrimaryButton";
-import { ADMIN_MANAGE_SONGS_STRINGS } from "../../../../i18n/ui/admin/manage-songs";
-import type { Song } from "../../../../types/music";
+import { Modal } from "@components/ui/modal/Modal";
+import { PrimaryButton } from "@components/ui/button/PrimaryButton";
+import { ADMIN_MANAGE_SONGS_STRINGS } from "@i18n/ui/admin/manage-songs";
+import type { Song } from "@interfaces/music";
 
 interface EditSongProps {
     song: Song | null;

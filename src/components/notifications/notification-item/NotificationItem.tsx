@@ -1,4 +1,4 @@
-import { Notification } from "../../../context/NotificationContext";
+import { Notification } from "@context/NotificationContext";
 
 interface NotificationItemProps {
     notification: Notification;

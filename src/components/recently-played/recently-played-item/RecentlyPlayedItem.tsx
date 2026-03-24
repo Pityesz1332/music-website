@@ -1,4 +1,4 @@
-import type { Song } from "../../../types/music";
+import type { Song } from "@interfaces/music";
 import { PrimaryButton } from "../../ui/button/PrimaryButton";
 
 interface RecentlyPlayedItemProps {

@@ -1,4 +1,4 @@
-import { SONGS_STRINGS } from "../../../i18n/ui/songs";
+import { SONGS_STRINGS } from "@i18n/ui/songs";
 
 export const SongsFooter = () => {
     return (

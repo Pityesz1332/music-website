@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { Background } from "../../../types/background";
+import { Background } from "@interfaces/background";
 
 interface BackgroundItemProps {
     bg: Background;

@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { usersData, User } from "../../data/usersData";
+import { usersData, User } from "@data/usersData";
 
 export const useUserManager = () => {
     const [users, setUsers] = useState<User[]>(usersData);

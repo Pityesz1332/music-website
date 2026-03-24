@@ -1,5 +1,5 @@
-import { useUploadSong } from "../../../hooks/admin/useUploadSong";
-import { ADMIN_UPLOAD_SONG_STRINGS } from "../../../i18n/ui/admin/upload-song";
+import { useUploadSong } from "@hooks/admin/useUploadSong";
+import { ADMIN_UPLOAD_SONG_STRINGS } from "@i18n/ui/admin/upload-song";
 import { AudioDropzone } from "./audio-dropzone/AudioDropzone";
 import { CoverUpload } from "./cover-upload/CoverUpload";
 import { SongFormFields } from "./song-form-fields/SongFormFields";

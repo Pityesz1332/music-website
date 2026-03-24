@@ -1,5 +1,5 @@
 import "./LoadingOverlay.scss";
-import { useLoading } from "../../../context/LoadingContext";
+import { useLoading } from "@context/LoadingContext";
 
 const LoadingOverlay = () => {
     const { isLoading } = useLoading();

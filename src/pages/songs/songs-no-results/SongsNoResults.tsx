@@ -1,6 +1,6 @@
-import { MainRoutes } from "../../../routes/constants/MainRoutes";
-import { SONGS_STRINGS } from "../../../i18n/ui/songs";
-import { PrimaryButton } from "../../../components/ui/button/PrimaryButton";
+import { MainRoutes } from "@routes/constants/MainRoutes";
+import { SONGS_STRINGS } from "@i18n/ui/songs";
+import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 
 interface SongsNoResultsProps {
     searchQuery: string;

@@ -1,11 +1,11 @@
 import { Copy } from "lucide-react";
-import { useMusic } from "../../context/MusicContext";
-import { useNotification, NotificationType } from "../../context/NotificationContext";
-import { RecentlyPlayed } from "../../components/recently-played/RecentlyPlayed";
-import { useAvatarUpload } from "../../hooks/general/useAvatarUpload";
-import { useClipboard } from "../../hooks/general/useClipboard";
-import { MY_ACCOUNT_STRINGS } from "../../i18n/ui/my-account";
-import { PrimaryButton } from "../../components/ui/button/PrimaryButton";
+import { useMusic } from "@context/MusicContext";
+import { useNotification, NotificationType } from "@context/NotificationContext";
+import { RecentlyPlayed } from "@components/recently-played/RecentlyPlayed";
+import { useAvatarUpload } from "@hooks/general/useAvatarUpload";
+import { useClipboard } from "@hooks/general/useClipboard";
+import { MY_ACCOUNT_STRINGS } from "@i18n/ui/my-account";
+import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import "./MyAccount.scss";
 
 export const MyAccount = () => {

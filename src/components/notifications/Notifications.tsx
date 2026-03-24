@@ -1,4 +1,4 @@
-import { useNotification, Notification } from "../../context/NotificationContext";
+import { useNotification, Notification } from "@context/NotificationContext";
 import { NotificationItem } from "./notification-item/NotificationItem";
 import "./Notifications.scss";
 

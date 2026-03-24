@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Filter } from "lucide-react";
-import { PrimaryButton } from "../../../components/ui/button/PrimaryButton";
-import { SONGS_STRINGS } from "../../../i18n/ui/songs";
+import { PrimaryButton } from "@components/ui/button/PrimaryButton";
+import { SONGS_STRINGS } from "@i18n/ui/songs";
 
 interface SongsFilterProps {
     genres: string[];

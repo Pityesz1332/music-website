@@ -1,5 +1,5 @@
-import { SONG_PAGE_STRINGS } from "../../../i18n/ui/song-page";
-import type { Song } from "../../../types/music";
+import { SONG_PAGE_STRINGS } from "@i18n/ui/song-page";
+import type { Song } from "@interfaces/music";
 
 interface SongCoverProps {
     currentSong: Song;

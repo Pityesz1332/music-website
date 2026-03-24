@@ -1,4 +1,4 @@
-import type { Song } from "../../../types/music"
+import type { Song } from "@interfaces/music";
 
 interface SongsCardProps {
     song: Song;

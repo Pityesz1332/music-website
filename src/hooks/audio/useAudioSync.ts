@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, RefObject } from "react";
-import { useMusic } from "../../context/MusicContext";
+import { useMusic } from "@context/MusicContext";
 
 export const useAudioSync = (
     audioRef: RefObject<HTMLAudioElement>,

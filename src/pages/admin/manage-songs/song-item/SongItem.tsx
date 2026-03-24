@@ -1,6 +1,6 @@
 import { Edit, Trash2 } from "lucide-react";
-import { PrimaryButton } from "../../../../components/ui/button/PrimaryButton";
-import type { Song } from "../../../../types/music";
+import { PrimaryButton } from "@components/ui/button/PrimaryButton";
+import type { Song } from "@interfaces/music";
 
 interface SongItemProps {
     song: Song;

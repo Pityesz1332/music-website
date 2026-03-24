@@ -1,10 +1,10 @@
 import { PlusCircle} from "lucide-react";
-import { UploadSong } from "../../../components/admin/upload-song/UploadSong";
-import { AdminManageTable } from "../../../components/admin/admin-manage-table/AdminManageTable";
-import { useSongManager } from "../../../hooks/admin/useSongManager";
+import { UploadSong } from "@components/admin/upload-song/UploadSong";
+import { AdminManageTable } from "@components/admin/admin-manage-table/AdminManageTable";
+import { useSongManager } from "@hooks/admin/useSongManager";
+import { PrimaryButton } from "@components/ui/button/PrimaryButton";
+import { ADMIN_MANAGE_SONGS_STRINGS } from "@i18n/ui/admin/manage-songs";
 import { SongItem } from "./song-item/SongItem";
-import { ADMIN_MANAGE_SONGS_STRINGS } from "../../../i18n/ui/admin/manage-songs";
-import { PrimaryButton } from "../../../components/ui/button/PrimaryButton";
 import { songs_headers } from "../table-headers/table-headers";
 import { EditSong } from "./edit-song/EditSong";
 import "./ManageSongs.scss";

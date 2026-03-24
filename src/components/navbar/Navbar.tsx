@@ -1,5 +1,5 @@
-import { useNavbarUI } from "../../hooks/ui/useNavbarUI";
-import { useAuth } from "../../context/AuthContext";
+import { useNavbarUI } from "@hooks/ui/useNavbarUI";
+import { useAuth } from "@context/AuthContext";
 import { NavLogo } from "./nav-logo/NavLogo";
 import { NavSearch } from "./nav-search/NavSearch";
 import { NavMenu } from "./nav-menu/NavMenu";

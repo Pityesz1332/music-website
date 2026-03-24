@@ -1,6 +1,6 @@
 import { RefObject } from "react";
 import { UploadCloud, Music } from "lucide-react";
-import { ADMIN_UPLOAD_SONG_STRINGS } from "../../../../i18n/ui/admin/upload-song";
+import { ADMIN_UPLOAD_SONG_STRINGS } from "@i18n/ui/admin/upload-song";
 
 interface AudioDropzoneProps {
     audioFile: File | null;

@@ -1,4 +1,4 @@
-import { ERROR_BOUNDARY_STRINGS } from "../../i18n/ui/error-boundary";
+import { ERROR_BOUNDARY_STRINGS } from "@i18n/ui/error-boundary";
 import { PrimaryButton } from "../ui/button/PrimaryButton";
 import "./ErrorBoundary.scss";
 

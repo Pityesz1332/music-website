@@ -1,7 +1,7 @@
-import { useUserManager } from "../../../hooks/admin/useUserManager";
+import { useUserManager } from "@hooks/admin/useUserManager";
+import { ADMIN_MANAGE_USERS_STRINGS } from "@i18n/ui/admin/manage-users";
+import { AdminManageTable } from "@components/admin/admin-manage-table/AdminManageTable";
 import { UserItem } from "./user-item/UserItem";
-import { ADMIN_MANAGE_USERS_STRINGS } from "../../../i18n/ui/admin/manage-users";
-import { AdminManageTable } from "../../../components/admin/admin-manage-table/AdminManageTable";
 import { users_headers } from "../table-headers/table-headers";
 import { EditUser } from "./user-edit/EditUser";
 import "./ManageUsers.scss";

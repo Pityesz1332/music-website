@@ -1,5 +1,5 @@
-import { formatTime } from "../../../utils/formatTime";
-import type { Song } from "../../../types/music";
+import { formatTime } from "@utils/formatTime";
+import type { Song } from "@interfaces/music";
 
 interface SongDetailsProps {
     song: Song;

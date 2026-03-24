@@ -1,6 +1,6 @@
-import { useAdminAuth } from "../../../hooks/admin/useAdminAuth";
-import { ADMIN_CONNECT_STRINGS } from "../../../i18n/ui/admin/connect";
-import { PrimaryButton } from "../../../components/ui/button/PrimaryButton";
+import { useAdminAuth } from "@hooks/admin/useAdminAuth";
+import { ADMIN_CONNECT_STRINGS } from "@i18n/ui/admin/connect";
+import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import "./AdminConnect.scss";
 
 export const AdminConnect = () => {

@@ -1,10 +1,10 @@
-import { MainRoutes } from "../../routes/constants/MainRoutes";
-import { RecentlyPlayed } from "../../components/recently-played/RecentlyPlayed";
-import { useBackgroundChange } from "../../hooks/ui/useBackgroundChange";
+import { MainRoutes } from "@routes/constants/MainRoutes";
+import { RecentlyPlayed } from "@components/recently-played/RecentlyPlayed";
+import { useBackgroundChange } from "@hooks/ui/useBackgroundChange";
 import { BackgroundItem } from "./background-item/BackgroundItem";
-import { Background } from "../../types/background";
-import { HOME_STRINGS } from "../../i18n/ui/home";
-import { PrimaryButton } from "../../components/ui/button/PrimaryButton";
+import { Background } from "@interfaces/background";
+import { HOME_STRINGS } from "@i18n/ui/home";
+import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import "./Home.scss";
 
 const backgrounds: Background[] = [

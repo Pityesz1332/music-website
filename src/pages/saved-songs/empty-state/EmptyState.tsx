@@ -1,4 +1,4 @@
-import { PrimaryButton } from "../../../components/ui/button/PrimaryButton";
+import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 
 interface EmptyStateProps {
     title: string;

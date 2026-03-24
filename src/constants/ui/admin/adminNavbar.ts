@@ -1,5 +1,5 @@
-import { MainRoutes } from "../../../routes/constants/MainRoutes";
-import { ADMIN_NAVBAR_STRINGS } from "../../../i18n/ui/admin/navbar";
+import { MainRoutes } from "@routes/constants/MainRoutes";
+import { ADMIN_NAVBAR_STRINGS } from "@i18n/ui/admin/navbar";
 
 export const ADMIN_NAV_ITEMS = [
     {

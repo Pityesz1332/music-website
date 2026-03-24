@@ -1,5 +1,5 @@
-import { ADMIN_MANAGE_SONGS_STRINGS } from "../../../i18n/ui/admin/manage-songs";
-import { ADMIN_MANAGE_USERS_STRINGS } from "../../../i18n/ui/admin/manage-users";
+import { ADMIN_MANAGE_SONGS_STRINGS } from "@i18n/ui/admin/manage-songs";
+import { ADMIN_MANAGE_USERS_STRINGS } from "@i18n/ui/admin/manage-users";
 
 export const songs_headers = [
     ADMIN_MANAGE_SONGS_STRINGS.TABLE.ID,

@@ -1,5 +1,5 @@
-import type { Song } from "../../../types/music";
-import { RECENTLY_PLAYED_STRINGS } from "../../../i18n/ui/recently-played";
+import type { Song } from "@interfaces/music";
+import { RECENTLY_PLAYED_STRINGS } from "@i18n/ui/recently-played";
 import { RecentlyPlayedItem } from "../recently-played-item/RecentlyPlayedItem";
 
 interface RecentlyPlayedListProps {

@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import { MainRoutes } from "../../routes/constants/MainRoutes";
-import { useMusic } from "../../context/MusicContext";
-import { useSongClick } from "../../hooks/music/useSongClick";
-import { useFilteringSaved } from "../../hooks/music/useFilteringSaved";
-import { PrimaryButton } from "../../components/ui/button/PrimaryButton";
-import { LoadingState } from "../../components/loading-state/LoadingState";
+import { MainRoutes } from "@routes/constants/MainRoutes";
+import { useMusic } from "@context/MusicContext";
+import { useSongClick } from "@hooks/music/useSongClick";
+import { useFilteringSaved } from "@hooks/music/useFilteringSaved";
+import { PrimaryButton } from "@components/ui/button/PrimaryButton";
+import { LoadingState } from "@components/loading-state/LoadingState";
+import { SAVED_STRINGS } from "@i18n/ui/saved";
+import type { Song } from "@interfaces/music";
 import { EmptyState } from "./empty-state/EmptyState";
-import { SAVED_STRINGS } from "../../i18n/ui/saved";
 import { SongsCard } from "../songs/songs-card/SongsCard";
-import type { Song } from "../../types/music";
 import "../songs/Songs.scss";
 
 export const Saved = () => {

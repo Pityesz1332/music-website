@@ -1,7 +1,7 @@
-import { Modal } from "../../../../components/ui/modal/Modal";
-import { PrimaryButton } from "../../../../components/ui/button/PrimaryButton";
-import { ADMIN_MANAGE_USERS_STRINGS } from "../../../../i18n/ui/admin/manage-users";
-import type { User } from "../../../../data/usersData";
+import { Modal } from "@components/ui/modal/Modal";
+import { PrimaryButton } from "@components/ui/button/PrimaryButton";
+import { ADMIN_MANAGE_USERS_STRINGS } from "@i18n/ui/admin/manage-users";
+import type { User } from "@data/usersData";
 
 interface EditUserProps {
     user: User | null;

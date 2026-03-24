@@ -2,11 +2,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Wallet } from "lucide-react";
 import { NavLink } from "../nav-link/NavLink";
 import { PrimaryButton } from "../../ui/button/PrimaryButton";
-import { NAVBAR_STRINGS } from "../../../i18n/ui/navbar";
-import { NAV_CONFIG } from "../../../constants/ui/navbar";
-import { useAuth } from "../../../context/AuthContext";
-import { useConnect } from "../../../hooks/auth/useConnect";
-import { useDisconnect } from "../../../hooks/auth/useDisconnect";
+import { NAVBAR_STRINGS } from "@i18n/ui/navbar";
+import { NAV_CONFIG } from "@constants/ui/navbar";
+import { useAuth } from "@context/AuthContext";
+import { useConnect } from "@hooks/auth/useConnect";
+import { useDisconnect } from "@hooks/auth/useDisconnect";
 
 interface NavMenuProps {
     isOpen: boolean;

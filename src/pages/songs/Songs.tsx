@@ -1,13 +1,13 @@
-import { useSongClick } from "../../hooks/music/useSongClick";
-import { useFilteringSongs } from "../../hooks/music/useFilteringSongs";
+import { useSongClick } from "@hooks/music/useSongClick";
+import { useFilteringSongs } from "@hooks/music/useFilteringSongs";
+import { SONGS_STRINGS } from "@i18n/ui/songs";
+import type { Song } from "@interfaces/music";
 import { SongsStatus } from "./songs-status/SongsStatus";
 import { SongsFilter } from "./songs-filter/SongsFilter";
 import { SongsNoResults } from "./songs-no-results/SongsNoResults";
 import { SongsCard } from "./songs-card/SongsCard";
 import { SongsPagination } from "./songs-pagination/SongsPagination";
 import { SongsFooter } from "./songs-footer/SongsFooter";
-import { SONGS_STRINGS } from "../../i18n/ui/songs";
-import type { Song } from "../../types/music";
 import "./Songs.scss";
 
 export const Songs = () => {

@@ -1,10 +1,10 @@
 // Csak bejelentkezett felhasználók
 import { Heart, Download } from "lucide-react";
-import { useAuth } from "../../../context/AuthContext";
-import { useMusic } from "../../../context/MusicContext";
-import { useToggleSave } from "../../../hooks/music/useToggleSave";
-import { PrimaryButton } from "../../../components/ui/button/PrimaryButton";
-import type { Song } from "../../../types/music";
+import { useAuth } from "@context/AuthContext";
+import { useMusic } from "@context/MusicContext";
+import { useToggleSave } from "@hooks/music/useToggleSave";
+import { PrimaryButton } from "@components/ui/button/PrimaryButton";
+import type { Song } from "@interfaces/music";
 
 interface SongActionsProps {
     song: Song;

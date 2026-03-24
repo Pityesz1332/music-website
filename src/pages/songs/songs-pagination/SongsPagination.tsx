@@ -1,5 +1,5 @@
-import { PrimaryButton } from "../../../components/ui/button/PrimaryButton";
-import { SONGS_STRINGS } from "../../../i18n/ui/songs";
+import { PrimaryButton } from "@components/ui/button/PrimaryButton";
+import { SONGS_STRINGS } from "@i18n/ui/songs";
 
 interface SongsPaginationProps {
     currentPage: number;

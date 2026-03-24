@@ -1,7 +1,7 @@
 import { Menu, X } from "lucide-react";
-import { useAdminNavbar } from "../../../hooks/admin/useAdminNavbar";
-import { ADMIN_NAVBAR_STRINGS } from "../../../i18n/ui/admin/navbar";
-import { ADMIN_NAV_ITEMS } from "../../../constants/ui/admin/adminNavbar";
+import { useAdminNavbar } from "@hooks/admin/useAdminNavbar";
+import { ADMIN_NAVBAR_STRINGS } from "@i18n/ui/admin/navbar";
+import { ADMIN_NAV_ITEMS } from "@constants/ui/admin/adminNavbar";
 import { AdminNavLink } from "./admin-nav-link/AdminNavLink";
 import { PrimaryButton } from "../../ui/button/PrimaryButton";
 import "./AdminNavbar.scss";

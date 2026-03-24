@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import songsData from "../../data/songs.json";
-import type { Song } from "../../types/music";
+import songsData from "@data/songs.json";
+import type { Song } from "@interfaces/music";
 
 export const useSongManager = () => {
     const [songs, setSongs] = useState<Song[]>(() => {

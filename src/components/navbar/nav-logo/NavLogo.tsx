@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { MainRoutes } from "../../../routes/constants/MainRoutes";
+import { MainRoutes } from "@routes/constants/MainRoutes";
 
 interface NavLogoProps {
     className?: string;
