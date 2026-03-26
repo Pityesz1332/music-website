@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Wallet } from "lucide-react";
 import { NavLink } from "../nav-link/NavLink";
 import { PrimaryButton } from "../../ui/button/PrimaryButton";
-import { Modal } from "@components/ui/modal/Modal";
+import { ConnectModal } from "./ConnectModal";
 import { NAVBAR_STRINGS } from "@i18n/ui/navbar";
 import { NAV_CONFIG } from "@constants/ui/navbar";
 import { useAuth } from "@context/AuthContext";
@@ -79,28 +79,12 @@ export const NavMenu = ({ isOpen, onClose }: NavMenuProps) => {
                 )}
             </div>
 
-            <Modal
+            <ConnectModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                title="Choose a connection method"
-                description="Connect with passkey or developer connect (test only)"
-                buttons={
-                    <>
-                        <PrimaryButton onClick={confirmConnect}>
-                            Connect with Passkey
-                        </PrimaryButton>
-                        <PrimaryButton onClick={confirmDeveloperConnect}>
-                            Use Dev Connect
-                        </PrimaryButton>
-                        <button
-                            className="modal__cancel-btn"
-                            onClick={() => setIsModalOpen(false)}
-                        >
-                            Cancel
-                        </button>
-                    </>
-                }
-            ></Modal>
+                onConfirmDemo={confirmConnect}
+                onConfirmDev={confirmDeveloperConnect}
+            />
         </div>
     );
 }

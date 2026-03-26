@@ -1,65 +1,52 @@
-import { Copy } from "lucide-react";
-import { useMusic } from "@context/MusicContext";
-import { useNotification, NotificationType } from "@context/NotificationContext";
 import { RecentlyPlayed } from "@components/recently-played/RecentlyPlayed";
-import { useAvatarUpload } from "@hooks/general/useAvatarUpload";
-import { useClipboard } from "@hooks/general/useClipboard";
-import { MY_ACCOUNT_STRINGS } from "@i18n/ui/my-account";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
+import { MY_ACCOUNT_STRINGS } from "@i18n/ui/my-account";
+import { useAccountActions } from "@hooks/user-account/useAccountActions";
+import { HistoryModal } from "./history-modal/HistoryModal";
+import { ProfileAvatar } from "./profile-avatar/ProfileAvatar";
+import { WalletSection } from "./wallet-section/WalletSection";
 import "./MyAccount.scss";
 
 export const MyAccount = () => {
-    const walletAddress = "0x123456789DEMO";
-    const shortWallet = walletAddress.slice(0, 6) + "..." + walletAddress.slice(-4);
-
-    const { avatar, handleAvatarChange } = useAvatarUpload(null);
-    const { copyToClipboard } = useClipboard();
-    const { notify } = useNotification();
-    const { clearRecentlyPlayed, recentlyPlayed } = useMusic();
-
-    const handleCopyWallet = () => {
-        copyToClipboard(walletAddress, "Wallet address copied");
-    };
-
-    const handleClearHistory = () => {
-        clearRecentlyPlayed();
-        notify(MY_ACCOUNT_STRINGS.MESSAGE, NotificationType.SUCCESS);
-    };
-
+    const {
+        avatar,
+        shortWallet,
+        isModalOpen,
+        hasRecentlyPlayed,
+        handleAvatarChange,
+        handleCopyWallet,
+        handleClearHistory,
+        openModal,
+        closeModal
+    } = useAccountActions();
     return (
         <div className="my-account">
             <h1 className="my-account__title">{MY_ACCOUNT_STRINGS.TITLE}</h1>
 
             <div className="my-account__profile-section">
-                <div className="my-account__avatar-container">
-                    <img src={avatar || "/assets/default-avatar.jpg"} alt="Avatar" className="my-account__avatar-image" />
-                    <input type="file" accept="image/*" onChange={handleAvatarChange} className="my-account__avatar-input" />
-                </div>
-
-                <div className="my-account__wallet-info">
-                    <span className="my-account__wallet-address">{shortWallet}</span>
-                    <PrimaryButton onClick={handleCopyWallet} className="my-account__copy-button">
-                        <Copy size={16} />
-                        <span className="my-account__copy-text">
-                            {MY_ACCOUNT_STRINGS.BUTTONS.COPY}
-                        </span>
-                    </PrimaryButton>
-                </div>
+                <ProfileAvatar avatar={avatar} onChange={handleAvatarChange} />
+                <WalletSection address={shortWallet} onCopy={handleCopyWallet} />
                 
                 <div className="recent-wrapper__profile">
                     <RecentlyPlayed />
                 
                 {/* előzmények törlése (ha van) */}
                     <div className="recent-wrapper__header">
-                        {recentlyPlayed.length > 0 && (
+                        {hasRecentlyPlayed && (
                             <PrimaryButton 
                                 className="recent-wrapper__clear-history-btn"
-                                onClick={handleClearHistory}
+                                onClick={openModal}
                             >
                                 {MY_ACCOUNT_STRINGS.BUTTONS.CLEAR_HISTORY}
                             </PrimaryButton>
                         )}
                     </div>
+
+                    <HistoryModal
+                        isOpen={isModalOpen}
+                        onClose={closeModal}
+                        onConfirm={handleClearHistory}
+                    />
                 </div>
             </div>
         </div>

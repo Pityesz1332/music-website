@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { useClipboard } from './useClipboard';
+import { useClipboard } from '../user-account/useClipboard';
 import { useNotification } from "../../context/NotificationContext";
 
 vi.mock("../../context/NotificationContext", () => ({

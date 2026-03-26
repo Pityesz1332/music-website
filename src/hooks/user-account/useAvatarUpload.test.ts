@@ -1,6 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import { useAvatarUpload } from "./useAvatarUpload";
+import { useAvatarUpload } from "../user-account/useAvatarUpload";
 
 describe("useAvatarUpload", () => {
   it("should initialize with the provided initial value", () => {
