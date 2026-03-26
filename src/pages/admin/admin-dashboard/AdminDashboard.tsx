@@ -1,10 +1,6 @@
 import songsData from "@data/songs.json";
-import type { Song } from "@interfaces/music";
 import { ADMIN_DASHBOARD_STRINGS } from "@i18n/ui/admin/dashboard";
 import "./AdminDashboard.scss";
-
-// típuskényszerítés
-const songs = songsData as Song[];
 
 export const AdminDashboard = () => {
     const totalSongs = songsData.length;

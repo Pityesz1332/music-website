@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useNavbarUI } from "@hooks/ui/useNavbarUI";
+import { useNavbarUI } from "@hooks/navbar/useNavbarUI";
 import { useClickOutside } from "@hooks/general/useClickOutside";
 import { useAuth } from "@context/AuthContext";
 import { NavLogo } from "./nav-logo/NavLogo";

@@ -1,15 +1,9 @@
-import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { Wallet } from "lucide-react";
 import { NavLink } from "../nav-link/NavLink";
 import { PrimaryButton } from "../../ui/button/PrimaryButton";
 import { ConnectModal } from "./ConnectModal";
 import { NAVBAR_STRINGS } from "@i18n/ui/navbar";
-import { NAV_CONFIG } from "@constants/ui/navbar";
-import { useAuth } from "@context/AuthContext";
-import { useConnect } from "@hooks/auth/useConnect";
-import { useDisconnect } from "@hooks/auth/useDisconnect";
-import { useDeveloperMode } from "@hooks/auth/useDeveloperMode";
+import { useNavMenu } from "@hooks/navbar/useNavMenu";
 
 interface NavMenuProps {
     isOpen: boolean;
@@ -17,41 +11,17 @@ interface NavMenuProps {
 }
 
 export const NavMenu = ({ isOpen, onClose }: NavMenuProps) => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const { isConnected } = useAuth();
-    const { handleDemoConnect } = useConnect();
-    const { handleDisconnect } = useDisconnect();
-    const { handleDevConnect } = useDeveloperMode();
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const handleNavigation = (path: string) => {
-        navigate(path);
-        onClose();
-    };
-
-    const onConnectClick = () => {
-        setIsModalOpen(true);
-    }
-
-    const confirmConnect = () => {
-        handleDemoConnect();
-        setIsModalOpen(false);
-        onClose();
-    }
-
-    const confirmDeveloperConnect = () => {
-        handleDevConnect();
-        setIsModalOpen(false);
-        onClose();
-    }
-
-    const onDisconnectClick = () => {
-        handleDisconnect();
-        onClose();
-    }
-
-    const menuItems = NAV_CONFIG.filter(item => !item.isProtected || (item.isProtected && isConnected));
+    const {
+        menuItems,
+        isModalOpen, setIsModalOpen,
+        isConnected,
+        location,
+        handleNavigation,
+        onConnectClick,
+        confirmConnect,
+        confirmDeveloperConnect,
+        onDisconnectClick
+    } = useNavMenu(onClose);
 
     return (
         <div className={`navbar__menu ${isOpen ? "navbar__menu--open" : ""}`}>

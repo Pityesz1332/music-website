@@ -4,7 +4,6 @@ import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import "./AdminConnect.scss";
 
 export const AdminConnect = () => {
-    
     const {
         credentials,
         isLoading,

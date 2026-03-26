@@ -9,19 +9,15 @@ interface NavSearchProps {
 export const NavSearch = ({ onActionComplete = () => {} }: NavSearchProps) => {
     const {
         searchTerm,
-        setSearchTerm,
         isFocused,
-        setIsFocused,
         executeSearch,
         handleKeyDown,
+        handleFocus,
+        handleChange,
         handleBlur
     } = useNavbarSearch(onActionComplete);
 
-    const onFocus = () => setIsFocused(true);
-
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.target.value);
-    };
+    
 
     return (
         <div className="navbar__search-wrapper">
@@ -30,9 +26,9 @@ export const NavSearch = ({ onActionComplete = () => {} }: NavSearchProps) => {
                 type="text"
                 placeholder={NAVBAR_STRINGS.PLACEHOLDER}
                 value={searchTerm}
-                onFocus={onFocus}
+                onFocus={handleFocus}
                 onBlur={handleBlur}
-                onChange={onChange}
+                onChange={handleChange}
                 onKeyDown={handleKeyDown}
             />
             {(searchTerm || isFocused) && (

@@ -19,6 +19,10 @@ export const useNavbarSearch = (closeMenu: () => void) => {
         }
     };
 
+    const handleFocus = () => setIsFocused(true);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value);
+
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             executeSearch();
@@ -30,9 +34,11 @@ export const useNavbarSearch = (closeMenu: () => void) => {
     };
 
     return {
-        searchTerm, setSearchTerm,
-        isFocused, setIsFocused,
+        searchTerm,
+        isFocused,
         executeSearch,
+        handleFocus,
+        handleChange,
         handleKeyDown,
         handleBlur
     };
