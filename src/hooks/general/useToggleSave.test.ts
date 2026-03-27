@@ -1,6 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { useToggleSave } from "./useToggleSave";
+import { useToggleSave } from "../general/useToggleSave";
 import { useNotification, NotificationType } from "../../context/NotificationContext";
 import { useMusic } from "../../context/MusicContext";
 import { TOGGLE_SAVE_STRINGS } from "../../i18n/feedback/toggle-save";

@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import { useNavbarSearch } from "@hooks/music/useNavbarSearch";
+import { useNavbarSearch } from "@hooks/navbar/useNavbarSearch";
 import { NAVBAR_STRINGS } from "@i18n/ui/navbar";
 
 interface NavSearchProps {

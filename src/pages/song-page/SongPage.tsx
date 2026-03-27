@@ -1,6 +1,6 @@
 import { ScrollToTop } from "@components/scroll-to-top/ScrollToTop";
 import { useMusic } from "@context/MusicContext";
-import { useSongInit } from "@hooks/audio/useSongInit";
+import { useSongInit } from "@hooks/playback/useSongInit";
 import { SONG_PAGE_STRINGS } from "@i18n/ui/song-page";
 import { Background } from "./background/Background";
 import { SongMainInfo } from "./song-info/SongMainInfo";
@@ -47,7 +47,8 @@ export const SongPage = () => {
                     <SongActions song={currentSong} />
                 </div>
             </div>
-
+            
+            {/* a playlist */}
             <PlaylistSection  />
 
             {/* mindig az oldal tetejére dob */}

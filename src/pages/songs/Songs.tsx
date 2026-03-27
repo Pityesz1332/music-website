@@ -1,5 +1,5 @@
-import { useSongClick } from "@hooks/music/useSongClick";
-import { useFilteringSongs } from "@hooks/music/useFilteringSongs";
+import { useSongClick } from "@hooks/music-control/useSongClick";
+import { useFilteringSongs } from "@hooks/music-control/useFilteringSongs";
 import { SONGS_STRINGS } from "@i18n/ui/songs";
 import type { Song } from "@interfaces/music";
 import { SongsStatus } from "./songs-status/SongsStatus";

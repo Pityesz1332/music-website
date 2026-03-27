@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { MainRoutes } from "@routes/constants/MainRoutes";
 import { useMusic } from "@context/MusicContext";
-import { useSongClick } from "@hooks/music/useSongClick";
-import { useFilteringSaved } from "@hooks/music/useFilteringSaved";
+import { useSongClick } from "@hooks/music-control/useSongClick";
+import { useFilteringSaved } from "@hooks/music-control/useFilteringSaved";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { LoadingState } from "@components/loading-state/LoadingState";
 import { SAVED_STRINGS } from "@i18n/ui/saved";

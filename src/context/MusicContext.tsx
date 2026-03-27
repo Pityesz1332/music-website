@@ -1,8 +1,8 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import type { Song } from "@interfaces/music";
-import { usePlayback } from "@hooks/audio/usePlayback";
-import { useRecentlyPlayed } from "@hooks/music/useRecentlyPlayed";
-import { useSaveSong } from "@hooks/music/useSaveSong";
+import { usePlayback } from "@hooks/playback/usePlayback";
+import { useRecentlyPlayed } from "@hooks/music-control/useRecentlyPlayed";
+import { useSaveSong } from "@hooks/music-control/useSaveSong";
 import { useDocumentTitle } from "@hooks/ui/useDocumentTitle";
 
 // ez a lista írja le hogy mit tud a rendszer
