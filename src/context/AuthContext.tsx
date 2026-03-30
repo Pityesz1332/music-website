@@ -41,6 +41,8 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         localStorage.setItem("isConnected", "true");
     };
 
+    // ez a dev login csak ideiglenes, hogy ne kelljen passkey-t használni fejlesztésnél
+    // megkerüli a passkey-es bejelentkezést
     const devLogin = () => {
         const dummyUser: PasskeyUser = {
             id: "dev-123",
@@ -54,6 +56,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         localStorage.setItem("passkeyUser", JSON.stringify(dummyUser));
     };
 
+    // regisztráljuk a user-t
     const register = async (): Promise<void> => {
         const user = await passkey.register();
         setUser(null);

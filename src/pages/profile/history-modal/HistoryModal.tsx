@@ -8,6 +8,7 @@ interface HistoryModalProps {
     onConfirm: () => void;
 }
 
+// modal az előzmény törlések megerősítéséhez
 export const HistoryModal = ({ isOpen, onClose, onConfirm }: HistoryModalProps) => {
     return (
         <Modal

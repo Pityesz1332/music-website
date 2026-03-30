@@ -6,6 +6,8 @@ interface useClickOutsideProps {
     enabled?: boolean;
 }
 
+// figyeli a dokumentumon belüli kattintásokat
+// és jelzi, ha azok a megadott elemen kívül történnek
 export const useClickOutside = ({ ref, callback, enabled = true }: useClickOutsideProps) => {
     const savedCallback = useRef(callback);
     

@@ -8,6 +8,7 @@ interface UserItemProps {
     onDelete: (id: number) => void;
 }
 
+// mutatja a user-ek adatait és felel az edit és delete kezeléséért
 export const UserItem = ({ user, onEdit, onDelete }: UserItemProps) => {
     return (
         <div className="user-item">

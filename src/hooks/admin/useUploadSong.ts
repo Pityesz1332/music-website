@@ -53,6 +53,7 @@ export const useUploadSong = (onSave: (song: any) => void) => {
         }
     };
 
+    // borítókép megváltoztatása
     const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file && file.type.startsWith("image/")) {

@@ -22,6 +22,9 @@ interface TrackActionsProps {
     notify: (message: string, type: NotificationType) => void;
 }
 
+// a playbar jobb oldali panelje, amely extra funkciókat biztosít. 
+// azért különítettem el, mert ezek a funkciók 
+// a külső állapotoktól függenek (pl. bejelentkezett állapot)
 export const TrackActions = ({
     volume,
     volumeWrapperRef,
@@ -39,10 +42,13 @@ export const TrackActions = ({
     notify
 }: TrackActionsProps) => {
 
+    // lokális segédfüggvény 
+    // az aktuális zene ismétlésének kapcsolásához
     const handleToggleLoop = () => {
         setIsLooping(!isLooping);
     };
 
+    // aktuális zene mentése + UI feedback
     const handleSaveToggle = () => {
         if (isSaved) {
             removeSavedSong(song.id);

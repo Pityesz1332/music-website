@@ -7,6 +7,7 @@ interface SongsPaginationProps {
     setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
+// oldalak számozása és oldalváltás kezelése, ha egynél több oldal van. 
 export const SongsPagination = ({ currentPage, totalPages, setCurrentPage }: SongsPaginationProps) => {
     if (totalPages <= 1) return null;
 

@@ -10,6 +10,7 @@ interface PrimaryButtonProps {
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
+// az alkalmazás "okos" gomb eleme.
 export const PrimaryButton = ({
     children,
     className = "",

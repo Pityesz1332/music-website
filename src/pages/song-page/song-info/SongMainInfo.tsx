@@ -10,6 +10,7 @@ interface SongDetailsProps {
     currentSong: Song;
 }
 
+// a dal vizuális megjelenítése
 export const SongMainInfo = {
     Cover: ({ currentSong, isPlaying }: SongCoverProps) => (
         <div className="song-page__cover-wrapper">

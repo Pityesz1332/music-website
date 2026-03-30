@@ -9,6 +9,7 @@ interface UsePasskeyReturn {
     error: string | null;
 }
 
+// itt minden mock adatokkal működik jelenleg, de majd átírom, ha lesz backend
 export function usePasskey(): UsePasskeyReturn {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);

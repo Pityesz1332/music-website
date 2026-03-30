@@ -3,6 +3,8 @@ import { ADMIN_CONNECT_STRINGS } from "@i18n/ui/admin/connect";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import "./AdminConnect.scss";
 
+// egy adminiztrációs panel a belépéshez.
+// a folyamatot a useAdminAuth hook központosítja.
 export const AdminConnect = () => {
     const {
         credentials,

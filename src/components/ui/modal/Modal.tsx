@@ -12,6 +12,8 @@ interface ModalProps {
     buttons?: ReactNode;
 }
 
+// modal komponens, amit mindenhol tudunk használni 
+// az aktuális igényekhez igazítva.
 export const Modal = ({
     isOpen,
     onClose,
@@ -27,6 +29,8 @@ export const Modal = ({
         if (e.target === e.currentTarget) onClose();
     };
 
+    // azért használunk portal-t, mert az ablaknak 
+    // vizuálisan az app fölött kell lennie.
     return createPortal(
         <div className="modal" onClick={handleOverlayClick}>
             <div className="modal__content">

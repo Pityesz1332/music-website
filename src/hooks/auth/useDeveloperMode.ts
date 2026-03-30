@@ -1,6 +1,7 @@
 import { useAuth } from "@context/AuthContext";
 import { useNotification, NotificationType } from "@context/NotificationContext";
 
+// dev login (ideiglenes, fejlesztéshez)
 export const useDeveloperMode = () => {
     const { devLogin } = useAuth();
     const { notify } = useNotification();

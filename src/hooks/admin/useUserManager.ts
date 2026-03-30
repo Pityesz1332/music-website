@@ -21,14 +21,17 @@ export const useUserManager = () => {
         setUsers(prev => prev.filter(u => u.id !== id));
     };
 
+    // szerkesztőmódba lépés
     const startEditing = (user: User) => {
         setEditUser({ ...user });
     };
 
+    // kilépés a szerkesztőmódból
     const cancelEditing = () => {
         setEditUser(null);
     };
 
+    // user adatainak szerkesztése
     const handleEditChange = (field: keyof User, value: string) => {
         setEditUser(prev => (prev ? { ...prev, [field]: value } : prev));
     };

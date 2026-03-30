@@ -8,7 +8,8 @@ interface NavLinkProps {
     isActive: boolean;
     onClick: () => void;
 }
-
+ 
+// a path prop-ot itt hagyom, mert a későbbiekben kellhet
 export const NavLink = ({ path, label, Icon, isActive, onClick }: NavLinkProps) => {
     return (
         <div

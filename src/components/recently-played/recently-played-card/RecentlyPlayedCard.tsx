@@ -7,6 +7,10 @@ interface RecentlyPlayedCardProps {
     onPlay: (item: Song) => void;
 }
 
+// egy kártya, amely az utoljára lejátszott zenét mutatja
+// azért kapja az item objektumot, hogy kattintára azonnal
+// indíthassa a lejátszást anélkül, hogy a szülőnek újra kellene
+// keresnie az adatokat
 export const RecentlyPlayedCard = ({ item, fade, onPlay }: RecentlyPlayedCardProps) => {
     return (
         <section className="recently-played">

@@ -16,6 +16,8 @@ interface PlaylistItemProps {
     setItemRef: (id: string, el: HTMLDivElement | null) => void;
 }
 
+// kártya, ami támogatja a lejátszást, a kontextus menüt 
+// és a manuális sorrendezést
 export const PlaylistItem = ({
     song,
     isCurrent,

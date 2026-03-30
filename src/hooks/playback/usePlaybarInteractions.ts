@@ -1,5 +1,7 @@
 import { useState, useEffect, RefObject } from "react";
 
+// a playbar fizikai viselkedését vezérli.
+// kezeli a görgetési ütközéseket és sáv kinyitását/becsukását.
 export const usePlaybarInteractions = (playbarRef: RefObject<HTMLDivElement | null>) => {
     const [isManuallyCollapsed, setIsManuallyCollapsed] = useState<boolean>(true);
 
@@ -22,6 +24,7 @@ export const usePlaybarInteractions = (playbarRef: RefObject<HTMLDivElement | nu
         }
     }, [playbarRef]);
 
+    // intelligens kattintáskezelő
     const handlePlaybarTap = (e: React.MouseEvent<HTMLDivElement>) => {
         const target = e.target as HTMLElement;
 

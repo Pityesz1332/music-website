@@ -6,6 +6,10 @@ interface BackgroundItemProps {
     isActive: boolean;
 }
 
+// ez a kód felel a háttérelemek rendereléséért.
+// a memo itt fontos. megakadályozza, hogy háttérelem
+// újrarenderelődjön, ha a szülő koponens állapota változik, 
+// de ez az adott háttér nem érintett.
 export const BackgroundItem = memo(({ bg, isActive }: BackgroundItemProps) => {
     const bgClass = `home__background ${isActive ? "home__background--active" : ""}`;
 

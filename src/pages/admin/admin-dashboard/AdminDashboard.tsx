@@ -2,6 +2,7 @@ import songsData from "@data/songs.json";
 import { ADMIN_DASHBOARD_STRINGS } from "@i18n/ui/admin/dashboard";
 import "./AdminDashboard.scss";
 
+// az adminfelület kezdőolala
 export const AdminDashboard = () => {
     const totalSongs = songsData.length;
     const totalGenres = new Set(songsData.map(s => s.genre)).size;

@@ -6,10 +6,14 @@ interface SongFormFieldsProps {
         artist: string;
         genre: string;
     };
+    // partial használata, 
+    // hogy csak azt a mezőt frissítsük, amelyik éppen változott
     updateForm: (values: Partial<{ title: string; artist: string; genre: string; }>) => void;
 }
 
 export const SongFormFields = ({ form, updateForm }: SongFormFieldsProps) => {
+    // ez biztosítja, hogy a függvény bármilyen szöveges 
+    // mezővel működjön, ami a form-ban szerepel
     const handleInputChange = (field: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => {
         updateForm({ [field]: e.target.value });
     };

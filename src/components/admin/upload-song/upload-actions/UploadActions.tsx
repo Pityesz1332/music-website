@@ -10,6 +10,8 @@ interface UploadActionsProps {
 
 export const UploadActions = ({ isUploading, onUpload, onCancel }: UploadActionsProps) => {
     return (
+        // a disabled állapot fontos, hogy 
+        // megakadályozza a double-submit hibát
         <div className="upload-song__actions">
             <PrimaryButton
                 className="upload-song__button upload-song__button--save"

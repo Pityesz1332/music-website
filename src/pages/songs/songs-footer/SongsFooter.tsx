@@ -1,5 +1,7 @@
 import { SONGS_STRINGS } from "@i18n/ui/songs";
 
+// egyszerű footer komponens, 
+// ami jelenleg csak a songs oldalon elérhető
 export const SongsFooter = () => {
     return (
         <footer className="songs__footer">

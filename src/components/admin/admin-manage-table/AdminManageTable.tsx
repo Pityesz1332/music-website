@@ -1,6 +1,7 @@
 import React from "react";
 import "./AdminManageTable.scss";
 
+// generikus típus, kódduplikáció elkerülése
 interface AdminManageTableProps<T> {
     items: T[];
     headers: string[];
@@ -16,7 +17,9 @@ export const AdminManageTable = <T extends { id: string | number }> ({
     variant,
     className = ""
 }: AdminManageTableProps<T>) => {
-    
+
+    // a renderelési logika különszervezése, 
+    // hogy könnyebb legyen a hibakeresés és bővítés
     const renderRow = (item: T) => (
         <React.Fragment key={item.id}>
             {renderItem(item)}
@@ -28,6 +31,7 @@ export const AdminManageTable = <T extends { id: string | number }> ({
     )
     
     return (
+        // dinamikus osztálynevek
         <div className={`admin-table admin-table--${variant} ${className}`}>
             <div className="admin-table__header-row">
                 {headers.map(renderHeader)}

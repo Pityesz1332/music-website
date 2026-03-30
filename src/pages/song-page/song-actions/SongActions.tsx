@@ -9,6 +9,9 @@ interface SongActionsProps {
     isMini?: boolean;
 }
 
+// megjeleníti a dalhoz tartozó interakciós gombokat
+// biztonsági szűrővel rendelkezik. 
+// bejelentkezett állapottól függően rendereli a gombokat.
 export const SongActions = ({ song, isMini = false }: SongActionsProps) => {
     const {
         isConnected,

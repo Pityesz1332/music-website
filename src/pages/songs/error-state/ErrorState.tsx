@@ -5,6 +5,7 @@ interface ErrorStateProps {
     onBtnClick?: () => void;
 }
 
+// eetleges hiba kezelése
 export const ErrorState = ({ title, txt, btnTxt, onBtnClick }: ErrorStateProps) => {
     return (
         <div className="songs__status-container">

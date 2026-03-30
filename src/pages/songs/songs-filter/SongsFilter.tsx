@@ -9,6 +9,8 @@ interface SongsFilterProps {
     onGenreChange: (genre: string) => void;
 }
 
+// dinamikus szűrőpanel, amely lehetővé teszi a user-nek, 
+// hogy műfajok szerint (egyelőre) szűkítse a dallistát.
 export const SongsFilter = ({ genres, selectedGenre, onGenreChange }: SongsFilterProps) => {
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 

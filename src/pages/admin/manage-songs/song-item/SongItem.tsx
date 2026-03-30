@@ -8,6 +8,8 @@ interface SongItemProps {
     onDelete: (id: string) => void;
 }
 
+// táblázat komponens
+// mutatja a dal adatait az admin felületen
 export const SongItem = ({ song, onEdit, onDelete }: SongItemProps) => {
     return (
         <div className="song-item">

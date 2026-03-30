@@ -6,6 +6,7 @@ interface RecentlyPlayedItemProps {
     onPlay: (song: Song) => void;
 }
 
+// listaelrendezés (a profil oldalnál van használva)
 export const RecentlyPlayedItem = ({ song, onPlay }: RecentlyPlayedItemProps) => {
     return (
         <PrimaryButton

@@ -24,10 +24,15 @@ export const AudioElement = ({
     onNext
 }: AudioElementProps) => {
 
+    // adatbetöltés kezelése
     const handleLoadedData = () => {
         setIsLoading(false);
     };
 
+    // külső vezérlés szinkronizálása.
+    // ha natív felületen indítják el a zenét, 
+    // ezzel a függvénnyel kényzerítjük a react állapotunkat, 
+    // hogy maradjon szinkronban.
     const handlePlay = () => {
         setIsLoading(false);
         if (!isPlaying) {

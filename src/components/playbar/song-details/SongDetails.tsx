@@ -6,6 +6,7 @@ interface SongDetailsProps {
     currentTime: number;
 }
 
+// adatok a playbar-on (bal oldal)
 export const SongDetails = ({ song, currentTime }: SongDetailsProps) => {
     return (
         <div className="playbar__left">

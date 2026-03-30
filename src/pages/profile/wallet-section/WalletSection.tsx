@@ -7,6 +7,7 @@ interface WalletSectionProps {
     onCopy: () => void;
 }
 
+// copy wallet gomb a profil oldalon
 export const WalletSection = ({ address, onCopy }: WalletSectionProps) => {
     return (
         <div className="my-account__wallet-info">

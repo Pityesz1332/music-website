@@ -9,6 +9,7 @@ interface ConnectModalProps {
     onConfirmDev: () => void;
 }
 
+// modal, hogy kiválaszthassa a user a login módját
 export const ConnectModal = ({ isOpen, onClose, onConfirmDemo, onConfirmDev }: ConnectModalProps) => {
     return (
         <Modal

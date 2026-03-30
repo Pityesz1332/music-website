@@ -5,6 +5,8 @@ interface NavMobileToggleProps {
     onToggle: () => void;
 }
 
+// mobil megjelenítés esetén 
+// a navbar hamburger menüvé alakul
 export const NavMobileToggle = ({ isOpen, onToggle }: NavMobileToggleProps) => {
     return (
         <div className="navbar__hamburger" onClick={onToggle}>

@@ -10,6 +10,7 @@ interface NavMenuProps {
     onClose: () => void;
 }
 
+// a fő navigációs lista és wallet kezelés
 export const NavMenu = ({ isOpen, onClose }: NavMenuProps) => {
     const {
         menuItems,

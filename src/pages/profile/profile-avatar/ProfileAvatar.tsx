@@ -3,6 +3,7 @@ interface ProfileAvatarProps {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
+// profilképváltoztatás
 export const ProfileAvatar = ({ avatar, onChange }: ProfileAvatarProps) => {
     const defaultAvatar = "/assets/default-avatar.jpg";
 
