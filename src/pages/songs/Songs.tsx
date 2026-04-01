@@ -19,11 +19,15 @@ export const Songs = () => {
         genres,
         selectedGenre,
         searchQuery,
+        sortField,
+        sortOrder,
         currentPage, setCurrentPage,
         totalPages,
         loading,
         error,
         handleGenreChange,
+        handleSort,
+        clearFilters,
         retry
     } = useFilteringSongs(15);
 
@@ -44,6 +48,10 @@ export const Songs = () => {
                     genres={genres}
                     selectedGenre={selectedGenre}
                     onGenreChange={handleGenreChange}
+                    sortField={sortField}
+                    sortOrder={sortOrder}
+                    onSort={handleSort}
+                    onClear={clearFilters}
                 />
 
                     
