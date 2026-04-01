@@ -39,13 +39,44 @@
     &__filter-section {
         margin-bottom: 2rem;
 
-        h4 {
+        .songs__filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 1.25rem;
-            font-size: clamp(1rem, 1.5vw, 1.1rem);
-            color: v.$main-text-color;
-            border-bottom: 1px solid rgba(v.$muted-text-color, 0.2);
             padding-bottom: 0.5rem;
-            text-transform: uppercase;
+            
+            h4 {
+                margin-bottom: 1.25rem;
+                font-size: clamp(1rem, 1.5vw, 1.1rem);
+                color: v.$main-text-color;
+                border-bottom: 1px solid rgba(v.$muted-text-color, 0.2);
+                padding-bottom: 0.5rem;
+                text-transform: uppercase;
+            }
+        }
+
+        .songs__section-clear-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: none;
+            border: none;
+            color: v.$muted-text-color;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            transition: all 0.2s ease;
+
+            &:hover {
+                color: v.$primary-color;
+            }
+
+            svg {
+                opacity: 0.8;
+            }
         }
     }
 

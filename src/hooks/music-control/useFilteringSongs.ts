@@ -124,8 +124,13 @@ export const useFilteringSongs = (itemsPerPage: number = 15) => {
 
     // sorting kezelése
     const handleSort = (field: SortField, order: SortOrder) => {
-        setSortField(field);
-        setSortOrder(order);
+        if (sortField === field && sortOrder === order) {
+            setSortField("none");
+            setSortOrder("none");
+        } else {
+            setSortField(field);
+            setSortOrder(order);
+        }
     };
 
     return {

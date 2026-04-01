@@ -1,4 +1,4 @@
-import { SortAsc, SortDesc } from "lucide-react";
+import { SortAsc, SortDesc, RotateCcw } from "lucide-react";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { Modal } from "@components/ui/modal/Modal";
 import { SONGS_STRINGS } from "@i18n/ui/songs";
@@ -32,6 +32,9 @@ export const FilterModal = ({
         onClose();
     };
 
+    const isSortActive = sortField !== "none" || sortOrder !== "none";
+    const isGenreActive = selectedGenre !== "All";
+
     const isSortOrderMissing = !sortOrder || sortOrder === "none";
 
     return (
@@ -49,10 +52,21 @@ export const FilterModal = ({
                     </PrimaryButton>
                 </div>
             }
-        >
+            >
             <div className="songs__filter-modal-content">
                 <section className="songs__filter-section">
-                    <h4>{SONGS_STRINGS.FILTER.SORT_ORDER}</h4>
+                    <div className="songs__filter-header">
+                        <h4>{SONGS_STRINGS.FILTER.SORT_ORDER}</h4>
+                            {isSortActive && (
+                                <PrimaryButton
+                                    className="songs__section-clear-btn"
+                                    onClick={() => onSort("none", "none")}
+                                >
+                                    <RotateCcw size={14} />
+                                </PrimaryButton>
+                            )}
+                    </div>
+                    
                     <div className="songs__sort-order-grid">
                         <PrimaryButton
                             className={`songs__sort-button ${sortOrder === "asc" ? "active" : ""}`}
@@ -88,7 +102,18 @@ export const FilterModal = ({
                 </section>
 
                 <section className="songs__filter-section">
-                    <h4>{SONGS_STRINGS.FILTER.GENRES_TITLE}</h4>
+                    <div className="songs__filter-header">
+                        <h4>{SONGS_STRINGS.FILTER.GENRES_TITLE}</h4>
+                            {isGenreActive && (
+                                <PrimaryButton
+                                    className="songs__section-clear-btn"
+                                    onClick={() => onGenreChange("All")}
+                                >
+                                    <RotateCcw size={14} />
+                                </PrimaryButton>
+                            )}
+                    </div>
+
                     <div className="songs__genre-grid">
                         {genres.map((genre) => (
                             <PrimaryButton
