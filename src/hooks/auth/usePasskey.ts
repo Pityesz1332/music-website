@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useConnection } from "wagmi";
 import { registerPasskey, authPasskey, isWebAuthnSupported, PasskeyUser } from "@utils/passkeyHelpers";
 
 interface UsePasskeyReturn {
@@ -14,12 +15,14 @@ export function usePasskey(): UsePasskeyReturn {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const isSupported = isWebAuthnSupported();
+    const { address } = useConnection();
 
     const register = async (): Promise<PasskeyUser> => {
+        if (!address) throw new Error("No wallet connected");
         setLoading(true);
         setError(null);
         try {
-            const user = await registerPasskey();
+            const user = await registerPasskey(address);
             // MOCK - backend-nél ez nem kell. szerver kezeli majd.
             localStorage.setItem("passkeyUser", JSON.stringify(user));
             return user;
@@ -33,10 +36,11 @@ export function usePasskey(): UsePasskeyReturn {
     };
 
     const authenticate = async (): Promise<PasskeyUser> => {
+        if (!address) throw new Error("No wallet connected");
         setLoading(true);
         setError(null);
         try {
-            return await authPasskey();
+            return await authPasskey(address);
         } catch (err) {
             const message = err instanceof Error ? err.message : "Unknown error";
             setError(message);

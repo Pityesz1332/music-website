@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { useConnect as useWagmiConnect, useDisconnect as useWagmiDisconnect, useConnectors } from "wagmi";
+import { injected } from "wagmi/connectors";
 import { usePasskey } from "@hooks/auth/usePasskey";
 import { PasskeyUser } from "@utils/passkeyHelpers";
 
@@ -21,6 +23,9 @@ export function AuthProvider({ children }: {children: ReactNode}) {
     const [loading, setLoading] = useState<boolean>(true);
     const [user, setUser] = useState<PasskeyUser | null>(null);
     const passkey = usePasskey();
+    const wagmiConnect = useWagmiConnect();
+    const wagmiDisconnect = useWagmiDisconnect();
+    const connectors = useConnectors();
 
     // ha bejelentkezünk, a bejelentkezett állapot marad, frissítésnél is
     useEffect(() => {
@@ -35,6 +40,8 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 
     // connecting logika (passkey-el)
     const connect = async (): Promise<void> =>  {
+        const connector = connectors[0] ?? injected();
+        await wagmiConnect.mutateAsync({ connector });
         const user = await passkey.authenticate();
         setUser(user);
         setIsConnected(true);
@@ -58,17 +65,21 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 
     // regisztráljuk a user-t
     const register = async (): Promise<void> => {
+        const connector = connectors[0] ?? injected();
+        await wagmiConnect.mutateAsync({ connector });
         const user = await passkey.register();
-        setUser(null);
+        setUser(user);
         setIsConnected(true);
         localStorage.setItem("isConnected", "true");
     };
 
     // disconnect logika
     const disconnect = async (): Promise<void> => {
+        await wagmiDisconnect.mutateAsync();
         setIsConnected(false);
         setUser(null);
         localStorage.removeItem("isConnected");
+        localStorage.removeItem("passkeyUser");
     };
 
     return (
