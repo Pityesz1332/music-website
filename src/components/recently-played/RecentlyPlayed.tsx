@@ -1,15 +1,17 @@
-import { useLocation } from "react-router-dom";
 import { useMusic } from "@context/MusicContext";
 import { useRecentlyPlayedUI } from "@hooks/ui/useRecentlyPlayedUI";
 import { RecentlyPlayedList } from "./recently-played-list/RecentlyPlayedList";
 import { RecentlyPlayedCard } from "./recently-played-card/RecentlyPlayedCard";
 import "./RecentlyPlayed.scss";
 
-export const RecentlyPlayed = () => {
-    const location = useLocation();
-    const isProfilePage = location.pathname === "/myaccount"
+interface RecentlyPlayedProps {
+    isProfilePage?: boolean;
+}
+
+export const RecentlyPlayed = ({ isProfilePage = false }: RecentlyPlayedProps) => {
     const { recentlyPlayed, playSong } = useMusic();
     const { currentItem, fade } = useRecentlyPlayedUI(recentlyPlayed, isProfilePage);
+    
 
     if (recentlyPlayed.length === 0) return null;
 

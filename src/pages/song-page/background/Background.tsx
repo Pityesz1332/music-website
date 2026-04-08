@@ -1,4 +1,5 @@
 import type { Song } from "@interfaces/music";
+import "./Background.scss";
 
 interface BackgroundProps {
     currentSong: Song;

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useMemo, ReactNode } from "react";
 import type { Song } from "@interfaces/music";
 import { usePlayback } from "@hooks/playback/usePlayback";
 import { useRecentlyPlayed } from "@hooks/music-control/useRecentlyPlayed";
@@ -17,7 +17,7 @@ interface MusicContextType {
     togglePlay: () => void;
     nextSong: () => void;
     prevSong: () => void;
-    setPlaylist: (song: Song[]) => void;
+    setPlaylist: (songs: Song[]) => void;
     saveSong: (song: Song) => void;
     removeSavedSong: (songId: string) => void;
     clearRecentlyPlayed: () => void;
@@ -40,7 +40,6 @@ export function MusicProvider({ children }: MusicProviderProps) {
     const { savedSongs, saveSong, removeSavedSong } = useSaveSong();
     const { playSong, togglePlay, nextSong, prevSong } = usePlayback({
         currentSong,
-        isPlaying,
         playlist,
         setCurrentSong,
         setIsPlaying,
@@ -50,22 +49,27 @@ export function MusicProvider({ children }: MusicProviderProps) {
     // böngésző tab cím frissítése
     useDocumentTitle(currentSong, isPlaying);
 
+    const value = useMemo(() => ({
+        currentSong,
+        isPlaying,
+        playlist,
+        playSong,
+        togglePlay,
+        nextSong,
+        prevSong,
+        setPlaylist,
+        savedSongs,
+        saveSong,
+        removeSavedSong,
+        recentlyPlayed,
+        clearRecentlyPlayed
+    }), [
+        currentSong, isPlaying, playlist, playSong, togglePlay, nextSong, prevSong,
+        setPlaylist, savedSongs, saveSong, removeSavedSong, recentlyPlayed, clearRecentlyPlayed
+    ]);
+
     return (
-        <MusicContext.Provider value={{
-            currentSong,
-            isPlaying,
-            playlist,
-            playSong,
-            togglePlay,
-            nextSong,
-            prevSong,
-            setPlaylist,
-            savedSongs,
-            saveSong,
-            removeSavedSong,
-            recentlyPlayed,
-            clearRecentlyPlayed
-        }}>
+        <MusicContext.Provider value={value}>
             {children}
         </MusicContext.Provider>
     );

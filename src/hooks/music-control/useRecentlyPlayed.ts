@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { Song } from "@interfaces/music";
 
 // ezen a néven mentjük az adatokat
@@ -25,17 +25,17 @@ export const useRecentlyPlayed = () => {
 
     // hozzáadjuk az új dalt az előzményekhez
     // mindig a legutóbb hallgatott lesz az első
-    const addToRecentlyPlayed = (song: Song) => {
+    const addToRecentlyPlayed = useCallback((song: Song) => {
         setRecentlyPlayed(prev => {
             const filtered = prev.filter(s => s.id !== song.id);
             return [song, ...filtered].slice(0, MAX_ITEMS);
         });
-    };
+    }, []);
 
     // előzmények törlése
-    const clearRecentlyPlayed = () => {
+    const clearRecentlyPlayed = useCallback(() => {
         setRecentlyPlayed([]);
-    };
+    }, []);
 
     return { recentlyPlayed, addToRecentlyPlayed, clearRecentlyPlayed };
 }

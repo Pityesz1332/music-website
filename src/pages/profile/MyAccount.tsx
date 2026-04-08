@@ -28,7 +28,7 @@ export const MyAccount = () => {
                 <WalletSection address={shortWallet} onCopy={handleCopyWallet} />
                 
                 <div className="recent-wrapper__profile">
-                    <RecentlyPlayed />
+                    <RecentlyPlayed isProfilePage={true} />
                 
                 {/* előzmények törlése (ha van) */}
                     <div className="recent-wrapper__header">
