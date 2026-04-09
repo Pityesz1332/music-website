@@ -55,21 +55,23 @@ export const Songs = () => {
                 />
 
                     
-                {filteredSongs.length === 0 && (
+                {filteredSongs.length === 0 ? (
                     <SongsNoResults searchQuery={searchQuery} />
+                ) : (
+                    <>
+                        <div className="songs__grid">
+                            {currentSongs.map((song) => (
+                                <SongsCard
+                                    key={song.id}
+                                    song={song}
+                                    onClick={onSongCardClick}
+                                />
+                            ))}
+                        </div>
+                    
+                        <SongsPagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
+                    </>
                 )}
-
-                <div className="songs__grid">
-                    {currentSongs.map((song) => (
-                        <SongsCard
-                            key={song.id}
-                            song={song}
-                            onClick={onSongCardClick}
-                        />
-                    ))}
-                </div>
-
-                <SongsPagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
             </div>
 
             <SongsFooter />

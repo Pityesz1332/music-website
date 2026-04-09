@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export const useRecentlyPlayedUI = (recentlyPlayed: any[], isProfilePage: boolean) => {
+export const useRecentlyPlayedUI = <T>(recentlyPlayed: T[], isProfilePage: boolean) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [fade, setFade] = useState<boolean>(true);
 
@@ -18,23 +18,26 @@ export const useRecentlyPlayedUI = (recentlyPlayed: any[], isProfilePage: boolea
             return;
         }
 
+        let timer: ReturnType<typeof setTimeout>;
+
         const interval = setInterval(() => {
             setFade(false);
 
-            const timer = setTimeout(() => {
+            timer = setTimeout(() => {
                 setCurrentIndex((prevIndex) => prevIndex === recentlyPlayed.length - 1 ? 0 : prevIndex + 1);
                 setFade(true);
             }, 300);
-
-            return () => clearTimeout(timer);
         }, 3000);
 
-        return () => clearInterval(interval);
-    }, [recentlyPlayed, isProfilePage]);
+        return () => {
+            clearInterval(interval);
+            if (timer) clearTimeout(timer);
+        }
+    }, [recentlyPlayed.length, isProfilePage]);
 
     return {
         currentIndex, setCurrentIndex,
-        currentItem: recentlyPlayed[currentIndex],
+        currentItem: recentlyPlayed[currentIndex] as T | undefined,
         fade
     };
 };

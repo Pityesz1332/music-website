@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Filter } from "lucide-react";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { FilterModal } from "./filter-modal/FilterModal";
@@ -28,11 +28,7 @@ export const SongsFilter = ({
 }: SongsFilterProps) => {
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
-    const handleGenreClick = (genre: string) => {
-        onGenreChange(genre);
-    };
-
-    const getFilterLabel = () => {
+    const filterLabel = useMemo(() => {
         const activeFilters: string[] = [];
 
         if (selectedGenre !== "All") {
@@ -48,7 +44,7 @@ export const SongsFilter = ({
         if (activeFilters.length === 0) return SONGS_STRINGS.FILTER.LABEL;
 
         return activeFilters.join(" | ");
-    }
+    }, [selectedGenre, sortField, sortOrder]);
 
     const isFiltered = selectedGenre !== "All" || sortField !== "none";
 
@@ -60,7 +56,7 @@ export const SongsFilter = ({
             >
                 <div className="songs__filter-label">
                     <Filter size={18} className="songs__filter-icon" />
-                    <span>{getFilterLabel()}</span>
+                    <span>{filterLabel}</span>
                 </div>
             </PrimaryButton>
 
@@ -69,7 +65,7 @@ export const SongsFilter = ({
                 onClose={() => setIsFilterOpen(false)}
                 genres={genres}
                 selectedGenre={selectedGenre}
-                onGenreChange={handleGenreClick}
+                onGenreChange={onGenreChange}
                 sortField={sortField}
                 sortOrder={sortOrder}
                 onSort={onSort}

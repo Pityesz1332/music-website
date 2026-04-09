@@ -18,7 +18,6 @@ export const usePlayback = ({
     setIsPlaying,
     addToRecentlyPlayed,
 }: PlaybackLogicProps) => {
-    console.log("loop test");
     // zene elindítása (ha nem ugyanaz a zene)
     const playSong = useCallback((song: Song) => {
         if (currentSong?.id !== song.id) {
