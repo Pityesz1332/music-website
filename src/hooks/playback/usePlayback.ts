@@ -7,6 +7,7 @@ interface PlaybackLogicProps {
     playlist: Song[];
     setCurrentSong: Dispatch<SetStateAction<Song | null>>;
     setIsPlaying: Dispatch<SetStateAction<boolean>>;
+    setPlaylist: Dispatch<SetStateAction<Song[]>>;
     addToRecentlyPlayed: (song: Song) => void;
 }
 
@@ -16,16 +17,21 @@ export const usePlayback = ({
     playlist,
     setCurrentSong,
     setIsPlaying,
+    setPlaylist,
     addToRecentlyPlayed,
 }: PlaybackLogicProps) => {
     // zene elindítása (ha nem ugyanaz a zene)
-    const playSong = useCallback((song: Song) => {
+    const playSong = useCallback((song: Song, newPlaylist?: Song[]) => {
+        if (newPlaylist) {
+            setPlaylist(newPlaylist);
+        }
+
         if (currentSong?.id !== song.id) {
             setCurrentSong(song);
             addToRecentlyPlayed(song);
         }
         setIsPlaying(true);
-    }, [currentSong, setCurrentSong, addToRecentlyPlayed, setIsPlaying]);
+    }, [currentSong, setCurrentSong, setPlaylist, addToRecentlyPlayed, setIsPlaying]);
 
     // play-stop gomb működése
     const togglePlay = useCallback(() => {

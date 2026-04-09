@@ -13,7 +13,7 @@ interface MusicContextType {
     savedSongs: Song[];
     recentlyPlayed: Song[];
 
-    playSong: (song: Song) => void;
+    playSong: (song: Song, newPlaylist?: Song[]) => void;
     togglePlay: () => void;
     nextSong: () => void;
     prevSong: () => void;
@@ -34,7 +34,6 @@ export function MusicProvider({ children }: MusicProviderProps) {
     const [currentSong, setCurrentSong] = useState<Song | null>(null);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [playlist, setPlaylist] = useState<Song[]>([]);
-
     // hook-ok
     const { recentlyPlayed, addToRecentlyPlayed, clearRecentlyPlayed } = useRecentlyPlayed();
     const { savedSongs, saveSong, removeSavedSong } = useSaveSong();
@@ -43,9 +42,10 @@ export function MusicProvider({ children }: MusicProviderProps) {
         playlist,
         setCurrentSong,
         setIsPlaying,
+        setPlaylist,
         addToRecentlyPlayed
     });
-
+    
     // böngésző tab cím frissítése
     useDocumentTitle(currentSong, isPlaying);
 
