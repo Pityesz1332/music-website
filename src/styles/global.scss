@@ -21,6 +21,10 @@ body:hover::-webkit-scrollbar-thumb {
     background: v.$muted-text-color;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 html, body {
     overflow: auto;
 }

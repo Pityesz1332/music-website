@@ -4,19 +4,19 @@ import { SONGS_STRINGS } from "@i18n/ui/songs";
 interface SongsPaginationProps {
     currentPage: number;
     totalPages: number;
-    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+    onPageChange: (page: number) => void;
 }
 
 // oldalak számozása és oldalváltás kezelése, ha egynél több oldal van. 
-export const SongsPagination = ({ currentPage, totalPages, setCurrentPage }: SongsPaginationProps) => {
+export const SongsPagination = ({ currentPage, totalPages, onPageChange }: SongsPaginationProps) => {
     if (totalPages <= 1) return null;
 
     const handlePrevPage = () => {
-        setCurrentPage((prev) => Math.max(prev - 1, 1));
+        onPageChange(Math.max(currentPage - 1, 1));
     };
 
     const handleNextPage = () => {
-        setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+        onPageChange(Math.min(currentPage + 1, totalPages));
     };
 
     return (

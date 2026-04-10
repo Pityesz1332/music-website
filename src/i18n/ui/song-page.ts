@@ -12,9 +12,11 @@ export const SONG_PAGE_STRINGS = {
     },
     PLAYLIST: {
         TITLE: "Following up songs",
+        EMPTY_MESSAGE: "Your playlist is empty",
+        EMPTY_BTN: "Listen now"
     },
     CONTEXT_MENU: {
         EDIT: "Edit",
         DELETE: "Delete",
-    }
+    },
 } as const;

@@ -1,5 +1,6 @@
 import { ScrollToTop } from "@components/scroll-to-top/ScrollToTop";
 import { useMusic } from "@context/MusicContext";
+import { useLoading } from "@context/LoadingContext";
 import { useSongInit } from "@hooks/playback/useSongInit";
 import { SONG_PAGE_STRINGS } from "@i18n/ui/song-page";
 import { Background } from "./background/Background";
@@ -14,8 +15,17 @@ export const SongPage = () => {
         currentSong, isPlaying, playlist,
         togglePlay, setPlaylist, nextSong, prevSong
     } = useMusic();
+    const { isLoading } = useLoading();
 
     useSongInit({ playlist, setPlaylist });
+
+    if (isLoading) {
+        return ( 
+            <div className="song-page song-page--loading">
+                <div className="song-page__spinner"></div>
+            </div>
+        );
+    }
 
     // hibakezelés, ha nem találjuk az adott zenét
     if (!currentSong) {

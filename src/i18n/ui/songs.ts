@@ -6,6 +6,8 @@ export const SONGS_STRINGS = {
     },
     TITLE: "Sounds for Every Moment",
     FILTER: {
+        ALL: "All",
+        NONE: "none",
         LABEL: "Filter",
         GENRE_PREFIX: "Genre: ",
         SORT_PREFIX: "Sort: ",

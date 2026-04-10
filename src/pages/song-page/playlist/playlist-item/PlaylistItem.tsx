@@ -40,14 +40,17 @@ export const PlaylistItem = ({
     };
 
     const handleContextMenu = (e: React.MouseEvent) => {
+        e.stopPropagation();
         onContextMenu(e, song.id);
     };
 
     const handleMoveUp = (e: React.MouseEvent) => {
+        e.stopPropagation();
         onMove(e, "up", song.id);
     };
 
     const handleMoveDown = (e: React.MouseEvent) => {
+        e.stopPropagation();
         onMove(e, "down", song.id);
     };
 

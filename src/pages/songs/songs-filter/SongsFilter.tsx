@@ -31,11 +31,11 @@ export const SongsFilter = ({
     const filterLabel = useMemo(() => {
         const activeFilters: string[] = [];
 
-        if (selectedGenre !== "All") {
+        if (selectedGenre !== SONGS_STRINGS.FILTER.ALL) {
             activeFilters.push(`${SONGS_STRINGS.FILTER.GENRE_PREFIX}${selectedGenre}`);
         }
 
-        if (sortField !== "none") {
+        if (sortField !== SONGS_STRINGS.FILTER.NONE) {
             const fieldLabel = sortField === "name" ? SONGS_STRINGS.FILTER.BY_NAME : SONGS_STRINGS.FILTER.BY_DURATION;
             const orderLabel = sortOrder === "asc" ?  SONGS_STRINGS.FILTER.ASC : SONGS_STRINGS.FILTER.DESC;
             activeFilters.push(`${SONGS_STRINGS.FILTER.SORT_PREFIX}${fieldLabel} - ${orderLabel}`);
@@ -52,7 +52,7 @@ export const SongsFilter = ({
         <div className="songs__filter-wrapper">
             <PrimaryButton
                 className={`songs__filter-toggle ${isFiltered ? "songs__filter-toggle--active" : ""}`}
-                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                onClick={() => setIsFilterOpen(prev => !prev)}
             >
                 <div className="songs__filter-label">
                     <Filter size={18} className="songs__filter-icon" />

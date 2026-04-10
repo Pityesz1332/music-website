@@ -15,7 +15,8 @@ interface PlaylistMenuProps {
 export const PlaylistMenu = ({ contextMenu, menuRef, onEdit, onDelete }: PlaylistMenuProps) => {
     if (!contextMenu) return null;
 
-    const handleEditClick = () => {
+    const handleEditClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
         onEdit(contextMenu.songId);
     };
 

@@ -69,7 +69,7 @@ export const Songs = () => {
                             ))}
                         </div>
                     
-                        <SongsPagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
+                        <SongsPagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                     </>
                 )}
             </div>
