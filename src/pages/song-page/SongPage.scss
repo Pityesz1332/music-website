@@ -272,8 +272,14 @@
             }
         }
     }
-
-
+    
+    &__modal-actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem;
+    }
+    
     &__mini-card {
         background: rgba(255, 255, 255, 0.08);
         padding: clamp(0.5rem, 2vw, 0.75rem);

@@ -5,6 +5,7 @@ import { useSongClick } from "@hooks/music-control/useSongClick";
 import { usePlaylistActions } from "@hooks/playlist/usePlaylistActions";
 import { usePlaylistScroll } from "@hooks/ui/usePlaylistScroll";
 import { SONG_PAGE_STRINGS } from "@i18n/ui/song-page";
+import { Modal } from "@components/ui/modal/Modal";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { MainRoutes } from "@routes/constants/MainRoutes";
 import { PlaylistItem } from "../playlist-item/PlaylistItem";
@@ -17,7 +18,8 @@ export const PlaylistSection = () => {
 
     const {
         contextMenu, editingSongId, menuRef, handleContextMenu,
-        handleEdit, closeEditMode, moveSong, handleDelete
+        handleEdit, closeEditMode, moveSong, openDeleteModal, confirmDelete,
+        isDeleteModalOpen, setIsDeleteModalOpen, songToDelete
     } = usePlaylistActions({
         playlist,
         setPlaylist,
@@ -76,9 +78,32 @@ export const PlaylistSection = () => {
                     contextMenu={contextMenu}
                     menuRef={menuRef}
                     onEdit={handleEdit}
-                    onDelete={handleDelete}
+                    onDelete={openDeleteModal}
                 />
             )}
+
+            <Modal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                title={SONG_PAGE_STRINGS.MODAL.DELETE_TITLE}
+                description={SONG_PAGE_STRINGS.MODAL.DELETE_DESCRIPTION(songToDelete?.title || "")}
+                buttons={
+                    <div className="song-page__modal-actions">
+                        <PrimaryButton
+                            className="cancel-btn"
+                            onClick={() => setIsDeleteModalOpen(false)}
+                        >
+                            {SONG_PAGE_STRINGS.MODAL.CANCEL}
+                        </PrimaryButton>
+                        <PrimaryButton
+                            className="confirm-btn"
+                            onClick={confirmDelete}
+                        >
+                            {SONG_PAGE_STRINGS.MODAL.CONFIRM}
+                        </PrimaryButton>
+                    </div>
+                }
+            />
         </>
     );
 };

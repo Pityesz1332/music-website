@@ -21,6 +21,10 @@ export const usePlaylistActions = ({
 }: UsePlaylistActionsProps) => {
     const [contextMenu, setContextMenu] = useState<{ x: number, y: number, songId: string } | null>(null);
     const [editingSongId, setEditingSongId] = useState<string | null>(null);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+    const [songToDelete, setSongToDelete] = useState<Song | null>(null);
+
+    
     const menuRef = useRef<HTMLDivElement | null>(null);
 
     // kívülre kattintás figyelése és menü bezárása
@@ -68,22 +72,28 @@ export const usePlaylistActions = ({
     };
 
     // zene törlése a listából megerősítás után
-    const handleDelete = (songId: string) => {
-        const songToDelete = playlist.find(s => s.id === songId);
-        const confirmDelete = window.confirm(
-            `Are you sure you want to delete ${songToDelete?.title} from the playlist?`
-        );
-
-        if (confirmDelete) {
-            const newPlaylist = playlist.filter(s => s.id !== songId);
-            setPlaylist(newPlaylist);
-            notify(PLAYLIST_ACTIONS_STRINGS.MESSAGE, NotificationType.SUCCESS);
-
-            if (currentSong?.id === songId && newPlaylist.length > 0) {
-                nextSong();
-            }
+    const openDeleteModal = (songId: string) => {
+        const song = playlist.find(s => s.id === songId);
+        if (song) {
+            setSongToDelete(song);
+            setIsDeleteModalOpen(true);
         }
         setContextMenu(null);
+    };
+
+    const confirmDelete = () => {
+        if (!songToDelete) return;
+
+        const newPlaylist = playlist.filter(s => s.id !== songToDelete.id);
+        setPlaylist(newPlaylist);
+        notify(PLAYLIST_ACTIONS_STRINGS.MESSAGE, NotificationType.SUCCESS);
+
+        if (currentSong?.id === songToDelete.id && newPlaylist.length > 0) {
+            nextSong();
+        }
+
+        setIsDeleteModalOpen(false);
+        setSongToDelete(null);
     };
 
     return {
@@ -94,6 +104,10 @@ export const usePlaylistActions = ({
         handleEdit,
         closeEditMode,
         moveSong,
-        handleDelete
+        openDeleteModal,
+        confirmDelete,
+        isDeleteModalOpen,
+        setIsDeleteModalOpen,
+        songToDelete
     };
 };

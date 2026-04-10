@@ -19,4 +19,10 @@ export const SONG_PAGE_STRINGS = {
         EDIT: "Edit",
         DELETE: "Delete",
     },
+    MODAL: {
+        DELETE_TITLE: "Delete Song",
+        DELETE_DESCRIPTION: (songTitle: string) => `Are you sure you want to remove "${songTitle}" from the playlist?`,
+        CONFIRM: "Confirm",
+        CANCEL: "Cancel",
+    }
 } as const;
