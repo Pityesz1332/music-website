@@ -1,4 +1,5 @@
 import React from "react";
+import { ADMIN_MANAGE_TABLE_STRINGS } from "@i18n/ui/admin/admin-manage-table";
 import "./AdminManageTable.scss";
 
 // generikus típus, kódduplikáció elkerülése
@@ -41,7 +42,7 @@ export const AdminManageTable = <T extends { id: string | number }> ({
                 {items.length > 0 ? (
                     items.map(renderRow)
                 ) : (
-                    <div className="admin-table__empty">No data</div>
+                    <div className="admin-table__empty">{ADMIN_MANAGE_TABLE_STRINGS.NO_DATA}</div>
                 )}
             </div>
         </div>

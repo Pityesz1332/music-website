@@ -2,10 +2,9 @@ import { useState, useMemo, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import type { Song } from "@interfaces/music";
 
-export const useFilteringSaved = (savedSongs: Song[]) => {
+export const useFilteringSaved = (savedSongs: Song[], itemsPerPage: number = 15) => {
     const location = useLocation();
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const itemsPerPage = 15;
 
     const queryParams = new URLSearchParams(location.search);
     const searchQuery = queryParams.get("search")?.toLowerCase() ?? "";
@@ -20,7 +19,7 @@ export const useFilteringSaved = (savedSongs: Song[]) => {
     // ha új keresés indul, vissza az első oldalra
     useEffect(() => {
         setCurrentPage(1);
-    }, [searchQuery]);
+    }, [searchQuery, itemsPerPage]);
 
     const totalPages = Math.ceil(filteredSongs.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;

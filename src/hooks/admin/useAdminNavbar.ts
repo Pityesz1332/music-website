@@ -1,16 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MainRoutes } from "@routes/constants/MainRoutes";
 
 export const useAdminNavbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
-
+    
     const [shrink, setShrink] = useState<boolean>(false);
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-
+    
     // segédfüggvény az aktív menüponthoz
     const isActive = (path: string) => location.pathname === path;
+    
+    const closeMenu = useCallback(() => {
+        setIsMenuOpen(false);
+    }, []);
+
+    // hamburger menü kapcsolója
+    const toggleMenu = () => {
+        setIsMenuOpen(prev => !prev);
+    };
 
     // görgetés figyelése, navbar összenyomása
     useEffect(() => {
@@ -24,17 +33,13 @@ export const useAdminNavbar = () => {
 
     // automatikus navbar zárás oldalváltáskor
     useEffect(() => {
-        setIsMenuOpen(false);
-    }, [location]);
+        closeMenu();
+    }, [location, closeMenu]);
 
     // ez még csak navigációkezelés a kijelentkezéshez
     const handleDisconnect = () => {
+        closeMenu();
         navigate(MainRoutes.HOME);
-    };
-
-    // hamburger menü kapcsolója
-    const toggleMenu = () => {
-        setIsMenuOpen(prev => !prev);
     };
 
     return {
@@ -42,6 +47,7 @@ export const useAdminNavbar = () => {
         isMenuOpen,
         isActive,
         handleDisconnect,
-        toggleMenu
+        toggleMenu,
+        closeMenu
     };
 };

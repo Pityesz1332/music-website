@@ -5,6 +5,7 @@ import { useSongClick } from "@hooks/music-control/useSongClick";
 import { useFilteringSaved } from "@hooks/music-control/useFilteringSaved";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { LoadingState } from "@components/loading-state/LoadingState";
+import { SongsPagination } from "@pages/songs/songs-pagination/SongsPagination";
 import { SAVED_STRINGS } from "@i18n/ui/saved";
 import type { Song } from "@interfaces/music";
 import { EmptyState } from "./empty-state/EmptyState";
@@ -14,24 +15,21 @@ import "../songs/Songs.scss";
 export const Saved = () => {
     const navigate = useNavigate();
     const { savedSongs } = useMusic();
-    const { handleFilteredSongClick } = useSongClick();
-
-    // loading screen amíg az adatok megérkeznek
-    if (!savedSongs) return <LoadingState message={SAVED_STRINGS.LOADING} />
-
     const {
         searchQuery,
         filteredSongs,
         currentSongs,
-        currentPage,
-        totalPages,
-        nextPage,
-        prevPage,
+        currentPage, setCurrentPage,
+        totalPages
     } = useFilteringSaved(savedSongs ?? []);
+    const { handleFilteredSongClick } = useSongClick();
 
     const handleBrowseSongs = () => navigate(MainRoutes.SONGS);
     const handleResetSearch = () => navigate(MainRoutes.SAVED);
     const onSongClick = (song: Song) => handleFilteredSongClick(song, filteredSongs);
+    
+    // loading screen amíg az adatok megérkeznek
+    if (!savedSongs) return <LoadingState message={SAVED_STRINGS.LOADING} />
 
     return (
         <div className="songs">
@@ -63,15 +61,7 @@ export const Saved = () => {
                                 ))}
                             </div>
 
-                            <div className="songs__pagination">
-                                <PrimaryButton className="songs__pagination-button" onClick={prevPage} disabled={currentPage === 1}>
-                                    {SAVED_STRINGS.PAGINATION.PREV}
-                                </PrimaryButton>
-                                <span>{SAVED_STRINGS.PAGINATION.PAGE_INFO(currentPage, totalPages)}</span>
-                                <PrimaryButton className="songs__pagination-button" onClick={nextPage} disabled={currentPage === totalPages}>
-                                    {SAVED_STRINGS.PAGINATION.NEXT}
-                                </PrimaryButton>
-                            </div>
+                            <SongsPagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                         </>
                     )}
                 </div>

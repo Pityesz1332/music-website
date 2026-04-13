@@ -51,12 +51,14 @@ export const ManageSongs = () => {
                 )}
             />
 
-            <EditSong
-                song={editSong}
-                onClose={closeEditModal}
-                onSave={saveEdit}
-                onChange={handleEditChange}
-            />
+            {editSong && (
+                <EditSong
+                    song={editSong}
+                    onClose={closeEditModal}
+                    onSave={saveEdit}
+                    onChange={handleEditChange}
+                />
+            )}
         </div>
     );
 };

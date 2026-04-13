@@ -1,7 +1,9 @@
+import { useRef } from "react";
 import { Menu, X } from "lucide-react";
 import { useAdminNavbar } from "@hooks/admin/useAdminNavbar";
 import { ADMIN_NAVBAR_STRINGS } from "@i18n/ui/admin/navbar";
 import { ADMIN_NAV_ITEMS } from "@constants/ui/admin/adminNavbar";
+import { useClickOutside } from "@hooks/general/useClickOutside";
 import { AdminNavLink } from "./admin-nav-link/AdminNavLink";
 import { PrimaryButton } from "../../ui/button/PrimaryButton";
 import "./AdminNavbar.scss";
@@ -12,8 +14,13 @@ const AdminNavbar = () => {
         isMenuOpen,
         isActive,
         handleDisconnect,
-        toggleMenu
+        toggleMenu,
+        closeMenu
     } = useAdminNavbar();
+
+    const navRef = useRef<HTMLDivElement>(null);
+
+    useClickOutside({ ref: navRef, callback: closeMenu, enabled: isMenuOpen });
 
     const goBackBtn = (className: string) => (
         <PrimaryButton
@@ -25,7 +32,7 @@ const AdminNavbar = () => {
     );
 
     return (
-        <nav className={`admin-navbar ${shrink ? "admin-navbar--shrink" : ""}`}>
+        <nav ref={navRef} className={`admin-navbar ${shrink ? "admin-navbar--shrink" : ""}`}>
             <div className="admin-navbar__logo">{ADMIN_NAVBAR_STRINGS.LOGO_SUFFIX}</div>
 
             <div className="admin-navbar__hamburger" onClick={toggleMenu}>
@@ -39,7 +46,7 @@ const AdminNavbar = () => {
                         path={item.path}
                         label={item.label}
                         isActive={isActive(item.path)}
-                        onClick={toggleMenu}
+                        onClick={closeMenu}
                     />
                 ))}
                 

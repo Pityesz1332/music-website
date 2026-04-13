@@ -3,23 +3,33 @@ import { Modal } from "@components/ui/modal/Modal";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { ADMIN_MANAGE_SONGS_STRINGS } from "@i18n/ui/admin/manage-songs";
 import type { Song } from "@interfaces/music";
+import { useEffect } from "react";
 
 interface EditSongProps {
-    song: Song | null;
+    song: Song;
     onClose: () => void;
     onSave: () => void;
-    onChange: (field: keyof Song, value: any) => void;
+    onChange: (field: keyof Song | "coverFile", value: any) => void;
 }
 
 // modal komponens a dalok adatainak szerkesztéséhez
 export const EditSong = ({ song, onClose, onSave, onChange }: EditSongProps) => {
-    if (!song) return null;
+    useEffect(() => {
+        const currentCover = song.cover;
 
+        return () => {
+            if (currentCover && currentCover.startsWith("blob:")) {
+                URL.revokeObjectURL(currentCover);
+            }
+        };
+    }, [song.cover]);
+    
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
             const previewURL = URL.createObjectURL(file);
             onChange("cover", previewURL);
+            onChange("coverFile" as keyof Song, file);
         }
     };
 
