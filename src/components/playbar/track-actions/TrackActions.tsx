@@ -13,7 +13,7 @@ interface TrackActionsProps {
     adjustVolume: (delta: number) => void;
     resetSong: () => void;
     isLooping: boolean;
-    setIsLooping: (value: boolean) => void;
+    onToggleLoop: () => void;
     isConnected: boolean;
     isSaved: boolean;
     song: Song;
@@ -33,7 +33,7 @@ export const TrackActions = ({
     adjustVolume,
     resetSong,
     isLooping,
-    setIsLooping,
+    onToggleLoop,
     isConnected,
     isSaved,
     song,
@@ -41,13 +41,6 @@ export const TrackActions = ({
     saveSong,
     notify
 }: TrackActionsProps) => {
-
-    // lokális segédfüggvény 
-    // az aktuális zene ismétlésének kapcsolásához
-    const handleToggleLoop = () => {
-        setIsLooping(!isLooping);
-    };
-
     // aktuális zene mentése + UI feedback
     const handleSaveToggle = () => {
         if (isSaved) {
@@ -74,7 +67,7 @@ export const TrackActions = ({
                     <PrimaryButton className="playbar__reset-seeker" onClick={resetSong}>
                         <TimerReset size={20} />
                     </PrimaryButton>
-                    <PrimaryButton className={`playbar__extra-button ${isLooping ? "playbar__extra-button--active" : ""}`} onClick={handleToggleLoop}>
+                    <PrimaryButton className={`playbar__extra-button ${isLooping ? "playbar__extra-button--active" : ""}`} onClick={onToggleLoop}>
                         <Repeat size={20} />
                     </PrimaryButton>
                 </div>

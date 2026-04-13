@@ -99,7 +99,7 @@ const Playbar = () => {
                 isPlaying={isPlaying}
                 onTimeUpdate={handleTimeUpdate}
                 resetSong={resetSong}
-                setIsLoading={setIsLoading}
+                onLoaded={() => setIsLoading(false)}
                 onPlayPause={onPlayPause}
                 onNext={onNext}
             />
@@ -125,7 +125,7 @@ const Playbar = () => {
                 adjustVolume={adjustVolume}
                 resetSong={resetSong}
                 isLooping={isLooping}
-                setIsLooping={setIsLooping}
+                onToggleLoop={() => setIsLooping(prev => !prev)}
                 isConnected={isConnected}
                 isSaved={isSaved}
                 song={song}

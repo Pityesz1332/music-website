@@ -13,6 +13,10 @@ interface PlaylistItemProps {
     onContextMenu: (e: React.MouseEvent, id: string) => void;
     onMove: (e: React.MouseEvent, direction: "up" | "down", id: string) => void;
     onCloseEdit: (e: React.MouseEvent) => void;
+    // Ez egy callback ref, ami a dinamikus listaelemek 
+    // DOM referenciáit gyűjti össze a szülőben lévő Map-be a görgetési logika miatt. 
+    // Nem state-et módosít, hanem a DOM-hoz biztosít közvetlen hozzáférést, 
+    // ezért tartottam meg a set konvenciót.
     setItemRef: (id: string, el: HTMLDivElement | null) => void;
 }
 

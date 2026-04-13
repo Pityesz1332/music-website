@@ -19,7 +19,7 @@ export const PlaylistSection = () => {
     const {
         contextMenu, editingSongId, menuRef, handleContextMenu,
         handleEdit, closeEditMode, moveSong, openDeleteModal, confirmDelete,
-        isDeleteModalOpen, setIsDeleteModalOpen, songToDelete
+        isDeleteModalOpen, closeDeleteModal, songToDelete
     } = usePlaylistActions({
         playlist,
         setPlaylist,
@@ -84,14 +84,14 @@ export const PlaylistSection = () => {
 
             <Modal
                 isOpen={isDeleteModalOpen}
-                onClose={() => setIsDeleteModalOpen(false)}
+                onClose={closeDeleteModal}
                 title={SONG_PAGE_STRINGS.MODAL.DELETE_TITLE}
                 description={SONG_PAGE_STRINGS.MODAL.DELETE_DESCRIPTION(songToDelete?.title || "")}
                 buttons={
                     <div className="song-page__modal-actions">
                         <PrimaryButton
                             className="cancel-btn"
-                            onClick={() => setIsDeleteModalOpen(false)}
+                            onClick={closeDeleteModal}
                         >
                             {SONG_PAGE_STRINGS.MODAL.CANCEL}
                         </PrimaryButton>

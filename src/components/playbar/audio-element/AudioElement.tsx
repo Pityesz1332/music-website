@@ -7,7 +7,7 @@ interface AudioElementProps {
     isPlaying: boolean;
     onTimeUpdate: () => void;
     resetSong: () => void;
-    setIsLoading: (loading: boolean) => void;
+    onLoaded: () => void;
     onPlayPause: () => void;
     onNext: () => void;
 }
@@ -19,14 +19,14 @@ export const AudioElement = ({
     isPlaying,
     onTimeUpdate,
     resetSong,
-    setIsLoading,
+    onLoaded,
     onPlayPause,
     onNext
 }: AudioElementProps) => {
 
     // adatbetöltés kezelése
     const handleLoadedData = () => {
-        setIsLoading(false);
+        onLoaded();
     };
 
     // külső vezérlés szinkronizálása.
@@ -34,7 +34,7 @@ export const AudioElement = ({
     // ezzel a függvénnyel kényzerítjük a react állapotunkat, 
     // hogy maradjon szinkronban.
     const handlePlay = () => {
-        setIsLoading(false);
+        onLoaded();
         if (!isPlaying) {
             onPlayPause();
         }

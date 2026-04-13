@@ -96,9 +96,14 @@ export const usePlaylistActions = ({
         setSongToDelete(null);
     };
 
+    const closeDeleteModal = () => {
+        setIsDeleteModalOpen(false);
+        setSongToDelete(null);
+    };
+
     return {
-        contextMenu, setContextMenu,
-        editingSongId, setEditingSongId,
+        contextMenu,
+        editingSongId,
         menuRef,
         handleContextMenu,
         handleEdit,
@@ -107,7 +112,7 @@ export const usePlaylistActions = ({
         openDeleteModal,
         confirmDelete,
         isDeleteModalOpen,
-        setIsDeleteModalOpen,
+        closeDeleteModal,
         songToDelete
     };
 };
