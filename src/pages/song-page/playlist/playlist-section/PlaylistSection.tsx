@@ -65,7 +65,7 @@ export const PlaylistSection = () => {
                                 onContextMenu={handleContextMenu}
                                 onMove={moveSong}
                                 onCloseEdit={closeEditMode}
-                                setItemRef={setItemRef}
+                                itemRef={setItemRef}
                             />
                         ))
                     )}

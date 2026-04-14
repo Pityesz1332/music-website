@@ -18,6 +18,10 @@ export const useAudioSync = (
         togglePlay();
     }, [isPlaying, togglePlay, currentSong]);
 
+    const handleLoadedMetadata = useCallback(() => {
+        setIsLoading(false);
+    }, []);
+
     // mindig az elejétől indítjuk
     useEffect(() => {
         const audio = audioRef.current;
@@ -50,8 +54,9 @@ export const useAudioSync = (
     }, [isPlaying]);
 
     return {
-        isLoading, setIsLoading,
+        isLoading,
         handlePlay,
+        handleLoadedMetadata,
         isPlaying,
         song: currentSong
     };

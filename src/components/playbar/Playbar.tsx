@@ -22,16 +22,15 @@ const Playbar = () => {
     const playbarRef = useRef<HTMLDivElement>(null);
     const audioRef = useRef<HTMLAudioElement>(null!);
 
-    const [isLooping, setIsLooping] = useState<boolean>(false);
 
-    const { isManuallyCollapsed, handlePlaybarTap } = usePlaybarInteractions(playbarRef);
+    const { isManuallyCollapsed, handlePlaybarTap, isLooping, handleToggleLoop } = usePlaybarInteractions(playbarRef);
     
     const {
         progress, currentTime, hoverTime, hoverPos, progressBarRef,
         handleTimeUpdate, startSeek, handleMouseMove, handleMouseLeave, resetSong
     } = useProgressBar(audioRef);
 
-    const { isLoading, setIsLoading, handlePlay, isPlaying, song } = useAudioSync(audioRef, resetSong);
+    const { isLoading, handlePlay, handleLoadedMetadata, isPlaying, song } = useAudioSync(audioRef, resetSong);
 
     const {
         volume,
@@ -99,7 +98,7 @@ const Playbar = () => {
                 isPlaying={isPlaying}
                 onTimeUpdate={handleTimeUpdate}
                 resetSong={resetSong}
-                onLoaded={() => setIsLoading(false)}
+                onLoaded={handleLoadedMetadata}
                 onPlayPause={onPlayPause}
                 onNext={onNext}
             />
@@ -125,7 +124,7 @@ const Playbar = () => {
                 adjustVolume={adjustVolume}
                 resetSong={resetSong}
                 isLooping={isLooping}
-                onToggleLoop={() => setIsLooping(prev => !prev)}
+                onToggleLoop={handleToggleLoop}
                 isConnected={isConnected}
                 isSaved={isSaved}
                 song={song}

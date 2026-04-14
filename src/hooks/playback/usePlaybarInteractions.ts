@@ -1,9 +1,10 @@
-import { useState, useEffect, RefObject } from "react";
+import { useState, useEffect, useCallback, RefObject } from "react";
 
 // a playbar fizikai viselkedését vezérli.
 // kezeli a görgetési ütközéseket és sáv kinyitását/becsukását.
 export const usePlaybarInteractions = (playbarRef: RefObject<HTMLDivElement | null>) => {
     const [isManuallyCollapsed, setIsManuallyCollapsed] = useState<boolean>(true);
+    const [isLooping, setIsLooping] = useState<boolean>(false);
 
     useEffect(() => {
         const handleGlobalWheel = (e: WheelEvent) => {
@@ -39,8 +40,14 @@ export const usePlaybarInteractions = (playbarRef: RefObject<HTMLDivElement | nu
         }
     };
 
+    const handleToggleLoop = useCallback(() => {
+        setIsLooping(prev => !prev);
+    }, []);
+
     return {
         isManuallyCollapsed,
-        handlePlaybarTap
+        handlePlaybarTap,
+        isLooping,
+        handleToggleLoop
     };
 };
