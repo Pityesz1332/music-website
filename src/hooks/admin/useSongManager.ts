@@ -49,8 +49,11 @@ export const useSongManager = () => {
     };
 
     // dinamikus kulcskezelés
-    const handleEditChange = (field: keyof Song, value: string) => {
-        setEditSong(prev => prev ? { ...prev, [field]: value }: null);
+    const handleEditChange = (field: keyof Song | "coverFile", value: string | File) => {
+        setEditSong(prev => {
+            if (!prev) return null;
+            return { ...prev, [field]: value } as Song;
+        });
     };
 
     // modalkezelés

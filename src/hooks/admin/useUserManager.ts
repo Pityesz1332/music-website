@@ -1,10 +1,12 @@
 import { useState, useMemo } from "react";
+import { useNotification, NotificationType } from "@context/NotificationContext";
 import { usersData, User } from "@data/usersData";
 
 export const useUserManager = () => {
     const [users, setUsers] = useState<User[]>(usersData);
     const [search, setSearch] = useState<string>("");
     const [editUser, setEditUser] = useState<User | null>(null);
+    const { notify } = useNotification();
 
     // lista szűrése
     const filteredUsers = useMemo(() => {
@@ -19,6 +21,7 @@ export const useUserManager = () => {
     // user törlése
     const deleteUser = (id: number) => {
         setUsers(prev => prev.filter(u => u.id !== id));
+        notify("User deleted", NotificationType.SUCCESS);
     };
 
     // szerkesztőmódba lépés
@@ -39,10 +42,17 @@ export const useUserManager = () => {
     // szerkesztés mentése
     const saveEdit = () => {
         if (!editUser) return
+
+        if (!editUser.name.trim() || !editUser.email.trim()) {
+            notify("Fill the empty fields", NotificationType.INFO);
+            return;
+        }
+
         setUsers((prev) =>
             prev.map(u => (u.id === editUser.id ? editUser : u))
         );
         setEditUser(null);
+        notify("Successfully updated", NotificationType.SUCCESS);
     };
 
     return {

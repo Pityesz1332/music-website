@@ -29,11 +29,11 @@ export const EditSong = ({ song, onClose, onSave, onChange }: EditSongProps) => 
         if (file) {
             const previewURL = URL.createObjectURL(file);
             onChange("cover", previewURL);
-            onChange("coverFile" as keyof Song, file);
+            onChange("coverFile", file);
         }
     };
 
-    const handleInputChange = (field: keyof Song) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (field: keyof Song | "coverFile") => (e: React.ChangeEvent<HTMLInputElement>) => {
         onChange(field, e.target.value);
     };
 

@@ -41,7 +41,7 @@ export const EditUser = ({ user, onClose, onSave, onChange }: EditUserProps) => 
                 </div>
                 <div className="manage-users__form-group">
                     <label className="manage-users__label">{ADMIN_MANAGE_USERS_STRINGS.EDIT_MODAL.LABELS.EMAIL}</label>
-                    <input className="manage-users__input" type="text" value={user.email} onChange={handleFieldChange("email")}/>
+                    <input className="manage-users__input" type="email" value={user.email} onChange={handleFieldChange("email")}/>
                 </div>
 
                 <div className="manage-users__form-group">

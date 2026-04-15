@@ -48,13 +48,14 @@ export const ManageUsers = () => {
                 )}
             />
 
-            <EditUser 
-                user={editUser}
-                onClose={cancelEditing}
-                onSave={saveEdit}
-                onChange={handleEditChange}
-            />
-
+            {editUser && (
+                <EditUser 
+                    user={editUser}
+                    onClose={cancelEditing}
+                    onSave={saveEdit}
+                    onChange={handleEditChange}
+                />
+            )}
         </div>
     );
 }
