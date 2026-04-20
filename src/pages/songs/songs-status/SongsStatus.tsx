@@ -2,9 +2,9 @@ import { ErrorState } from "../error-state/ErrorState";
 import { SONGS_STRINGS } from "@i18n/ui/songs";
 
 interface SongsStatusProps {
-    loading: boolean;
-    error: string | null;
-    retry: () => void;
+    loading?: boolean;
+    error?: string | null;
+    retry?: () => void;
 }
 
 export const SongsStatus = ({ loading, error, retry }: SongsStatusProps) => {

@@ -34,7 +34,7 @@ export const useAdminNavbar = () => {
     // automatikus navbar zárás oldalváltáskor
     useEffect(() => {
         closeMenu();
-    }, [location, closeMenu]);
+    }, [location.pathname, closeMenu]);
 
     // ez még csak navigációkezelés a kijelentkezéshez
     const handleDisconnect = () => {

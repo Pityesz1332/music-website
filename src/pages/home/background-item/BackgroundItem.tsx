@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { Background } from "@interfaces/background";
+import "./BackgroundItem.scss"
 
 interface BackgroundItemProps {
     bg: Background;
@@ -11,7 +12,7 @@ interface BackgroundItemProps {
 // újrarenderelődjön, ha a szülő koponens állapota változik, 
 // de ez az adott háttér nem érintett.
 export const BackgroundItem = memo(({ bg, isActive }: BackgroundItemProps) => {
-    const bgClass = `home__background ${isActive ? "home__background--active" : ""}`;
+    const bgClass = `background-item ${isActive ? "background-item--active" : ""}`;
 
     if (bg.type === "image") {
         return (

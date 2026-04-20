@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Filter } from "lucide-react";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { FilterModal } from "./filter-modal/FilterModal";
+import { getFilterLabel } from "@utils/filterHelpers";
 import { SONGS_STRINGS } from "@i18n/ui/songs";
 import type { SortField, SortOrder } from "@interfaces/sort";
 
@@ -28,25 +29,12 @@ export const SongsFilter = ({
 }: SongsFilterProps) => {
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
-    const filterLabel = useMemo(() => {
-        const activeFilters: string[] = [];
+    const filterLabel = useMemo(
+        () => getFilterLabel(selectedGenre, sortField, sortOrder),
+        [selectedGenre, sortField, sortOrder]
+    );
 
-        if (selectedGenre !== SONGS_STRINGS.FILTER.ALL) {
-            activeFilters.push(`${SONGS_STRINGS.FILTER.GENRE_PREFIX}${selectedGenre}`);
-        }
-
-        if (sortField !== SONGS_STRINGS.FILTER.NONE) {
-            const fieldLabel = sortField === "name" ? SONGS_STRINGS.FILTER.BY_NAME : SONGS_STRINGS.FILTER.BY_DURATION;
-            const orderLabel = sortOrder === "asc" ?  SONGS_STRINGS.FILTER.ASC : SONGS_STRINGS.FILTER.DESC;
-            activeFilters.push(`${SONGS_STRINGS.FILTER.SORT_PREFIX}${fieldLabel} - ${orderLabel}`);
-        }
-
-        if (activeFilters.length === 0) return SONGS_STRINGS.FILTER.LABEL;
-
-        return activeFilters.join(" | ");
-    }, [selectedGenre, sortField, sortOrder]);
-
-    const isFiltered = selectedGenre !== "All" || sortField !== "none";
+    const isFiltered = selectedGenre !== SONGS_STRINGS.FILTER.ALL || sortField !== SONGS_STRINGS.FILTER.NONE;
 
     return (
         <div className="songs__filter-wrapper">

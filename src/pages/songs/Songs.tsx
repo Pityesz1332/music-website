@@ -10,6 +10,8 @@ import { SongsPagination } from "./songs-pagination/SongsPagination";
 import { SongsFooter } from "./songs-footer/SongsFooter";
 import "./Songs.scss";
 
+const ITEMS_PER_PAGE = 15;
+
 export const Songs = () => {
     const { handleFilteredSongClick } = useSongClick();
 
@@ -29,14 +31,14 @@ export const Songs = () => {
         handleSort,
         clearFilters,
         retry
-    } = useFilteringSongs(15);
+    } = useFilteringSongs(ITEMS_PER_PAGE);
 
     const onSongCardClick = (song: Song) => {
         handleFilteredSongClick(song, filteredSongs);
     };
 
-    if (loading || error) {
-        return <SongsStatus loading={loading} error={error} retry={retry} />
+    if (error) {
+        return <SongsStatus error={error} retry={retry} />
     }
 
     return (
@@ -54,24 +56,26 @@ export const Songs = () => {
                     onClear={clearFilters}
                 />
 
-                    
-                {filteredSongs.length === 0 ? (
-                    <SongsNoResults searchQuery={searchQuery} />
-                ) : (
-                    <>
-                        <div className="songs__grid">
-                            {currentSongs.map((song) => (
-                                <SongsCard
-                                    key={song.id}
-                                    song={song}
-                                    onClick={onSongCardClick}
-                                />
-                            ))}
-                        </div>
-                    
-                        <SongsPagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
-                    </>
-                )}
+                <div className={`songs__content-wrapper ${loading ? "songs__content-wrapper--loading" : ""}`}>
+                    {loading ? (
+                        <SongsStatus loading={loading} />
+                    ): filteredSongs.length === 0 ? (
+                        <SongsNoResults searchQuery={searchQuery} />
+                    ) : (
+                        <>
+                            <div className="songs__grid">
+                                {currentSongs.map((song) => (
+                                    <SongsCard
+                                        key={song.id}
+                                        song={song}
+                                        onClick={onSongCardClick}
+                                    />
+                                ))}
+                            </div>
+                            <SongsPagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+                        </>
+                    )}
+                </div>
             </div>
 
             <SongsFooter />

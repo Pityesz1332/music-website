@@ -80,6 +80,29 @@
         }
     }
 
+    &__content-wrapper {
+        position: relative;
+        min-height: 500px;
+        transition: opacity 0.3s ease;
+        width: 100%;
+        
+        &--loading {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    }
+
+    &__status-container {
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
     &__sort-order-grid,
     &__sort-field-grid,
     &__genre-grid {
