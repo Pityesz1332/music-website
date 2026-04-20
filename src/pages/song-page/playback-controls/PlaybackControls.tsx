@@ -1,6 +1,7 @@
 import { Play, Pause, SkipBack, SkipForward } from "lucide-react";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { SONG_PAGE_STRINGS } from "@i18n/ui/song-page";
+import "./PlaybackControls.scss";
 
 interface PlaybackControlsProps {
     isPlaying: boolean;

@@ -1,6 +1,7 @@
 import { MainRoutes } from "@routes/constants/MainRoutes";
 import { SONGS_STRINGS } from "@i18n/ui/songs";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
+import "./SongsNoResults.scss";
 
 interface SongsNoResultsProps {
     searchQuery: string;

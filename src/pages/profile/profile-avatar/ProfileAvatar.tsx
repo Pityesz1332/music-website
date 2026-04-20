@@ -1,3 +1,5 @@
+import "./ProfileAvatar.scss";
+
 interface ProfileAvatarProps {
     avatar: string | null;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

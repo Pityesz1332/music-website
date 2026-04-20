@@ -1,5 +1,6 @@
 import { ErrorState } from "../error-state/ErrorState";
 import { SONGS_STRINGS } from "@i18n/ui/songs";
+import "./SongsStatus.scss";
 
 interface SongsStatusProps {
     loading?: boolean;

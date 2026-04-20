@@ -1,6 +1,7 @@
 import { Modal } from "@components/ui/modal/Modal";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { HISTORY_MODAL_STRINGS } from "@i18n/modal/history-modal";
+import "./HistoryModal.scss";
 
 interface HistoryModalProps {
     isOpen: boolean;

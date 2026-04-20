@@ -1,4 +1,5 @@
 import type { Song } from "@interfaces/music";
+import "./SongsCard.scss";
 
 interface SongsCardProps {
     song: Song;

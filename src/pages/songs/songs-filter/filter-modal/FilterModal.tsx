@@ -3,6 +3,7 @@ import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { Modal } from "@components/ui/modal/Modal";
 import { SONGS_STRINGS } from "@i18n/ui/songs";
 import type { SortField, SortOrder } from "@interfaces/sort";
+import "./FilterModal.scss";
 
 interface FilterModalProps {
     isOpen: boolean;

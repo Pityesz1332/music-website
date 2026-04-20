@@ -1,4 +1,5 @@
 import { SONGS_STRINGS } from "@i18n/ui/songs";
+import "./SongsFooter.scss";
 
 // egyszerű footer komponens, 
 // ami jelenleg csak a songs oldalon elérhető

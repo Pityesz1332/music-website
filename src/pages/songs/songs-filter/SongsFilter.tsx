@@ -5,6 +5,7 @@ import { FilterModal } from "./filter-modal/FilterModal";
 import { getFilterLabel } from "@utils/filterHelpers";
 import { SONGS_STRINGS } from "@i18n/ui/songs";
 import type { SortField, SortOrder } from "@interfaces/sort";
+import "./SongsFilter.scss";
 
 interface SongsFilterProps {
     genres: string[];

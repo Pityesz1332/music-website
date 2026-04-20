@@ -3,6 +3,7 @@ import { Heart, Download } from "lucide-react";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { useSongActions } from "@hooks/playlist/useSongActions";
 import type { Song } from "@interfaces/music";
+import "./SongActions.scss";
 
 interface SongActionsProps {
     song: Song;

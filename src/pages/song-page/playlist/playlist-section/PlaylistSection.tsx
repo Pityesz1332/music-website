@@ -10,6 +10,7 @@ import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { MainRoutes } from "@routes/constants/MainRoutes";
 import { PlaylistItem } from "../playlist-item/PlaylistItem";
 import { PlaylistMenu } from "../playlist-menu/PlaylistMenu";
+import "./PlaylistSection.scss";
 
 export const PlaylistSection = () => {
     const { notify } = useNotification();

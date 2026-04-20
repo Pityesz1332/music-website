@@ -59,7 +59,7 @@ export const Songs = () => {
                 <div className={`songs__content-wrapper ${loading ? "songs__content-wrapper--loading" : ""}`}>
                     {loading ? (
                         <SongsStatus loading={loading} />
-                    ): filteredSongs.length === 0 ? (
+                    ) : filteredSongs.length === 0 ? (
                         <SongsNoResults searchQuery={searchQuery} />
                     ) : (
                         <>

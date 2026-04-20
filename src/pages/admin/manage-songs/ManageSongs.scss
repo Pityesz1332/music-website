@@ -6,7 +6,7 @@
     min-height: 100vh;
 
     @media (max-width: 1024px) { padding: 1.5rem; }
-    @media (max-width: 768px) { padding: 1rem; }
+    @media (max-width: 768px) { padding: 1rem 0.5rem; }
     @media (max-width: 480px) { padding: 0.7rem; }
 
     &__header {
@@ -16,16 +16,16 @@
         margin-bottom: 2rem;
         gap: 1rem;
 
-        @media (max-width: 480px) { flex-direction: column; align-items: flex-start; }
+        @media (max-width: 480px) { flex-direction: column; align-items: center; text-align: center; }
     }
 
     &__title {
         font-size: 2rem;
-        margin-bottom: 1.5rem;
         color: v.$main-text-color;
+        margin: 0;
 
         @media (max-width: 1024px) { font-size: 1.7rem; }
-        @media (max-width: 768px) { font-size: 1.5rem; margin-bottom: 1rem; }
+        @media (max-width: 768px) { font-size: 1.5rem; width: 100%; text-align: center; }
     }
 
     &__add-button {
@@ -43,52 +43,6 @@
         
         &:hover { background: v.$dark-accent-color; }
 
-        @media (max-width: 480px) { width: 100%; justify-content: center; padding: 0.7rem 1rem; }
-    }
-}
-
-// modal
-.modal-content {
-    &__body {
-        display: flex;
-        flex-direction: column;
-        gap: 0.8rem;
-    }
-
-    &__file-input { display: none; }
-
-    &__input {
-        padding: 0.5rem;
-        border-radius: 6px;
-        border: 1px solid rgba(v.$muted-text-color, 0.2);
-        background: v.$bg-color;
-        color: v.$muted-text-color;
-
-        @media (max-width: 480px) { font-size: 0.9rem; }
-    }
-
-    &__label {
-        font-weight: 600;
-        margin-top: 10px;
-        display: block;
-    }
-
-    &__upload-button {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 16px;
-        color: v.$main-text-color;
-        cursor: pointer;
-        font-size: 0.95rem;
-        margin-bottom: 10px;
-    }
-
-    &__image-preview {
-        width: 120px;
-        height: 120px;
-        object-fit: cover;
-        border-radius: 10px;
-        margin-top: 10px;
+        @media (max-width: 480px) { width: calc(100% - 1rem); justify-content: center; padding: 0.8rem 1rem; }
     }
 }

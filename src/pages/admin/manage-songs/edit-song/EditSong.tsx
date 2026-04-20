@@ -1,9 +1,10 @@
+import { useEffect } from "react";
 import { UploadIcon } from "lucide-react";
 import { Modal } from "@components/ui/modal/Modal";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { ADMIN_MANAGE_SONGS_STRINGS } from "@i18n/ui/admin/manage-songs";
 import type { Song } from "@interfaces/music";
-import { useEffect } from "react";
+import "./EditSong.scss";
 
 interface EditSongProps {
     song: Song;
@@ -45,16 +46,16 @@ export const EditSong = ({ song, onClose, onSave, onChange }: EditSongProps) => 
             buttons={
                 <>
                     <PrimaryButton
-                        className="modal-content__btn--save"
-                        onClick={onSave}
-                    >
-                        {ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.BUTTONS.SAVE}
-                    </PrimaryButton>
-                    <PrimaryButton
                         className="modal-content__btn--cancel"
                         onClick={onClose}
                     >
                         {ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.BUTTONS.CANCEL}
+                    </PrimaryButton>
+                    <PrimaryButton
+                        className="modal-content__btn--save"
+                        onClick={onSave}
+                    >
+                        {ADMIN_MANAGE_SONGS_STRINGS.EDIT_MODAL.BUTTONS.SAVE}
                     </PrimaryButton>
                 </>
             }

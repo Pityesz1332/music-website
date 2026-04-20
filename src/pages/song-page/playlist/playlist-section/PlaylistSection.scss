@@ -1,0 +1,44 @@
+@use '../../../../styles/variables' as v;
+
+.song-page {
+    &__playlist-wrapper {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 3;
+        flex: 1 1 21.875rem;
+        width: calc(100% - 2.5rem);
+        margin-inline: auto;
+        max-width: 80rem;
+        gap: clamp(0.5rem, 2vh, 1rem); 
+    }
+
+    &__playlist {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(0.6rem, 2vw, 1rem);
+        box-sizing: border-box;
+        
+        width: 100%;
+        background: v.$card-color;
+        backdrop-filter: blur(10px);
+        border-radius: 1.25rem;
+        padding: clamp(0.9rem, 5vw, 2rem);
+        max-height: clamp(12.5rem, 60vh, 43.75rem);
+        overflow-y: auto;
+        overflow-x: hidden;
+        border: 0.0625rem solid rgba(255, 255, 255, 0.05); 
+    }
+
+    &__playlist-title {
+        align-self: center;
+        text-align: center; 
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
+        font-weight: 600;
+        color: v.$main-text-color;
+        text-transform: uppercase;
+        letter-spacing: 0.0625rem;
+        margin-bottom: 0.5rem;
+    }
+}

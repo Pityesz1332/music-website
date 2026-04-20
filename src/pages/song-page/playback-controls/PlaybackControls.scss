@@ -1,0 +1,66 @@
+@use '../../../styles/variables' as v;
+
+.song-page {
+    &__controls {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(0.3rem, 2vw, 0.9375rem);
+        margin-top: clamp(1rem, 3vh, 1.5rem);
+        width: 100%;
+        overflow: hidden;
+    }
+
+    &__nav-button, &__play-button {
+        height: clamp(2.5rem, 6vh, 3.125rem);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        cursor: pointer;
+    }
+
+    &__nav-button {
+        background: rgba(255, 255, 255, 0.1);
+        color: v.$main-text-color;
+        border: none;
+        padding-inline: clamp(0.4rem, 2vw, 1.125rem);
+        border-radius: 3.125rem;
+        transition: all 0.3s ease;
+
+        &:hover { 
+            background: v.$dark-accent-color; 
+        }
+
+        svg {
+            width: clamp(1rem, 2vw, 1.25rem);
+            height: auto;
+        }
+    }
+
+    &__play-button {
+        display: inline-flex;
+        gap: 0.625rem;
+        background: v.$primary-color;
+        border: none;
+        border-radius: 1.875rem;
+        font-size: clamp(0.8rem, 2vw, 1rem);
+        color: v.$main-text-color;
+        transition: all 0.3s ease;
+        padding-inline: clamp(1rem, 3vw, 1.75rem);
+
+        &--neon-button {
+            font-weight: 700;
+            border: 0.0625rem solid v.$primary-color;
+            border-radius: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.125rem;
+
+            &:hover {
+                box-shadow: 0 0 0.625rem v.$primary-color, 0 0 2rem v.$dark-accent-color;
+                transform: scale(1.05);
+            }
+        }
+    }
+}

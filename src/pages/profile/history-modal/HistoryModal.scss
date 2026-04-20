@@ -1,0 +1,29 @@
+@use '../../../styles/variables' as v;
+
+.history-modal {
+    &__actions {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        margin-top: 20px;
+    }
+
+    .modal__cancel-btn {
+        background: transparent;
+        border: 1px solid rgba(v.$main-text-color, 0.2);
+        color: v.$main-text-color;
+
+        &:hover {
+            background: rgba(v.$main-text-color, 0.05);
+            border-color: rgba(v.$main-text-color, 0.4);
+        }
+    }
+
+    .modal__confirm-btn {
+        background: v.$primary-color;
+        
+        &:hover {
+            background: v.$dark-accent-color;
+        }
+    }
+}

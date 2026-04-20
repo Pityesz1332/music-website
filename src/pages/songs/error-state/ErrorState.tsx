@@ -1,3 +1,5 @@
+import "./ErrorState.scss";
+
 interface ErrorStateProps {
     title: string;
     txt?: string;

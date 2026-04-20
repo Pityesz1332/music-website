@@ -1,6 +1,7 @@
 import { Copy } from "lucide-react";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { MY_ACCOUNT_STRINGS } from "@i18n/ui/my-account";
+import "./WalletSection.scss";
 
 interface WalletSectionProps {
     address: string;
