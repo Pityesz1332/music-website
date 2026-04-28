@@ -4,6 +4,7 @@ export interface Song {
     artist: string;
     genre: string;
     src: string;
+    swarmHash?: string;
     cover: string;
     duration: string;
     defaultBgVideo: string;

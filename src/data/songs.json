@@ -7,6 +7,7 @@
         "duration": "29:03",
         "cover": "/covers/Radio-mixes.png",
         "src": "/songs/Dj-Enez-Favorites-1.mp3",
+        "swarmHash": "179328a83fb950cb2fce11003307e1e6633c692f7ff558b10f01f49a60fb88ed",
         "defaultBgVideo": "/assets/animation1.mp4",
         "playingBgVideo": "/assets/waveform-to3.mp4"
     },
@@ -18,39 +19,7 @@
         "duration": "14:14",
         "cover": "/covers/Radio-mixes.png",
         "src": "/songs/Dj-Enez-Favorites-2.mp3",
-        "defaultBgVideo": "/assets/animation1.mp4",
-        "playingBgVideo": "/assets/waveform-to3.mp4"
-    },
-    {
-        "id": "3",
-        "title": "DJ Enez Favorites 1",
-        "artist": "DJ Enez",
-        "genre": "Mix",
-        "duration": "29:03",
-        "cover": "/covers/Radio-mixes.png",
-        "src": "/songs/Dj-Enez-Favorites-1.mp3",
-        "defaultBgVideo": "/assets/animation1.mp4",
-        "playingBgVideo": "/assets/waveform-to3.mp4"
-    },
-    {
-        "id": "4",
-        "title": "DJ Enez Favorites 2",
-        "artist": "DJ Enez",
-        "genre": "Mix",
-        "duration": "14:14",
-        "cover": "/covers/Radio-mixes.png",
-        "src": "/songs/Dj-Enez-Favorites-2.mp3",
-        "defaultBgVideo": "/assets/animation1.mp4",
-        "playingBgVideo": "/assets/waveform-to3.mp4"
-    },
-    {
-        "id": "5",
-        "title": "DJ Enez Favorites 1",
-        "artist": "DJ Enez",
-        "genre": "Mix",
-        "duration": "29:03",
-        "cover": "/covers/Radio-mixes.png",
-        "src": "/songs/Dj-Enez-Favorites-1.mp3",
+        "swarmHash": "263f73898dfa8e17c3f6b8efb73a03173440e9b2fcc8411fe8e7760ed7f1b35d",
         "defaultBgVideo": "/assets/animation1.mp4",
         "playingBgVideo": "/assets/waveform-to3.mp4"
     }

@@ -1,86 +1,46 @@
-// TESZT
-// ez a fájl kezeli a Swarm-mal kapcsolatos interakciót.
-// a frontend komponensek (pl. UploadSong.tsx) csak ezt hívják meg.
-import { Bee, Reference, PostageBatch, Data } from "@ethersphere/bee-js";
+import { Bee } from "@ethersphere/bee-js";
 
-export interface SongMetadata {
-    title: string;
-    artist: string;
-    duration?: number;
-    albumArtHash?: string;
-    genre?: string;
-}
+// NODE KONFIGURÁCIÓ
+const BEE_NODE_URL = import.meta.env.VITE_BEE_NODE_URL ?? "http://localhost:1633";
 
-export interface SwarmSong {
-    reference: string;
-    metadata: SongMetadata;
-}
+const bee = new Bee(BEE_NODE_URL);
 
-// csatlakozás a Bee node-hoz (Bee SDK inicializálása)
-const BEE_URL = "http://localhost:1633";
-const bee = new Bee(BEE_URL);
+// Blob URL cache
+const blobCache = new Map<string, string>();
 
-export const swarmService = {
-    async checkConnection(): Promise<boolean> {
-        try {
-            await bee.checkConnection();
-            return true;
-        } catch (error) {
-            console.error("Bee node not available:", error);
-            return false;
-        }
-    },
-    
-    // getAudioFile(hash): 
-    // letölti a chunkokat a Swarm-ról a megadott referencia alapján.
-    // blob-bá alakítja az adatot, amit a Playbar.tsx már le tud játszani.
-    async getAudioFile(hash: string): Promise<string> {
-        try {
-            const fileData = await bee.downloadFile(hash);
-            const bytes = fileData.data.toUint8Array();
-            const blob = new Blob([bytes as any], { type: 'audio/*' });
-            return URL.createObjectURL(blob);
-        } catch (error) {
-            console.error("Error during download:", error);
-            throw error;
-        }
-    },
-    
-    // uploadAudioFile(file, metadata):
-    // beállítja a Postage Batch-et (a feltöltéshez szükséges bélyeget).
-    // feltölti a fájlt és a hozzá tartozó JSON metaadatokat.
-    // visszaadja a Swarm referenciát (Hash).
-    async uploadAudioFile(
-        file: File,
-        metadata: SongMetadata,
-        batchId: string
-    ): Promise<Reference> {
-        try {
-            const fileResult = await bee.uploadFile(batchId, file, file.name, {
-                contentType: file.type,
-            });
-
-            const metaResult = await bee.uploadData(batchId, JSON.stringify({
-                ...metadata,
-                audioReference: fileResult.reference
-            }));
-
-            return metaResult.reference;
-        } catch (error) {
-            console.error("Upload error", error);
-            throw error;
-        }
-    },
-
-    // listSongs():
-    // ha nincs backend, egy feed-ből vagy egy fix hash-ről olvassa be a legutóbbi listát.
-    async listSongs(topic: string = "playlist-01"): Promise<SwarmSong[]> {
-        try {
-            console.warn("listSongs: Default implementation needed.");
-            return [];
-        } catch (error) {
-            console.error("Error listing songs:", error);
-            return [];
-        }
+/**
+ * @param hash - a Swarm referencia
+ * @returns lejátszható blob URL
+ */
+export async function resolveSwarmAudio(hash: string): Promise<string> {
+    // cache
+    if (blobCache.has(hash)) {
+        return blobCache.get(hash)!;
     }
-};
+
+    // letöltés a bee node-ról
+    const data = await bee.downloadData(hash);
+
+    // Uint8Array -> Blob -> Object URL
+    const blob = new Blob([data.toUint8Array() as unknown as Uint8Array<ArrayBuffer>], { type: "audio/mpeg" });
+    const url = URL.createObjectURL(blob);
+
+    blobCache.set(hash, url);
+    return url;
+}
+
+// Cache-elt Blob URL-ek felszabadítása
+export function revokeSwarmCache(): void {
+    blobCache.forEach((url) => URL.revokeObjectURL(url));
+    blobCache.clear();
+}
+
+// Node check
+export async function checkSwarmNode(): Promise<boolean> {
+    try {
+        await bee.isConnected();
+        return true;
+    } catch {
+        return false;
+    }
+}
