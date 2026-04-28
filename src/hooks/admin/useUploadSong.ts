@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import axios from "axios";
+import { uploadAudio } from "../../swarm-gateway/swarmService";
 
 interface SongForm {
     title: string;
@@ -63,45 +63,31 @@ export const useUploadSong = (onSave: (song: any) => void) => {
         }
     };
 
-    // adatok küldése a szervernek
+    // adatok küldése a swarm-nak
     const handleUpload = async() => {
         if (!audioFile || !form.title || !form.artist || !form.genre) {
             alert("Fill every field!");
             return;
         }
 
-        const formData = new FormData();
-        formData.append("audio", audioFile);
-        if (coverFile) formData.append("cover", coverFile);
-        formData.append("title", form.title);
-        formData.append("artist", form.artist);
-        formData.append("genre", form.genre);
-        formData.append("duration", form.duration);
-
         setIsUploading(true);
+        setProgress(0);
 
         try {
-            const response = await axios.post("/api/songs/upload", formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-                onUploadProgress: (progressEvent) => {
-                    const percentCompleted = Math.round(
-                        (progressEvent.loaded * 100) / (progressEvent.total || 100)
-                    );
-                    setProgress(percentCompleted);
-                },
-            });
+            // audio feltöltése a swarm-ra
+            const swarmHash = await uploadAudio(audioFile, setProgress);
 
-            onSave(response.data);
+            // bórítókép egyelőre local, de majd ez is megy a swarm-ra
+            const coverUrl = coverFile ? URL.createObjectURL(coverFile) : "";
+
+            onSave({
+                ...form,
+                swarmHash,
+                audio: "",
+                coverFile: coverUrl
+            });
         } catch (error) {
-            console.error("Error during upload:", error);
-            // csak a tesztelés miatt, amíg nincs backend
-            if (progress === 100) {
-                onSave({
-                    ...form,
-                    audio: URL.createObjectURL(audioFile),
-                    coverFile: coverFile ? URL.createObjectURL(coverFile) : ""
-                });
-            }
+            console.error("[Swarm] Error during upload:", error);
         } finally {
             setIsUploading(false);
         }

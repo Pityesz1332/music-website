@@ -27,6 +27,7 @@ export const useSongManager = () => {
             genre: song.genre,
             duration: song.duration,
             src: song.audio,
+            swarmHash: song.swarmHash,
             cover: song.coverFile,
             defaultBgVideo: "/assets/animation1.mp4",
             playingBgVideo: "/assets/waveform-to3.mp4"
