@@ -3,8 +3,8 @@ import { useConnection } from "wagmi";
 import { registerPasskey, authPasskey, isWebAuthnSupported, PasskeyUser } from "@utils/passkeyHelpers";
 
 interface UsePasskeyReturn {
-    register: () => Promise<PasskeyUser>;
-    authenticate: () => Promise<PasskeyUser>;
+    register: (address: string) => Promise<PasskeyUser>;
+    authenticate: (address: string) => Promise<PasskeyUser>;
     isSupported: boolean;
     loading: boolean;
     error: string | null;
@@ -17,7 +17,7 @@ export function usePasskey(): UsePasskeyReturn {
     const isSupported = isWebAuthnSupported();
     const { address } = useConnection();
 
-    const register = async (): Promise<PasskeyUser> => {
+    const register = async (address: string): Promise<PasskeyUser> => {
         if (!address) throw new Error("No wallet connected");
         setLoading(true);
         setError(null);
@@ -35,7 +35,7 @@ export function usePasskey(): UsePasskeyReturn {
         }
     };
 
-    const authenticate = async (): Promise<PasskeyUser> => {
+    const authenticate = async (address: string): Promise<PasskeyUser> => {
         if (!address) throw new Error("No wallet connected");
         setLoading(true);
         setError(null);

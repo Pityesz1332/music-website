@@ -40,12 +40,18 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 
     // connecting logika (passkey-el)
     const connect = async (): Promise<void> =>  {
+        if (!passkey.isSupported) throw new Error("WebAuthn not supported");
         const connector = connectors[0] ?? injected();
-        await wagmiConnect.mutateAsync({ connector });
-        const user = await passkey.authenticate();
+        const result = await wagmiConnect.mutateAsync({ connector });
+        const address = result.accounts[0];
+
+        const stored = localStorage.getItem("passkeyUser");
+        const user = stored ? await passkey.authenticate(address) : await passkey.register(address);
+        
         setUser(user);
         setIsConnected(true);
         localStorage.setItem("isConnected", "true");
+        localStorage.setItem("passkeyUser", JSON.stringify(user));
     };
 
     // ez a dev login csak ideiglenes, hogy ne kelljen passkey-t használni fejlesztésnél
@@ -66,8 +72,10 @@ export function AuthProvider({ children }: {children: ReactNode}) {
     // regisztráljuk a user-t
     const register = async (): Promise<void> => {
         const connector = connectors[0] ?? injected();
-        await wagmiConnect.mutateAsync({ connector });
-        const user = await passkey.register();
+        const result = await wagmiConnect.mutateAsync({ connector });
+        const address = result.accounts[0];
+
+        const user = await passkey.register(address);
         setUser(user);
         setIsConnected(true);
         localStorage.setItem("isConnected", "true");

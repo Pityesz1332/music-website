@@ -91,6 +91,8 @@ export async function registerPasskey(walletAddress: string): Promise<PasskeyUse
 
 // MOCK: backendnél POST /auth/passkey/login + session indítás
 export async function authPasskey(walletAddress: string): Promise<PasskeyUser> {
+    if (!navigator.credentials) throw new Error("WebAuthn not supported in this environment");
+    
     const options = await generateAuthChallenge();
     const assertion = await navigator.credentials.get({ publicKey: options });
 
