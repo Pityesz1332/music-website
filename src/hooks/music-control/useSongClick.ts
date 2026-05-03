@@ -7,9 +7,8 @@ export const useSongClick = () => {
     const navigate = useNavigate();
     const { playSong, playlist, setPlaylist } = useMusic();
 
-    // sima kattintás egy zenére
-    // zene indítása
-    // adatok átadása az új oldalnak
+    // Handle track selection.
+    // Initialize playback and pass data to the new page.
     const handleSongClick = (song: Song) => {
         playSong(song);
         navigate(getSongPath(song.id), {
@@ -17,7 +16,7 @@ export const useSongClick = () => {
         });
     };
 
-    // kattintás szűrt listában (pl. saved)
+    // Handling clicks within a filtered list (e.g., saved tracks).
     const handleFilteredSongClick = (song: Song, newPlaylist: Song[]) => {
         setPlaylist(newPlaylist);
         playSong(song);

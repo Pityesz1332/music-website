@@ -27,7 +27,7 @@ export const Saved = () => {
     const handleResetSearch = () => navigate(MainRoutes.SAVED);
     const onSongClick = (song: Song) => handleFilteredSongClick(song, filteredSongs);
     
-    // loading screen amíg az adatok megérkeznek
+    // loading screen while data arrives
     if (!savedSongs) return <LoadingState message={SAVED_STRINGS.LOADING} />
 
     return (

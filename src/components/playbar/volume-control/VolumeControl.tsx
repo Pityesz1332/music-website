@@ -6,8 +6,8 @@ interface VolumeControlProps {
     adjustVolume: (direction: number) => void;
 }
 
-// hangerőszabálízó, amely támogatja a kattintást, 
-// húzást és görgővel való állítást is.
+// Volume control that supports clicking, 
+// dragging, and mouse wheel adjustments.
 export const VolumeControl = ({
     volume,
     volumeWrapperRef,

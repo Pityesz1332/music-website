@@ -22,9 +22,9 @@ interface TrackActionsProps {
     notify: (message: string, type: NotificationType) => void;
 }
 
-// a playbar jobb oldali panelje, amely extra funkciókat biztosít. 
-// azért különítettem el, mert ezek a funkciók 
-// a külső állapotoktól függenek (pl. bejelentkezett állapot)
+// playbar right side
+// separated because these functions depend on 
+// external states (authentication status)
 export const TrackActions = ({
     volume,
     volumeWrapperRef,
@@ -41,7 +41,7 @@ export const TrackActions = ({
     saveSong,
     notify
 }: TrackActionsProps) => {
-    // aktuális zene mentése + UI feedback
+    // saving song + UI feedback
     const handleSaveToggle = () => {
         if (isSaved) {
             removeSavedSong(song.id);

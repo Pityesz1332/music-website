@@ -10,9 +10,8 @@ interface PlaylistMenuProps {
     onDelete: (id: string) => void;
 }
 
-// egy menü, amely pontosan ott jelenik meg, ahol a user
-// jobb klikkel kattintott.
-// felülbírálja a böngésző default jobbklikkmenüjét
+// Custom context menu positioned at the exact click coordinates.
+// Prevents and replaces the native browser right click menu.
 export const PlaylistMenu = ({ contextMenu, menuRef, onEdit, onDelete }: PlaylistMenuProps) => {
     if (!contextMenu) return null;
 

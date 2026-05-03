@@ -7,7 +7,6 @@ interface SongsNoResultsProps {
     searchQuery: string;
 }
 
-// "nincs találat" állapot kezelése, reload gombbal
 export const SongsNoResults = ({ searchQuery }: SongsNoResultsProps) => {
     return (
         <div className="songs__no-results">

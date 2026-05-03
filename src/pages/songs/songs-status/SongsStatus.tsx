@@ -9,7 +9,6 @@ interface SongsStatusProps {
 }
 
 export const SongsStatus = ({ loading, error, retry }: SongsStatusProps) => {
-    // töltési logika
     if (loading) {
         return (
             <div className="songs songs--loading">
@@ -21,7 +20,6 @@ export const SongsStatus = ({ loading, error, retry }: SongsStatusProps) => {
         );
     }
     
-    // hibakezelés, fallback oldal
     if (error) {
         return (
             <div className="songs songs--error">

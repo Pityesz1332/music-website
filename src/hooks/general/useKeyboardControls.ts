@@ -9,7 +9,6 @@ interface KeyboardControlsProp {
     songExist: boolean;
 }
 
-// globális billentyűzetfigyelő a lejátszó vezérléshez
 export const useKeyboardControls = ({
     audioRef,
     isPlaying,

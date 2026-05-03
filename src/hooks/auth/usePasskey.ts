@@ -10,7 +10,6 @@ interface UsePasskeyReturn {
     error: string | null;
 }
 
-// itt minden mock adatokkal működik jelenleg, de majd átírom, ha lesz backend
 export function usePasskey(): UsePasskeyReturn {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -23,7 +22,7 @@ export function usePasskey(): UsePasskeyReturn {
         setError(null);
         try {
             const user = await registerPasskey(address);
-            // MOCK - backend-nél ez nem kell. szerver kezeli majd.
+            // MOCK
             localStorage.setItem("passkeyUser", JSON.stringify(user));
             return user;
         } catch (err) {

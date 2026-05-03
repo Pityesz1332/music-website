@@ -2,7 +2,7 @@ import { Music, Heart, User } from "lucide-react";
 import { MainRoutes } from "@routes/constants/MainRoutes";
 import { NAVBAR_STRINGS } from "@i18n/ui/navbar";
 
-// a navbar listaelemei
+// navbar list items
 export const NAV_CONFIG = [
     {
         path: MainRoutes.SONGS,

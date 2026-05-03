@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import type { Song } from "@interfaces/music";
 import { NotificationType } from "@context/NotificationContext";
 import { PLAYLIST_ACTIONS_STRINGS } from "@i18n/feedback/playlist-actions";
+import { useClickOutside } from "@hooks/general/useClickOutside";
 
-// paraméterek meghatározása
 interface UsePlaylistActionsProps {
     playlist: Song[];
     setPlaylist: (playlist: Song[]) => void;
@@ -27,37 +27,32 @@ export const usePlaylistActions = ({
     
     const menuRef = useRef<HTMLDivElement | null>(null);
 
-    // kívülre kattintás figyelése és menü bezárása
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-                setContextMenu(null);
-            }
-        };
-
-        document.addEventListener("click", handleClickOutside);
-        return () => document.removeEventListener("click", handleClickOutside);
-    }, []);
-
-    // jobb klikk -> saját menü, nem a böngésző default
+    // TO-DO: using the useClickOutside hook 
+    useClickOutside({
+        ref: menuRef,
+        callback: () => setContextMenu(null),
+        enabled: contextMenu !== null
+    });
+    
+    // Custom context menu: overrides the default browser menu on right-click.
     const handleContextMenu = (e: React.MouseEvent, songId: string) => {
         e.preventDefault();
         setContextMenu({ x: e.clientX, y: e.clientY, songId });
     };
 
-    // szerkesztési mód bekapcsolása
+    // editing mode
     const handleEdit = (songId: string) => {
         setEditingSongId(songId);
         setContextMenu(null);
     };
 
-    // szerkesztési mód bezárása
+    // closing editing mode
     const closeEditMode = (e: React.MouseEvent) => {
         e.stopPropagation();
         setEditingSongId(null);
     };
 
-    // zene mozgatása a listában (fel vagy le)
+    // moving song in the list (up-down)
     const moveSong = (e: React.MouseEvent, direction: "up" | "down", songId: string) => {
         e.stopPropagation();
         const currentIndex = playlist.findIndex((s) => s.id === songId);
@@ -71,7 +66,7 @@ export const usePlaylistActions = ({
         setPlaylist(newPlaylist);
     };
 
-    // zene törlése a listából megerősítás után
+    // deleting song from the list (after confirm)
     const openDeleteModal = (songId: string) => {
         const song = playlist.find(s => s.id === songId);
         if (song) {

@@ -22,7 +22,7 @@ export const useUploadSong = (onSave: (song: any) => void) => {
 
     const audioInputRef = useRef<HTMLInputElement>(null);
 
-    // audio fájl hosszának metadata kinyerése
+    // Extracting audio file duration metadata.
     const getAudioDuration = (file: File): Promise<string> => {
         return new Promise((resolve) => {
             const audio = new Audio();
@@ -37,7 +37,7 @@ export const useUploadSong = (onSave: (song: any) => void) => {
         });
     };
 
-    // fájl kiválasztás kezelése és automatikus adatkitöltés
+    // File selection handling and auto-filling data.
     const handleAudioChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file && file.type.startsWith("audio/")) {
@@ -53,7 +53,7 @@ export const useUploadSong = (onSave: (song: any) => void) => {
         }
     };
 
-    // borítókép megváltoztatása
+    // cover handling
     const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file && file.type.startsWith("image/")) {
@@ -63,7 +63,7 @@ export const useUploadSong = (onSave: (song: any) => void) => {
         }
     };
 
-    // adatok küldése a swarm-nak
+    // sending data to swarm
     const handleUpload = async() => {
         if (!audioFile || !form.title || !form.artist || !form.genre) {
             alert("Fill every field!");
@@ -74,10 +74,10 @@ export const useUploadSong = (onSave: (song: any) => void) => {
         setProgress(0);
 
         try {
-            // audio feltöltése a swarm-ra
+            // audio uploading
             const swarmHash = await uploadAudio(audioFile, setProgress);
 
-            // bórítókép egyelőre local, de majd ez is megy a swarm-ra
+            // cover (still local, but this will be on swarm as well)
             const coverUrl = coverFile ? URL.createObjectURL(coverFile) : "";
 
             onSave({

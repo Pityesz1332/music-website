@@ -1,12 +1,8 @@
-// EZT A TELJES KÓDOT AI ÍRTA, MERT CSAK 
-// TESZTELNI AKARTAM A MŰKÖDÉST.
+// AI-generated script for functionality testing. Not for production.
 
 /**
- * Egyszeri dev script: feltölti a zenéket a lokális bee-dev node-ra,
- * és kiírja a hash-eket amit a songs.json-ba kell másolni.
- *
- * Használat:
- *   npx tsx src/swarm/uploadToSwarm.ts
+ * One-time dev utility: populates a local bee-dev node with tracks
+ * and logs the resulting hashes for songs.json.
  */
 
 import { Bee } from "@ethersphere/bee-js";
@@ -15,9 +11,9 @@ import path from "path";
 
 const BEE_URL = "http://localhost:1633";
 
-// a feltöltendő fájlok listája
-// src: a projekt gyökeréhez képest relatív path
-// songId: a songs.json-ban lévő id (csak a loghoz)
+// List of files to be uploaded.
+// src: path relative to the project root.
+// songId: ID from songs.json (used for logging purposes only).
 const SONGS = [
     {
         songId: "1",
@@ -34,51 +30,51 @@ const SONGS = [
 async function uploadAll() {
     const bee = new Bee(BEE_URL);
 
-    // node elérhetőség ellenőrzése
-    console.log("🔍 Bee node ellenőrzése...");
+    // checking node status
+    console.log("🔍 Checking Bee node...");
     try {
         const connected = await bee.isConnected();
         if (!connected) throw new Error("Node not connected");
-        console.log("✅ Bee node elérhető:", BEE_URL);
+        console.log("✅ Bee node available:", BEE_URL);
     } catch {
-        console.error("❌ Bee node nem elérhető:", BEE_URL);
-        console.error("   Indítsd el: bee-dev start");
+        console.error("❌ Bee node not available:", BEE_URL);
+        console.error("   Start: bee dev");
         process.exit(1);
     }
 
-    // stamp lekérése – dev node-on automatikusan létezik egy
-    console.log("\n📦 Stamp lekérése...");
+    // Fetch postage stamp
+    console.log("\n📦 Searching for Stamp...");
     let batchId: string;
     try {
-        const stamps = await bee.getAllPostageBatch();
-        if (!stamps.length) throw new Error("Nincs elérhető stamp");
+        const stamps = await bee.getPostageBatches();
+        if (!stamps.length) throw new Error("No available stamp");
         batchId = stamps[0].batchID.toHex();
         console.log("✅ Stamp ID:", batchId);
     } catch (err) {
-        console.error("❌ Stamp lekérés sikertelen:", err);
+        console.error("❌ Error getting stamp:", err);
         process.exit(1);
     }
 
-    // feltöltések
-    console.log("\n🚀 Feltöltés megkezdése...\n");
+    // uploads
+    console.log("\n🚀 Starting upload...\n");
     const results: { songId: string; title: string; hash: string }[] = [];
 
     for (const song of SONGS) {
         const filePath = path.resolve(process.cwd(), song.src);
 
-        // fájl létezés ellenőrzése
+        // checking for existing files
         if (!fs.existsSync(filePath)) {
-            console.warn(`⚠️  Fájl nem található, kihagyva: ${filePath}`);
+            console.warn(`⚠️  File not found: ${filePath}`);
             continue;
         }
 
-        console.log(`📤 Feltöltés: ${song.title}`);
-        console.log(`   Fájl: ${filePath}`);
+        console.log(`📤 Upload: ${song.title}`);
+        console.log(`   File: ${filePath}`);
 
         try {
             const fileData = fs.readFileSync(filePath);
             const fileSizeMB = (fileData.length / 1024 / 1024).toFixed(2);
-            console.log(`   Méret: ${fileSizeMB} MB`);
+            console.log(`   Size: ${fileSizeMB} MB`);
 
             const result = await bee.uploadData(batchId as any, fileData);
             const hash = result.reference.toString();
@@ -86,18 +82,18 @@ async function uploadAll() {
             console.log(`   ✅ Hash: ${hash}\n`);
             results.push({ songId: song.songId, title: song.title, hash });
         } catch (err) {
-            console.error(`   ❌ Feltöltés sikertelen: ${err}\n`);
+            console.error(`   ❌ Upload failed: ${err}\n`);
         }
     }
 
-    // összefoglaló – ezt kell a songs.json-ba másolni
+    // Summary – copy and paste this content into songs.json.
     if (results.length === 0) {
-        console.error("❌ Egy feltöltés sem sikerült.");
+        console.error("❌ One upload failed.");
         process.exit(1);
     }
 
     console.log("═══════════════════════════════════════════════════");
-    console.log("✅ KÉSZ – másold be a songs.json swarmHash mezőibe:");
+    console.log("✅ DONE");
     console.log("═══════════════════════════════════════════════════\n");
 
     results.forEach(({ songId, title, hash }) => {
@@ -105,8 +101,7 @@ async function uploadAll() {
         console.log(`  "swarmHash": "${hash}"\n`);
     });
 
-    // opcionális: automatikusan frissíti a songs.json-t
-    // ha nem akarod, kommenteld ki ezt a blokkot
+    // automaticly updates songs.json
     try {
         const jsonPath = path.resolve(process.cwd(), "src/data/songs.json");
         const raw = fs.readFileSync(jsonPath, "utf-8");
@@ -119,10 +114,10 @@ async function uploadAll() {
         });
 
         fs.writeFileSync(jsonPath, JSON.stringify(songs, null, 4));
-        console.log("📝 songs.json automatikusan frissítve.");
+        console.log("📝 songs.json updated.");
     } catch (err) {
-        console.warn("⚠️  songs.json automatikus frissítés sikertelen – másold be kézzel.");
-        console.warn("   Hiba:", err);
+        console.warn("⚠️  songs.json update failed. Paste it manually");
+        console.warn("   Error:", err);
     }
 }
 

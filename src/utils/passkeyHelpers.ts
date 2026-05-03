@@ -1,5 +1,6 @@
-// jelenleg csak mock
-// backend-nél a generateChallenge() és verifyAssertion() függvényeket kell lecserélni API hívásra
+// Currently a mock implementation.
+// For backend integration, replace generateChallenge() and verifyAssertion() 
+// with actual API calls.
 
 export interface PasskeyUser {
     id: string;
@@ -36,7 +37,7 @@ export async function derivePasskeyUser(walletAddress: string): Promise<PasskeyU
     };
 }
 
-// MOCK: backendnél ez egy POST /auth/passkey/challenge hívás lesz
+// MOCK: -> POST /auth/passkey/challenge
 export async function generateRegistrationChallenge(walletAddress: string): Promise<PublicKeyCredentialCreationOptions> {
     const challenge = crypto.getRandomValues(new Uint8Array(32));
     const user = await derivePasskeyUser(walletAddress);
@@ -66,7 +67,7 @@ export async function generateRegistrationChallenge(walletAddress: string): Prom
     };
 }
 
-// MOCK: backendnél ez egy POST /auth/passkey/login/challenge hívás lesz
+// MOCK: -> POST /auth/passkey/login/challenge
 export async function generateAuthChallenge(): Promise<PublicKeyCredentialRequestOptions> {
     const challenge = crypto.getRandomValues(new Uint8Array(32));
 
@@ -78,7 +79,7 @@ export async function generateAuthChallenge(): Promise<PublicKeyCredentialReques
     };
 }
 
-// MOCK: backendnél POST /auth/passkey/register + JWT/session visszakapás
+// MOCK: -> POST /auth/passkey/register + JWT/session
 export async function registerPasskey(walletAddress: string): Promise<PasskeyUser> {
     const options = await generateRegistrationChallenge(walletAddress);
     const credentials = await navigator.credentials.create({ publicKey: options });
@@ -89,7 +90,7 @@ export async function registerPasskey(walletAddress: string): Promise<PasskeyUse
     return user;
 }
 
-// MOCK: backendnél POST /auth/passkey/login + session indítás
+// MOCK: -> POST /auth/passkey/login + session starting
 export async function authPasskey(walletAddress: string): Promise<PasskeyUser> {
     if (!navigator.credentials) throw new Error("WebAuthn not supported in this environment");
     
@@ -98,7 +99,7 @@ export async function authPasskey(walletAddress: string): Promise<PasskeyUser> {
 
     if (!assertion) throw new Error("Passkey auth error");
 
-    // MOCK válasz - majd a szerver ellenőriz később
+    // MOCK
     const stored = localStorage.getItem("passkeyUser");
     if (!stored) throw new Error("No registered passkey on this device");
 

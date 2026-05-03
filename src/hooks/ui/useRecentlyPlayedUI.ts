@@ -4,16 +4,15 @@ export const useRecentlyPlayedUI = <T>(recentlyPlayed: T[], isProfilePage: boole
     const [currentIndex, setCurrentIndex] = useState(0);
     const [fade, setFade] = useState<boolean>(true);
 
-    // ellenőrzi, hogy ne csússzunk ki a lista tartományából
+    // Prevent selecting an index outside the list range.
     useEffect(() => {
         if (currentIndex >= recentlyPlayed.length) {
             setCurrentIndex(0);
         }
     }, [recentlyPlayed.length, currentIndex]);
     
-    // 3 mp-ként váltjuk a listaelemeket
     useEffect(() => {
-        // ha csak 1 elem van, vagy a profil oldalon vagyunk, nem kell pörgetni
+        // No rotation needed for single items or on the profile page.
         if (recentlyPlayed.length <= 1 || isProfilePage) {
             return;
         }

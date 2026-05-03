@@ -17,8 +17,8 @@ interface SongsFilterProps {
     onClear: () => void;
 }
 
-// dinamikus szűrőpanel, amely lehetővé teszi a user-nek, 
-// hogy műfajok szerint (egyelőre) szűkítse a dallistát.
+// Dynamic filtering interface for refining the song list. 
+// Currently supports filtering by genre, with more criteria to follow.
 export const SongsFilter = ({ 
     genres, 
     selectedGenre, 

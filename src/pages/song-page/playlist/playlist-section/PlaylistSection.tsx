@@ -73,7 +73,7 @@ export const PlaylistSection = () => {
                 </div>
             </div>
 
-            {/* card-on jobbklikk-re megjelenő menü */}
+            {/* right click menu */}
             {!isPlaylistEmpty && (
                 <PlaylistMenu
                     contextMenu={contextMenu}

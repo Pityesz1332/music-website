@@ -13,7 +13,6 @@ interface EditSongProps {
     onChange: (field: keyof Song | "coverFile", value: any) => void;
 }
 
-// modal komponens a dalok adatainak szerkesztéséhez
 export const EditSong = ({ song, onClose, onSave, onChange }: EditSongProps) => {
     useEffect(() => {
         const currentCover = song.cover;

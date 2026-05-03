@@ -6,7 +6,6 @@ interface SongsCardProps {
     onClick: (song: Song) => void;
 }
 
-// zenék kártyája
 export const SongsCard = ({ song, onClick }: SongsCardProps) => {
     return (
         <div className="songs__card-wrapper">

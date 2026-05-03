@@ -2,7 +2,7 @@ import { ERROR_BOUNDARY_STRINGS } from "@i18n/ui/error-boundary";
 import { PrimaryButton } from "../ui/button/PrimaryButton";
 import "./ErrorBoundary.scss";
 
-// error fallback oldal, reload gombbal
+// error fallback page with reload button
 export const ErrorFallback = () => {
 
     const handleReload = () => {

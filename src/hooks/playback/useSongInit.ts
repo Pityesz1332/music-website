@@ -9,7 +9,7 @@ interface UseSongInitProps {
     setPlaylist: (song: Song[]) => void;
 }
 
-// beállítjuk a playlist-et az oldal betöltésekor
+// Initialize the playlist on page load.
 export const useSongInit = ({ playlist, setPlaylist }: UseSongInitProps) => {
     const { state } = useLocation();
     const { showLoading, hideLoading } = useLoading();

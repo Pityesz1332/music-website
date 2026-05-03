@@ -8,7 +8,7 @@ interface PlaybackControlsProps {
     isLoading: boolean;
     isPlaying: boolean;
 }
-// a player fő vezérlőgombjai. 
+
 export const PlaybackControls = ({
     onPrev,
     onNext,

@@ -10,9 +10,9 @@ interface PlaybackControlsProps {
     onTogglePlay: () => void;
 }
 
-// songpage gombjait tartalmazó csoport (lejátszás) 
-// ez a komponens nem tudja, hogyan kell lejátszani,
-// csak azt, hogy melyik gombot nyomták meg. 
+// Playback button group for the SongPage.
+// This component doesn't handle playback logic, it only captures 
+// which button was pressed and notifies the handler.
 export const PlaybackControls = ({ isPlaying, onPrev, onNext, onTogglePlay }: PlaybackControlsProps) => {
     return (
         <div className="song-page__controls">

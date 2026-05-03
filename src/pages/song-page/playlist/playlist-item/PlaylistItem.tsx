@@ -17,8 +17,7 @@ interface PlaylistItemProps {
     itemRef: (id: string, el: HTMLDivElement | null) => void;
 }
 
-// kártya, ami támogatja a lejátszást, a kontextus menüt 
-// és a manuális sorrendezést
+// Card component that features playback, a context menu, and manual reordering.
 export const PlaylistItem = ({
     song,
     isCurrent,
@@ -69,7 +68,7 @@ export const PlaylistItem = ({
 
             <SongActions song={song} isMini={true} />
                         
-            {/* zenék mozgatása a playlist-en */}
+            {/* moving songs on playlist */}
             {isEditing && (
                 <div className="song-page__edit-controls">
                     <PrimaryButton

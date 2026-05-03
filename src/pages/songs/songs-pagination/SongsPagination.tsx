@@ -8,7 +8,6 @@ interface SongsPaginationProps {
     onPageChange: (page: number) => void;
 }
 
-// oldalak számozása és oldalváltás kezelése, ha egynél több oldal van. 
 export const SongsPagination = ({ currentPage, totalPages, onPageChange }: SongsPaginationProps) => {
     if (totalPages <= 1) return null;
 

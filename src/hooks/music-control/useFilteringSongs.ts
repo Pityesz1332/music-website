@@ -16,7 +16,7 @@ export const useFilteringSongs = (itemsPerPage: number = 15) => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    // zenék betöltése új fájlból és localstorage-ból
+    // Fetching tracks from imported files and local storage.
     const loadSongs = useCallback(async () => {
         try {
             setLoading(true);
@@ -26,7 +26,7 @@ export const useFilteringSongs = (itemsPerPage: number = 15) => {
             const savedToLocal = localStorage.getItem("admin_songs");
             const uploadedSongs: Song[] = savedToLocal ? JSON.parse(savedToLocal) : [];
             
-            // listák összefűzése
+            // Merging lists
             const allSongs = [...uploadedSongs, ...baseSongs];
             const uniqueSongs = Array.from(new Map(allSongs.map(s => [s.id, s])).values());
             
@@ -38,23 +38,23 @@ export const useFilteringSongs = (itemsPerPage: number = 15) => {
         }
     }, []);
 
-    // betöltés indítása az első futáskor
+    // Initialize loading on first execution.
     useEffect(() => {
         loadSongs();
     }, [loadSongs]);
 
-    // keresés kinyerése az url-ből
+    // Extracting search query from the URL.
     const searchQuery = useMemo(() => {
         const queryParams = new URLSearchParams(location.search);
         return queryParams.get("search")?.toLowerCase() ?? "";
     }, [location.search]);
 
-    // genre kigyűjtése a listából
+    // Extracting genre from lists
     const genres = useMemo(() => {
         return ["All", ...new Set(songs.map(song => song.genre))];
     }, [songs]);
 
-    // duration számmá alakítása a sorting-hoz
+    // duration to number for sorting
     const parseDuration = (duration: string) => {
         const parts = duration.split(":").map(Number);
         if (parts.length === 2) {
@@ -77,7 +77,7 @@ export const useFilteringSongs = (itemsPerPage: number = 15) => {
         }
     }, [location.pathname, location.search, navigate]);
     
-    // szűrés alapján
+    // based on filtering
     const filteredSongs = useMemo(() => {
         let result = songs.filter(song => 
             (selectedGenre === "All" ? true : song.genre === selectedGenre) &&
@@ -108,21 +108,19 @@ export const useFilteringSongs = (itemsPerPage: number = 15) => {
 
     const totalPages = Math.ceil(filteredSongs.length / itemsPerPage);
 
-    // csak az aktuális oldalra eső dalok (lapozás)
     const currentSongs = useMemo(() => {
         const startIndex = (currentPage - 1) * itemsPerPage;
         return filteredSongs.slice(startIndex, startIndex + itemsPerPage);
     }, [filteredSongs, currentPage, itemsPerPage]);
 
-    // ha változik a szűrés, ugorjunk vissza az első oldalra
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedGenre, searchQuery, sortField, sortOrder]);
 
-    // műfajváltás kezelője
+    // genre handling
     const handleGenreChange = (genre: string) => setSelectedGenre(genre);
 
-    // sorting kezelése
+    // sorting
     const handleSort = (field: SortField, order: SortOrder) => {
         if (sortField === field && sortOrder === order) {
             setSortField("none");
@@ -134,7 +132,7 @@ export const useFilteringSongs = (itemsPerPage: number = 15) => {
     };
 
     return {
-        songs, setSongs, // ha manuálisan kellene frissíteni később
+        songs, setSongs,
         filteredSongs,
         currentSongs,
         genres,

@@ -6,7 +6,7 @@ interface BackgroundProps {
     isPlaying: boolean;
 }
 
-// a songs oldal hátterének változásáért felelő kód
+// song page dynamic background changing
 export const Background = ({ currentSong, isPlaying }: BackgroundProps) => {
     const videoConfigs = [
         { id: "default", src: currentSong.defaultBgVideo, showWhenPlaying: false },

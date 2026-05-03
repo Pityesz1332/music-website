@@ -42,7 +42,6 @@ const Playbar = () => {
     } = useVolumeControl(audioRef);
     
     const auth = useAuth();
-    // ez biztonsági ellenőrzés magamnak
     if (!auth) throw new Error("useAuth must be used within AuthProvider");
     const { isConnected } = auth;
     const {
@@ -65,10 +64,9 @@ const Playbar = () => {
 
     const { notify } = useNotification();
     
-    //megnézzük, hogy mentve van-e az adott zene
     const isSaved = song ? savedSongs.some(s => s.id === song.id) : false;
     
-    // playbar állapotváltozásai változókba mentve
+    // Playbar state changes saved into variables
     const playbarBaseClass = "playbar";
     const playbarClasses = [
         playbarBaseClass,
@@ -103,10 +101,10 @@ const Playbar = () => {
                 onNext={onNext}
             />
             
-            {/* Bal oldal */}
+            {/* left side */}
             <SongDetails song={song} currentTime={currentTime} />
 
-            {/* Közép */}
+            {/* middle */}
             <PlaybackControls
                 onPrev={onPrev}
                 onNext={onNext}
@@ -115,7 +113,7 @@ const Playbar = () => {
                 isPlaying={isPlaying}
             />
 
-            {/* Jobb oldal */}
+            {/* right side */}
             <TrackActions
                 volume={volume}
                 volumeWrapperRef={volumeWrapperRef}

@@ -4,7 +4,7 @@ import { MainRoutes } from "@routes/constants/MainRoutes";
 import { NOT_FOUND_STRINGS } from "@i18n/ui/not-found";
 import "./NotFound.scss";
 
-// fallback oldal
+// fallback
 export const NotFound = () => {
     return (
         <div className="not-found">

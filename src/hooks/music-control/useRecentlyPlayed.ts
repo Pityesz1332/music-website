@@ -1,13 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Song } from "@interfaces/music";
 
-// ezen a néven mentjük az adatokat
 const STORAGE_KEY = "recentlyPlayed";
-// csak az utolsó 5 dalt jegyezzük meg
 const MAX_ITEMS = 5;
 
 export const useRecentlyPlayed = () => {
-    // megpróbáljuk betölteni a mentett listát
+    // loading saved lists
     const [recentlyPlayed, setRecentlyPlayed] = useState<Song[]>(() => {
         try {
             const saved = localStorage.getItem(STORAGE_KEY);
@@ -18,13 +16,13 @@ export const useRecentlyPlayed = () => {
         }
     });
 
-    // ha változik a lista tartalma, mentjük a localstorage-be
+    // Sync list to localStorage on content change.
     useEffect(() => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(recentlyPlayed));
     }, [recentlyPlayed]);
 
-    // hozzáadjuk az új dalt az előzményekhez
-    // mindig a legutóbb hallgatott lesz az első
+    // Add the new song to history.
+    // The most recently played item is always moved to the front.
     const addToRecentlyPlayed = useCallback((song: Song) => {
         setRecentlyPlayed(prev => {
             const filtered = prev.filter(s => s.id !== song.id);
@@ -32,7 +30,7 @@ export const useRecentlyPlayed = () => {
         });
     }, []);
 
-    // előzmények törlése
+    // deleting history
     const clearRecentlyPlayed = useCallback(() => {
         setRecentlyPlayed([]);
     }, []);

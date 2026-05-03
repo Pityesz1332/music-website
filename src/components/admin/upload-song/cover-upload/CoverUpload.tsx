@@ -8,11 +8,9 @@ interface CoverUploadProps {
 
 export const CoverUpload = ({ coverFile, onCoverChange }: CoverUploadProps) => {
     return (
-        // azért választottam label-t, mert így
-        // nem kell useRef-et és kattintáskezelő függvényt készíteni
-        // egyszerűbb és tisztább
+        // Using a label element to wrap the hidden input
+        // Eliminating the need for useRef or manual click handlers for a cleaner implementation
         <label className="upload-song__cover-label">
-            {/* dinamikus szöveg a fájlfeltöltés állapotától függően */}
             <ImageIcon size={18}/> {coverFile ? ADMIN_UPLOAD_SONG_STRINGS.COVER.SUCCESS : ADMIN_UPLOAD_SONG_STRINGS.COVER.UPLOAD}
             <input
                 className="upload-song__file-input"

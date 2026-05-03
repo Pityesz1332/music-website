@@ -16,7 +16,6 @@ export const useAdminAuth = () => {
     const { notify } = useNotification();
     const navigate = useNavigate();
 
-    // input kezelés a "name" alapján
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setCredentials(prev => ({
@@ -25,7 +24,6 @@ export const useAdminAuth = () => {
         }));
     };
 
-    // login folyamat kezelése
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -42,7 +40,6 @@ export const useAdminAuth = () => {
             navigate(MainRoutes.ADMIN_DASHBOARD);
             notify(ADMIN_AUTH_STRINGS.MESSAGES.ACCEPT, NotificationType.SUCCESS);
         } catch (err: any) {
-            // hibánál jelszó mező ürítése
             setCredentials(prev => ({ ...prev, password: "" }));
             notify(ADMIN_AUTH_STRINGS.MESSAGES.DECLINE, NotificationType.ERROR);
             setIsLoading(false);

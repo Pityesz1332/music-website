@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import type { Song } from "@interfaces/music";
 
-// bemeneti adatok
 interface UsePlaylistScrollProps {
     currentSong: Song | null;
     playlist: Song[];
@@ -17,27 +16,27 @@ export const usePlaylistScroll = ({
     const itemsRef = useRef<Map<string, HTMLElement>>(new Map());
 
     useEffect(() => {
-        // megnézzük, melyik elemre kell fókuszálni
-        // szerkesztett dal elsőbbséget élvez
+        // Identifying the element to focus on.
+        // Prioritizing the track currently being edited.
         const targetId = editingSongId ?? currentSong?.id;
         if (!targetId || !playlistRef.current) return;
 
-        // megkeressük a listában a konkrét elemet, id alapján
+        // Find the specific item in the list by ID.
         const activeCard = itemsRef.current.get(targetId);
         if (!activeCard) return;
 
         const container = playlistRef.current;
         
-        // kiszámoljuk mennyit kell görgetni, hogy az elem középre kerüljön
+        // Calculate the scroll offset required to center the element.
         const scrollTop = activeCard.offsetTop - (container.clientHeight / 2) + (activeCard.clientHeight / 2);
-        // smooth görgetés
+        // smooth scrolling
         container.scrollTo({
             top: scrollTop,
             behavior: "smooth"
         });
     }, [currentSong, playlist, editingSongId]);
 
-    // segédfüggvény, ami regisztrálja a listaelemeket
+    // Helper function to register list items.
     const setItemRef = (id: string, el: HTMLElement | null) => {
         if (el) {
             itemsRef.current.set(id, el);

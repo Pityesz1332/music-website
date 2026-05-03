@@ -11,12 +11,12 @@ export const useSongManager = () => {
     const [isUploadOpen, setIsUploadOpen] = useState(false);
     const [editSong, setEditSong] = useState<Song | null>(null);
 
-    // minden változásnál szinkronizáljuk a listát a localstorage-ba
+    // Synchronize the list to localStorage on every change.
     useEffect(() => {
         localStorage.setItem("admin_songs", JSON.stringify(songs));
     }, [songs]);
 
-    // új zene hozzáadása (kiszámoljuk ID alapján) + a default videók hozzáadása
+    // Add new music (calculated by ID) and include the default videos.
     const saveNewSong = (song: any) => {
         const maxId = songs.length > 0 ? Math.max(...songs.map(s => Number(s.id))) : 0;
 
@@ -37,19 +37,17 @@ export const useSongManager = () => {
         setIsUploadOpen(false);
     };
 
-    // zene törlése
     const deleteSong = (id: string) => {
         setSongs(songs.filter((s) => s.id !== id));
     };
 
-    // szerkesztés mentése
     const saveEdit = () => {
         if (!editSong) return;
         setSongs(songs.map(s => (s.id === editSong?.id ? editSong : s)));
         setEditSong(null);
     };
 
-    // dinamikus kulcskezelés
+    // dynamic key management
     const handleEditChange = (field: keyof Song | "coverFile", value: string | File) => {
         setEditSong(prev => {
             if (!prev) return null;
@@ -57,7 +55,7 @@ export const useSongManager = () => {
         });
     };
 
-    // modalkezelés
+    // modal handling
     const openEditModal = (song: Song) => setEditSong(song);
     const closeEditModal = () => setEditSong(null);
     const openUploadModal = () => setIsUploadOpen(true);

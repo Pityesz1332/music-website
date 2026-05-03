@@ -5,7 +5,7 @@ import { useAvatarUpload } from "@hooks/user-account/useAvatarUpload";
 import { useClipboard } from "@hooks/user-account/useClipboard";
 import { MY_ACCOUNT_STRINGS } from "@i18n/ui/my-account";
 
-// a profil kezeléséhez szüksége interakciók (mock adatokkal)
+// MOCK
 export const useAccountActions = () => {
     const walletAddress = "0x123456789DEMO";
 

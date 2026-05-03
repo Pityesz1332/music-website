@@ -17,7 +17,6 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// itt történik a bejelentkezéskezelés
 export function AuthProvider({ children }: {children: ReactNode}) {
     const [isConnected, setIsConnected] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
@@ -27,7 +26,6 @@ export function AuthProvider({ children }: {children: ReactNode}) {
     const wagmiDisconnect = useWagmiDisconnect();
     const connectors = useConnectors();
 
-    // ha bejelentkezünk, a bejelentkezett állapot marad, frissítésnél is
     useEffect(() => {
         const savedUser = localStorage.getItem("passkeyUser");
         const savedConnected = localStorage.getItem("isConnected");
@@ -38,7 +36,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         setLoading(false);
     }, []);
 
-    // connecting logika (passkey-el)
+    // connecting logic (passkey)
     const connect = async (): Promise<void> =>  {
         if (!passkey.isSupported) throw new Error("WebAuthn not supported");
         const connector = connectors[0] ?? injected();
@@ -54,8 +52,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         localStorage.setItem("passkeyUser", JSON.stringify(user));
     };
 
-    // ez a dev login csak ideiglenes, hogy ne kelljen passkey-t használni fejlesztésnél
-    // megkerüli a passkey-es bejelentkezést
+    // dev login (temporary)
     const devLogin = () => {
         const dummyUser: PasskeyUser = {
             id: "dev-123",
@@ -69,7 +66,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         localStorage.setItem("passkeyUser", JSON.stringify(dummyUser));
     };
 
-    // regisztráljuk a user-t
+    // registering user
     const register = async (): Promise<void> => {
         const connector = connectors[0] ?? injected();
         const result = await wagmiConnect.mutateAsync({ connector });
@@ -81,7 +78,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         localStorage.setItem("isConnected", "true");
     };
 
-    // disconnect logika
+    // disconnect
     const disconnect = async (): Promise<void> => {
         await wagmiDisconnect.mutateAsync();
         setIsConnected(false);
@@ -107,7 +104,6 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 
 export function useAuth() {
     const context = useContext(AuthContext);
-    // hibakezelés a fejlesztéshez
     if (context === undefined) throw new Error("useAuth must be used within an AuthProvider");
     return context;
 }

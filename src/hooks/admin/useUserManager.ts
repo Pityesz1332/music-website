@@ -8,7 +8,7 @@ export const useUserManager = () => {
     const [editUser, setEditUser] = useState<User | null>(null);
     const { notify } = useNotification();
 
-    // lista szűrése
+    // filtering list
     const filteredUsers = useMemo(() => {
         const query = search.toLowerCase();
         return users.filter(
@@ -18,28 +18,28 @@ export const useUserManager = () => {
         );
     }, [users, search]);
 
-    // user törlése
+    // deleting user
     const deleteUser = (id: number) => {
         setUsers(prev => prev.filter(u => u.id !== id));
         notify("User deleted", NotificationType.SUCCESS);
     };
 
-    // szerkesztőmódba lépés
+    // editing mode
     const startEditing = (user: User) => {
         setEditUser({ ...user });
     };
 
-    // kilépés a szerkesztőmódból
+    // exit editing mode
     const cancelEditing = () => {
         setEditUser(null);
     };
 
-    // user adatainak szerkesztése
+    // user data editing
     const handleEditChange = (field: keyof User, value: string) => {
         setEditUser(prev => (prev ? { ...prev, [field]: value } : prev));
     };
 
-    // szerkesztés mentése
+    // save changes
     const saveEdit = () => {
         if (!editUser) return
 

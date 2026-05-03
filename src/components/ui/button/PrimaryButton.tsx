@@ -1,4 +1,4 @@
-// "Okos" gomb komponens
+// Smart button component
 import { useNavigate } from "react-router-dom";
 
 interface PrimaryButtonProps {
@@ -10,7 +10,6 @@ interface PrimaryButtonProps {
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-// az alkalmazás "okos" gomb eleme.
 export const PrimaryButton = ({
     children,
     className = "",

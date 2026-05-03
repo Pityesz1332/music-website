@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Background } from "@interfaces/background";
 
-// háttér váltakozása a homepage-en
+// background change on homepage
 export const useBackgroundChange = (backgrounds: Background[], intervalMs: number = 5000) => {
     const [bgIndex, setBgIndex] = useState<number>(0);
 

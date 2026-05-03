@@ -10,11 +10,9 @@ interface ProgressBarProps {
     handleMouseLeave: () => void;
 }
 
-// mutatja a zene aktuális állását és a segítségével 
-// lehet kezelni a tekerést.
-// ref-et kap, mert a pontos idő kiszámításához 
-// ismernünk kell a sáv fizikai szélességét, 
-// amihez közvetlen DOM hozzáférés kell.
+// Displays the current playback position and enables seeking.
+// It uses a ref because calculating the exact time requires 
+// the track's physical width, which necessitates direct DOM access.
 export const ProgressBar = ({
     progress,
     hoverTime, hoverPos,

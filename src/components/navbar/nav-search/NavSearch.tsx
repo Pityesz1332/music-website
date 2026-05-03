@@ -3,8 +3,6 @@ import { useNavbarSearch } from "@hooks/navbar/useNavbarSearch";
 import { NAVBAR_STRINGS } from "@i18n/ui/navbar";
 
 interface NavSearchProps {
-    // lehetővé teszi, hogy a keresés után 
-    // a szülő komponens is reagáljon
     onActionComplete?: () => void;
 }
 

@@ -1,6 +1,5 @@
 import { useState, RefObject, useEffect, useRef, useCallback } from "react";
 
-// progress bar hook, kezeli a tekerést, iőszámítást és a hover állapotot
 export const useProgressBar = (audioRef: RefObject<HTMLAudioElement>) => {
     const [progress, setProgress] = useState<number>(0);
     const [currentTime, setCurrentTime] = useState<number>(0);
@@ -8,11 +7,10 @@ export const useProgressBar = (audioRef: RefObject<HTMLAudioElement>) => {
     const [hoverTime, setHoverTime] = useState<number | null>(null);
     const [hoverPos, setHoverPos] = useState<number>(0);
 
-    // ref használata queryselector helyett
     const progressBarRef = useRef<HTMLDivElement>(null);
     const seekTimeRef = useRef<number>(0);
 
-    // frissítjük a csúszkát, ahogy halad a zene
+    // Updating the slider as playback progresses.
     const handleTimeUpdate = useCallback(() => {
         if (isSeeking || !audioRef.current) return;
         const audio = audioRef.current;
@@ -21,7 +19,7 @@ export const useProgressBar = (audioRef: RefObject<HTMLAudioElement>) => {
         setProgress(percent || 0);
     }, [isSeeking, audioRef]);
 
-    // kiszámoljuk az X koordinátából, hogy hány %, mennyi idő
+    // Calculating percentage and timestamp based on the X coordinate.
     const calculateTimeFromX = (clientX: number, target: HTMLElement) => {
         const rect = target.getBoundingClientRect();
         const x = clientX - rect.left;
@@ -29,7 +27,7 @@ export const useProgressBar = (audioRef: RefObject<HTMLAudioElement>) => {
         return { percent, time: percent * (audioRef.current?.duration || 0), x };
     };
 
-    // progress bar-ra kattintásra tekerés indítása
+    // Initialize seeking on progress bar click.
     const startSeek = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!audioRef.current) return;
         setIsSeeking(true);
@@ -38,7 +36,7 @@ export const useProgressBar = (audioRef: RefObject<HTMLAudioElement>) => {
         seekTimeRef.current = time;
     };
 
-    // hover állapotban mutatja, hogy hol tartana a zene
+    // hover
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!audioRef.current) return;
         const { time, x } = calculateTimeFromX(e.clientX, e.currentTarget);
@@ -48,7 +46,7 @@ export const useProgressBar = (audioRef: RefObject<HTMLAudioElement>) => {
 
     const handleMouseLeave = () => setHoverTime(null);
 
-    // sima reset
+    // reset
     const resetSong = useCallback(() => {
         if (audioRef.current) {
             audioRef.current.currentTime = 0;
@@ -57,8 +55,8 @@ export const useProgressBar = (audioRef: RefObject<HTMLAudioElement>) => {
         }
     }, [audioRef]);
 
-    // globális egérmozgatás kezelése, ha húzás közben elhagyjuk a progress bar-t
-    // useCallback-kel, mert így elkerüljük az infinite loop-ot
+    // Handle global mouse movement if the cursor leaves the progress bar while dragging.
+    // Using useCallback to prevent infinite re-renders.
     const handleGlobalMove = useCallback((e: MouseEvent) => {
         if (!isSeeking || !audioRef.current || !progressBarRef.current) return;
         const { percent, time } = calculateTimeFromX(e.clientX, progressBarRef.current);
@@ -67,7 +65,7 @@ export const useProgressBar = (audioRef: RefObject<HTMLAudioElement>) => {
         seekTimeRef.current = time;
     }, [isSeeking, audioRef]);
 
-    // event listener-ek a tekeréshez
+    // event listeners for seeking
     useEffect(() => {
         const handleGlobalUp = () => {
             if (isSeeking && audioRef.current) {

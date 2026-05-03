@@ -1,7 +1,7 @@
 import { MainRoutes } from "@routes/constants/MainRoutes";
 import { ADMIN_NAVBAR_STRINGS } from "@i18n/ui/admin/navbar";
 
-// az admin navbar listaelemei
+// admin navbar list items
 export const ADMIN_NAV_ITEMS = [
     {
         path: MainRoutes.ADMIN_DASHBOARD,

@@ -8,7 +8,7 @@ export const useConnect = () => {
     const { notify } = useNotification();
     const { showLoading, hideLoading } = useLoading();
 
-    // demo bejelentkezés (wallet connect)
+    // demo connect (wallet connect)
     const handleDemoConnect = async () => {
         try {
             showLoading();

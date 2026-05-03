@@ -30,7 +30,7 @@ export const MyAccount = () => {
                 <div className="recent-wrapper__profile">
                     <RecentlyPlayed isProfilePage={true} />
                 
-                {/* előzmények törlése (ha van) */}
+                {/* deleting history */}
                     <div className="recent-wrapper__header">
                         {hasRecentlyPlayed && (
                             <PrimaryButton 

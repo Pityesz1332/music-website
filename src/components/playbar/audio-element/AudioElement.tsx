@@ -24,15 +24,13 @@ export const AudioElement = ({
     onNext
 }: AudioElementProps) => {
 
-    // adatbetöltés kezelése
     const handleLoadedData = () => {
         onLoaded();
     };
 
-    // külső vezérlés szinkronizálása.
-    // ha natív felületen indítják el a zenét, 
-    // ezzel a függvénnyel kényzerítjük a react állapotunkat, 
-    // hogy maradjon szinkronban.
+    // Synchronizing external control.
+    // If music is started from a native interface,
+    // this function forces the react state to stay in sync.
     const handlePlay = () => {
         onLoaded();
         if (!isPlaying) {

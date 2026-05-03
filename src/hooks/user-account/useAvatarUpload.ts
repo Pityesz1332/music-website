@@ -3,7 +3,7 @@ import { useState, ChangeEvent } from "react";
 export const useAvatarUpload = (initialAvatar: string | null = null) => {
     const [avatar, setAvatar] = useState<string | null>(initialAvatar);
 
-    // fálfeltöltés a profilkép megváltoztatásához
+    // upload for changing pfp
     const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {

@@ -3,7 +3,6 @@ import { useNotification, NotificationType } from "@context/NotificationContext"
 import { useMusic } from "@context/MusicContext";
 import { TOGGLE_SAVE_STRINGS } from "@i18n/feedback/toggle-save";
 
-// réteg a dalok mentéséhez és törléséhez (ha mentve van)
 export const useToggleSave = () => {
     const { notify } = useNotification();
     const { saveSong, removeSavedSong, savedSongs } = useMusic();

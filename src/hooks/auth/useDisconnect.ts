@@ -11,8 +11,8 @@ export const useDisconnect = () => {
     const { notify } = useNotification();
     const { showLoading, hideLoading } = useLoading();
 
-    // kijelentkezés -> sima navbar-ra váltás
-    // ez kicsit késleltetve van a töltés tesztje miatt
+    // Disconnecting -> changing navbar.
+    // Artificially delayed to simulate and test loading behavior.
     const handleDisconnect = async () => {
         try {
             showLoading();

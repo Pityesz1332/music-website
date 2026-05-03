@@ -4,8 +4,8 @@ interface NotificationItemProps {
     notification: Notification;
 }
 
-// minden értesítének saját életciklusa és időzítője van, 
-// így függetlenül meg tudnak jelenni és eltünni
+// Each notification has its own lifecycle and timer, 
+// allowing them to appear and disappear independently
 export const NotificationItem = ({ notification }: NotificationItemProps) => {
     return (
         <div className={`notifications__item notifications__item--${notification.type}`}>

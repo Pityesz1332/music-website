@@ -8,10 +8,10 @@ interface AudioDropzoneProps {
     onAudioChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-// külön komponens a drag and drop és stíluozás miatt
 export const AudioDropzone = ({ audioFile, audioInputRef, onAudioChange }: AudioDropzoneProps) => {
-    // programozott kattintás, 
-    // mert az eredeti input rejtve van
+    
+    // triggers the hidden file input click event
+    // to allow a better UX
     const handleDropzoneClick = () => {
         audioInputRef.current?.click();
     };
@@ -21,7 +21,10 @@ export const AudioDropzone = ({ audioFile, audioInputRef, onAudioChange }: Audio
             className={`upload-song__dropzone ${audioFile ? 'upload-song__dropzone--active' : ''}`}
             onClick={handleDropzoneClick}
         >
-            {/* rejtett input. fájlválasztó megnyitása */}
+            {/* 
+                Hidden native input to maintain accessibility and functionality 
+                while allowing a completely custom visual interface 
+            */}
             <input
                 type="file"
                 ref={audioInputRef}

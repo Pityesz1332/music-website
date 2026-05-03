@@ -3,9 +3,9 @@ import type { Song } from "@interfaces/music";
 
 const STORAGE_KEY = "saved_songs"
 
-// kezeljük a mentett dalok listáját
+// Managing the list of saved tracks.
 export const useSaveSong = () => {
-    // tároljuk a listát egy tömbben
+    // Storing the list in an array.
     const [savedSongs, setSavedSongs] = useState<Song[]>(() => {
         if (typeof window !== "undefined") {
             const saved = localStorage.getItem(STORAGE_KEY);
@@ -18,7 +18,6 @@ export const useSaveSong = () => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(savedSongs));
     }, [savedSongs]);
 
-    // dal mentése
     const saveSong = useCallback((song: Song) => {
         setSavedSongs((prev) => {
             if (!prev.find((s) => s.id === song.id)) {
@@ -28,7 +27,6 @@ export const useSaveSong = () => {
         });
     }, []);
 
-    // dal törlése
     const removeSavedSong = useCallback((songId: string) => {
         setSavedSongs((prev) => prev.filter((s) => s.id !== songId));
     }, []);

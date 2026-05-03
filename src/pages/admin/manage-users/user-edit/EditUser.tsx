@@ -11,7 +11,6 @@ interface EditUserProps {
     onChange: (field: keyof User, value: string) => void;
 }
 
-// a user-ek szerkesztéséért felelő kód
 export const EditUser = ({ user, onClose, onSave, onChange }: EditUserProps) => {
     if (!user) return null;
 

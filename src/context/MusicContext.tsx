@@ -6,7 +6,6 @@ import { useSaveSong } from "@hooks/music-control/useSaveSong";
 import { useDocumentTitle } from "@hooks/ui/useDocumentTitle";
 import { resolveSwarmAudio } from "../swarm-gateway/swarmService";
 
-// ez a lista írja le hogy mit tud a rendszer
 interface MusicContextType {
     currentSong: Song | null;
     isPlaying: boolean;
@@ -25,7 +24,7 @@ interface MusicContextType {
     clearRecentlyPlayed: () => void;
 }
 
-// létrehozzuk a context-et
+// creating context
 const MusicContext = createContext<MusicContextType | undefined>(undefined);
 
 interface MusicProviderProps {
@@ -38,7 +37,6 @@ export function MusicProvider({ children }: MusicProviderProps) {
     const [playlist, setPlaylist] = useState<Song[]>([]);
     const [isLoadingSwarm, setIsLoadingSwarm] = useState(false);
 
-    // hook-ok
     const { recentlyPlayed, addToRecentlyPlayed, clearRecentlyPlayed } = useRecentlyPlayed();
     const { savedSongs, saveSong, removeSavedSong } = useSaveSong();
 
@@ -70,7 +68,7 @@ export function MusicProvider({ children }: MusicProviderProps) {
         onPlaySong: playSong
     });
     
-    // böngésző tab cím frissítése
+    // browser tab title updating
     useDocumentTitle(currentSong, isPlaying);
 
     const value = useMemo(() => ({

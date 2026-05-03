@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import type { Song } from "@interfaces/music";
 
-// ez a függvény felel azért, hogy a böngésző tab-ján milyen cím jelenjen meg
+// dynamically changing browser tab
 export const useDocumentTitle = (currentSong: Song | null, isPlaying: boolean) => {
     useEffect(() => {
         if (currentSong) {

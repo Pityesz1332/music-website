@@ -27,7 +27,6 @@ export const SongPage = () => {
         );
     }
 
-    // hibakezelés, ha nem találjuk az adott zenét
     if (!currentSong) {
         return (
             <div className="song-page">
@@ -53,15 +52,15 @@ export const SongPage = () => {
                         onTogglePlay={togglePlay}
                     />
 
-                    {/* mentés és letöltés, csak a bejelentkezett user-eknek */}
+                    {/* save and download, only for connected users */}
                     <SongActions song={currentSong} />
                 </div>
             </div>
             
-            {/* a playlist */}
+            {/* playlist */}
             <PlaylistSection  />
 
-            {/* mindig az oldal tetejére dob */}
+            {/* scrolling to the top of the page automatically */}
             <ScrollToTop />
         </div>
     );

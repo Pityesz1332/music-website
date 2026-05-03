@@ -8,7 +8,6 @@ export const useAudioSync = (
     const { isPlaying, currentSong, togglePlay } = useMusic();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    // zene indítása
     const handlePlay = useCallback(() => {
         if (!currentSong) return;
 
@@ -22,7 +21,6 @@ export const useAudioSync = (
         setIsLoading(false);
     }, []);
 
-    // mindig az elejétől indítjuk
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio || !currentSong) return;
@@ -41,7 +39,7 @@ export const useAudioSync = (
         return () => audio.removeEventListener("canplay", autoPlay);
     }, [currentSong?.src, resetSong]);
 
-    // play-pause logika
+    // play-pause logic
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;

@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import AdminNavbar from "@components/admin/navbar/AdminNavbar";
 import "./AdminLayout.scss";
 
-// az admin felület vizuális felépítését határozza meg
+// Defines the visual layout of the admin interface.
 function AdminLayout() {
     return (
         <div className="admin-layout">

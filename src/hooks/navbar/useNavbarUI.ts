@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
-
-// itt kezeljük a navbar kinézetét görgetésnél és a hamburger menüt
+// Handling navbar appearance on scroll and hamburger menu logic.
 export const useNavbarUI = (scrollLimit = 50) => {
     const [isShrunk, setIsShrunk] = useState<boolean>(false);
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);

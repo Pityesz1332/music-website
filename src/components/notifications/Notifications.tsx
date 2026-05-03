@@ -2,9 +2,9 @@ import { useNotification, Notification } from "@context/NotificationContext";
 import { NotificationItem } from "./notification-item/NotificationItem";
 import "./Notifications.scss";
 
-// az alkalmazás globális értesítési konténere.
-// egyetlen fix helyen jelenik meg mindig.
-// stack-elődik ha időn belül több hívás történik.
+// global notification container
+// fix position
+// stacking
 const Notifications = () => {
     const { notifications } = useNotification();
 

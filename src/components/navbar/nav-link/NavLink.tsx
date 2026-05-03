@@ -9,7 +9,7 @@ interface NavLinkProps {
     onClick: () => void;
 }
  
-// a path prop-ot itt hagyom, mert a későbbiekben kellhet
+// path prop could be useful in the future
 export const NavLink = ({ path, label, Icon, isActive, onClick }: NavLinkProps) => {
     return (
         <div

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MainRoutes } from "@routes/constants/MainRoutes";
 
-// a navbar keresésért felelős hook-ja
 export const useNavbarSearch = (closeMenu: () => void) => {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState<string>("");

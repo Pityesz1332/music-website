@@ -2,8 +2,7 @@ import { Outlet } from "react-router-dom";
 import Navbar from "@components/navbar/Navbar";
 import Playbar from "@components/playbar/Playbar";
 
-// meghatározza a layout vizuális felépítését
-// a playbar-nak átadja a szükséges prop-okat
+// Defines the visual structure of the layout.
 const MainLayout = () => {
     return (
         <div>

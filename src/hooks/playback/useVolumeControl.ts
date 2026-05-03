@@ -1,14 +1,12 @@
 import { useState, useEffect, RefObject, useRef } from "react";
 
-// külön kezeljük a hangerőállítást
 export const useVolumeControl = (audioRef: RefObject<HTMLAudioElement>) => {
     const [volume, setVolume] = useState<number>(1);
     const [isDragging, setIsDragging] = useState<boolean>(false);
 
-    // átírtam ref-re
     const volumeWrapperRef = useRef<HTMLDivElement>(null);
 
-    // központi hangerő állító
+    // Central volume controller.
     const updateVolume = (val: number) => {
         const newVol = Math.min(Math.max(val, 0), 1);
         setVolume(newVol);
@@ -17,32 +15,32 @@ export const useVolumeControl = (audioRef: RefObject<HTMLAudioElement>) => {
         }
     };
 
-    // az 'input type="range"' miatt
+    // because of input type="range"
     const handleVolumeChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
         updateVolume(parseFloat(e.target.value));
     };
 
-    // gombbal való hangerőszabályzás
+    // volume control with button
     const adjustVolume = (direction: number) => {
         const step = 0.05;
         updateVolume(volume - direction * step);
     };
 
-    // kiszámoljuk, hogy hány %-on áll a csúszka
+    // Calculate the slider position percentage.
     const updateVolumeFromEvent = (clientX: number, rect: DOMRect) => {
         const x = clientX - rect.left;
         const percent = x / rect.width;
         updateVolume(percent);
     };
 
-    // megfogjuk a csúszkát
+    // Grab the slider.
     const handleVolumeDragStart = (e: React.MouseEvent<HTMLDivElement>) => {
         const rect = e.currentTarget.getBoundingClientRect();
         setIsDragging(true);
         updateVolumeFromEvent(e.clientX, rect);
     };
 
-    // hangerő állítása drag-re
+    // Adjust volume on drag.
     const handleVolumeDragMove = (e: MouseEvent) => {
         if (!isDragging) return;
         if (volumeWrapperRef.current) {
@@ -51,12 +49,12 @@ export const useVolumeControl = (audioRef: RefObject<HTMLAudioElement>) => {
         }
     };
 
-    // egér elengedése
+    // Release mouse button.
     const handleVolumeDragEnd = () => {
         setIsDragging(false);
     };
 
-    // globális event listener a drag-hez
+    // gloval event listener for dragging
     useEffect(() => {
         if (isDragging) {
             window.addEventListener("mousemove", handleVolumeDragMove);

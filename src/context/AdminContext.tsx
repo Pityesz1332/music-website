@@ -14,7 +14,7 @@ interface AdminProviderProps {
     children: ReactNode;
 }
 
-// egyelőre csak tesztfunkció, de jó alap lehet később backend-hez.
+// Currently a test feature, but serves as a solid foundation for future backend integration.
 export function AdminProvider({ children }: AdminProviderProps) {
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -27,14 +27,15 @@ export function AdminProvider({ children }: AdminProviderProps) {
         }
     }, []);
 
-    // admin beléptetés. ha megfelel az adott kód, elérhetővé válik az admin oldal.
+    // Admin login logic. Grants access to the admin 
+    // panel upon successful code verification.
     async function connectAsAdmin(username: string, password: string) {
         showLoading();
         setError(null);
 
         try {
             await new Promise(resolve => setTimeout(resolve, 800));
-            // ideiglenes logika amíg nincs backend
+            // Temporary logic until the backend is implemented.
             if (username === "admin" && password === "pass123") {
                 const mockToken = "fake-jwt-token-123";
                 localStorage.setItem("adminToken", mockToken);
@@ -48,7 +49,6 @@ export function AdminProvider({ children }: AdminProviderProps) {
         }
     }
 
-    // kiléptetés
     function disconnectAdmin() {
         localStorage.removeItem("adminToken");
         setIsAdmin(false);
@@ -64,7 +64,6 @@ export function AdminProvider({ children }: AdminProviderProps) {
 
 export function useAdmin(): AdminContextType {
     const context = useContext(AdminContext);
-    // hibakezelés nekem
     if (!context) {
         throw new Error("useAdmin must be used within an AdminProvider");
     }

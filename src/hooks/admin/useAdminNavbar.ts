@@ -9,19 +9,18 @@ export const useAdminNavbar = () => {
     const [shrink, setShrink] = useState<boolean>(false);
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
     
-    // segédfüggvény az aktív menüponthoz
     const isActive = (path: string) => location.pathname === path;
     
     const closeMenu = useCallback(() => {
         setIsMenuOpen(false);
     }, []);
 
-    // hamburger menü kapcsolója
+    // hamburger menu
     const toggleMenu = () => {
         setIsMenuOpen(prev => !prev);
     };
 
-    // görgetés figyelése, navbar összenyomása
+    // scrolling
     useEffect(() => {
         const handleScroll = () => {
             setShrink(window.scrollY > 30);
@@ -31,12 +30,11 @@ export const useAdminNavbar = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // automatikus navbar zárás oldalváltáskor
     useEffect(() => {
         closeMenu();
     }, [location.pathname, closeMenu]);
 
-    // ez még csak navigációkezelés a kijelentkezéshez
+    // nav handling only
     const handleDisconnect = () => {
         closeMenu();
         navigate(MainRoutes.HOME);

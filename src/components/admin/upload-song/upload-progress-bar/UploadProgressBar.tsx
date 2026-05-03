@@ -2,7 +2,7 @@ interface UploadProgressBarProps {
     progress: number;
 }
 
-// progress bar a feltöltéshez
+// progress bar
 export const UploadProgressBar = ({ progress }: UploadProgressBarProps) => {
     if (progress <= 0) return null;
 

@@ -6,8 +6,8 @@ import { useConnect } from "@hooks/auth/useConnect";
 import { useDisconnect } from "@hooks/auth/useDisconnect";
 import { useDeveloperMode } from "@hooks/auth/useDeveloperMode";
 
-// kezeli a navigációt, a menüelemek szűrését és az
-// autentikációs folyamatokat.
+// Handles navigation, menu item filtering, and 
+// authentication processes.
 export const useNavMenu = (onClose: () => void) => {
     const navigate = useNavigate();
     const location = useLocation();

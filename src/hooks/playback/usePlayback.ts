@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction, useCallback } from "react";
 import type { Song } from "@interfaces/music";
 
-// definiáljuk mit kell megkapni a működéshez
 interface PlaybackLogicProps {
     currentSong: Song | null;
     playlist: Song[];
@@ -12,7 +11,6 @@ interface PlaybackLogicProps {
     onPlaySong?: (song: Song) => void;
 }
 
-// playbar controls gombok működése
 export const usePlayback = ({
     currentSong,
     playlist,
@@ -22,7 +20,7 @@ export const usePlayback = ({
     addToRecentlyPlayed,
     onPlaySong
 }: PlaybackLogicProps) => {
-    // zene elindítása (ha nem ugyanaz a zene)
+    // Start playback if new track.
     const playSong = useCallback((song: Song, newPlaylist?: Song[]) => {
         if (newPlaylist) setPlaylist(newPlaylist);
 
@@ -33,12 +31,12 @@ export const usePlayback = ({
         setIsPlaying(true);
     }, [currentSong, setCurrentSong, setPlaylist, addToRecentlyPlayed, setIsPlaying]);
 
-    // play-stop gomb működése
+    // play-stop button
     const togglePlay = useCallback(() => {
         setIsPlaying(prev => !prev);
     }, [setIsPlaying]);
 
-    // következő dalra ugrás
+    // next song
     const nextSong = useCallback(() => {
         if (!playlist.length || !currentSong) return;
         const idx = playlist.findIndex(s => s.id === currentSong.id);
@@ -46,7 +44,7 @@ export const usePlayback = ({
         (onPlaySong ?? playSong)(next);
     }, [playlist, currentSong, playSong]);
 
-    // előző dalra ugrás
+    // prev song
     const prevSong = useCallback(() => {
         if (!playlist.length || !currentSong) return;
         const idx = playlist.findIndex(s => s.id === currentSong.id);

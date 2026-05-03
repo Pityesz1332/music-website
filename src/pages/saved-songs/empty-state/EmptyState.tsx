@@ -6,7 +6,7 @@ interface EmptyStateProps {
     onBtnClick: () => void;
 }
 
-// üres állapot kezelése
+// handling empty state
 export const EmptyState = ({ title, btnTxt, onBtnClick }: EmptyStateProps) => {
     return (
         <div className="songs__no-results">
