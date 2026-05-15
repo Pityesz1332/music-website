@@ -6,7 +6,7 @@
     "checkJs": false,
     "jsx": "react-jsx",
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "strict": true,
@@ -29,7 +29,9 @@
       "@i18n/*": ["src/i18n/*"],
       "@data/*": ["src/data/*"],
       "@layouts/*": ["src/layouts/*"]
-    }
+    },
+
+    "ignoreDeprecations": "6.0"
   },
   "include": ["src"]
 }
