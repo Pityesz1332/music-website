@@ -50,7 +50,9 @@ const Playbar = () => {
         prevSong: onPrev,
         savedSongs,
         saveSong,
-        removeSavedSong
+        removeSavedSong,
+        isShuffle,
+        handleToggleShuffle
     } = useMusic();
     
     useKeyboardControls({
@@ -123,6 +125,8 @@ const Playbar = () => {
                 resetSong={resetSong}
                 isLooping={isLooping}
                 onToggleLoop={handleToggleLoop}
+                isShuffle={isShuffle}
+                onToggleShuffle={handleToggleShuffle}
                 isConnected={isConnected}
                 isSaved={isSaved}
                 song={song}

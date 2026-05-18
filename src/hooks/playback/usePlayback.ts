@@ -9,6 +9,7 @@ interface PlaybackLogicProps {
     setPlaylist: Dispatch<SetStateAction<Song[]>>;
     addToRecentlyPlayed: (song: Song) => void;
     onPlaySong?: (song: Song) => void;
+    isShuffle?: boolean;
 }
 
 export const usePlayback = ({
@@ -18,7 +19,8 @@ export const usePlayback = ({
     setIsPlaying,
     setPlaylist,
     addToRecentlyPlayed,
-    onPlaySong
+    onPlaySong,
+    isShuffle
 }: PlaybackLogicProps) => {
     // Start playback if new track.
     const playSong = useCallback((song: Song, newPlaylist?: Song[]) => {
@@ -39,10 +41,21 @@ export const usePlayback = ({
     // next song
     const nextSong = useCallback(() => {
         if (!playlist.length || !currentSong) return;
-        const idx = playlist.findIndex(s => s.id === currentSong.id);
-        const next = playlist[(idx + 1) % playlist.length];
+        console.log("loop alert");
+
+
+        let next: Song;
+
+        if (isShuffle) {
+            const others = playlist.filter(s => s.id !== currentSong.id);
+            next = others[Math.floor(Math.random() * others.length)];
+        } else {
+            const idx = playlist.findIndex(s => s.id === currentSong.id);
+            next = playlist[(idx + 1) % playlist.length];
+        }
+
         (onPlaySong ?? playSong)(next);
-    }, [playlist, currentSong, playSong]);
+    }, [playlist, currentSong, isShuffle, playSong]);
 
     // prev song
     const prevSong = useCallback(() => {

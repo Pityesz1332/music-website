@@ -48,6 +48,6 @@ export const usePlaybarInteractions = (playbarRef: RefObject<HTMLDivElement | nu
         isManuallyCollapsed,
         handlePlaybarTap,
         isLooping,
-        handleToggleLoop
+        handleToggleLoop,
     };
 };

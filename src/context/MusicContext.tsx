@@ -13,6 +13,7 @@ interface MusicContextType {
     savedSongs: Song[];
     recentlyPlayed: Song[];
     isLoadingSwarm: boolean;
+    isShuffle: boolean;
 
     playSong: (song: Song, newPlaylist?: Song[]) => void;
     togglePlay: () => void;
@@ -22,6 +23,7 @@ interface MusicContextType {
     saveSong: (song: Song) => void;
     removeSavedSong: (songId: string) => void;
     clearRecentlyPlayed: () => void;
+    handleToggleShuffle: () => void;
 }
 
 // creating context
@@ -36,6 +38,7 @@ export function MusicProvider({ children }: MusicProviderProps) {
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [playlist, setPlaylist] = useState<Song[]>([]);
     const [isLoadingSwarm, setIsLoadingSwarm] = useState(false);
+    const [isShuffle, setIsShuffle] = useState<boolean>(false);
 
     const { recentlyPlayed, addToRecentlyPlayed, clearRecentlyPlayed } = useRecentlyPlayed();
     const { savedSongs, saveSong, removeSavedSong } = useSaveSong();
@@ -58,6 +61,8 @@ export function MusicProvider({ children }: MusicProviderProps) {
         }
     }, []);
 
+    const handleToggleShuffle = useCallback(() =>  { setIsShuffle(prev => !prev); }, []);
+
     const { playSong: playbackPlay, togglePlay, nextSong, prevSong } = usePlayback({
         currentSong,
         playlist,
@@ -65,7 +70,8 @@ export function MusicProvider({ children }: MusicProviderProps) {
         setIsPlaying,
         setPlaylist,
         addToRecentlyPlayed,
-        onPlaySong: playSong
+        onPlaySong: playSong,
+        isShuffle
     });
     
     // browser tab title updating
@@ -76,6 +82,7 @@ export function MusicProvider({ children }: MusicProviderProps) {
         isPlaying,
         playlist,
         isLoadingSwarm,
+        isShuffle,
         playSong,
         togglePlay,
         nextSong,
@@ -85,10 +92,11 @@ export function MusicProvider({ children }: MusicProviderProps) {
         saveSong,
         removeSavedSong,
         recentlyPlayed,
-        clearRecentlyPlayed
+        clearRecentlyPlayed,
+        handleToggleShuffle
     }), [
-        currentSong, isPlaying, playlist, playSong, isLoadingSwarm, togglePlay, nextSong, prevSong,
-        setPlaylist, savedSongs, saveSong, removeSavedSong, recentlyPlayed, clearRecentlyPlayed
+        currentSong, isPlaying, playlist, playSong, isLoadingSwarm, isShuffle, togglePlay, nextSong, prevSong,
+        setPlaylist, savedSongs, saveSong, removeSavedSong, recentlyPlayed, clearRecentlyPlayed, handleToggleShuffle
     ]);
 
     return (

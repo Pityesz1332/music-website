@@ -1,4 +1,4 @@
-import { TimerReset, Repeat, Heart, Download } from "lucide-react";
+import { TimerReset, Repeat, Heart, Download, Shuffle } from "lucide-react";
 import { PrimaryButton } from "../../ui/button/PrimaryButton";
 import { VolumeControl } from "../volume-control/VolumeControl";
 import { PLAYBAR_STRINGS } from "@i18n/ui/playbar";
@@ -14,6 +14,8 @@ interface TrackActionsProps {
     resetSong: () => void;
     isLooping: boolean;
     onToggleLoop: () => void;
+    isShuffle: boolean;
+    onToggleShuffle: () => void;
     isConnected: boolean;
     isSaved: boolean;
     song: Song;
@@ -34,6 +36,8 @@ export const TrackActions = ({
     resetSong,
     isLooping,
     onToggleLoop,
+    isShuffle,
+    onToggleShuffle,
     isConnected,
     isSaved,
     song,
@@ -69,6 +73,9 @@ export const TrackActions = ({
                     </PrimaryButton>
                     <PrimaryButton className={`playbar__extra-button ${isLooping ? "playbar__extra-button--active" : ""}`} onClick={onToggleLoop}>
                         <Repeat size={20} />
+                    </PrimaryButton>
+                    <PrimaryButton className={`playbar__extra-button ${isShuffle ? "playbar__extra-button--active" : ""}`} onClick={onToggleShuffle}>
+                        <Shuffle size={20} />
                     </PrimaryButton>
                 </div>
 
