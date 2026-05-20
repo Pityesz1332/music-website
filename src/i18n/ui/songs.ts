@@ -17,6 +17,7 @@ export const SONGS_STRINGS = {
         DESC: "Descending",
         BY_NAME: "By Name",
         BY_DURATION: "By Duration",
+        DURATION_TITLE: "Duration",
         GENRES_TITLE: "Genres",
         ACTIONS: {
             CLEAR: "Clear",

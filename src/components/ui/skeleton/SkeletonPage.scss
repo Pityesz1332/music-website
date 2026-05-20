@@ -1,0 +1,189 @@
+@use '../../../styles/variables' as v;
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes skeletonItemIn {
+  from { opacity: 0; transform: translateX(0.75rem); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(105deg, v.$card-color 0%, v.$border-color 35%, rgba(#ff3366, 0.07) 50%, v.$border-color 65%, v.$card-color 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+  border-radius: 0.375rem;
+}
+
+.skeleton-song-page {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(0.625rem, 3vw, 1.875rem);
+  padding-inline: clamp(1.25rem, 5vw, 2.5rem);
+  padding-top: clamp(4rem, 10vh, 5rem);
+  padding-bottom: clamp(5.5rem, 12vh, 6rem);
+  min-height: 100vh;
+  box-sizing: border-box;
+
+  &__content {
+    flex: 1 1 22rem;
+    max-width: 28rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.9rem, 2vw, 1.25rem);
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    background: v.$card-color;
+    border: 1px solid v.$border-color;
+    border-radius: 1.25rem;
+  }
+
+  &__cover {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 0.75rem;
+    max-width: 18rem;
+  }
+
+  &__info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__info-title {
+    height: 1.4rem;
+    width: 75%;
+  }
+
+  &__info-artist {
+    height: 1rem;
+    width: 50%;
+  }
+
+  &__info-meta {
+    height: 0.8rem;
+    width: 35%;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  &__action-btn {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+  }
+
+  &__progress {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  &__progress-bar {
+    height: 0.25rem;
+    width: 100%;
+    border-radius: 9999px;
+  }
+
+  &__progress-times {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__time {
+    height: 0.7rem;
+    width: 2.5rem;
+    display: block;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    width: 100%;
+  }
+
+  &__ctrl-btn {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+
+    &--primary {
+      height: 3rem;
+      width: 3rem;
+    }
+  }
+
+  &__playlist {
+    flex: 1 1 22rem;
+    max-width: 32rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: v.$card-color;
+    border: 1px solid v.$border-color;
+    border-radius: 1.25rem;
+    padding: clamp(1rem, 3vw, 1.75rem);
+  }
+
+  &__playlist-header {
+    height: 1.25rem;
+    width: 40%;
+  }
+
+  &__playlist-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__playlist-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    opacity: 0;
+    animation: skeletonItemIn 0.35s ease forwards;
+  }
+
+  &__playlist-thumb {
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.375rem;
+  }
+
+  &__playlist-meta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  &__playlist-name {
+    height: 0.9rem;
+    width: 65%;
+  }
+
+  &__playlist-sub {
+    height: 0.75rem;
+    width: 40%;
+  }
+
+  &__playlist-dur {
+    flex-shrink: 0;
+    height: 0.75rem;
+    width: 2.25rem;
+  }
+}

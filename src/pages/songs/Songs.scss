@@ -33,9 +33,5 @@
         position: relative;
         min-height: 500px;
         width: 100%;
-        &--loading {
-            opacity: 0.5;
-            pointer-events: none;
-        }
     }
 }

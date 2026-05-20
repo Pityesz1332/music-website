@@ -8,6 +8,7 @@ import { SongMainInfo } from "./song-info/SongMainInfo";
 import { PlaybackControls } from "./playback-controls/PlaybackControls";
 import { SongActions } from "./song-actions/SongActions";
 import { PlaylistSection } from "./playlist/playlist-section/PlaylistSection";
+import { SkeletonSongPage } from "@components/ui/skeleton/SkeletonPage";
 import "./SongPage.scss";
 
 export const SongPage = () => {
@@ -19,13 +20,7 @@ export const SongPage = () => {
 
     useSongInit({ playlist, setPlaylist });
 
-    if (isLoading) {
-        return ( 
-            <div className="song-page song-page--loading">
-                <div className="song-page__spinner"></div>
-            </div>
-        );
-    }
+    if (isLoading) return <SkeletonSongPage />;
 
     if (!currentSong) {
         return (

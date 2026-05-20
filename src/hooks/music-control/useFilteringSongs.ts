@@ -12,9 +12,18 @@ export const useFilteringSongs = (itemsPerPage: number = 15) => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [sortField, setSortField] = useState<SortField>("none");
     const [sortOrder, setSortOrder] = useState<SortOrder>("none");
+    const [maxDuration, setMaxDuration] = useState<number | null>(null);
 
     const location = useLocation();
     const navigate = useNavigate();
+    
+    // duration to number for sorting
+    const parseDuration = (duration: string) => {
+        const parts = duration.split(":").map(Number);
+        if (parts.length === 2) return parts[0] * 60 + parts[1];
+        if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+        return 0;
+    };
 
     // Fetching tracks from imported files and local storage.
     const loadSongs = useCallback(async () => {
@@ -54,36 +63,42 @@ export const useFilteringSongs = (itemsPerPage: number = 15) => {
         return ["All", ...new Set(songs.map(song => song.genre))];
     }, [songs]);
 
-    // duration to number for sorting
-    const parseDuration = (duration: string) => {
-        const parts = duration.split(":").map(Number);
-        if (parts.length === 2) {
-            return parts[0] * 60 + parts[1];
-        }
-        if (parts.length === 3) {
-            return parts[0] * 3600 + parts[1] * 60 + parts[2];
-        }
-        return 0;
-    };
+    // Min/Max bounds from full song list
+    const durationBounds = useMemo(() => {
+        if (songs.length === 0) return { min: 0, max: 0 };
+        const durations = songs.map(s => parseDuration(s.duration));
+        return {
+            min: Math.min(...durations),
+            max: Math.max(...durations)
+        };
+    }, [songs]);
+
+    const isDurationActive = maxDuration !== null && maxDuration !== durationBounds.max;
 
     const clearFilters = useCallback(() => {
         setSelectedGenre("All");
         setSortField("none");
         setSortOrder("none");
+        setMaxDuration(null);
         setCurrentPage(1);
 
         if (location.search) {
             navigate(location.pathname, { replace: true });
         }
-    }, [location.pathname, location.search, navigate]);
+    }, [durationBounds, location.pathname, location.search, navigate]);
     
     // based on filtering
     const filteredSongs = useMemo(() => {
-        let result = songs.filter(song => 
-            (selectedGenre === "All" ? true : song.genre === selectedGenre) &&
-            (searchQuery === "" ? true : song.title.toLowerCase().includes(searchQuery))
-        );
-            
+        const effectiveMax = maxDuration ?? durationBounds.max;
+        
+        let result = songs.filter(song => {
+            const duration = parseDuration(song.duration);
+            const matchesGenre = selectedGenre === "All" || song.genre === selectedGenre;
+            const matchesSearch = searchQuery === "" || song.title.toLowerCase().includes(searchQuery);
+            const matchesDuration = duration <= effectiveMax;
+            return matchesGenre && matchesSearch && matchesDuration;
+        });
+        
         if (sortField !== "none") {
             result.sort((a, b) => {
                 let valueA: string | number;
@@ -104,7 +119,7 @@ export const useFilteringSongs = (itemsPerPage: number = 15) => {
         }
 
         return result
-    }, [songs, selectedGenre, searchQuery, sortField, sortOrder]);
+    }, [songs, selectedGenre, searchQuery, sortField, sortOrder, maxDuration]);
 
     const totalPages = Math.ceil(filteredSongs.length / itemsPerPage);
 
@@ -115,7 +130,7 @@ export const useFilteringSongs = (itemsPerPage: number = 15) => {
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [selectedGenre, searchQuery, sortField, sortOrder]);
+    }, [selectedGenre, searchQuery, sortField, sortOrder, maxDuration]);
 
     // genre handling
     const handleGenreChange = (genre: string) => setSelectedGenre(genre);
@@ -131,6 +146,10 @@ export const useFilteringSongs = (itemsPerPage: number = 15) => {
         }
     };
 
+    const handleDurationChange = (max: number) => {
+        setMaxDuration(max);
+    };
+
     return {
         songs, setSongs,
         filteredSongs,
@@ -144,8 +163,12 @@ export const useFilteringSongs = (itemsPerPage: number = 15) => {
         totalPages,
         loading,
         error,
+        maxDuration,
+        durationBounds,
+        isDurationActive,
         handleGenreChange,
         handleSort,
+        handleDurationChange,
         clearFilters,
         retry: loadSongs
     };

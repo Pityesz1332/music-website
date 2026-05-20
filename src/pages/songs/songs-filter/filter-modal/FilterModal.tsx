@@ -2,6 +2,7 @@ import { SortAsc, SortDesc, RotateCcw } from "lucide-react";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { Modal } from "@components/ui/modal/Modal";
 import { SONGS_STRINGS } from "@i18n/ui/songs";
+import { formatSeconds } from "@utils/formatTime";
 import type { SortField, SortOrder } from "@interfaces/sort";
 import "./FilterModal.scss";
 
@@ -15,6 +16,10 @@ interface FilterModalProps {
     sortOrder: SortOrder;
     onSort: (field: SortField, order: SortOrder) => void;
     onClear: () => void;
+    maxDuration: number | null;
+    durationBounds: { min: number; max: number };
+    isDurationActive: boolean;
+    onDurationChange: (max: number) => void;
 }
 
 export const FilterModal = ({
@@ -26,7 +31,11 @@ export const FilterModal = ({
     sortField,
     sortOrder,
     onSort,
-    onClear
+    onClear,
+    maxDuration,
+    durationBounds,
+    isDurationActive,
+    onDurationChange
 }: FilterModalProps) => {
     const handleClear = () => {
         onClear();
@@ -35,8 +44,10 @@ export const FilterModal = ({
 
     const isSortActive = sortField !== "none" || sortOrder !== "none";
     const isGenreActive = selectedGenre !== "All";
-
     const isSortOrderMissing = !sortOrder || sortOrder === "none";
+    const range = durationBounds.max - durationBounds.min || 1;
+    const effectiveMax = maxDuration ?? durationBounds.max;
+    const maxPercent = ((effectiveMax - durationBounds.min) / range) * 100;
 
     return (
         <Modal
@@ -103,7 +114,42 @@ export const FilterModal = ({
                 </section>
 
                 <section className="songs__filter-section">
-                    <div className="songs__filter-header">
+                        <div className="songs__filter-header">
+                                <h4>{SONGS_STRINGS.FILTER.DURATION_TITLE}</h4>
+                                {isDurationActive && (
+                                    <PrimaryButton
+                                        className="songs__section-clear-btn"
+                                        onClick={() => onDurationChange(durationBounds.max)}
+                                    >
+                                        <RotateCcw size={14} />
+                                    </PrimaryButton>
+                                )}
+                        </div>
+
+                        <div className="songs__duration-labels">
+                            <span>{formatSeconds(durationBounds.min)}</span>
+                            <span>{formatSeconds(effectiveMax)}</span>
+                        </div>
+
+                        <div className="songs__duration-slider">
+                            <div
+                                className="songs__duration-track-fill"
+                                style={{ left: "0%", width: `${maxPercent}%` }}
+                            />
+
+                            <input
+                                type="range"
+                                className="songs__duration-range songs__duration-range--max"
+                                min={durationBounds.min}
+                                max={durationBounds.max}
+                                value={effectiveMax}
+                                onChange={e => onDurationChange(Number(e.target.value))}
+                            />
+                        </div>
+                    </section>
+
+                    <section className="songs__filter-section">
+                        <div className="songs__filter-header">
                         <h4>{SONGS_STRINGS.FILTER.GENRES_TITLE}</h4>
                             {isGenreActive && (
                                 <PrimaryButton
@@ -119,9 +165,7 @@ export const FilterModal = ({
                         {genres.map((genre) => (
                             <PrimaryButton
                                 key={genre}
-                                className={`songs__genre-button ${
-                                    selectedGenre === genre ? "songs__genre-button--active" : ""
-                                }`}
+                                className={`songs__genre-button ${selectedGenre === genre ? "songs__genre-button--active" : ""}`}
                                 onClick={() => onGenreChange(genre)}
                             >
                                 {genre}

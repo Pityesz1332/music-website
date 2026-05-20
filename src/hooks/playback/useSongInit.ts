@@ -16,21 +16,17 @@ export const useSongInit = ({ playlist, setPlaylist }: UseSongInitProps) => {
     const isInitialMount = useRef<boolean>(true);
 
     useEffect(() => {
-        if (isInitialMount.current) {
-            showLoading();
+        if (!isInitialMount.current) return;
 
-            if (state?.playlist) {
-                setPlaylist(state.playlist);
-            } else if (playlist.length === 0) {
-                setPlaylist(songsData as Song[]);
-            }
+        isInitialMount.current = false;
+        showLoading();
 
-            const timer = setTimeout(() => {
-                hideLoading();
-                isInitialMount.current = false;
-            }, 300);
-
-            return () => clearTimeout(timer);
+        if (state?.playlist) {
+            setPlaylist(state.playlist);
+        } else if (playlist.length === 0) {
+            setPlaylist(songsData as Song[]);
         }
+
+        hideLoading();
     }, [state?.playlist, setPlaylist, playlist.length, showLoading, hideLoading]);
 };

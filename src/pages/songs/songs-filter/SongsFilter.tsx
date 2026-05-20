@@ -15,6 +15,10 @@ interface SongsFilterProps {
     sortOrder: SortOrder;
     onSort: (field: SortField, order: SortOrder) => void;
     onClear: () => void;
+    maxDuration: number | null;
+    durationBounds: { min: number; max: number };
+    isDurationActive: boolean;
+    onDurationChange: (max: number) => void;
 }
 
 // Dynamic filtering interface for refining the song list. 
@@ -26,7 +30,11 @@ export const SongsFilter = ({
     sortField,
     sortOrder,
     onSort,
-    onClear
+    onClear,
+    maxDuration,
+    durationBounds,
+    isDurationActive,
+    onDurationChange
 }: SongsFilterProps) => {
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
@@ -35,7 +43,7 @@ export const SongsFilter = ({
         [selectedGenre, sortField, sortOrder]
     );
 
-    const isFiltered = selectedGenre !== SONGS_STRINGS.FILTER.ALL || sortField !== SONGS_STRINGS.FILTER.NONE;
+    const isFiltered = selectedGenre !== SONGS_STRINGS.FILTER.ALL || sortField !== SONGS_STRINGS.FILTER.NONE || isDurationActive;
 
     return (
         <div className="songs__filter-wrapper">
@@ -59,7 +67,11 @@ export const SongsFilter = ({
                 sortOrder={sortOrder}
                 onSort={onSort}
                 onClear={onClear}
-            />            
+                maxDuration={maxDuration}
+                durationBounds={durationBounds}
+                isDurationActive={isDurationActive}
+                onDurationChange={onDurationChange}
+            />
         </div>
     );
 };

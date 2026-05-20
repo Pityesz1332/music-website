@@ -8,6 +8,7 @@ import { SongsNoResults } from "./songs-no-results/SongsNoResults";
 import { SongsCard } from "./songs-card/SongsCard";
 import { SongsPagination } from "./songs-pagination/SongsPagination";
 import { SongsFooter } from "./songs-footer/SongsFooter";
+import { SkeletonCard } from "@components/ui/skeleton/SkeletonCard";
 import "./Songs.scss";
 
 const ITEMS_PER_PAGE = 15;
@@ -27,6 +28,11 @@ export const Songs = () => {
         totalPages,
         loading,
         error,
+        minDuration,
+        maxDuration,
+        durationBounds,
+        isDurationActive,
+        handleDurationChange,
         handleGenreChange,
         handleSort,
         clearFilters,
@@ -54,11 +60,20 @@ export const Songs = () => {
                     sortOrder={sortOrder}
                     onSort={handleSort}
                     onClear={clearFilters}
+                    minDuration={minDuration}
+                    maxDuration={maxDuration}
+                    durationBounds={durationBounds}
+                    isDurationActive={isDurationActive}
+                    onDurationChange={handleDurationChange}
                 />
 
-                <div className={`songs__content-wrapper ${loading ? "songs__content-wrapper--loading" : ""}`}>
+                <div className="songs__content-wrapper">
                     {loading ? (
-                        <SongsStatus loading={loading} />
+                        <div className="songs__grid">
+                            {Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
+                                <SkeletonCard key={i} index={i} />
+                            ))}
+                        </div>
                     ) : filteredSongs.length === 0 ? (
                         <SongsNoResults searchQuery={searchQuery} />
                     ) : (
