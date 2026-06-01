@@ -33,6 +33,7 @@ export async function uploadAudio(file: File, onProgress?: (percent: number) => 
     // FAKE PROGRESS! - 10% -> 100%
     onProgress?.(10);
     const result = await bee.uploadData(batchId as any, uint8);
+    console.log("Swarm hash:", result.reference.toString());
     onProgress?.(100);
 
     return result.reference.toString();
