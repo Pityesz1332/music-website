@@ -6,10 +6,6 @@ const bee = new Bee(BEE_NODE_URL);
 // Blob URL cache
 const blobCache = new Map<string, string>();
 
-/**
- * @param hash - Swarm reference
- * @returns playable blob URL
- */
 export async function resolveSwarmAudio(hash: string): Promise<string> {
     // cache
     if (blobCache.has(hash)) return blobCache.get(hash)!;
@@ -34,7 +30,7 @@ export async function uploadAudio(file: File, onProgress?: (percent: number) => 
     const arrayBuffer = await file.arrayBuffer();
     const uint8 = new Uint8Array(arrayBuffer);
 
-    // fake progress - 10% -> 100%
+    // FAKE PROGRESS! - 10% -> 100%
     onProgress?.(10);
     const result = await bee.uploadData(batchId as any, uint8);
     onProgress?.(100);

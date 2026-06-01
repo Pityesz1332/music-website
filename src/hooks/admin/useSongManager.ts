@@ -4,8 +4,8 @@ import type { Song } from "@interfaces/music";
 
 export const useSongManager = () => {
     const [songs, setSongs] = useState<Song[]>(() => {
-    const saved = localStorage.getItem("admin_songs");
-    return saved ? JSON.parse(saved) : (songsData as Song[]);
+        const saved = localStorage.getItem("admin_songs");
+        return saved ? JSON.parse(saved) : (songsData as Song[]);
     });
 
     const [isUploadOpen, setIsUploadOpen] = useState(false);

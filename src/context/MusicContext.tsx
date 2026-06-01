@@ -4,7 +4,7 @@ import { usePlayback } from "@hooks/playback/usePlayback";
 import { useRecentlyPlayed } from "@hooks/music-control/useRecentlyPlayed";
 import { useSaveSong } from "@hooks/music-control/useSaveSong";
 import { useDocumentTitle } from "@hooks/ui/useDocumentTitle";
-import { resolveSwarmAudio } from "../swarm-gateway/swarmService";
+import { resolveSwarmAudio } from "../swarm/swarmService";
 
 interface MusicContextType {
     currentSong: Song | null;

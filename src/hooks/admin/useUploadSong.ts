@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { uploadAudio } from "../../swarm-gateway/swarmService";
+import { uploadAudio } from "../../swarm/swarmService";
 
 interface SongForm {
     title: string;
