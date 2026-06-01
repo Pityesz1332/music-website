@@ -11,9 +11,10 @@ export async function resolveSwarmAudio(hash: string): Promise<string> {
     if (blobCache.has(hash)) return blobCache.get(hash)!;
 
     // download from bee node
-    const data = await bee.downloadData(hash);
+    const fileData = await bee.downloadFile(hash);
     // Uint8Array -> Blob -> Object URL
-    const blob = new Blob([data.toUint8Array() as unknown as Uint8Array<ArrayBuffer>], { type: "audio/mpeg" });
+    const audioBytes = Uint8Array.from(fileData.data.toUint8Array());
+    const blob = new Blob([audioBytes], { type: "audio/mpeg" });
     const url = URL.createObjectURL(blob);
 
     blobCache.set(hash, url);
@@ -27,12 +28,9 @@ export async function uploadAudio(file: File, onProgress?: (percent: number) => 
     if (!stamps.length) throw new Error("No available stamp");
     const batchId = stamps[0].batchID.toHex();
 
-    const arrayBuffer = await file.arrayBuffer();
-    const uint8 = new Uint8Array(arrayBuffer);
-
     // FAKE PROGRESS! - 10% -> 100%
     onProgress?.(10);
-    const result = await bee.uploadData(batchId as any, uint8);
+    const result = await bee.uploadFile(batchId as any, file);
     console.log("Swarm hash:", result.reference.toString());
     onProgress?.(100);
 
