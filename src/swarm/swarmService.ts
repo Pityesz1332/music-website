@@ -3,22 +3,10 @@ import { Bee } from "@ethersphere/bee-js";
 // NODE CONFIG
 const BEE_NODE_URL = import.meta.env.VITE_BEE_NODE_URL ?? "http://localhost:1633";
 const bee = new Bee(BEE_NODE_URL);
-// Blob URL cache
-const blobCache = new Map<string, string>();
 
-export async function resolveSwarmAudio(hash: string): Promise<string> {
-    // cache
-    if (blobCache.has(hash)) return blobCache.get(hash)!;
-
-    // download from bee node
-    const fileData = await bee.downloadFile(hash);
-    // Uint8Array -> Blob -> Object URL
-    const audioBytes = Uint8Array.from(fileData.data.toUint8Array());
-    const blob = new Blob([audioBytes], { type: "audio/mpeg" });
-    const url = URL.createObjectURL(blob);
-
-    blobCache.set(hash, url);
-    return url;
+export function resolveSwarmAudio(hash: string) {
+    if (!hash) return "";
+    return `${BEE_NODE_URL}/bzz/${hash}`;
 }
 
 // Audio fájl upload from admin page
@@ -35,12 +23,6 @@ export async function uploadAudio(file: File, onProgress?: (percent: number) => 
     onProgress?.(100);
 
     return result.reference.toString();
-}
-
-// Revoking cached Blob URLs.
-export function revokeSwarmCache(): void {
-    blobCache.forEach((url) => URL.revokeObjectURL(url));
-    blobCache.clear();
 }
 
 // Node check
