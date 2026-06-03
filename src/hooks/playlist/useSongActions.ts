@@ -1,12 +1,15 @@
 import { useAuth } from "@context/AuthContext";
 import { useMusic } from "@context/MusicContext";
+import { useNotification, NotificationType } from "@context/NotificationContext";
 import { useToggleSave } from "@hooks/general/useToggleSave";
+import { downloadAudio } from "../../swarm/swarmService";
 import type { Song } from "@interfaces/music";
 
 export const useSongActions = (song: Song, isMini: boolean) => {
     const auth = useAuth();
     const { savedSongs } = useMusic();
     const { toggleSave } = useToggleSave();
+    const { notify } = useNotification();
 
     const isConnected = auth?.isConnected;
     const isSaved = savedSongs.some((s) => s.id === song.id);
@@ -24,9 +27,20 @@ export const useSongActions = (song: Song, isMini: boolean) => {
     };
     
     // download logic 
-    const handleDownload = (e: React.MouseEvent) => {
+    const handleDownload = async (e: React.MouseEvent) => {
         e.stopPropagation();
-        // logic here...
+        if (!song?.swarmHash) {
+            notify("No available source on Swarm", NotificationType.ERROR);
+            return;
+        }
+
+        try {
+            await downloadAudio(song.swarmHash, `${song?.title}.mp3`);
+            notify("Download started", NotificationType.SUCCESS);
+        } catch {
+            notify("Download failed", NotificationType.ERROR);
+        }
+        
     };
 
     return {

@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
-import { uploadAudio } from "../../swarm/swarmService";
+import { uploadAudio, uploadCover } from "../../swarm/swarmService";
+import { useNotification, NotificationType } from "@context/NotificationContext";
 
 interface SongForm {
     title: string;
@@ -19,6 +20,8 @@ export const useUploadSong = (onSave: (song: any) => void) => {
         genre: "",
         duration: ""
     });
+
+    const { notify } = useNotification();
 
     const audioInputRef = useRef<HTMLInputElement>(null);
 
@@ -75,19 +78,21 @@ export const useUploadSong = (onSave: (song: any) => void) => {
 
         try {
             // audio uploading
-            const swarmHash = await uploadAudio(audioFile, setProgress);
+            const audioHash = await uploadAudio(audioFile, (progress) => setProgress(progress * 0.5));
+            let coverHash = "";
 
-            // cover (still local, but this will be on swarm as well)
-            const coverUrl = coverFile ? URL.createObjectURL(coverFile) : "";
+            if (coverFile) {
+                coverHash = await uploadCover(coverFile, (progress) => setProgress(50 + progress * 0.5));
+            }
 
             onSave({
                 ...form,
-                swarmHash,
-                audio: "",
-                coverFile: coverUrl
+                audioHash,
+                coverHash
             });
         } catch (error) {
             console.error("[Swarm] Error during upload:", error);
+            notify("Something went wrong");
         } finally {
             setIsUploading(false);
         }

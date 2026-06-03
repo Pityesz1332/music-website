@@ -6,6 +6,7 @@ export interface Song {
     src: string;
     swarmHash?: string;
     cover: string;
+    coverHash?: string;
     duration: string;
     defaultBgVideo: string;
     playingBgVideo: string;

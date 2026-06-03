@@ -1,4 +1,5 @@
 import { TimerReset, Repeat, Heart, Download, Shuffle } from "lucide-react";
+import { useSongActions } from "@hooks/playlist/useSongActions";
 import { PrimaryButton } from "../../ui/button/PrimaryButton";
 import { VolumeControl } from "../volume-control/VolumeControl";
 import { PLAYBAR_STRINGS } from "@i18n/ui/playbar";
@@ -45,6 +46,8 @@ export const TrackActions = ({
     saveSong,
     notify
 }: TrackActionsProps) => {
+    const { handleDownload } = useSongActions(song, false);
+
     // saving song + UI feedback
     const handleSaveToggle = () => {
         if (isSaved) {
@@ -86,7 +89,7 @@ export const TrackActions = ({
                             onClick={handleSaveToggle}>
                             <Heart size={20} />
                         </PrimaryButton>
-                        <PrimaryButton className="playbar__download-button">
+                        <PrimaryButton className="playbar__download-button" onClick={handleDownload}>
                             <Download size={20} />
                         </PrimaryButton>
                     </div>

@@ -4,25 +4,50 @@ import { Bee } from "@ethersphere/bee-js";
 const BEE_NODE_URL = import.meta.env.VITE_BEE_NODE_URL ?? "http://localhost:1633";
 const bee = new Bee(BEE_NODE_URL);
 
-export function resolveSwarmAudio(hash: string) {
-    if (!hash) return "";
-    return `${BEE_NODE_URL}/bzz/${hash}`;
-}
-
-// Audio fájl upload from admin page
-export async function uploadAudio(file: File, onProgress?: (percent: number) => void): Promise<string> {
-    // fetching stamp
+async function getValidBatchId(): Promise<string> {
     const stamps = await bee.getPostageBatches();
     if (!stamps.length) throw new Error("No available stamp");
-    const batchId = stamps[0].batchID.toHex();
+    return stamps[0].batchID.toHex();
+}
 
-    // FAKE PROGRESS! - 10% -> 100%
+export function resolveSwarmUrl(hash: string): string {
+    if (!hash) return "";
+    return `${BEE_NODE_URL}/bzz/${hash}/`;
+}
+
+export const resolveSwarmAudio = resolveSwarmUrl;
+export const resolveSwarmCover = resolveSwarmUrl;
+
+export async function uploadFileToSwarm(file: File, onProgress?: (percent: number) => void): Promise<string> {
+    const batchID = await getValidBatchId();
+
     onProgress?.(10);
-    const result = await bee.uploadFile(batchId as any, file);
-    console.log("Swarm hash:", result.reference.toString());
+    const result = await bee.uploadFile(batchID as any, file);
+    console.log(`[Swarm] Upload successful: ${file.name} | Hash:`, result.reference.toString());
     onProgress?.(100);
 
     return result.reference.toString();
+}
+
+export const uploadAudio = uploadFileToSwarm;
+export const uploadCover = uploadFileToSwarm;
+
+export async function downloadAudio(hash: string, filename: string): Promise<void> {
+    if (!hash) throw new Error("No Swarm hash provided");
+    const url = resolveSwarmAudio(hash);
+
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Failed to fetch file from Swarm");
+    
+    const blob = await response.blob();
+    const objectUrl = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = objectUrl;
+    a.download = filename;
+    a.click();
+    
+    URL.revokeObjectURL(objectUrl);
 }
 
 // Node check

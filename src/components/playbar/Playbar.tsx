@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { useMusic } from "@context/MusicContext";
 import { useAuth } from "@context/AuthContext";

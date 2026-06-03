@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { resolveSwarmCover } from "../../swarm/swarmService";
 import songsData from "@data/songs.json";
 import type { Song } from "@interfaces/music";
 
@@ -26,9 +27,10 @@ export const useSongManager = () => {
             artist: song.artist,
             genre: song.genre,
             duration: song.duration,
-            src: song.audio,
-            swarmHash: song.swarmHash,
-            cover: song.coverFile,
+            src: song.audioHash,
+            swarmHash: song.audioHash,
+            cover: song.coverHash ? resolveSwarmCover(song.coverHash) : "",
+            coverHash: song.coverHash,
             defaultBgVideo: "/assets/animation1.mp4",
             playingBgVideo: "/assets/waveform-to3.mp4"
         };
