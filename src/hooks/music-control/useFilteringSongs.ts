@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { Song } from "@interfaces/music";
 import type { SortField, SortOrder } from "@interfaces/sort";
-import songsData from "@data/songs.json";
+import { useSongsFromSwarm } from "@hooks/swarm/useSongsFromSwarm";
 
 export const useFilteringSongs = (itemsPerPage: number = 15) => {
     const [songs, setSongs] = useState<Song[]>([]);
@@ -16,6 +16,8 @@ export const useFilteringSongs = (itemsPerPage: number = 15) => {
 
     const location = useLocation();
     const navigate = useNavigate();
+
+    const { songs: swarmSongs, loading: swarmLoading, error: swarmError } = useSongsFromSwarm();
     
     // duration to number for sorting
     const parseDuration = (duration: string) => {
@@ -31,12 +33,11 @@ export const useFilteringSongs = (itemsPerPage: number = 15) => {
             setLoading(true);
             setError(null);
             
-            const baseSongs = songsData as Song[];
             const savedToLocal = localStorage.getItem("admin_songs");
             const uploadedSongs: Song[] = savedToLocal ? JSON.parse(savedToLocal) : [];
             
             // Merging lists
-            const allSongs = [...uploadedSongs, ...baseSongs];
+            const allSongs = [...uploadedSongs, ...swarmSongs];
             const uniqueSongs = Array.from(new Map(allSongs.map(s => [s.id, s])).values());
             
             setSongs(uniqueSongs);
@@ -45,12 +46,14 @@ export const useFilteringSongs = (itemsPerPage: number = 15) => {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [swarmSongs]);
 
     // Initialize loading on first execution.
     useEffect(() => {
-        loadSongs();
-    }, [loadSongs]);
+        if (!swarmLoading) {
+            loadSongs();
+        }
+    }, [swarmLoading, loadSongs]);
 
     // Extracting search query from the URL.
     const searchQuery = useMemo(() => {

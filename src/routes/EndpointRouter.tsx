@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import { Routes, Route, } from "react-router-dom";
 import { MainRoutes } from "./constants/MainRoutes";
 import MainLayout from "@layouts/MainLayout";
@@ -6,15 +7,17 @@ import AdminLayout from "@layouts/admin-layout/AdminLayout";
 import { Home } from "@pages/home/Home";
 import { Songs } from "@pages/songs/Songs";
 import { SongPage } from "@pages/song-page/SongPage";
-import { Saved } from "@pages/saved-songs/Saved";
-import { MyAccount } from "@pages/profile/MyAccount";
-import { AdminDashboard } from "@pages/admin/admin-dashboard/AdminDashboard";
-import { ManageSongs } from "@pages/admin/manage-songs/ManageSongs";
-import { ManageUsers } from "@pages/admin/manage-users/ManageUsers";
-import { AdminConnect } from "@pages/admin/admin-connect/AdminConnect";
-import { NotFound } from "@pages/not-found-fallback/NotFound";
 
 import { AdminRoute } from "./AdminRoute";
+import { RouteSuspense } from "./RouteSuspense";
+
+const NotFound = lazy(() => import("@pages/not-found-fallback/NotFound").then((m) => ({ default: m.NotFound })));
+const Saved = lazy(() => import("@pages/saved-songs/Saved").then((m) => ({ default: m.Saved })));
+const MyAccount = lazy(() => import("@pages/profile/MyAccount").then((m) => ({ default: m.MyAccount })));
+const AdminDashboard = lazy(() => import("@pages/admin/admin-dashboard/AdminDashboard").then((m) => ({ default: m.AdminDashboard })));
+const ManageSongs = lazy(() => import("@pages/admin/manage-songs/ManageSongs").then((m) => ({ default: m.ManageSongs })));
+const ManageUsers = lazy(() => import("@pages/admin/manage-users/ManageUsers").then((m) => ({ default: m.ManageUsers })));
+const AdminConnect = lazy(() => import("@pages/admin/admin-connect/AdminConnect").then((m) => ({ default: m.AdminConnect })));
 
 export const EndpointRouter = () => {
     return (
@@ -24,22 +27,22 @@ export const EndpointRouter = () => {
             <Route path={MainRoutes.HOME} element={<Home />} />
             <Route path={MainRoutes.SONGS} element={<Songs />} />
             <Route path={MainRoutes.SPECIFIC_SONG} element={<SongPage />} />
-            <Route path={MainRoutes.SAVED} element={<Saved />} />
-            <Route path={MainRoutes.MY_ACCOUNT} element={<MyAccount />} />
+            <Route path={MainRoutes.SAVED} element={<RouteSuspense><Saved /></RouteSuspense>} />
+            <Route path={MainRoutes.MY_ACCOUNT} element={<RouteSuspense><MyAccount /></RouteSuspense>} />
           </Route>
           
           {/* Admin connect (public) */}
-          <Route path={MainRoutes.ADMIN_CONNECT} element={<AdminConnect />} />
+          <Route path={MainRoutes.ADMIN_CONNECT} element={<RouteSuspense><AdminConnect /></RouteSuspense>} />
           
           {/* Admin */}
           <Route element={<AdminLayout />}>
-            <Route path={MainRoutes.ADMIN_DASHBOARD} element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-            <Route path={MainRoutes.ADMIN_SONGS} element={<AdminRoute><ManageSongs /></AdminRoute>} />
-            <Route path={MainRoutes.ADMIN_USERS} element={<AdminRoute><ManageUsers /></AdminRoute>} />
+            <Route path={MainRoutes.ADMIN_DASHBOARD} element={<AdminRoute><RouteSuspense><AdminDashboard /></RouteSuspense></AdminRoute>} />
+            <Route path={MainRoutes.ADMIN_SONGS} element={<AdminRoute><RouteSuspense><ManageSongs /></RouteSuspense></AdminRoute>} />
+            <Route path={MainRoutes.ADMIN_USERS} element={<AdminRoute><RouteSuspense><ManageUsers /></RouteSuspense></AdminRoute>} />
           </Route>
           
           {/* Error fallback */}
-          <Route path={MainRoutes.NOT_FOUND} element={<NotFound />} />
+          <Route path={MainRoutes.NOT_FOUND} element={<RouteSuspense><NotFound /></RouteSuspense>} />
         </Routes>
     );
 }

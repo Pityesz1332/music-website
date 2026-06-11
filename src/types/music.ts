@@ -10,4 +10,5 @@ export interface Song {
     duration: string;
     defaultBgVideo: string;
     playingBgVideo: string;
+    hidden?: boolean;
 }

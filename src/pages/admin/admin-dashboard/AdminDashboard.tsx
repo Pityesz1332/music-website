@@ -1,11 +1,12 @@
-import songsData from "@data/songs.json";
 import { ADMIN_DASHBOARD_STRINGS } from "@i18n/ui/admin/dashboard";
 import "./AdminDashboard.scss";
+import { useSongsFromSwarm } from "@hooks/swarm/useSongsFromSwarm";
 
 export const AdminDashboard = () => {
-    const totalSongs = songsData.length;
-    const totalGenres = new Set(songsData.map(s => s.genre)).size;
-    const totalArtists = new Set(songsData.map(s => s.artist)).size;
+    const { songs: swarmSongs } = useSongsFromSwarm();
+    const totalSongs = swarmSongs.length;
+    const totalGenres = new Set(swarmSongs.map(s => s.genre)).size;
+    const totalArtists = new Set(swarmSongs.map(s => s.artist)).size;
 
     return (
         <div className="admin-dashboard">
@@ -33,7 +34,7 @@ export const AdminDashboard = () => {
                 <h2 className="admin-dashboard__section-title">{ADMIN_DASHBOARD_STRINGS.RECENT_SONGS}</h2>
 
                 <div className="song-list">
-                    {songsData.slice(0, 5).map(song => (
+                    {swarmSongs.slice(0, 5).map(song => (
                         <div key={song.id} className="song-list__item">
                             <img className="song-list__cover" src={song.cover} alt={song.title} />
                             <div className="song-list__info">
