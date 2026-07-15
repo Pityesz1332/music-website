@@ -1,0 +1,49 @@
+@use "../../../styles/variables" as v;
+
+.recently-played-empty-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 300px;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.recently-played-empty-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 400px;
+
+    h3 {
+        font-size: 1.5rem;
+        color: v.$main-text-color;
+        margin: 0 0 1rem 0;
+    }
+
+    p {
+        font-size: 1rem;
+        color: v.$muted-text-color;
+        margin: 0 0 2rem 0;
+    }
+
+    .recently-played-empty-cta-btn {
+        align-self: center;
+        min-width: 160px;
+        padding: 0.7rem 0.4rem;
+        color: v.$main-text-color;
+        background: v.$primary-color;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background: v.$dark-accent-color;
+        }
+    }
+}

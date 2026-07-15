@@ -1,0 +1,47 @@
+@use '../../../styles/variables' as v;
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 1rem;
+    width: 100%;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &__title {
+        font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+        margin-bottom: 1rem;
+        color: v.$muted-text-color;
+        max-width: 500px;
+    }
+
+    &__text {
+        font-size: clamp(0.95rem, 2vw, 1.1rem);
+        margin-bottom: 1.5rem;
+        color: v.$muted-text-color;
+        max-width: 500px;
+    }
+
+    &__button {
+        min-width: 12rem;
+        padding: 0.7rem 0.4rem;
+        color: v.$main-text-color;
+        background: v.$primary-color;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background: v.$dark-accent-color;
+        }
+    }
+}

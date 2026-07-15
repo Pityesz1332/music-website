@@ -1,0 +1,67 @@
+@use '../../styles/variables' as v;
+
+// Keep padding inside declared widths so full-width children don't
+// push the page wider than the viewport (mobile horizontal scroll).
+.my-account,
+.my-account *,
+.my-account *::before,
+.my-account *::after {
+    box-sizing: border-box;
+}
+
+.my-account {
+    max-width: 500px;
+    margin: 100px auto;
+    text-align: center;
+    padding: 0 20px;
+    overflow-x: hidden;
+
+    &__title {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: v.$main-text-color;
+    }
+
+    &__profile-section {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .recent-wrapper__profile {
+        width: 100%;
+        margin-top: 40px;
+        padding: 30px;
+        border-top: 1px solid rgba(v.$main-text-color, 0.1);
+        text-align: left;
+
+        .recently-played__title {
+            text-align: left;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: v.$primary-color;
+        }
+
+        .recent-wrapper__clear-history-btn {
+            background: transparent;
+            border: none;
+            color: rgba(v.$primary-color, 0.8);
+            padding: 6px 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 200;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            &:hover {
+                color: v.$dark-accent-color;
+            }
+        }
+
+        .recently-played__item {
+            text-align: left;
+        }
+    }
+}

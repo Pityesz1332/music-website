@@ -1,0 +1,61 @@
+@use '../../../../styles/variables' as v;
+
+.modal-content {
+    &__body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    &__input {
+        padding: 0.5rem;
+        border-radius: 6px;
+        border: 1px solid rgba(v.$muted-text-color, 0.2);
+        background: v.$bg-color;
+        color: v.$main-text-color;
+
+        @media (max-width: 480px) { font-size: 0.9rem; }
+        
+        &:focus {
+            outline: 1px solid v.$primary-color;
+            border-color: v.$primary-color;
+        }
+    }
+
+    &__label {
+        font-weight: 600;
+        margin-top: 10px;
+        display: block;
+        color: v.$main-text-color;
+    }
+
+    &__file-input {
+        display: none;
+    }
+
+    &__upload-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        color: v.$main-text-color;
+        background: rgba(v.$primary-color, 0.1);
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition: background 0.2s;
+
+        &:hover {
+            background: rgba(v.$primary-color, 0.2);
+        }
+    }
+
+    &__image-preview {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-top: 10px;
+        border: 1px solid rgba(v.$muted-text-color, 0.2);
+    }
+}

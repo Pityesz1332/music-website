@@ -1,4 +1,4 @@
-@import './_variables.scss';
+@use './_variables.scss' as v;
 
 ::-webkit-scrollbar {
     width: 8px;
@@ -14,11 +14,15 @@
 }
 
 body:hover::-webkit-scrollbar-thumb {
-    background: $border-color;
+    background: v.$border-color;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: $muted-text-color;
+    background: v.$muted-text-color;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 html, body {
@@ -26,15 +30,16 @@ html, body {
 }
 
 body {
-    background-color: $bg-color;
-    color: $main-text-color;
-    font-family: $font-main;
+    background-color: v.$bg-color;
+    color: v.$main-text-color;
+    font-family: v.$font-main;
     margin: 0;
     padding: 0;
+    user-select: none;
 }
 
 h1, h2, h3, h4, .logo, .nav-link {
-    font-family: $font-heading;
+    font-family: v.$font-heading;
     font-weight: 700;
     letter-spacing: -0.02em;
 }
@@ -42,4 +47,8 @@ h1, h2, h3, h4, .logo, .nav-link {
 button, input, textarea, select {
     font-family: inherit;
     font-weight: 700;
+}
+
+input, textarea {
+    user-select: text;
 }

@@ -1,5 +1,10 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import type { Song } from "../types/music";
+import { createContext, useContext, useState, useMemo, ReactNode, useCallback } from "react";
+import type { Song } from "@interfaces/music";
+import { usePlayback } from "@hooks/playback/usePlayback";
+import { useRecentlyPlayed } from "@hooks/music-control/useRecentlyPlayed";
+import { useSaveSong } from "@hooks/music-control/useSaveSong";
+import { useDocumentTitle } from "@hooks/ui/useDocumentTitle";
+import { resolveAssetUrl } from "../services/swarm";
 
 interface MusicContextType {
     currentSong: Song | null;
@@ -7,139 +12,88 @@ interface MusicContextType {
     playlist: Song[];
     savedSongs: Song[];
     recentlyPlayed: Song[];
+    isLoadingSwarm: boolean;
+    isShuffle: boolean;
 
-    playSong: (song: Song) => void;
+    playSong: (song: Song, newPlaylist?: Song[]) => void;
     togglePlay: () => void;
     nextSong: () => void;
     prevSong: () => void;
-    setPlaylist: (song: Song[]) => void;
+    setPlaylist: (songs: Song[]) => void;
     saveSong: (song: Song) => void;
     removeSavedSong: (songId: string) => void;
     clearRecentlyPlayed: () => void;
+    handleToggleShuffle: () => void;
 }
 
+// creating context
 const MusicContext = createContext<MusicContextType | undefined>(undefined);
 
 interface MusicProviderProps {
     children: ReactNode;
 }
 
-// innen működnek a zenekezeléshez szükséges funkciók
 export function MusicProvider({ children }: MusicProviderProps) {
     const [currentSong, setCurrentSong] = useState<Song | null>(null);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [playlist, setPlaylist] = useState<Song[]>([]);
-    const [savedSongs, setSavedSongs] = useState<Song[]>([]);
+    const [isLoadingSwarm, setIsLoadingSwarm] = useState(false);
+    const [isShuffle, setIsShuffle] = useState<boolean>(false);
 
-    // korábban hallgatott zenék tömbje
-    const [recentlyPlayed, setRecentlyPlayed] = useState<Song[]>(() => {
-        try {
-            const saved = localStorage.getItem("recentlyPlayed");
-            return saved ? JSON.parse(saved) : [];
-        } catch (error) {
-            console.error("Failed to load recent playlist:", error);
-            return [];
-        }
-    });
+    const { recentlyPlayed, addToRecentlyPlayed, clearRecentlyPlayed } = useRecentlyPlayed();
+    const { savedSongs, saveSong, removeSavedSong } = useSaveSong();
 
-    // mentjük előzményként a zenéket, így kilépés után is megmarad
-    useEffect(() => {
-        localStorage.setItem("recentlyPlayed", JSON.stringify(recentlyPlayed));
-    }, [recentlyPlayed]);
-
-    // a tab címének átírása, hogy ha a user elnavigál, jól látható maradjon, mi szól  
-    useEffect(() => {
-        if (currentSong) {
-            const statusEmoji = isPlaying ? "▶" : "⏸";
-            document.title = `${statusEmoji} ${currentSong.title} - ${currentSong.artist}`;
+    const playSong = useCallback((song: Song, newPlaylist?: Song[]) => {
+        // Resolve the Swarm reference to a public gateway URL for the <audio> src.
+        // Falls back to the song's existing src when it isn't a Swarm-hosted track.
+        const resolvedSrc = song.swarmHash ? resolveAssetUrl(song.swarmHash) : "";
+        if (resolvedSrc) {
+            playbackPlay({ ...song, src: resolvedSrc }, newPlaylist);
         } else {
-            document.title = "DJ Enez";
+            playbackPlay(song, newPlaylist);
         }
-    }, [currentSong, isPlaying]);
+    }, []);
 
-    // mindig hozzáadjuk az előzményhez az aktuálisan hallgatott zenét
-    function addToRecentlyPlayed(song: Song) {
-        setRecentlyPlayed(prev => {
-            const filtered = prev.filter(s => s.id !== song.id);
-            return [song, ...filtered].slice(0, 5);
-        });
-    }
+    const handleToggleShuffle = useCallback(() =>  { setIsShuffle(prev => !prev); }, []);
 
-    // előzmények törlése
-    function clearRecentlyPlayed() {
-        setRecentlyPlayed([]);
-    }
+    const { playSong: playbackPlay, togglePlay, nextSong, prevSong } = usePlayback({
+        currentSong,
+        playlist,
+        setCurrentSong,
+        setIsPlaying,
+        setPlaylist,
+        addToRecentlyPlayed,
+        onPlaySong: playSong,
+        isShuffle
+    });
+    
+    // browser tab title updating
+    useDocumentTitle(currentSong, isPlaying);
 
-    // zenelejátszás indítása és előzményekhez adása
-    // ha nem ugyanaz a zene megy, betölti azt, amire kattintunk
-    function playSong(song: Song) {
-        setCurrentSong(prev => {
-            if (prev?.id === song.id) return prev;
-            return song;
-        });
-        setIsPlaying(true);
-        addToRecentlyPlayed(song);
-    }
-
-    // zene megállítása/elindítása
-    function togglePlay() {
-        setIsPlaying(prev => !prev);
-    }
-
-    // következő zenére váltás logikája
-    // ha a lista végére érünk, a % miatt automatikusan az elejéről kezdi
-    function nextSong() {
-        if (!playlist.length || !currentSong) return;
-        const currentIndex = playlist.findIndex(s => s.id === currentSong.id);
-        const nextIndex = (currentIndex + 1) % playlist.length;
-        const next = playlist[nextIndex];
-        setCurrentSong(next);
-        setIsPlaying(true);
-        addToRecentlyPlayed(next);
-    }
-
-    // az előző zenére ugrás logikája
-    function prevSong() {
-        if(!playlist.length || !currentSong) return;
-        const currentIndex = playlist.findIndex(s => s.id === currentSong.id);
-        const prevIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-        const prev = playlist[prevIndex];
-        setCurrentSong(prev);
-        setIsPlaying(true);
-        addToRecentlyPlayed(prev);
-    }
-
-    // zene mentési logikája
-    function saveSong(song: Song) {
-        setSavedSongs(prev => {
-            if (!prev.find(s => s.id === song.id)) {
-                return [...prev, song];
-            }
-            return prev;
-        });
-    }
-
-    // törlés a mentettek közül
-    function removeSavedSong(songId: string) {
-        setSavedSongs(prev => prev.filter(s => s.id !== songId));
-    }
+    const value = useMemo(() => ({
+        currentSong,
+        isPlaying,
+        playlist,
+        isLoadingSwarm,
+        isShuffle,
+        playSong,
+        togglePlay,
+        nextSong,
+        prevSong,
+        setPlaylist,
+        savedSongs,
+        saveSong,
+        removeSavedSong,
+        recentlyPlayed,
+        clearRecentlyPlayed,
+        handleToggleShuffle
+    }), [
+        currentSong, isPlaying, playlist, playSong, isLoadingSwarm, isShuffle, togglePlay, nextSong, prevSong,
+        setPlaylist, savedSongs, saveSong, removeSavedSong, recentlyPlayed, clearRecentlyPlayed, handleToggleShuffle
+    ]);
 
     return (
-        <MusicContext.Provider value={{
-            currentSong,
-            isPlaying,
-            playlist,
-            playSong,
-            togglePlay,
-            nextSong,
-            prevSong,
-            setPlaylist,
-            savedSongs,
-            saveSong,
-            removeSavedSong,
-            recentlyPlayed,
-            clearRecentlyPlayed
-        }}>
+        <MusicContext.Provider value={value}>
             {children}
         </MusicContext.Provider>
     );

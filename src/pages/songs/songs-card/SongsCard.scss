@@ -1,0 +1,54 @@
+@use '../../../styles/variables' as v;
+
+.songs__card-wrapper {
+    width: 100%;
+    max-width: 20rem;
+    opacity: 0;
+    transform: translateY(1.25rem);
+    animation: fadeInUp 0.6s ease forwards;
+    
+    @for $i from 1 through 15 {
+        &:nth-child(#{$i}) { animation-delay: #{$i * 0.05}s; }
+    }
+}
+
+.songs__card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background: v.$card-color;
+    border-radius: 0.9375rem;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    &:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.4);
+    }
+    
+    &-image {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+    &-title {
+        margin: clamp(0.5rem, 1.5vw, 0.625rem) 0 0.3125rem;
+        font-size: clamp(1rem, 2vw, 1.1rem);
+        padding: 0 0.9375rem;
+    }
+    
+    &-genre {
+        color: v.$muted-text-color;
+        margin-bottom: 0;
+        font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+        padding: 0 0.9375rem 0.9375rem;
+    }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(1.25rem); }
+    to { opacity: 1; transform: translateY(0); }
+}

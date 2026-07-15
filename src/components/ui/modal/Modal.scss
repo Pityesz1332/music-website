@@ -1,0 +1,98 @@
+@use '../../../styles/variables' as v;
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 1rem;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease-out;
+
+    &__content {
+        background: v.$card-color;
+        padding: clamp(1.5rem, 5vw, 2.5rem);
+        border-radius: 12px;
+        position: relative;
+        width: clamp(300px, 95%, 500px);
+        max-height: 90vh;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        animation: scaleUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        overflow-y: auto;
+    }
+
+    &__header {
+        margin-bottom: 1.5rem;
+    }
+
+    &__title {
+        color: v.$main-text-color;
+        margin: 0;
+        font-size: clamp(1.25rem, 4vw, 1.75rem);
+        line-height: 1.2;
+    }
+
+    &__subtitle {
+        margin: 0.25rem 0 0;
+        color: v.$muted-text-color;
+        font-size: clamp(0.85rem, 2vw, 1rem);
+    }
+
+    &__body {
+        margin-bottom: 2rem;
+        color: v.$main-text-color;
+        line-height: 1.6;
+    }
+
+    &__footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 1.5rem;
+
+        button {
+            padding: clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            background: v.$primary-color;
+            color: v.$main-text-color;
+
+            &:hover {
+                background: v.$dark-accent-color;
+                transform: translateY(-1px);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}

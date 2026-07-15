@@ -1,0 +1,91 @@
+@use '../../../styles/variables' as *;
+
+.feed-key {
+    background: $card-color;
+    border: 1px solid $border-color;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    color: $main-text-color;
+    font-family: $font-main;
+
+    &--readonly,
+    &--unlocked {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: $muted-text-color;
+        font-size: 0.9rem;
+    }
+
+    &--unlocked {
+        color: $main-text-color;
+    }
+
+    &__label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    &__row {
+        display: flex;
+        gap: 10px;
+    }
+
+    &__input {
+        flex: 1;
+        background: $sub-accent-color;
+        border: 1px solid $border-color;
+        border-radius: 8px;
+        padding: 10px 12px;
+        color: $main-text-color;
+        font-family: $font-main;
+
+        &::placeholder {
+            color: $placeholder-color;
+        }
+    }
+
+    &__button {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 14px;
+        cursor: pointer;
+        font-weight: 600;
+
+        &--unlock {
+            background: $primary-color;
+            color: $inverse-color;
+
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+        }
+
+        &--lock {
+            margin-left: auto;
+            background: transparent;
+            color: $muted-text-color;
+            border: 1px solid $border-color;
+        }
+    }
+
+    &__error {
+        color: $accent-color;
+        font-size: 0.85rem;
+        margin-top: 8px;
+    }
+
+    &__hint {
+        color: $muted-text-color;
+        font-size: 0.8rem;
+        margin-top: 8px;
+    }
+}

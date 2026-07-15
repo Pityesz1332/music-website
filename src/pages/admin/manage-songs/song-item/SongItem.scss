@@ -1,0 +1,85 @@
+@use '../../../../styles/variables' as v;
+
+.song-item {
+    display: grid;
+    grid-template-columns: 120px 1.5fr 1fr 100px 80px 100px;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(v.$bg-color, 0.5);
+    border-radius: 8px;
+    transition: background 0.3s ease;
+    gap: 1.5rem;
+
+    &:hover {
+        background: rgba(v.$primary-color, 0.1);
+    }
+
+    &__info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    &__id {
+        font-size: 0.8rem;
+        color: v.$muted-text-color;
+        min-width: 30px;
+    }
+
+    &__cover {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    &__title {
+        font-weight: 600;
+        color: v.$main-text-color;
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding-left: 0.5rem;
+    }
+
+    &__artist {
+        color: v.$muted-text-color;
+        margin: 0;
+    }
+
+    &__genre {
+        background: rgba(v.$primary-color, 0.2);
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        text-align: center;
+    }
+
+    &__duration {
+        font-family: monospace;
+        color: v.$muted-text-color;
+    }
+
+    &__actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+
+        .btn--edit {
+            background: v.$primary-color;
+            &:hover { background: v.$dark-accent-color; }
+        }
+    }
+
+    @media (max-width: 1280px) {
+        &__cover {
+            display: none;
+        }
+    }
+
+    @media (max-width: 768px) {
+        grid-template-columns: 80px 1fr 80px;
+        gap: 1rem;
+    }
+}

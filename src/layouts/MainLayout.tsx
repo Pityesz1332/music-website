@@ -1,28 +1,15 @@
 import { Outlet } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { useMusic } from "../context/MusicContext";
-import Navbar from "../components/Navbar/Navbar";
-import ConnectedNavbar from "../components/Connected_Navbar/ConnectedNavbar";
-import Playbar from "../components/Playbar/Playbar";
+import Navbar from "@components/navbar/Navbar";
+import Playbar from "@components/playbar/Playbar";
 
-// eldönti, hogy a sima vagy a connected navbar-t mutatja,
-// illetve a playbar-nak átadja a szükséges prop-okat
+// Defines the visual structure of the layout.
 const MainLayout = () => {
-    const { isConnected } = useAuth();
-    const { currentSong, isPlaying, togglePlay, nextSong, prevSong } = useMusic();
-
     return (
         <div>
-            {isConnected ? <ConnectedNavbar /> : <Navbar />}
+            <Navbar />
             <main>
                 <Outlet />
-                <Playbar
-                    song={currentSong}
-                    isPlaying={isPlaying}
-                    onPlayPause={togglePlay}
-                    onNext={nextSong}
-                    onPrev={prevSong}
-                />
+                <Playbar />
             </main>
         </div>
     );

@@ -1,0 +1,98 @@
+@use '../../styles/variables' as v;
+
+.home {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    color: v.$main-text-color;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1rem, 5vw, 5rem);
+    box-sizing: border-box;
+
+    &__overlay {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%);
+        z-index: -1;
+    }
+
+    &__content {
+        text-align: center;
+        z-index: 2;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: clamp(5rem, 15vh, 20rem);
+        width: 100%;
+        max-width: 1200px;
+    }
+
+    &__title {
+        font-size: clamp(2rem, 8vw, 5rem);
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: clamp(1px, 0.5vw, 4px);
+        line-height: 1.1;
+        font-weight: 800;
+    }
+
+    &__subtitle {
+        font-size: clamp(1.1rem, 3vw, 2.2rem);
+        margin: clamp(0.5rem, 2vh, 1.5rem) 0;
+        color: v.$main-text-color;
+        max-width: 800px;
+    }
+
+    &__highlight {
+        color: v.$highlight-color;
+        display: inline-block;
+    }
+
+    &__text {
+        font-size: clamp(0.9rem, 1.5vw, 1.3rem);
+        margin-bottom: clamp(1.5rem, 4vh, 3rem);
+        color: v.$muted-text-color;
+        max-width: 40ch;
+        line-height: 1.6;
+    }
+
+    &__button {
+        background: v.$highlight-color;
+        color: v.$inverse-color;
+        border: none;
+        padding: clamp(0.8rem, 2vh, 1.2rem) clamp(1.5rem, 4vw, 3rem);
+        border-radius: 100px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        cursor: pointer;
+        font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+        font-weight: 700;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background: v.$secondary-color;
+            color: v.$main-text-color;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+    }
+
+    &__recent-wrapper {
+        margin-top: clamp(0.5rem, 3vh, 2rem);
+        width: 100%;
+        max-width: clamp(280px, 40vw, 450px);
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@keyframes zoomIn {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}

@@ -1,0 +1,56 @@
+@use '../../../styles/variables' as v;
+
+.song-page {
+    &__actions {
+        position: relative;
+        margin-top: clamp(1rem, 5vh, 2rem);
+        display: flex;
+        gap: clamp(0.9375rem, 3vw, 1.5625rem);
+        z-index: 10;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__card-actions {
+        display: flex;
+        gap: 0.625rem;
+        margin-left: auto;
+        margin-right: clamp(0rem, 5vw, 2rem);
+        opacity: 0.6; 
+        transition: opacity 0.2s ease;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    &__action-button, 
+    &__card-action-btn {
+        background: transparent;
+        border: none;
+        color: v.$main-text-color;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+
+        &:hover {
+            transform: scale(1.1);
+            color: v.$primary-color;
+        }
+
+        &--saved {
+            color: v.$primary-color;
+            
+            svg {
+                fill: v.$primary-color;
+            }
+        }
+
+        svg {
+            display: block;
+            height: auto;
+        }
+    }
+}

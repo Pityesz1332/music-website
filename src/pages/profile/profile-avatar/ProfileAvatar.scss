@@ -1,0 +1,50 @@
+@use '../../../styles/variables' as v;
+
+.my-account__avatar-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 1.5rem;
+
+    .my-account__avatar-label {
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+        position: relative;
+        border: 2px solid v.$primary-color;
+
+        &:hover .my-account__avatar-overlay {
+            opacity: 1;
+        }
+    }
+
+    .my-account__avatar-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .my-account__avatar-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        color: v.$primary-color;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+        text-transform: uppercase;
+    }
+}
+
+.my-account__avatar-input {
+    display: none;
+}
