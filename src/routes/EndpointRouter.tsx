@@ -13,7 +13,7 @@ import { RouteSuspense } from "./RouteSuspense";
 
 const NotFound = lazy(() => import("@pages/not-found-fallback/NotFound").then((m) => ({ default: m.NotFound })));
 const Saved = lazy(() => import("@pages/saved-songs/Saved").then((m) => ({ default: m.Saved })));
-const MyAccount = lazy(() => import("@pages/profile/MyAccount").then((m) => ({ default: m.MyAccount })));
+const MyAccount = lazy(() => import("@pages/Profile/MyAccount").then((m) => ({ default: m.MyAccount })));
 const AdminDashboard = lazy(() => import("@pages/admin/admin-dashboard/AdminDashboard").then((m) => ({ default: m.AdminDashboard })));
 const ManageSongs = lazy(() => import("@pages/admin/manage-songs/ManageSongs").then((m) => ({ default: m.ManageSongs })));
 const ManageUsers = lazy(() => import("@pages/admin/manage-users/ManageUsers").then((m) => ({ default: m.ManageUsers })));
