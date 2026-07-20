@@ -1,0 +1,37 @@
+@use '../../../styles/variables' as v;
+
+.songs__error-title {
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    margin-bottom: 0.5rem;
+    color: v.$primary-color;
+    font-weight: 700;
+}
+
+.songs__error-text {
+    font-size: 1rem;
+    color: v.$muted-text-color;
+    margin-bottom: 1.5rem;
+    max-width: 400px;
+    line-height: 1.5;
+}
+
+.songs__retry-button {
+    background: v.$primary-color;
+    color: v.$main-text-color;
+    padding: clamp(0.5rem, 1.5vw, 0.625rem) clamp(1.5rem, 3vw, 2rem);
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background: v.$dark-accent-color;
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}

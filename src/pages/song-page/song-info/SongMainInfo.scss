@@ -1,0 +1,64 @@
+@use '../../../styles/variables' as v;
+
+.song-page {
+    &__cover-wrapper {
+        position: relative;
+        display: inline-block;
+        z-index: 1;
+        width: clamp(9.375rem, 25vw, 18.75rem);
+        flex-shrink: 0;
+    }
+
+    &__main-cover {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        border-radius: 1rem;
+        object-fit: cover;
+        box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.5);
+    }
+
+    &__glow {
+        position: absolute;
+        inset: -3%;
+        border-radius: 1.5rem;
+        opacity: 0;
+        background: linear-gradient(45deg, v.$primary-color, v.$dark-accent-color);
+        filter: blur(0.3rem);
+        transition: opacity 0.4s ease;
+        z-index: -1;
+        &--active { opacity: 1; }
+    }
+
+    &__info {
+        width: 100%;
+        max-width: 25rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        flex: 1 1 15rem;
+
+        &--glass {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(0.625rem);
+            border: 0.0625rem solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: clamp(1rem, 3vw, 2rem);
+        }
+    }
+
+    &__title {
+        font-size: clamp(1.2rem, 4vw, 2rem);
+        margin-bottom: clamp(0.3125rem, 1vw, 0.625rem);
+        font-weight: 700;
+        text-align: center;
+    }
+
+    &__artist {
+        color: v.$muted-text-color;
+        font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+        margin-bottom: clamp(0.5rem, 2vw, 1rem);
+        text-align: center;
+    }
+}

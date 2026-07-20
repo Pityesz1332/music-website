@@ -1,0 +1,145 @@
+@use "../../../styles/variables" as v;
+@use "sass:color";
+
+.admin-table {
+    &__header-row {
+        display: grid;
+        gap: 2rem;
+        padding: 0.8rem 1rem;
+        font-weight: bold;
+        color: v.$muted-text-color;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        border-bottom: 1px solid rgba(v.$muted-text-color, 0.1);
+
+        span:last-child { text-align: right; margin-right: 0.7rem; }
+        @media (max-width: 768px) { display: none; }
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin-top: 1rem;
+    }
+
+    .song-item, .user-item {
+        display: grid;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.8rem 1rem;
+        background: v.$card-color;
+        border-radius: 12px;
+        transition: transform 0.2s, background 0.2s;
+
+        &:hover { background: color.adjust(v.$card-color, $lightness: 5%) }
+    
+        &__info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        &__details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+
+            p {
+                margin: 0;
+                line-height: 1.2;
+            }
+        }
+
+        &__title, &__name { font-weight: 600; margin: 0; }
+
+        &__id { color: v.$muted-text-color; font-size: 0.8rem; }
+
+        &__actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+
+            .btn--edit, .btn--delete {
+                color: v.$primary-color;
+                background: none;
+                border: none;
+                padding: 8px;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: 0.2s;
+                display: flex;
+                align-items: center;
+
+                &:hover { background: rgba(v.$primary-color, 0.1); color: v.$dark-accent-color; }
+            }
+        }
+
+        @media (max-width: 768px) {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            padding: 1.2rem;
+
+            &__info {
+                border-bottom: 1px solid rgba(v.$muted-text-color, 0.1);
+                padding-bottom: 0.8rem;
+            }
+
+            &__actions {
+                border-top: 1px solid rgba(v.$muted-text-color, 0.1);
+                padding-top: 0.8rem;
+                margin-top: 0.8rem;
+            }
+        }
+    }
+
+    &--songs {
+        .admin-table__header-row, .song-item {
+            grid-template-columns: 80px 2fr 1.5fr 1fr 100px 120px;
+
+            @media (max-width: 1024px) { grid-template-columns: 60px 2fr 1.5fr 1fr 80px 100px; }
+        }
+
+        .song-item {
+            &__cover { width: 45px; height: 45px; border-radius: 4px; object-fit: cover; }
+            &__genre, &__duration { color: v.$main-text-color; }
+
+            @media (max-width: 768px) {
+                &__meta {
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 0.9rem;
+
+                    &::before { content: "Details"; font-weight: bold; color: v.$primary-color; }
+                }
+            }
+        }
+    }
+
+    &--users {
+        .admin-table__header-row, .user-item {
+            grid-template-columns: 2.5fr 1fr 120px;
+        }
+
+        .user-item {
+            &__email { font-size: 0.85rem; color: v.$muted-text-color; word-break: break-all; }
+
+            &__role {
+                @media (max-width: 768px) {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    &::before { content: "Role:"; font-weight: bold; font-size: 0.85rem; }
+                }
+
+                .role-badge {
+                    font-size: 0.75rem;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    &--admin { color: v.$primary-color; }
+                }
+            }
+        }
+    }
+}

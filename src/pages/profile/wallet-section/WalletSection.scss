@@ -1,0 +1,32 @@
+@use '../../../styles/variables' as v;
+
+.my-account__wallet-info {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.my-account__wallet-address {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.my-account__copy-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    background: v.$primary-color;
+    color: v.$main-text-color;
+    border-radius: 4px;
+    transition: background 0.2s;
+
+    &:hover {
+        background: v.$dark-accent-color;
+    }
+}

@@ -24,13 +24,13 @@ interface NotificationProviderProps {
     children: ReactNode;
 }
 
-// értesítés popup kezelése bizonyos interakciók után
+// Handles notification popups after specific interactions.
 export const NotificationProvider = ({ children }: NotificationProviderProps) => {
     const [notifications, setNotifications] = useState<Notification[]>([]);
-    const timeouts = useRef<number[]>([]);
+    const timeouts = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-    // ez a függvény feldob egy tetszőleges üzenetet, majd 
-    // a 3mp után automatikusan eltünteti a listából és a memóriából is 
+    // Triggers a custom notification, then automatically dismisses it 
+    // from the UI and memory after a 3-second timeout.
     const notify = useCallback((message: string, type: NotificationType = NotificationType.INFO, duration: number = 3000) => {
         const id = Date.now() + Math.random();
 
@@ -46,7 +46,6 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
         timeouts.current.push(timeoutId);
     }, []);
 
-    // tisztítás - leállítjuk az összes futó órát
     useEffect(() => {
         return () => {
             timeouts.current.forEach(clearTimeout);

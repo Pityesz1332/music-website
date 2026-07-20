@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
-import { useAdmin } from "../context/AdminContext";
+import { useAdmin } from "@context/AdminContext";
 
 interface AdminRouteProps {
     children: ReactNode;

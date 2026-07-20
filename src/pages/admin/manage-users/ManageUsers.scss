@@ -1,0 +1,55 @@
+@use '../../../styles/variables' as v;
+
+.manage-users {
+    color: v.$main-text-color;
+    padding: 2rem;
+    min-height: 100vh;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    
+    @media (max-width: 768px) { padding: 1rem 0.5rem; }
+
+    &__header {
+        margin-bottom: 2rem;
+
+        @media (max-width: 768px) { 
+            padding: 0 0.5rem;
+            display: flex;
+            justify-content: center; 
+        }
+    }
+
+    &__title {
+        margin-bottom: 20px;
+
+        @media (max-width: 768px) { 
+            font-size: 1.7rem;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 480px) { font-size: 1.5rem; }
+    }
+
+    &__search {
+        width: 250px;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(v.$muted-text-color, 0.1);
+        margin-bottom: 20px;
+        background: v.$card-color;
+        color: inherit;
+        transition: all 0.2s ease;
+        box-sizing: border-box;
+
+        &:focus {
+            outline: none;
+            border-color: v.$primary-color;
+            background: rgba(v.$card-color, 0.8);
+            box-shadow: 0 0 0 2px rgba(v.$primary-color, 0.2);
+        }
+
+        @media (max-width: 768px) { width: 100%; }
+    }
+}
