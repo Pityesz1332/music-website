@@ -1,17 +1,12 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Wallet, Menu, X, Music, Search } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
-import { useNotification, NotificationType } from "../../context/NotificationContext";
-import { useLoading } from "../../context/LoadingContext";
+import { NAVBAR_STRINGS } from "@i18n/ui/navbar";
 import "./Navbar.scss";
 
 const Navbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { connect } = useAuth();
-    const { notify } = useNotification();
-    const { showLoading, hideLoading } = useLoading();
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [isShrunk, setIsShrunk] = useState<boolean>(false);
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -54,20 +49,6 @@ const Navbar = () => {
         setIsMenuOpen(prev => !prev);
     }
 
-    // demo login (wallet connect)
-    async function handleDemoConnect() {
-        try {
-            showLoading();
-            await connect();
-            hideLoading();
-            notify("Wallet connected", NotificationType.SUCCESS);
-        } catch(err) {
-            hideLoading();
-            console.error(err);
-            notify("Something went wrong", NotificationType.ERROR);
-        }
-    }
-
     return (
         <nav className={`navbar ${isShrunk ? "navbar--shrunk" : ""}`}>
             <div className="navbar__logo" onClick={() => navigate("/")}>DJ Enez</div>
@@ -103,8 +84,10 @@ const Navbar = () => {
                 <Music className="navbar__item-icon" size={28} /><span className="navbar__item-text">Songs/Mixes</span>
                 </li>
 
-                <li className="navbar__item navbar__item--wallet">
-                    <button className="navbar__button" type="button" onClick={handleDemoConnect}><Wallet size={20} />Connect Wallet</button>
+                <li className="navbar__item navbar__item--wallet" title={NAVBAR_STRINGS.WALLET.TOOLTIP}>
+                    <button className="navbar__button navbar__button--disabled" type="button" disabled>
+                        <Wallet size={20} />{NAVBAR_STRINGS.WALLET.CONNECT}
+                    </button>
                 </li>
             </ul>
         </nav>
