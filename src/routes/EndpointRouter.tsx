@@ -16,7 +16,7 @@ const NotFound = lazy(() => import("@pages/not-found-fallback/NotFound").then((m
 // The page files are kept but no longer routed; deep links fall through to NotFound.
 const AdminDashboard = lazy(() => import("@pages/admin/admin-dashboard/AdminDashboard").then((m) => ({ default: m.AdminDashboard })));
 const ManageSongs = lazy(() => import("@pages/admin/manage-songs/ManageSongs").then((m) => ({ default: m.ManageSongs })));
-const ManageUsers = lazy(() => import("@pages/admin/manage-users/ManageUsers").then((m) => ({ default: m.ManageUsers })));
+// ManageUsers is not part of the MVP — page kept but no longer routed.
 const AdminConnect = lazy(() => import("@pages/admin/admin-connect/AdminConnect").then((m) => ({ default: m.AdminConnect })));
 
 export const EndpointRouter = () => {
@@ -36,7 +36,6 @@ export const EndpointRouter = () => {
           <Route element={<AdminLayout />}>
             <Route path={MainRoutes.ADMIN_DASHBOARD} element={<AdminRoute><RouteSuspense><AdminDashboard /></RouteSuspense></AdminRoute>} />
             <Route path={MainRoutes.ADMIN_SONGS} element={<AdminRoute><RouteSuspense><ManageSongs /></RouteSuspense></AdminRoute>} />
-            <Route path={MainRoutes.ADMIN_USERS} element={<AdminRoute><RouteSuspense><ManageUsers /></RouteSuspense></AdminRoute>} />
           </Route>
           
           {/* Error fallback */}

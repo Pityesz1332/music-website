@@ -10,9 +10,7 @@ export const ADMIN_NAV_ITEMS = [
     {
         path: MainRoutes.ADMIN_SONGS,
         label: ADMIN_NAVBAR_STRINGS.LINKS.SONGS_MIXES
-    },
-    {
-        path: MainRoutes.ADMIN_USERS,
-        label: ADMIN_NAVBAR_STRINGS.LINKS.USERS
     }
+    // Users management is not part of the MVP — the ManageUsers page and route
+    // are removed (files kept). Restore the ADMIN_USERS item here to re-enable.
 ] as const;
