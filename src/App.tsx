@@ -1,4 +1,4 @@
-import { BrowserRouter as Router } from "react-router-dom";
+import { HashRouter as Router } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import { EndpointRouter } from "@routes/EndpointRouter";
 

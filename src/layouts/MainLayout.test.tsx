@@ -3,12 +3,22 @@ import { describe, it, expect, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import MainLayout from "./MainLayout";
 
-vi.mock("../components/navbar/Navbar", () => ({
+vi.mock("../components/Navbar/Navbar", () => ({
   default: () => <nav data-testid="navbar-mock" />
 }));
 
-vi.mock("../components/playbar/Playbar", () => ({
+vi.mock("../components/Playbar/Playbar", () => ({
   default: () => <div data-testid="playbar-mock" />
+}));
+
+vi.mock("../context/MusicContext", () => ({
+  useMusic: () => ({
+    currentSong: null,
+    isPlaying: false,
+    togglePlay: vi.fn(),
+    nextSong: vi.fn(),
+    prevSong: vi.fn()
+  })
 }));
 
 vi.mock("react-router-dom", async () => {

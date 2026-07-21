@@ -13,6 +13,8 @@ const WRITE_URL =
 const readBee = new Bee(READ_URL);
 const writeBee = new Bee(WRITE_URL);
 
+export const FEED_OWNER_ADDRESS = (import.meta.env.VITE_FEED_OWNER_ADDRESS as string | undefined) ?? "";
+
 // FEED CONFIG
 const FEED_TOPIC = Topic.fromString("music-webpage-dj-enez");
 

@@ -36,7 +36,7 @@ export const MyAccount = () => {
 
             <div className="my-account__profile-section">
                 <div className="my-account__avatar-container">
-                    <img src={avatar || "/assets/default-avatar.jpg"} alt="Avatar" className="my-account__avatar-image" />
+                    <img src={avatar || `${import.meta.env.BASE_URL}assets/default-avatar.jpg`} alt="Avatar" className="my-account__avatar-image" />
                     <input type="file" accept="image/*" onChange={handleAvatarChange} className="my-account__avatar-input" />
                 </div>
 

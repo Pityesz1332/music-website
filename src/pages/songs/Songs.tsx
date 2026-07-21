@@ -28,7 +28,6 @@ export const Songs = () => {
         totalPages,
         loading,
         error,
-        minDuration,
         maxDuration,
         durationBounds,
         isDurationActive,
@@ -60,7 +59,6 @@ export const Songs = () => {
                     sortOrder={sortOrder}
                     onSort={handleSort}
                     onClear={clearFilters}
-                    minDuration={minDuration}
                     maxDuration={maxDuration}
                     durationBounds={durationBounds}
                     isDurationActive={isDurationActive}

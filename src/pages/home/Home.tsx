@@ -8,9 +8,9 @@ import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import "./Home.scss";
 
 const backgrounds: Background[] = [
-    { type: "image", src: "/assets/home_background1.jpg" },
-    { type: "video", src: "/assets/home_video1.mp4" },
-    { type: "image", src: "/assets/home_background2.jpg" },
+    { type: "image", src: `${import.meta.env.BASE_URL}assets/home_background1.jpg` },
+    { type: "video", src: `${import.meta.env.BASE_URL}assets/home_video1.mp4` },
+    { type: "image", src: `${import.meta.env.BASE_URL}assets/home_background2.jpg` },
 ];
 
 export const Home = () => {

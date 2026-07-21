@@ -2,8 +2,10 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 
+const dirname = import.meta.dirname
+
 export default defineConfig({
-  base: '/',
+  base: './',
   plugins: [react()],
   test: {
     globals: true,
@@ -13,18 +15,18 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@components': path.resolve(__dirname, 'src/components'),
-      '@pages': path.resolve(__dirname, 'src/pages'),
-      '@hooks': path.resolve(__dirname, 'src/hooks'),
-      '@context': path.resolve(__dirname, 'src/context'),
-      '@utils': path.resolve(__dirname, 'src/utils'),
-      '@interfaces': path.resolve(__dirname, 'src/types'),
-      '@styles': path.resolve(__dirname, 'src/styles'),
-      '@constants': path.resolve(__dirname, 'src/constants'),
-      '@routes': path.resolve(__dirname, 'src/routes'),
-      '@i18n': path.resolve(__dirname, 'src/i18n'),
-      '@data': path.resolve(__dirname, 'src/data'),
-      '@layouts': path.resolve(__dirname, 'src/layouts')
+      '@components': path.resolve(dirname, 'src/components'),
+      '@pages': path.resolve(dirname, 'src/pages'),
+      '@hooks': path.resolve(dirname, 'src/hooks'),
+      '@context': path.resolve(dirname, 'src/context'),
+      '@utils': path.resolve(dirname, 'src/utils'),
+      '@interfaces': path.resolve(dirname, 'src/types'),
+      '@styles': path.resolve(dirname, 'src/styles'),
+      '@constants': path.resolve(dirname, 'src/constants'),
+      '@routes': path.resolve(dirname, 'src/routes'),
+      '@i18n': path.resolve(dirname, 'src/i18n'),
+      '@data': path.resolve(dirname, 'src/data'),
+      '@layouts': path.resolve(dirname, 'src/layouts')
     }
   }
 });

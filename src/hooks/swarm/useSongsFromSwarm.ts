@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Song } from "@interfaces/music";
-import { fetchLatestSongsHash, fetchSongMetadata } from "../../swarm/swarmService";
-
-const FEED_OWNER_ADDRESS = import.meta.env.VITE_FEED_OWNER_ADDRESS as string;
+import { fetchLatestSongsHash, fetchSongMetadata, FEED_OWNER_ADDRESS } from "../../swarm/swarmService";
 
 export const useSongsFromSwarm = () => {
     const [songs, setSongs] = useState<Song[]>([]);

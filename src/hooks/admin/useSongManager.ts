@@ -50,8 +50,8 @@ export const useSongManager = () => {
             swarmHash: song.audioHash,
             cover: song.coverHash ? resolveSwarmCover(song.coverHash) : "",
             coverHash: song.coverHash,
-            defaultBgVideo: "/assets/animation1.mp4",
-            playingBgVideo: "/assets/waveform-to3.mp4"
+            defaultBgVideo: `${import.meta.env.BASE_URL}assets/animation1.mp4`,
+            playingBgVideo: `${import.meta.env.BASE_URL}assets/waveform-to3.mp4`
         };
 
         const updated = [...songs, newSong];

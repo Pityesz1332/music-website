@@ -2,10 +2,9 @@ import { useState } from "react";
 import { KeyRound, CheckCircle2, AlertTriangle } from "lucide-react";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { setFeedKey, clearFeedKey, getFeedKeyAddress, hasFeedKey } from "../../../swarm/feedKey";
+import { FEED_OWNER_ADDRESS } from "../../../swarm/swarmService";
 import { ADMIN_FEED_KEY_STRINGS } from "@i18n/ui/admin/feed-key";
 import "./FeedKeyPanel.scss";
-
-const FEED_OWNER_ADDRESS = (import.meta.env.VITE_FEED_OWNER_ADDRESS as string | undefined) ?? "";
 
 export const FeedKeyPanel = () => {
     const [value, setValue] = useState("");

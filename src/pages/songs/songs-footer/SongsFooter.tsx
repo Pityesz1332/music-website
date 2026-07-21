@@ -12,7 +12,7 @@ export const SongsFooter = () => {
                 rel="noopener noreferrer"
                 className="songs__soundcloud-link"
             >
-                <img className="songs__soundcloud-logo" src="/assets/soundcloud-logo.svg" alt="SoundCloud" />
+                <img className="songs__soundcloud-logo" src={`${import.meta.env.BASE_URL}assets/soundcloud-logo.svg`} alt="SoundCloud" />
                 <span>{SONGS_STRINGS.FOOTER.FOLLOW} 
                     <strong className="songs__brand-name">
                         <span>DJ Enez</span>

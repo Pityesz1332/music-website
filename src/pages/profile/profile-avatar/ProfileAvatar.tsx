@@ -6,7 +6,7 @@ interface ProfileAvatarProps {
 }
 
 export const ProfileAvatar = ({ avatar, onChange }: ProfileAvatarProps) => {
-    const defaultAvatar = "/assets/default-avatar.jpg";
+    const defaultAvatar = `${import.meta.env.BASE_URL}assets/default-avatar.jpg`;
 
     return (
         <div className="my-account__avatar-container">
