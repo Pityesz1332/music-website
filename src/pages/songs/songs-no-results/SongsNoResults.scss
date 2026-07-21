@@ -24,4 +24,16 @@
 
 .songs__reset-button {
     min-width: 12rem;
+    padding: clamp(0.5rem, 1.2vh, 0.625rem) clamp(0.875rem, 2vw, 1.25rem);
+    background: v.$primary-color;
+    color: v.$main-text-color;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background: v.$dark-accent-color;
+        transform: translateY(-1px);
+    }
 }

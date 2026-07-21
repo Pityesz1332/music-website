@@ -49,6 +49,9 @@
         width: 100%;
         max-width: clamp(6.25rem, 40vw, 31.25rem);
         transition: all 0.3s ease;
+
+        // Search bar hidden for now
+        display: none;
     }
 
     &__search-input {
@@ -150,6 +153,9 @@
             padding: 0;
             margin: 0;
             cursor: not-allowed;
+            // Sits on the right, outside the centered menu — size to content
+            // instead of growing/stretching like the in-menu items.
+            flex: 0 0 auto;
         }
     }
 

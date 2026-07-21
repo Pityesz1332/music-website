@@ -23,25 +23,28 @@ const Navbar = () => {
             <NavLogo onClick={closeMenu} />
 
             <div className="navbar__center">
+                {/* Search is hidden for now */}
                 <NavSearch onActionComplete={closeMenu} />
+
+                {/* Songs/Mixes menu sits in the centered slot. */}
+                <div className={`navbar__menu ${isMenuOpen ? "navbar__menu--open" : ""}`}>
+                    {NAV_CONFIG.map((item) => (
+                        <NavLink
+                            key={item.path}
+                            path={item.path}
+                            label={item.label}
+                            Icon={item.Icon}
+                            isActive={location.pathname === item.path}
+                            onClick={() => handleNavigate(item.path)}
+                        />
+                    ))}
+                </div>
             </div>
+
+            {/* Wallet stays on the right, outside the centered menu. */}
+            <NavWallet />
 
             <NavMobileToggle isOpen={isMenuOpen} onToggle={toggleMenu} />
-
-            <div className={`navbar__menu ${isMenuOpen ? "navbar__menu--open" : ""}`}>
-                {NAV_CONFIG.map((item) => (
-                    <NavLink
-                        key={item.path}
-                        path={item.path}
-                        label={item.label}
-                        Icon={item.Icon}
-                        isActive={location.pathname === item.path}
-                        onClick={() => handleNavigate(item.path)}
-                    />
-                ))}
-
-                <NavWallet />
-            </div>
         </nav>
     );
 };
