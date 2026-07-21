@@ -12,8 +12,8 @@ import { AdminRoute } from "./AdminRoute";
 import { RouteSuspense } from "./RouteSuspense";
 
 const NotFound = lazy(() => import("@pages/not-found-fallback/NotFound").then((m) => ({ default: m.NotFound })));
-const Saved = lazy(() => import("@pages/saved-songs/Saved").then((m) => ({ default: m.Saved })));
-const MyAccount = lazy(() => import("@pages/Profile/MyAccount").then((m) => ({ default: m.MyAccount })));
+// User-login features (Saved, My Account) are removed for the MVP — no user accounts.
+// The page files are kept but no longer routed; deep links fall through to NotFound.
 const AdminDashboard = lazy(() => import("@pages/admin/admin-dashboard/AdminDashboard").then((m) => ({ default: m.AdminDashboard })));
 const ManageSongs = lazy(() => import("@pages/admin/manage-songs/ManageSongs").then((m) => ({ default: m.ManageSongs })));
 const ManageUsers = lazy(() => import("@pages/admin/manage-users/ManageUsers").then((m) => ({ default: m.ManageUsers })));
@@ -27,8 +27,6 @@ export const EndpointRouter = () => {
             <Route path={MainRoutes.HOME} element={<Home />} />
             <Route path={MainRoutes.SONGS} element={<Songs />} />
             <Route path={MainRoutes.SPECIFIC_SONG} element={<SongPage />} />
-            <Route path={MainRoutes.SAVED} element={<RouteSuspense><Saved /></RouteSuspense>} />
-            <Route path={MainRoutes.MY_ACCOUNT} element={<RouteSuspense><MyAccount /></RouteSuspense>} />
           </Route>
           
           {/* Admin connect (public) */}

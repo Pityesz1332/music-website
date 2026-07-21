@@ -1,8 +1,6 @@
-import { TimerReset, Repeat, Heart, Download, Shuffle } from "lucide-react";
-import { useSongActions } from "@hooks/playlist/useSongActions";
+import { TimerReset, Repeat, Shuffle } from "lucide-react";
 import { PrimaryButton } from "../../ui/button/PrimaryButton";
 import { VolumeControl } from "../volume-control/VolumeControl";
-import { PLAYBAR_STRINGS } from "@i18n/ui/playbar";
 import { NotificationType } from "@context/NotificationContext";
 import type { Song } from "@interfaces/music";
 
@@ -25,9 +23,6 @@ interface TrackActionsProps {
     notify: (message: string, type: NotificationType) => void;
 }
 
-// playbar right side
-// separated because these functions depend on 
-// external states (authentication status)
 export const TrackActions = ({
     volume,
     volumeWrapperRef,
@@ -39,30 +34,11 @@ export const TrackActions = ({
     onToggleLoop,
     isShuffle,
     onToggleShuffle,
-    isConnected,
-    isSaved,
-    song,
-    removeSavedSong,
-    saveSong,
-    notify
 }: TrackActionsProps) => {
-    const { handleDownload } = useSongActions(song, false);
-
-    // saving song + UI feedback
-    const handleSaveToggle = () => {
-        if (isSaved) {
-            removeSavedSong(song.id);
-            notify(PLAYBAR_STRINGS.MESSAGES.DELETED, NotificationType.SUCCESS);
-        } else {
-            saveSong(song);
-            notify(PLAYBAR_STRINGS.MESSAGES.SAVED, NotificationType.SUCCESS);
-        }
-    };
-
     return (
         <div className="playbar__right-container">
             <div className="playbar__extra">
-                <VolumeControl 
+                <VolumeControl
                     volume={volume}
                     volumeWrapperRef={volumeWrapperRef}
                     handleVolumeDragStart={handleVolumeDragStart}
@@ -81,19 +57,6 @@ export const TrackActions = ({
                         <Shuffle size={20} />
                     </PrimaryButton>
                 </div>
-
-                {isConnected && (
-                    <div className="playbar__connected-buttons">
-                        <PrimaryButton
-                            className={`playbar__save-button ${isSaved ? "playbar__save-button--saved" : ""}`}  
-                            onClick={handleSaveToggle}>
-                            <Heart size={20} />
-                        </PrimaryButton>
-                        <PrimaryButton className="playbar__download-button" onClick={handleDownload}>
-                            <Download size={20} />
-                        </PrimaryButton>
-                    </div>
-                )}
             </div>
         </div>
     );

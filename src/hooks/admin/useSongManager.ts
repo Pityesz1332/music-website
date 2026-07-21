@@ -1,13 +1,8 @@
-// ***
-// A PRIVATE KEY A FRONTEND KÓDBAN VAN!
-// ***
 import { useState, useEffect } from "react";
 import { publishSongsToFeed, resolveSwarmCover } from "../../swarm/swarmService";
 import type { Song } from "@interfaces/music";
 import { useSongsFromSwarm } from "@hooks/swarm/useSongsFromSwarm";
-import { PrivateKey } from "@ethersphere/bee-js";
-
-const PUBLISHER_PRIVATE_KEY = new PrivateKey(import.meta.env.VITE_FEED_PUBLISHER_KEY);
+import { getFeedKey } from "../../swarm/feedKey";
 
 export const useSongManager = () => {
     const { songs: swarmSongs, loading: swarmLoading } = useSongsFromSwarm();
@@ -24,12 +19,17 @@ export const useSongManager = () => {
         }
     }, [swarmLoading, swarmSongs]);
 
-    // Publishing to feed after every change
+    // Feed publishing
     const publishToSwarm = async (updatedSongs: Song[]) => {
+        const feedKey = getFeedKey();
+        if (!feedKey) {
+            setPublishError("Enter the feed publisher key before publishing.");
+            return;
+        }
         try {
             setPublishing(true);
             setPublishError(null);
-            await publishSongsToFeed(updatedSongs, PUBLISHER_PRIVATE_KEY);
+            await publishSongsToFeed(updatedSongs, feedKey);
         } catch (err) {
             setPublishError(err instanceof Error ? err.message : "Publish failed");
         } finally {

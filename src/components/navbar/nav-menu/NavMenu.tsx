@@ -1,7 +1,6 @@
 import { Wallet } from "lucide-react";
 import { NavLink } from "../nav-link/NavLink";
 import { PrimaryButton } from "../../ui/button/PrimaryButton";
-import { ConnectModal } from "./ConnectModal";
 import { NAVBAR_STRINGS } from "@i18n/ui/navbar";
 import { useNavMenu } from "@hooks/navbar/useNavMenu";
 
@@ -13,14 +12,8 @@ interface NavMenuProps {
 export const NavMenu = ({ isOpen, onClose }: NavMenuProps) => {
     const {
         menuItems,
-        isModalOpen, setIsModalOpen,
-        isConnected,
         location,
         handleNavigation,
-        onConnectClick,
-        confirmConnect,
-        confirmDeveloperConnect,
-        onDisconnectClick
     } = useNavMenu(onClose);
 
     return (
@@ -36,25 +29,21 @@ export const NavMenu = ({ isOpen, onClose }: NavMenuProps) => {
                 />
             ))}
 
-            <div className="navbar__item navbar__item--wallet">
-                {isConnected ? (
-                    <PrimaryButton className="navbar__button" type="button" onClick={onDisconnectClick}>
-                        {NAVBAR_STRINGS.WALLET.DISCONNECT}
-                    </PrimaryButton>
-                ) : (
-                    <PrimaryButton className="navbar__button" type="button" onClick={onConnectClick}>
-                        <Wallet size={20} />
-                        {NAVBAR_STRINGS.WALLET.CONNECT}
-                    </PrimaryButton>
-                )}
+            {/* User wallet sign-in is not part of the MVP. The button stays for
+                continuity but is disabled; a friendly tooltip explains why. */}
+            <div
+                className="navbar__item navbar__item--wallet"
+                title={NAVBAR_STRINGS.WALLET.TOOLTIP}
+            >
+                <PrimaryButton
+                    className="navbar__button navbar__button--disabled"
+                    type="button"
+                    disabled
+                >
+                    <Wallet size={20} />
+                    {NAVBAR_STRINGS.WALLET.CONNECT}
+                </PrimaryButton>
             </div>
-
-            <ConnectModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onConfirmDemo={confirmConnect}
-                onConfirmDev={confirmDeveloperConnect}
-            />
         </div>
     );
 }

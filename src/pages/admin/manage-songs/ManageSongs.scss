@@ -28,6 +28,16 @@
         @media (max-width: 768px) { font-size: 1.5rem; width: 100%; text-align: center; }
     }
 
+    &__status {
+        color: v.$muted-text-color;
+        margin: 0 0 1rem;
+    }
+
+    &__error {
+        color: #ff6b6b;
+        margin: 0 0 1rem;
+    }
+
     &__add-button {
         display: inline-flex;
         align-items: center;

@@ -12,7 +12,13 @@ export const useSongsFromSwarm = () => {
     const loadSongs = useCallback(async () => {
         try {
             setLoading(true);
+            setError(null);
             const hash = await fetchLatestSongsHash(FEED_OWNER_ADDRESS);
+            // No feed published yet (fresh owner/topic) → empty catalog, not an error.
+            if (!hash) {
+                setSongs([]);
+                return;
+            }
             const data = await fetchSongMetadata(hash);
             setSongs(data.filter(s => !s.hidden));
         } catch (err) {

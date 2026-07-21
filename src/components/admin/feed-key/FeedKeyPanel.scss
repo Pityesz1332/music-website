@@ -1,0 +1,104 @@
+@use '../../../styles/variables' as v;
+
+.feed-key-panel {
+    background: v.$card-color;
+    color: v.$main-text-color;
+    border: 1px solid rgba(v.$primary-color, 0.3);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    @media (max-width: 480px) { padding: 1rem; }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    &__title {
+        font-size: 1.2rem;
+        margin: 0;
+    }
+
+    &__description {
+        margin: 0;
+        color: v.$muted-text-color;
+        font-size: 0.9rem;
+    }
+
+    &__controls {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    &__input {
+        flex: 1 1 260px;
+        padding: 0.7rem 0.9rem;
+        border-radius: 8px;
+        border: 1px solid v.$muted-text-color;
+        background: v.$bg-color;
+        color: v.$main-text-color;
+        font-family: monospace;
+
+        &:focus {
+            outline: none;
+            border-color: v.$primary-color;
+        }
+    }
+
+    &__button {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0.7rem 1.1rem;
+        border: none;
+        border-radius: 8px;
+        background: v.$primary-color;
+        color: v.$main-text-color;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+
+        &:hover { background: v.$dark-accent-color; }
+        &:disabled { opacity: 0.5; cursor: not-allowed; }
+    }
+
+    &__status {
+        color: v.$muted-text-color;
+        font-size: 0.9rem;
+
+        p {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin: 0.35rem 0;
+        }
+
+        &--set { color: v.$main-text-color; }
+    }
+
+    &__address code {
+        font-family: monospace;
+        word-break: break-all;
+    }
+
+    &__error {
+        color: #ff6b6b;
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    &__warning {
+        color: #ffb020;
+        font-size: 0.9rem;
+        margin: 0.35rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+}

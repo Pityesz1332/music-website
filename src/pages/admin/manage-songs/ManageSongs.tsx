@@ -1,6 +1,7 @@
 import { PlusCircle} from "lucide-react";
 import { UploadSong } from "@components/admin/upload-song/UploadSong";
 import { AdminManageTable } from "@components/admin/admin-manage-table/AdminManageTable";
+import { FeedKeyPanel } from "@components/admin/feed-key/FeedKeyPanel";
 import { useSongManager } from "@hooks/admin/useSongManager";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { ADMIN_MANAGE_SONGS_STRINGS } from "@i18n/ui/admin/manage-songs";
@@ -14,6 +15,7 @@ export const ManageSongs = () => {
         songs,
         isUploadOpen,
         editSong,
+        publishing, publishError,
         openUploadModal, closeUploadModal,
         openEditModal, closeEditModal,
         saveNewSong, deleteSong,
@@ -29,6 +31,11 @@ export const ManageSongs = () => {
                     <PlusCircle size={18} /> {ADMIN_MANAGE_SONGS_STRINGS.ADD_BUTTON}
                 </PrimaryButton>
             </header>
+
+            <FeedKeyPanel />
+
+            {publishing && <p className="manage-songs__status">Publishing to Swarm…</p>}
+            {publishError && <p className="manage-songs__error">{publishError}</p>}
 
             {isUploadOpen && (
                 <UploadSong

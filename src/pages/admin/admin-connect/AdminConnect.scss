@@ -50,6 +50,13 @@
         }
     }
     
+    &__description {
+        color: v.$muted-text-color;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 0.95rem;
+    }
+
     &__input {
         width: 100%;
         padding: 12px 15px;
@@ -75,6 +82,10 @@
     &__button {
         width: 100%;
         padding: 12px 15px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
         background: v.$primary-color;
         border: none;
         border-radius: 8px;
@@ -83,6 +94,8 @@
         cursor: pointer;
         font-weight: bold;
         transition: background 0.2s ease, transform 0.1s ease;
+
+        &:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         
         @media (max-width: 480px) {
             font-size: 14px;

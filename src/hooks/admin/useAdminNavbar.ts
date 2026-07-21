@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MainRoutes } from "@routes/constants/MainRoutes";
+import { useAdmin } from "@context/AdminContext";
 
 export const useAdminNavbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const { disconnectAdmin } = useAdmin();
     
     const [shrink, setShrink] = useState<boolean>(false);
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -34,9 +36,10 @@ export const useAdminNavbar = () => {
         closeMenu();
     }, [location.pathname, closeMenu]);
 
-    // nav handling only
+    // Actually log out: clear admin state + feed key + wallet, then go home.
     const handleDisconnect = () => {
         closeMenu();
+        disconnectAdmin();
         navigate(MainRoutes.HOME);
     };
 
