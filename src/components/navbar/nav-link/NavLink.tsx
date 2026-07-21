@@ -1,4 +1,4 @@
-// Kiszervezett listaelemek
+// Extracted list items
 import { LucideIcon } from "lucide-react";
 
 interface NavLinkProps {

@@ -1,4 +1,4 @@
-// Csak bejelentkezett felhasználók
+// Logged-in users only
 import { Heart, Download } from "lucide-react";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { useSongActions } from "@hooks/playlist/useSongActions";

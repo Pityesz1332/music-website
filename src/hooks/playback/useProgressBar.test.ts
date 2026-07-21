@@ -111,7 +111,7 @@ describe("useProgressBar", () => {
       result.current.setIsSeeking(true);
     });
 
-    // manuálisan triggereljük a global mouseup logikát
+    // manually trigger the global mouseup logic
     act(() => {
       window.dispatchEvent(new MouseEvent("mouseup"));
     });

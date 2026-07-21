@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-// mindig az oldal tetejére dob
+// always scrolls to the top of the page
 export const ScrollToTop = () => {
     const { pathname } = useLocation();
 

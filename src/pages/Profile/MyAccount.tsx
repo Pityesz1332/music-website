@@ -12,7 +12,7 @@ export const MyAccount = () => {
     const { notify } = useNotification();
     const { clearRecentlyPlayed, recentlyPlayed } = useMusic();
 
-    // profilkép feltöltése
+    // profile picture upload
     function handleAvatarChange(e: ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0];
         if (file) {
@@ -24,7 +24,7 @@ export const MyAccount = () => {
         }
     }
 
-    // ez csak sima copy gomb
+    // this is just a simple copy button
     function copyWallet() {
         navigator.clipboard.writeText(walletAddress);
         notify("Wallet address copied to clipboard", NotificationType.SUCCESS);
@@ -48,7 +48,7 @@ export const MyAccount = () => {
                 <div className="recent-wrapper__profile">
                     <RecentlyPlayed />
                 
-                {/* előzmények törlése (ha van) */}
+                {/* clear history (if any) */}
                     <div className="recent-wrapper__header">
                         {recentlyPlayed.length > 0 && (
                             <button 
