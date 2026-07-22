@@ -5,10 +5,10 @@ import { useSongsFromSwarm } from "@hooks/swarm/useSongsFromSwarm";
 import { getFeedKey } from "../../swarm/feedKey";
 
 export const useSongManager = () => {
-    const { songs: swarmSongs, loading: swarmLoading } = useSongsFromSwarm();
+    // Admin manages hidden songs too, so it needs the unfiltered catalog.
+    const { songs: swarmSongs, loading: swarmLoading } = useSongsFromSwarm({ includeHidden: true });
     const [songs, setSongs] = useState<Song[]>([]);
     const [isUploadOpen, setIsUploadOpen] = useState(false);
-    const [editSong, setEditSong] = useState<Song | null>(null);
     const [publishing, setPublishing] = useState(false);
     const [publishError, setPublishError] = useState<string | null>(null);
 
@@ -60,43 +60,27 @@ export const useSongManager = () => {
         await publishToSwarm(updated);
     };
 
-    const deleteSong = async (id: string) => {
-        const updated = songs.map(s => s.id !== id ? { ...s, hidden: true } : s);
+    // Hiding is the only possible "removal": the song leaves the public dapp
+    // listing, but its chunks stay on Swarm. Setting hidden:false restores it.
+    const setSongHidden = async (id: string, hidden: boolean) => {
+        const updated = songs.map(s => s.id === id ? { ...s, hidden } : s);
         setSongs(updated);
         await publishToSwarm(updated);
     };
 
-    const saveEdit = async () => {
-        if (!editSong) return;
-        const updated = songs.map(s => s.id === editSong?.id ? editSong : s);
-        setSongs(updated);
-        setEditSong(null);
-        await publishToSwarm(updated);
-    };
-
-    // dynamic key management
-    const handleEditChange = (field: keyof Song | "coverFile", value: string | File) => {
-        setEditSong(prev => {
-            if (!prev) return null;
-            return { ...prev, [field]: value } as Song;
-        });
-    };
+    const hideSong = (id: string) => setSongHidden(id, true);
+    const unhideSong = (id: string) => setSongHidden(id, false);
 
     // modal handling
-    const openEditModal = (song: Song) => setEditSong(song);
-    const closeEditModal = () => setEditSong(null);
     const openUploadModal = () => setIsUploadOpen(true);
     const closeUploadModal = () => setIsUploadOpen(false);
 
     return {
         songs,
         isUploadOpen,
-        editSong,
         publishing, publishError,
         openUploadModal, closeUploadModal,
-        openEditModal, closeEditModal,
-        saveNewSong, deleteSong,
-        saveEdit,
-        handleEditChange
+        saveNewSong,
+        hideSong, unhideSong,
     };
 };

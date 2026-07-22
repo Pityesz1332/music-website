@@ -24,6 +24,17 @@ export function hasFeedKey(): boolean {
     return feedKey !== null;
 }
 
+/** Normalize an Ethereum address for comparison */
+function normalizeAddress(address: string): string {
+    return address.trim().toLowerCase().replace(/^0x/, "");
+}
+
+export function feedKeyMatchesOwner(ownerAddress: string): boolean {
+    const keyAddress = getFeedKeyAddress();
+    if (!keyAddress || !ownerAddress) return false;
+    return normalizeAddress(keyAddress) === normalizeAddress(ownerAddress);
+}
+
 /** Wipe the key from memory (called on logout). */
 export function clearFeedKey(): void {
     feedKey = null;

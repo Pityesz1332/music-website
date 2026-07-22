@@ -61,12 +61,17 @@
         color: v.$muted-text-color;
     }
 
+    &--hidden {
+        opacity: 0.5;
+    }
+
     &__actions {
         display: flex;
         gap: 0.5rem;
         justify-content: flex-end;
 
-        .btn--edit {
+        .btn--hide,
+        .btn--unhide {
             background: v.$primary-color;
             &:hover { background: v.$dark-accent-color; }
         }

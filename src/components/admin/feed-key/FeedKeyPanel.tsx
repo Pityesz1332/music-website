@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { KeyRound, CheckCircle2, AlertTriangle } from "lucide-react";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
-import { setFeedKey, clearFeedKey, getFeedKeyAddress, hasFeedKey } from "../../../swarm/feedKey";
+import { setFeedKey, clearFeedKey, getFeedKeyAddress, hasFeedKey, feedKeyMatchesOwner } from "../../../swarm/feedKey";
 import { FEED_OWNER_ADDRESS } from "../../../swarm/swarmService";
 import { ADMIN_FEED_KEY_STRINGS } from "@i18n/ui/admin/feed-key";
 import "./FeedKeyPanel.scss";
@@ -17,7 +17,7 @@ export const FeedKeyPanel = () => {
     const mismatch =
         keyLoaded &&
         !!FEED_OWNER_ADDRESS &&
-        keyAddress?.toLowerCase() !== FEED_OWNER_ADDRESS.toLowerCase();
+        !feedKeyMatchesOwner(FEED_OWNER_ADDRESS);
 
     const handleSet = () => {
         try {

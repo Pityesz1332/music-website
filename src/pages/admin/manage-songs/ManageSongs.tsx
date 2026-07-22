@@ -7,20 +7,16 @@ import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { ADMIN_MANAGE_SONGS_STRINGS } from "@i18n/ui/admin/manage-songs";
 import { SongItem } from "./song-item/SongItem";
 import { songs_headers } from "../table-headers/table-headers";
-import { EditSong } from "./edit-song/EditSong";
 import "./ManageSongs.scss";
 
 export const ManageSongs = () => {
     const {
         songs,
         isUploadOpen,
-        editSong,
         publishing, publishError,
         openUploadModal, closeUploadModal,
-        openEditModal, closeEditModal,
-        saveNewSong, deleteSong,
-        saveEdit,
-        handleEditChange
+        saveNewSong,
+        hideSong, unhideSong,
     } = useSongManager();
 
     return (
@@ -52,20 +48,11 @@ export const ManageSongs = () => {
                 renderItem={(song) => (
                     <SongItem
                         song={song}
-                        onEdit={openEditModal}
-                        onDelete={deleteSong}
+                        onHide={hideSong}
+                        onUnhide={unhideSong}
                     />
                 )}
             />
-
-            {editSong && (
-                <EditSong
-                    song={editSong}
-                    onClose={closeEditModal}
-                    onSave={saveEdit}
-                    onChange={handleEditChange}
-                />
-            )}
         </div>
     );
 };

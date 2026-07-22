@@ -10,18 +10,4 @@ export const ADMIN_MANAGE_SONGS_STRINGS = {
         DURATION: "Duration",
         ACTIONS: "Actions",
     },
-    EDIT_MODAL: {
-        TITLE: "Edit Song",
-        LABEL_CHANGE_COVER: "Change Cover:",
-        UPLOAD_BUTTON: "Upload Cover",
-        PLACEHOLDERS: {
-            TITLE: "Title",
-            ARTIST: "Artist",
-            GENRE: "Genre",
-        },
-        BUTTONS: {
-            SAVE: "Save",
-            CANCEL: "Cancel",
-        }
-    }
 } as const;

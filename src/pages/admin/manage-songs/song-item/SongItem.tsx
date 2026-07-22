@@ -1,17 +1,19 @@
-import { Edit, Trash2 } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import type { Song } from "@interfaces/music";
 import "./SongItem.scss";
 
 interface SongItemProps {
     song: Song;
-    onEdit: (song: Song) => void;
-    onDelete: (id: string) => void;
+    onHide: (id: string) => void;
+    onUnhide: (id: string) => void;
 }
 
-export const SongItem = ({ song, onEdit, onDelete }: SongItemProps) => {
+export const SongItem = ({ song, onHide, onUnhide }: SongItemProps) => {
+    const isHidden = !!song.hidden;
+
     return (
-        <div className="song-item">
+        <div className={`song-item${isHidden ? " song-item--hidden" : ""}`}>
             <div className="song-item__info">
                 <span className="song-item__id">#{song.id}</span>
                 <img src={song.cover} alt={song.title} className="song-item__cover" />
@@ -26,12 +28,15 @@ export const SongItem = ({ song, onEdit, onDelete }: SongItemProps) => {
             <span className="song-item__duration">{song.duration}</span>
 
             <div className="song-item__actions">
-                <PrimaryButton onClick={() => onEdit(song)} className="btn--edit">
-                    <Edit size={16} />
-                </PrimaryButton>
-                <PrimaryButton onClick={() => onDelete(song.id)} className="btn--delete">
-                    <Trash2 size={16} />
-                </PrimaryButton>
+                {isHidden ? (
+                    <PrimaryButton onClick={() => onUnhide(song.id)} className="btn--unhide">
+                        <Eye size={16} />
+                    </PrimaryButton>
+                ) : (
+                    <PrimaryButton onClick={() => onHide(song.id)} className="btn--hide">
+                        <EyeOff size={16} />
+                    </PrimaryButton>
+                )}
             </div>
         </div>
     );
