@@ -1,5 +1,7 @@
-import { Wallet } from "lucide-react";
+import { Wallet, Home } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useAdminAuth } from "@hooks/admin/useAdminAuth";
+import { MainRoutes } from "@routes/constants/MainRoutes";
 import { ADMIN_CONNECT_STRINGS } from "@i18n/ui/admin/connect";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import "./AdminConnect.scss";
@@ -24,6 +26,11 @@ export const AdminConnect = () => {
                         ? ADMIN_CONNECT_STRINGS.BUTTONS.CONNECTING
                         : ADMIN_CONNECT_STRINGS.BUTTONS.CONNECT}
                 </PrimaryButton>
+
+                <Link className="admin-connect__home-link" to={MainRoutes.HOME}>
+                    <Home size={18} />
+                    {ADMIN_CONNECT_STRINGS.BUTTONS.HOME}
+                </Link>
             </div>
         </div>
     );

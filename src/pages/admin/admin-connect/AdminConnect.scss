@@ -107,6 +107,22 @@
         }
     }
     
+    &__home-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 16px;
+        color: v.$muted-text-color;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: v.$primary-color;
+        }
+    }
+
     &__error {
         font-size: 0.9rem;
         margin-top: 5px;

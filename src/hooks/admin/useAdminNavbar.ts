@@ -36,11 +36,9 @@ export const useAdminNavbar = () => {
         closeMenu();
     }, [location.pathname, closeMenu]);
 
-    // Actually log out: clear admin state + feed key + wallet, then go home.
     const handleDisconnect = () => {
         closeMenu();
         disconnectAdmin();
-        navigate(MainRoutes.HOME);
     };
 
     return {

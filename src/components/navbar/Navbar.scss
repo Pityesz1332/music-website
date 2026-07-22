@@ -108,6 +108,14 @@
         gap: clamp(1rem, 3vw, 2rem);
         font-size: clamp(0.9rem, 1.2vw, 1.1rem);
 
+        // Center against the whole navbar (position:fixed containing block),
+        // not just the space between the logo and wallet, which are unequal.
+        @media (min-width: 1025px) {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
         @media (max-width: 1024px) {
             position: absolute;
             top: 100%;

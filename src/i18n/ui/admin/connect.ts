@@ -4,5 +4,6 @@ export const ADMIN_CONNECT_STRINGS = {
     BUTTONS: {
         CONNECT: "Connect wallet to sign in",
         CONNECTING: "Waiting for wallet…",
+        HOME: "Go to the homepage",
     }
 } as const;
