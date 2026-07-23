@@ -93,6 +93,15 @@
         font-size: 0.9rem;
     }
 
+    &__passkey {
+        margin: 0.75rem 0;
+        padding-top: 0.75rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
     &__warning {
         color: #ffb020;
         font-size: 0.9rem;

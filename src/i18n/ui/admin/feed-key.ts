@@ -6,6 +6,9 @@ export const ADMIN_FEED_KEY_STRINGS = {
     BUTTONS: {
         SET: "Set Key",
         CLEAR: "Clear Key",
+        ENROLL_PASSKEY: "Set up a passkey",
+        ENROLLING_PASSKEY: "Waiting for passkey…",
+        FORGET_PASSKEY: "Remove passkey",
     },
     STATUS: {
         SET: "Key loaded for this session.",
@@ -15,4 +18,10 @@ export const ADMIN_FEED_KEY_STRINGS = {
             "Warning: this key's address does not match the configured feed owner. Published songs will not be visible to readers.",
     },
     INVALID: "Invalid private key. Expected a 32-byte hex value.",
+    PASSKEY: {
+        LABEL: "Music Website Admin",
+        DESCRIPTION:
+            "Add a passkey so you can get back into this dashboard with Touch ID, Face ID or a security key next time, instead of using the feed key to sign in. You'll still need to enter the feed key separately to publish.",
+        ENROLLED: "A passkey is set up for signing in on this device.",
+    },
 } as const;

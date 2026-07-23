@@ -1,13 +1,16 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { useAccount, useConnect, useDisconnect, useSignMessage } from "wagmi";
-import { recoverMessageAddress } from "viem";
+import { createContext, useContext, useState, ReactNode } from "react";
 import { useLoading } from "./LoadingContext";
-import { clearFeedKey } from "../swarm/feedKey";
+import { clearFeedKey, setFeedKey, feedKeyMatchesOwner } from "../swarm/feedKey";
+import { hasEnrolledPasskey, isPasskeySupported, verifyPasskey } from "../swarm/passkeyAuth";
+import { FEED_OWNER_ADDRESS } from "../swarm/swarmService";
 
 interface AdminContextType {
     isAdmin: boolean;
     error: string | null;
-    signInAsAdmin: () => Promise<void>;
+    /** True when this device has a passkey enrolled as an admin-login credential. */
+    canUsePasskey: boolean;
+    signInWithPasskey: () => Promise<void>;
+    signInWithRawKey: (hexKey: string) => Promise<void>;
     disconnectAdmin: () => void;
 }
 
@@ -17,76 +20,52 @@ interface AdminProviderProps {
     children: ReactNode;
 }
 
-// If none are configured, no wallet can sign in.
-const ADMIN_ADDRESSES = ((import.meta.env.VITE_ADMIN_ADDRESS as string | undefined) ?? "")
-    .split(",")
-    .map((a) => a.trim().toLowerCase())
-    .filter(Boolean);
-
 export function AdminProvider({ children }: AdminProviderProps) {
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const { showLoading, hideLoading } = useLoading();
 
-    const { address, isConnected } = useAccount();
-    const { connectAsync, connectors } = useConnect();
-    const { disconnectAsync } = useDisconnect();
-    const { signMessageAsync } = useSignMessage();
+    // Read fresh on every render rather than caching in state, since enrolling
+    // a passkey elsewhere in the SPA (no full page reload) would otherwise
+    // leave a stale false here.
+    const canUsePasskey = isPasskeySupported() && hasEnrolledPasskey();
 
-    useEffect(() => {
-        if (localStorage.getItem("adminToken")) {
-            setIsAdmin(true);
-        }
-    }, []);
-
-    async function signInAsAdmin() {
+    /**
+     * Passkey sign-in is a pure access gate: it proves this device/biometric,
+     * nothing more. It does not load the feed key -- publishing still needs
+     * the key entered separately in the Feed Key panel.
+     */
+    async function signInWithPasskey() {
         showLoading();
         setError(null);
-
         try {
-            if (ADMIN_ADDRESSES.length === 0) {
-                setError("No admin address is configured for this deployment.");
-                return;
-            }
-
-            // 1. Ensure a wallet is connected and get its address.
-            let account = address;
-            if (!isConnected || !account) {
-                const connector = connectors[0];
-                if (!connector) {
-                    setError("No wallet connector available. Install a wallet like MetaMask.");
-                    return;
-                }
-                const result = await connectAsync({ connector });
-                account = result.accounts[0];
-            }
-            if (!account) {
-                setError("Could not read a wallet address.");
-                return;
-            }
-
-            // 2. Prove control of the address by signing a nonce.
-            const nonce = crypto.randomUUID();
-            const message =
-                `Sign in as admin.\n` +
-                `Address: ${account}\n` +
-                `Nonce: ${nonce}\n` +
-                `Issued At: ${new Date().toISOString()}`;
-            const signature = await signMessageAsync({ account, message });
-
-            // 3. Recover the signer and verify it is allow-listed.
-            const recovered = await recoverMessageAddress({ message, signature });
-            if (!ADMIN_ADDRESSES.includes(recovered.toLowerCase())) {
-                setError("This wallet is not authorized as admin.");
-                await disconnectAsync().catch(() => {});
-                setIsAdmin(false);
-                return;
-            }
-
-            localStorage.setItem("adminToken", "siwe");
+            await verifyPasskey();
             setIsAdmin(true);
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Sign-in failed");
+            setError(err instanceof Error ? err.message : "Passkey sign-in failed");
+            setIsAdmin(false);
+        } finally {
+            hideLoading();
+        }
+    }
+
+    /**
+     * Bootstrap and recovery path: sign in by pasting the raw feed key. Since
+     * there is no other credential the first time (no passkey enrolled yet),
+     * this is the only door in until one is set up.
+     */
+    async function signInWithRawKey(hexKey: string) {
+        showLoading();
+        setError(null);
+        try {
+            setFeedKey(hexKey);
+            if (FEED_OWNER_ADDRESS && !feedKeyMatchesOwner(FEED_OWNER_ADDRESS)) {
+                clearFeedKey();
+                throw new Error("This key does not match the configured feed owner.");
+            }
+            setIsAdmin(true);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Invalid feed key");
             setIsAdmin(false);
         } finally {
             hideLoading();
@@ -94,15 +73,22 @@ export function AdminProvider({ children }: AdminProviderProps) {
     }
 
     function disconnectAdmin() {
-        localStorage.removeItem("adminToken");
         clearFeedKey();
         setIsAdmin(false);
         setError(null);
-        disconnectAsync().catch(() => {});
     }
 
     return (
-        <AdminContext.Provider value={{ isAdmin, error, signInAsAdmin, disconnectAdmin }}>
+        <AdminContext.Provider
+            value={{
+                isAdmin,
+                error,
+                canUsePasskey,
+                signInWithPasskey,
+                signInWithRawKey,
+                disconnectAdmin,
+            }}
+        >
             {children}
         </AdminContext.Provider>
     );

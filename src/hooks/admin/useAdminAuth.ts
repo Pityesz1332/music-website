@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { MainRoutes } from "@routes/constants/MainRoutes";
 import { useAdmin } from "@context/AdminContext";
@@ -6,9 +6,11 @@ import { useNotification, NotificationType } from "@context/NotificationContext"
 import { ADMIN_AUTH_STRINGS } from "@i18n/feedback/admin/admin-auth";
 
 export const useAdminAuth = () => {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isPasskeyLoading, setIsPasskeyLoading] = useState<boolean>(false);
+    const [isKeyLoading, setIsKeyLoading] = useState<boolean>(false);
+    const [rawKey, setRawKey] = useState<string>("");
 
-    const { isAdmin, error, signInAsAdmin } = useAdmin();
+    const { isAdmin, error, canUsePasskey, signInWithPasskey, signInWithRawKey } = useAdmin();
     const { notify } = useNotification();
     const navigate = useNavigate();
 
@@ -24,22 +26,41 @@ export const useAdminAuth = () => {
     useEffect(() => {
         if (error) {
             notify(error, NotificationType.ERROR);
-            setIsLoading(false);
+            setIsPasskeyLoading(false);
+            setIsKeyLoading(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [error]);
 
-    const handleSignIn = async () => {
-        setIsLoading(true);
+    const handlePasskeySignIn = async () => {
+        setIsPasskeyLoading(true);
         try {
-            await signInAsAdmin();
+            await signInWithPasskey();
         } finally {
-            setIsLoading(false);
+            setIsPasskeyLoading(false);
+        }
+    };
+
+    const handleRawKeySignIn = async (event: FormEvent) => {
+        event.preventDefault();
+        if (!rawKey.trim()) return;
+
+        setIsKeyLoading(true);
+        try {
+            await signInWithRawKey(rawKey);
+            setRawKey("");
+        } finally {
+            setIsKeyLoading(false);
         }
     };
 
     return {
-        isLoading,
-        handleSignIn,
+        isPasskeyLoading,
+        isKeyLoading,
+        canUsePasskey,
+        rawKey,
+        setRawKey,
+        handlePasskeySignIn,
+        handleRawKeySignIn,
     };
 };

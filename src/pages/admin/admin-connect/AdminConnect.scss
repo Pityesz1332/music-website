@@ -107,6 +107,21 @@
         }
     }
     
+    &__raw-key {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__divider {
+        display: block;
+        margin: 14px 0;
+        color: v.$muted-text-color;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
     &__home-link {
         display: inline-flex;
         align-items: center;
