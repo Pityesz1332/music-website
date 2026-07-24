@@ -10,8 +10,7 @@ interface AudioDropzoneProps {
 
 export const AudioDropzone = ({ audioFile, audioInputRef, onAudioChange }: AudioDropzoneProps) => {
     
-    // triggers the hidden file input click event
-    // to allow a better UX
+    // triggers the hidden file input click event to allow a better UX
     const handleDropzoneClick = () => {
         audioInputRef.current?.click();
     };
@@ -21,10 +20,6 @@ export const AudioDropzone = ({ audioFile, audioInputRef, onAudioChange }: Audio
             className={`upload-song__dropzone ${audioFile ? 'upload-song__dropzone--active' : ''}`}
             onClick={handleDropzoneClick}
         >
-            {/* 
-                Hidden native input to maintain accessibility and functionality 
-                while allowing a completely custom visual interface 
-            */}
             <input
                 type="file"
                 ref={audioInputRef}

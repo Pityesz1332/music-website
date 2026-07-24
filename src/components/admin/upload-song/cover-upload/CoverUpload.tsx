@@ -8,8 +8,6 @@ interface CoverUploadProps {
 
 export const CoverUpload = ({ coverFile, onCoverChange }: CoverUploadProps) => {
     return (
-        // Using a label element to wrap the hidden input
-        // Eliminating the need for useRef or manual click handlers for a cleaner implementation
         <label className="upload-song__cover-label">
             <ImageIcon size={18}/> {coverFile ? ADMIN_UPLOAD_SONG_STRINGS.COVER.SUCCESS : ADMIN_UPLOAD_SONG_STRINGS.COVER.UPLOAD}
             <input

@@ -7,7 +7,6 @@ import { FEED_OWNER_ADDRESS } from "../swarm/swarmService";
 interface AdminContextType {
     isAdmin: boolean;
     error: string | null;
-    /** True when this device has a passkey enrolled as an admin-login credential. */
     canUsePasskey: boolean;
     signInWithPasskey: () => Promise<void>;
     signInWithRawKey: (hexKey: string) => Promise<void>;

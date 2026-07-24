@@ -1,10 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { MainRoutes } from "@routes/constants/MainRoutes";
+import { useLocation } from "react-router-dom";
 import { useAdmin } from "@context/AdminContext";
 
 export const useAdminNavbar = () => {
-    const navigate = useNavigate();
     const location = useLocation();
     const { disconnectAdmin } = useAdmin();
     

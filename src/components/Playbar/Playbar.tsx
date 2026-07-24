@@ -41,9 +41,7 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
     const isSaved = song ? savedSongs.some(s => s.id === song.id) : false;
     
     const audioRef = useRef<HTMLAudioElement>(null);
-    //const progressBarRef = useRef<HTMLDivElement>(null);
-    //const volumeWrapperRef = useRef<HTMLDivElement>(null);
-
+    
     // playbar state changes stored in variables
     const playbarBaseClass = "playbar";
     const playbarClasses = [

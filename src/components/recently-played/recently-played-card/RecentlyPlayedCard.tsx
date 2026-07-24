@@ -8,8 +8,6 @@ interface RecentlyPlayedCardProps {
 }
 
 // Displays the last played track.
-// Passes the item object directly to allow immediate playback
-// without requiring the parent to perform another data lookup.
 export const RecentlyPlayedCard = ({ item, fade, onPlay }: RecentlyPlayedCardProps) => {
     return (
         <section className="recently-played">
