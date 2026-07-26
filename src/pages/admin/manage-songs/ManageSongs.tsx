@@ -12,6 +12,7 @@ import "./ManageSongs.scss";
 export const ManageSongs = () => {
     const {
         songs,
+        catalogLoading,
         isUploadOpen,
         publishing, publishError,
         openUploadModal, closeUploadModal,
@@ -23,10 +24,12 @@ export const ManageSongs = () => {
         <div className="manage-songs">
             <header className="manage-songs__header">
                 <h1 className="manage-songs__title">{ADMIN_MANAGE_SONGS_STRINGS.TITLE}</h1>
-                <PrimaryButton className="manage-songs__add-button" onClick={openUploadModal}>
+                <PrimaryButton className="manage-songs__add-button" onClick={openUploadModal} disabled={catalogLoading}>
                     <PlusCircle size={18} /> {ADMIN_MANAGE_SONGS_STRINGS.ADD_BUTTON}
                 </PrimaryButton>
             </header>
+
+            {catalogLoading && <p className="manage-songs__status">Loading catalog…</p>}
 
             <FeedKeyPanel />
 
