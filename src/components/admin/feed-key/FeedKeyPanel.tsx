@@ -1,7 +1,15 @@
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { CheckCircle2, AlertTriangle, Fingerprint } from "lucide-react";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
-import { setFeedKey, clearFeedKey, getFeedKeyAddress, hasFeedKey, feedKeyMatchesOwner } from "../../../swarm/feedKey";
+import {
+    setFeedKey,
+    clearFeedKey,
+    getFeedKeyAddress,
+    getFeedKeyHex,
+    hasFeedKey,
+    feedKeyMatchesOwner,
+    subscribeToFeedKey,
+} from "../../../swarm/feedKey";
 import {
     enrollPasskey,
     hasEnrolledPasskey,
@@ -16,13 +24,11 @@ export const FeedKeyPanel = () => {
     const [value, setValue] = useState("");
     const [error, setError] = useState<string | null>(null);
     const [passkeyBusy, setPasskeyBusy] = useState(false);
-    // Bump to re-render after the in-memory key store or passkey enrollment changes.
-    const [, forceRender] = useState(0);
+    const [passkeyEnrolled, setPasskeyEnrolled] = useState(hasEnrolledPasskey);
 
-    const keyLoaded = hasFeedKey();
+    const keyLoaded = useSyncExternalStore(subscribeToFeedKey, hasFeedKey, () => false);
     const keyAddress = getFeedKeyAddress();
     const passkeySupported = isPasskeySupported();
-    const passkeyEnrolled = hasEnrolledPasskey();
     const mismatch =
         keyLoaded &&
         !!FEED_OWNER_ADDRESS &&
@@ -33,7 +39,6 @@ export const FeedKeyPanel = () => {
             setFeedKey(value);
             setError(null);
             setValue("");
-            forceRender((n) => n + 1);
         } catch {
             setError(ADMIN_FEED_KEY_STRINGS.INVALID);
         }
@@ -42,15 +47,17 @@ export const FeedKeyPanel = () => {
     const handleClear = () => {
         clearFeedKey();
         setError(null);
-        forceRender((n) => n + 1);
     };
 
     const handleEnrollPasskey = async () => {
+        const feedKeyHex = getFeedKeyHex();
+        if (!feedKeyHex) return;
+
         setPasskeyBusy(true);
         setError(null);
         try {
-            await enrollPasskey(ADMIN_FEED_KEY_STRINGS.PASSKEY.LABEL);
-            forceRender((n) => n + 1);
+            await enrollPasskey(ADMIN_FEED_KEY_STRINGS.PASSKEY.LABEL, feedKeyHex);
+            setPasskeyEnrolled(hasEnrolledPasskey());
         } catch (err) {
             setError(err instanceof Error ? err.message : "Could not create the passkey.");
         } finally {
@@ -60,8 +67,8 @@ export const FeedKeyPanel = () => {
 
     const handleForgetPasskey = () => {
         clearEnrolledPasskey();
+        setPasskeyEnrolled(hasEnrolledPasskey());
         setError(null);
-        forceRender((n) => n + 1);
     };
 
     return (
@@ -130,8 +137,6 @@ export const FeedKeyPanel = () => {
                             {ADMIN_FEED_KEY_STRINGS.BUTTONS.FORGET_PASSKEY}
                         </PrimaryButton>
                     ) : (
-                        // Only reachable with keyLoaded, per the outer condition above --
-                        // enrolling a new login door requires already holding the real key.
                         <PrimaryButton
                             className="feed-key-panel__button"
                             onClick={handleEnrollPasskey}

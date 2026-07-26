@@ -1,7 +1,7 @@
 export const ADMIN_FEED_KEY_STRINGS = {
     TITLE: "Feed Publisher Key",
     DESCRIPTION:
-        "Paste the Swarm feed publisher private key to enable publishing. It is kept in memory only for this session — never stored or bundled.",
+        "Paste the Swarm feed publisher private key to enable publishing. It is held in memory for this session only, and is never bundled. It is written to this device only if you seal it behind a passkey below, and only as ciphertext.",
     PLACEHOLDER: "Feed publisher private key (hex)",
     BUTTONS: {
         SET: "Set Key",
@@ -21,7 +21,8 @@ export const ADMIN_FEED_KEY_STRINGS = {
     PASSKEY: {
         LABEL: "Music Website Admin",
         DESCRIPTION:
-            "Add a passkey so you can get back into this dashboard with Touch ID, Face ID or a security key next time, instead of using the feed key to sign in. You'll still need to enter the feed key separately to publish.",
-        ENROLLED: "A passkey is set up for signing in on this device.",
+            "Add a passkey to store this feed key encrypted on this device. Next time you can unlock it with Touch ID, Face ID or a security key instead of pasting the key again — this is the last time you need to type it here.",
+        ENROLLED:
+            "This device holds an encrypted copy of the feed key, unlocked by your passkey. Removing it means pasting the key again next time.",
     },
 } as const;

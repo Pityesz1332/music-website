@@ -1,32 +1,33 @@
-/**
- * Passkey as a pure access gate for /admin.
- *
- * It proves "this device, this biometric" and nothing more -- it carries no
- * secret. The Swarm feed publisher key that actually enables publishing is
- * still entered separately (see swarm/feedKey.ts) and is never derived from
- * or stored by the passkey.
- */
+import { deriveVaultKey, openSecret, sealSecret, toBase64Url, fromBase64Url, PRF_SALT } from "./vaultCrypto";
+import type { SealedSecret } from "./vaultCrypto";
 
-const STORAGE_KEY = "swarmAdminPasskeyId";
+const VAULT_KEY = "swarmAdminFeedVault";
+const LEGACY_KEY = "swarmAdminPasskeyId";
 const RP_NAME = "Music Website Admin";
 
-function randomBytes(length: number): Uint8Array<ArrayBuffer> {
-    return crypto.getRandomValues(new Uint8Array(new ArrayBuffer(length)));
+interface VaultRecord extends SealedSecret {
+    v: 1;
+    credentialId: string;
 }
 
-function toBase64Url(bytes: ArrayBuffer): string {
-    const view = new Uint8Array(bytes);
-    let binary = "";
-    for (const byte of view) binary += String.fromCharCode(byte);
-    return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+interface PrfOutputs {
+    prf?: { enabled?: boolean; results?: { first?: ArrayBuffer } };
 }
 
-function fromBase64Url(value: string): Uint8Array<ArrayBuffer> {
-    const padded = value.replace(/-/g, "+").replace(/_/g, "/");
-    const binary = atob(padded.padEnd(Math.ceil(padded.length / 4) * 4, "="));
-    const bytes = new Uint8Array(new ArrayBuffer(binary.length));
-    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-    return bytes;
+function randomChallenge(): Uint8Array<ArrayBuffer> {
+    return crypto.getRandomValues(new Uint8Array(new ArrayBuffer(32)));
+}
+
+function readVault(): VaultRecord | null {
+    const raw = localStorage.getItem(VAULT_KEY);
+    if (!raw) return null;
+    try {
+        const parsed = JSON.parse(raw) as VaultRecord;
+        if (parsed?.v !== 1 || !parsed.credentialId || !parsed.iv || !parsed.ciphertext) return null;
+        return parsed;
+    } catch {
+        return null;
+    }
 }
 
 export function isPasskeySupported(): boolean {
@@ -38,29 +39,50 @@ export function isPasskeySupported(): boolean {
 }
 
 export function hasEnrolledPasskey(): boolean {
-    return !!localStorage.getItem(STORAGE_KEY);
+    return readVault() !== null;
 }
 
 export function clearEnrolledPasskey(): void {
-    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(VAULT_KEY);
+    localStorage.removeItem(LEGACY_KEY);
 }
 
-/** Register a new passkey as an admin-login credential for this device. */
-export async function enrollPasskey(label: string): Promise<void> {
+async function evaluatePrf(credentialId: Uint8Array<ArrayBuffer>): Promise<ArrayBuffer> {
+    const assertion = (await navigator.credentials.get({
+        publicKey: {
+            challenge: randomChallenge(),
+            userVerification: "required",
+            allowCredentials: [{ id: credentialId, type: "public-key" }],
+            extensions: {
+                prf: { eval: { first: PRF_SALT } },
+            } as AuthenticationExtensionsClientInputs,
+        },
+    })) as PublicKeyCredential | null;
+
+    if (!assertion) throw new Error("Passkey prompt was dismissed.");
+
+    const prf = (assertion.getClientExtensionResults() as PrfOutputs).prf;
+    if (!prf?.results?.first) {
+        throw new Error("This passkey cannot unlock the feed key on this device.");
+    }
+
+    return prf.results.first;
+}
+
+export async function enrollPasskey(label: string, feedKeyHex: string): Promise<void> {
     if (!isPasskeySupported()) {
         throw new Error("This browser cannot use passkeys over a secure connection.");
     }
 
     const credential = (await navigator.credentials.create({
         publicKey: {
-            challenge: randomBytes(32),
+            challenge: randomChallenge(),
             rp: { name: RP_NAME },
             user: {
-                id: randomBytes(16),
+                id: crypto.getRandomValues(new Uint8Array(new ArrayBuffer(16))),
                 name: label,
                 displayName: label,
             },
-            // ES256, then RS256 for authenticators that lack it.
             pubKeyCredParams: [
                 { type: "public-key", alg: -7 },
                 { type: "public-key", alg: -257 },
@@ -69,26 +91,43 @@ export async function enrollPasskey(label: string): Promise<void> {
                 residentKey: "required",
                 userVerification: "required",
             },
+            extensions: { prf: {} } as AuthenticationExtensionsClientInputs,
         },
     })) as PublicKeyCredential | null;
 
     if (!credential) throw new Error("Passkey creation was dismissed.");
 
-    localStorage.setItem(STORAGE_KEY, toBase64Url(credential.rawId));
+    if ((credential.getClientExtensionResults() as PrfOutputs).prf?.enabled === false) {
+        throw new Error(
+            "This authenticator cannot store an encryption secret (no PRF support). " +
+            "Remove the passkey that was just created from your device settings and keep using the feed key.",
+        );
+    }
+
+    const prfOutput = await evaluatePrf(new Uint8Array(credential.rawId));
+    const vaultKey = await deriveVaultKey(prfOutput);
+    const sealed = await sealSecret(vaultKey, feedKeyHex);
+
+    const record: VaultRecord = {
+        v: 1,
+        credentialId: toBase64Url(credential.rawId),
+        ...sealed,
+    };
+
+    localStorage.setItem(VAULT_KEY, JSON.stringify(record));
+    localStorage.removeItem(LEGACY_KEY);
 }
 
-/** Prompt for the enrolled passkey. Resolves only if the matching authenticator responds. */
-export async function verifyPasskey(): Promise<void> {
-    const credentialId = localStorage.getItem(STORAGE_KEY);
-    if (!credentialId) throw new Error("No passkey has been set up on this device.");
+export async function unlockFeedKey(): Promise<string> {
+    const record = readVault();
+    if (!record) throw new Error("No passkey has been set up on this device.");
 
-    const assertion = await navigator.credentials.get({
-        publicKey: {
-            challenge: randomBytes(32),
-            userVerification: "required",
-            allowCredentials: [{ id: fromBase64Url(credentialId), type: "public-key" }],
-        },
-    });
+    const prfOutput = await evaluatePrf(fromBase64Url(record.credentialId));
+    const vaultKey = await deriveVaultKey(prfOutput);
 
-    if (!assertion) throw new Error("Passkey sign-in was dismissed.");
+    try {
+        return await openSecret(vaultKey, record);
+    } catch {
+        throw new Error("Could not unlock the feed key with this passkey.");
+    }
 }

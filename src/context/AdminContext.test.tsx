@@ -1,129 +1,161 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, act } from "@testing-library/react";
 import { AdminProvider, useAdmin } from "./AdminContext";
+import { clearFeedKey, getFeedKey } from "../swarm/feedKey";
 
-const mockShowLoading = vi.fn();
-const mockHideLoading = vi.fn();
+const OWNER_KEY_HEX = "4646464646464646464646464646464646464646464646464646464646464646";
+const STRANGER_KEY_HEX = "1111111111111111111111111111111111111111111111111111111111111111";
 
 vi.mock("./LoadingContext", () => ({
-  useLoading: () => ({
-    showLoading: mockShowLoading,
-    hideLoading: mockHideLoading,
-  }),
+    useLoading: () => ({ showLoading: vi.fn(), hideLoading: vi.fn() }),
+}));
+
+vi.mock("../swarm/swarmService", () => ({
+    FEED_OWNER_ADDRESS: "9d8a62f656a8d1615c1294fd71e9cfb3e4855a4f",
+}));
+
+const mockUnlockFeedKey = vi.fn();
+const mockHasEnrolledPasskey = vi.fn(() => true);
+const mockIsPasskeySupported = vi.fn(() => true);
+
+vi.mock("../swarm/passkeyAuth", () => ({
+    unlockFeedKey: () => mockUnlockFeedKey(),
+    hasEnrolledPasskey: () => mockHasEnrolledPasskey(),
+    isPasskeySupported: () => mockIsPasskeySupported(),
 }));
 
 const TestComponent = () => {
-  const { isAdmin, error, connectAsAdmin, disconnectAdmin } = useAdmin();
-  return (
-    <div>
-      <div data-testid="status">{isAdmin ? "admin" : "guest"}</div>
-      <div data-testid="error">{error}</div>
-      <button onClick={() => connectAsAdmin("admin", "pass123")}>Login Success</button>
-      <button onClick={() => connectAsAdmin("wrong", "wrong")}>Login Fail</button>
-      <button onClick={disconnectAdmin}>Logout</button>
-    </div>
-  );
+    const { isAdmin, error, canUsePasskey, signInWithPasskey, signInWithRawKey, disconnectAdmin } = useAdmin();
+    return (
+        <div>
+            <div data-testid="status">{isAdmin ? "admin" : "guest"}</div>
+            <div data-testid="error">{error}</div>
+            <div data-testid="can-passkey">{canUsePasskey ? "yes" : "no"}</div>
+            <button onClick={signInWithPasskey}>Passkey</button>
+            <button onClick={() => signInWithRawKey(OWNER_KEY_HEX)}>Owner Key</button>
+            <button onClick={() => signInWithRawKey(STRANGER_KEY_HEX)}>Stranger Key</button>
+            <button onClick={() => signInWithRawKey("not-a-key")}>Bad Key</button>
+            <button onClick={disconnectAdmin}>Logout</button>
+        </div>
+    );
 };
 
-describe("AdminProvider", () => {
-  beforeEach(() => {
-    localStorage.clear();
+const renderAdmin = () =>
+    render(
+        <AdminProvider>
+            <TestComponent />
+        </AdminProvider>,
+    );
+
+const click = async (name: string) => {
+    await act(async () => {
+        screen.getByText(name).click();
+    });
+};
+
+const status = () => screen.getByTestId("status").textContent;
+
+beforeEach(() => {
+    clearFeedKey();
     vi.clearAllMocks();
-    vi.useFakeTimers();
-  });
+    mockHasEnrolledPasskey.mockReturnValue(true);
+    mockIsPasskeySupported.mockReturnValue(true);
+});
 
-  it("provides default guest state", () => {
-    render(
-      <AdminProvider>
-        <TestComponent />
-      </AdminProvider>
-    );
-
-    expect(screen.getByTestId("status").textContent).toBe("guest");
-    expect(screen.getByTestId("error").textContent).toBe("");
-  });
-
-  it("authenticates automatically if token exists in localStorage", () => {
-    localStorage.setItem("adminToken", "fake-token");
-
-    render(
-      <AdminProvider>
-        <TestComponent />
-      </AdminProvider>
-    );
-
-    expect(screen.getByTestId("status").textContent).toBe("admin");
-  });
-
-  it("handles successful login", async () => {
-    render(
-      <AdminProvider>
-        <TestComponent />
-      </AdminProvider>
-    );
-
-    const loginBtn = screen.getByText("Login Success");
-    
-    const loginPromise = act(async () => {
-      loginBtn.click();
+describe("AdminProvider", () => {
+    it("starts as a guest with no key loaded", () => {
+        renderAdmin();
+        expect(status()).toBe("guest");
+        expect(screen.getByTestId("error").textContent).toBe("");
     });
 
-    expect(mockShowLoading).toHaveBeenCalled();
+    it("offers the passkey path only when one is enrolled and supported", () => {
+        mockHasEnrolledPasskey.mockReturnValue(false);
+        renderAdmin();
+        expect(screen.getByTestId("can-passkey").textContent).toBe("no");
+    });
+});
 
-    await act(async () => {
-      vi.advanceTimersByTime(800);
+describe("passkey sign-in", () => {
+    it("unseals the feed key, so signing in also enables publishing", async () => {
+        mockUnlockFeedKey.mockResolvedValue(OWNER_KEY_HEX);
+        renderAdmin();
+
+        await click("Passkey");
+
+        expect(status()).toBe("admin");
+        expect(getFeedKey()).not.toBeNull();
     });
 
-    await loginPromise;
+    it("stays a guest when the passkey does not unseal", async () => {
+        mockUnlockFeedKey.mockRejectedValue(new Error("Could not unlock the feed key with this passkey."));
+        renderAdmin();
 
-    expect(screen.getByTestId("status").textContent).toBe("admin");
-    expect(localStorage.getItem("adminToken")).toBe("fake-jwt-token-123");
-    expect(mockHideLoading).toHaveBeenCalled();
-  });
+        await click("Passkey");
 
-  it("handles failed login", async () => {
-    render(
-      <AdminProvider>
-        <TestComponent />
-      </AdminProvider>
-    );
+        expect(status()).toBe("guest");
+        expect(getFeedKey()).toBeNull();
+        expect(screen.getByTestId("error").textContent).toMatch(/Could not unlock/);
+    });
+});
 
-    const loginBtn = screen.getByText("Login Fail");
+describe("raw key sign-in", () => {
+    it("accepts the configured feed owner's key", async () => {
+        renderAdmin();
+        await click("Owner Key");
 
-    await act(async () => {
-      loginBtn.click();
-      vi.advanceTimersByTime(800);
+        expect(status()).toBe("admin");
+        expect(getFeedKey()).not.toBeNull();
     });
 
-    expect(screen.getByTestId("status").textContent).toBe("guest");
-    expect(screen.getByTestId("error").textContent).toBe("Wrong username or password");
-    expect(mockHideLoading).toHaveBeenCalled();
-  });
+    it("rejects a valid key that is not the feed owner, and loads nothing", async () => {
+        renderAdmin();
+        await click("Stranger Key");
 
-  it("handles logout", () => {
-    localStorage.setItem("adminToken", "fake-token");
-
-    render(
-      <AdminProvider>
-        <TestComponent />
-      </AdminProvider>
-    );
-
-    const logoutBtn = screen.getByText("Logout");
-    
-    act(() => {
-      logoutBtn.click();
+        expect(status()).toBe("guest");
+        expect(getFeedKey()).toBeNull();
+        expect(screen.getByTestId("error").textContent).toMatch(/does not match/);
     });
 
-    expect(screen.getByTestId("status").textContent).toBe("guest");
-    expect(localStorage.getItem("adminToken")).toBeNull();
-  });
+    it("rejects malformed key material", async () => {
+        renderAdmin();
+        await click("Bad Key");
 
-  it("throws error if useAdmin is used outside of provider", () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    
-    expect(() => render(<TestComponent />)).toThrow("useAdmin must be used within an AdminProvider");
-    
-    consoleSpy.mockRestore();
-  });
+        expect(status()).toBe("guest");
+        expect(getFeedKey()).toBeNull();
+    });
+});
+
+describe("disconnect", () => {
+    it("wipes the key from memory", async () => {
+        renderAdmin();
+        await click("Owner Key");
+        expect(status()).toBe("admin");
+
+        await click("Logout");
+
+        expect(status()).toBe("guest");
+        expect(getFeedKey()).toBeNull();
+    });
+});
+
+describe("admin state is derived from the key", () => {
+    it("drops to guest when the key is cleared outside React", async () => {
+        renderAdmin();
+        await click("Owner Key");
+        expect(status()).toBe("admin");
+
+        await act(async () => {
+            clearFeedKey();
+        });
+
+        expect(status()).toBe("guest");
+    });
+});
+
+describe("useAdmin", () => {
+    it("throws outside of a provider", () => {
+        vi.spyOn(console, "error").mockImplementation(() => {});
+        expect(() => render(<TestComponent />)).toThrow("useAdmin must be used within an AdminProvider");
+    });
 });
