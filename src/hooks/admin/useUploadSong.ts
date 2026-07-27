@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { uploadAudio, uploadCover } from "../../swarm/swarmService";
-import { useNotification, NotificationType } from "@context/NotificationContext";
+import { useNotification } from "@context/NotificationContext";
 
 interface SongForm {
     title: string;
@@ -92,7 +92,7 @@ export const useUploadSong = (onSave: (song: any) => void) => {
             });
         } catch (error) {
             console.error("[Swarm] Error during upload:", error);
-            notify("Something went wrong");
+            notify(error instanceof Error ? error.message : "Something went wrong");
         } finally {
             setIsUploading(false);
         }

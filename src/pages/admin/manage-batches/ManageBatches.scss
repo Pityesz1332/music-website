@@ -1,0 +1,318 @@
+@use '../../../styles/variables' as v;
+
+$ttl-healthy: #22c55e;
+$ttl-warning: #ffb020;
+$ttl-critical: #ff6b6b;
+$ttl-unknown: v.$placeholder-color;
+
+.manage-batches {
+    padding: 1rem 0;
+    text-align: center;
+
+    &__header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    &__title {
+        font-family: v.$font-heading;
+        font-size: 1.8rem;
+        margin: 0 0 0.35rem;
+        color: v.$main-text-color;
+    }
+
+    &__subtitle {
+        margin: 0 auto;
+        max-width: 60ch;
+        color: v.$muted-text-color;
+        font-size: 0.9rem;
+    }
+
+    &__refresh {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0.6rem 1rem;
+        border: none;
+        border-radius: 8px;
+        background: v.$primary-color;
+        color: v.$main-text-color;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+        white-space: nowrap;
+
+        &:hover { background: v.$dark-accent-color; }
+        &:disabled { opacity: 0.5; cursor: not-allowed; }
+    }
+
+    &__status {
+        color: v.$muted-text-color;
+        font-size: 0.95rem;
+        margin: 0 0 1rem;
+    }
+
+    &__error {
+        color: $ttl-critical;
+        font-size: 0.95rem;
+        margin: 0 0 1rem;
+    }
+
+    &__warning {
+        color: $ttl-warning;
+        font-size: 0.95rem;
+        margin: 0 0 1rem;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        justify-content: center;
+        gap: 1.25rem;
+    }
+}
+
+.batch-card {
+    background: v.$card-color;
+    border: 1px solid v.$border-color;
+    border-radius: 12px;
+
+    &--active {
+        border-color: rgba(v.$highlight-color, 0.5);
+    }
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+
+    &__header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+    }
+
+    &__label {
+        font-family: v.$font-heading;
+        font-size: 1.1rem;
+        margin: 0;
+        color: v.$main-text-color;
+        word-break: break-word;
+    }
+
+    &__badges {
+        display: flex;
+        justify-content: center;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+    }
+
+    &__badge {
+        font-size: 0.72rem;
+        font-weight: 600;
+        padding: 0.2rem 0.55rem;
+        border-radius: 999px;
+        white-space: nowrap;
+
+        &--ok {
+            background: rgba($ttl-healthy, 0.15);
+            color: $ttl-healthy;
+        }
+
+        &--bad {
+            background: rgba($ttl-critical, 0.15);
+            color: $ttl-critical;
+        }
+
+        &--neutral {
+            background: rgba(v.$muted-text-color, 0.15);
+            color: v.$muted-text-color;
+        }
+
+        &--active {
+            background: rgba(v.$highlight-color, 0.15);
+            color: v.$highlight-color;
+        }
+
+        &--pinned {
+            background: rgba(v.$accent-color, 0.2);
+            color: v.$main-text-color;
+        }
+    }
+
+    &__actions {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: auto;
+        padding-top: 0.75rem;
+        border-top: 1px solid v.$border-color;
+    }
+
+    &__action {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0.5rem 0.9rem;
+        border: none;
+        border-radius: 8px;
+        background: v.$primary-color;
+        color: v.$main-text-color;
+        font-weight: bold;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: 0.2s;
+
+        &:hover { background: v.$dark-accent-color; }
+        &:disabled { opacity: 0.5; cursor: not-allowed; }
+    }
+
+    &__active-note {
+        width: 100%;
+        margin: 0;
+        font-size: 0.83rem;
+        color: v.$highlight-color;
+        line-height: 1.4;
+    }
+
+    &__id {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.2rem;
+        font-size: 0.85rem;
+
+        code {
+            font-family: monospace;
+            color: v.$main-text-color;
+            word-break: break-all;
+        }
+    }
+
+    &__id-label {
+        color: v.$muted-text-color;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    &__meter {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    &__meter-head {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    &__meter-title {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        color: v.$muted-text-color;
+        font-size: 0.85rem;
+    }
+
+    &__meter-value {
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: v.$main-text-color;
+
+        &--healthy { color: $ttl-healthy; }
+        &--warning { color: $ttl-warning; }
+        &--critical,
+        &--expired { color: $ttl-critical; }
+        &--unknown {
+            color: $ttl-unknown;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+    }
+
+    &__bar {
+        height: 8px;
+        border-radius: 999px;
+        background: v.$sub-accent-color;
+        overflow: hidden;
+    }
+
+    &__bar-fill {
+        height: 100%;
+        border-radius: 999px;
+        transition: width 0.3s ease;
+
+        &--healthy { background: $ttl-healthy; }
+        &--warning { background: $ttl-warning; }
+        &--critical,
+        &--expired { background: $ttl-critical; }
+        &--unknown { background: $ttl-unknown; }
+        &--usage { background: v.$secondary-color; }
+    }
+
+    &__scale {
+        margin: 0;
+        font-size: 0.72rem;
+        color: v.$placeholder-color;
+    }
+
+    &__facts {
+        width: 100%;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+        justify-items: center;
+        gap: 0.75rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid v.$border-color;
+    }
+
+    &__fact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.2rem;
+        min-width: 0;
+
+        dt {
+            font-size: 0.72rem;
+            color: v.$muted-text-color;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        dd {
+            margin: 0;
+            font-size: 0.9rem;
+            color: v.$main-text-color;
+            font-family: monospace;
+            word-break: break-all;
+        }
+    }
+
+    &__warning {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 0.4rem;
+        margin: 0;
+        font-size: 0.83rem;
+        color: $ttl-warning;
+        line-height: 1.4;
+
+        svg { flex-shrink: 0; margin-top: 2px; }
+    }
+}

@@ -10,5 +10,9 @@ export const ADMIN_NAV_ITEMS = [
     {
         path: MainRoutes.ADMIN_SONGS,
         label: ADMIN_NAVBAR_STRINGS.LINKS.SONGS_MIXES
+    },
+    {
+        path: MainRoutes.ADMIN_BATCHES,
+        label: ADMIN_NAVBAR_STRINGS.LINKS.BATCHES
     }
 ] as const;

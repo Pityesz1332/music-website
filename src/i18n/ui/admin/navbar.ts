@@ -3,9 +3,10 @@ export const ADMIN_NAVBAR_STRINGS = {
     LINKS: {
         DASHBOARD: "Dashboard",
         SONGS_MIXES: "Songs/Mixes",
+        BATCHES: "Storage",
         USERS: "Users",
     },
     ACTIONS: {
-        GO_BACK: "Go Back",
+        GO_BACK: "Disconnect",
     }
 } as const;

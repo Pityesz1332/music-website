@@ -1,27 +1,71 @@
 import { Bee, Topic, PrivateKey } from "@ethersphere/bee-js";
 import type { Song } from "@interfaces/music";
+import type { PostageBatchInfo } from "@interfaces/swarm";
+import { resolveUploadBatch, explainNoUsableBatch, hasSpareCapacity } from "./batchSelection";
+import { getPinnedBatchId } from "./batchPreference";
+import { getWriteUrl } from "./writeConfig";
 
 const READ_URL =
     import.meta.env.VITE_SWARM_READ_URL ??
     import.meta.env.VITE_BEE_NODE_URL ??
     "http://localhost:1633";
-const WRITE_URL =
-    import.meta.env.VITE_SWARM_WRITE_URL ??
-    import.meta.env.VITE_BEE_NODE_URL ??
-    "http://localhost:1633";
 
 const readBee = new Bee(READ_URL);
-const writeBee = new Bee(WRITE_URL);
 
 export const FEED_OWNER_ADDRESS = (import.meta.env.VITE_FEED_OWNER_ADDRESS as string | undefined) ?? "";
 
 // FEED CONFIG
 const FEED_TOPIC = Topic.fromString("music-webpage-dj-enez");
 
+let cachedWriteBee: { url: string; bee: Bee } | null = null;
+
+function getWriteBee(): Bee {
+    const url = getWriteUrl();
+    if (!url) {
+        throw new Error("Configure your Bee node's write URL before uploading or publishing.");
+    }
+    if (cachedWriteBee?.url !== url) {
+        cachedWriteBee = { url, bee: new Bee(url) };
+    }
+    return cachedWriteBee.bee;
+}
+
 async function getValidBatchId(): Promise<string> {
-    const stamps = await writeBee.getPostageBatches();
-    if (!stamps.length) throw new Error("No available stamp");
-    return stamps[0].batchID.toString();
+    const batches = await fetchPostageBatches();
+    const { batch: chosen, pinnedIgnored } = resolveUploadBatch(batches, getPinnedBatchId());
+
+    if (!chosen) throw new Error(explainNoUsableBatch(batches));
+
+    if (pinnedIgnored) {
+        console.warn(
+            `[Swarm] The pinned batch is expired, unusable or missing; falling back to ${chosen.batchId}.`,
+        );
+    }
+
+    if (!hasSpareCapacity(chosen)) {
+        console.warn(
+            `[Swarm] Batch ${chosen.batchId} is at full capacity; Bee may evict older chunks to make room.`,
+        );
+    }
+
+    return chosen.batchId;
+}
+
+export async function fetchPostageBatches(): Promise<PostageBatchInfo[]> {
+    const stamps = await getWriteBee().getPostageBatches();
+
+    return stamps.map((stamp) => ({
+        batchId: stamp.batchID.toString(),
+        label: stamp.label ?? "",
+        usable: stamp.usable,
+        immutable: stamp.immutableFlag,
+        depth: stamp.depth,
+        bucketDepth: stamp.bucketDepth,
+        utilization: stamp.utilization,
+        usage: stamp.usage,
+        ttlSeconds: stamp.duration ? stamp.duration.toSeconds() : null,
+        amount: stamp.amount?.toString() ?? "0",
+    }));
 }
 
 export function resolveSwarmUrl(hash: string): string {
@@ -36,7 +80,7 @@ export async function uploadFileToSwarm(file: File, onProgress?: (percent: numbe
     const batchID = await getValidBatchId();
 
     onProgress?.(10);
-    const result = await writeBee.uploadFile(batchID as any, file);
+    const result = await getWriteBee().uploadFile(batchID as any, file);
     console.log(`[Swarm] Upload successful: ${file.name} | Hash:`, result.reference.toString());
     onProgress?.(100);
 
@@ -69,7 +113,7 @@ export async function uploadSongMetadata(songs: Song[]): Promise<string> {
     const json = JSON.stringify(songs);
     const blob = new Blob([json], { type: "application/json" });
     const file = new File([blob], "songs.json");
-    const result = await writeBee.uploadFile(batchID as any, file);
+    const result = await getWriteBee().uploadFile(batchID as any, file);
     console.log(`[Swarm] Metadata uploaded | Hash:`, result.reference.toString());
     return result.reference.toString()
 }
@@ -95,7 +139,7 @@ export async function publishSongsToFeed(songs: Song[], privateKey: PrivateKey):
     const batchID = await getValidBatchId();
     const metadataHash = await uploadSongMetadata(songs);
 
-    const writer = writeBee.makeFeedWriter(FEED_TOPIC, privateKey);
+    const writer = getWriteBee().makeFeedWriter(FEED_TOPIC, privateKey);
     await writer.uploadReference(batchID as any, metadataHash as any);
 
     console.log(`[Feed] Published songs metadata hash: ${metadataHash}`);

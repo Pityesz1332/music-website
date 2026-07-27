@@ -2,9 +2,11 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, act } from "@testing-library/react";
 import { AdminProvider, useAdmin } from "./AdminContext";
 import { clearFeedKey, getFeedKey } from "../swarm/feedKey";
+import { clearWriteUrl, getWriteUrl } from "../swarm/writeConfig";
 
 const OWNER_KEY_HEX = "4646464646464646464646464646464646464646464646464646464646464646";
 const STRANGER_KEY_HEX = "1111111111111111111111111111111111111111111111111111111111111111";
+const VAULT_WRITE_URL = "http://localhost:1633";
 
 vi.mock("./LoadingContext", () => ({
     useLoading: () => ({ showLoading: vi.fn(), hideLoading: vi.fn() }),
@@ -14,12 +16,12 @@ vi.mock("../swarm/swarmService", () => ({
     FEED_OWNER_ADDRESS: "9d8a62f656a8d1615c1294fd71e9cfb3e4855a4f",
 }));
 
-const mockUnlockFeedKey = vi.fn();
+const mockUnlockVault = vi.fn();
 const mockHasEnrolledPasskey = vi.fn(() => true);
 const mockIsPasskeySupported = vi.fn(() => true);
 
 vi.mock("../swarm/passkeyAuth", () => ({
-    unlockFeedKey: () => mockUnlockFeedKey(),
+    unlockVault: () => mockUnlockVault(),
     hasEnrolledPasskey: () => mockHasEnrolledPasskey(),
     isPasskeySupported: () => mockIsPasskeySupported(),
 }));
@@ -57,6 +59,7 @@ const status = () => screen.getByTestId("status").textContent;
 
 beforeEach(() => {
     clearFeedKey();
+    clearWriteUrl();
     vi.clearAllMocks();
     mockHasEnrolledPasskey.mockReturnValue(true);
     mockIsPasskeySupported.mockReturnValue(true);
@@ -77,24 +80,26 @@ describe("AdminProvider", () => {
 });
 
 describe("passkey sign-in", () => {
-    it("unseals the feed key, so signing in also enables publishing", async () => {
-        mockUnlockFeedKey.mockResolvedValue(OWNER_KEY_HEX);
+    it("unseals the feed key and write URL, so signing in also enables publishing", async () => {
+        mockUnlockVault.mockResolvedValue({ feedKeyHex: OWNER_KEY_HEX, writeUrl: VAULT_WRITE_URL });
         renderAdmin();
 
         await click("Passkey");
 
         expect(status()).toBe("admin");
         expect(getFeedKey()).not.toBeNull();
+        expect(getWriteUrl()).toBe(VAULT_WRITE_URL);
     });
 
     it("stays a guest when the passkey does not unseal", async () => {
-        mockUnlockFeedKey.mockRejectedValue(new Error("Could not unlock the feed key with this passkey."));
+        mockUnlockVault.mockRejectedValue(new Error("Could not unlock the feed key with this passkey."));
         renderAdmin();
 
         await click("Passkey");
 
         expect(status()).toBe("guest");
         expect(getFeedKey()).toBeNull();
+        expect(getWriteUrl()).toBeNull();
         expect(screen.getByTestId("error").textContent).toMatch(/Could not unlock/);
     });
 });
@@ -136,6 +141,17 @@ describe("disconnect", () => {
 
         expect(status()).toBe("guest");
         expect(getFeedKey()).toBeNull();
+    });
+
+    it("also wipes the write URL, so both must be re-entered next time", async () => {
+        mockUnlockVault.mockResolvedValue({ feedKeyHex: OWNER_KEY_HEX, writeUrl: VAULT_WRITE_URL });
+        renderAdmin();
+        await click("Passkey");
+        expect(getWriteUrl()).toBe(VAULT_WRITE_URL);
+
+        await click("Logout");
+
+        expect(getWriteUrl()).toBeNull();
     });
 });
 

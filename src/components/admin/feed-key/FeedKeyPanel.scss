@@ -66,6 +66,12 @@
 
         &:hover { background: v.$dark-accent-color; }
         &:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        &--compact {
+            align-self: flex-start;
+            padding: 0.5rem 0.9rem;
+            font-size: 0.85rem;
+        }
     }
 
     &__status {
@@ -100,6 +106,21 @@
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
+    }
+
+    &__section {
+        margin: 0.75rem 0;
+        padding-top: 0.75rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    &__section-title {
+        font-size: 1rem;
+        margin: 0;
+        font-weight: 600;
     }
 
     &__warning {

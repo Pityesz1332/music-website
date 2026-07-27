@@ -1,13 +1,15 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import {
     enrollPasskey,
-    unlockFeedKey,
+    unlockVault,
     hasEnrolledPasskey,
     clearEnrolledPasskey,
     isPasskeySupported,
 } from "./passkeyAuth";
+import { deriveVaultKey, sealSecret, toBase64Url } from "./vaultCrypto";
 
 const FEED_KEY_HEX = "4646464646464646464646464646464646464646464646464646464646464646";
+const WRITE_URL = "http://localhost:1633";
 const VAULT_KEY = "swarmAdminFeedVault";
 const LEGACY_KEY = "swarmAdminPasskeyId";
 
@@ -27,6 +29,8 @@ function authenticator({ secret = 9, prfEnabled = true as boolean | undefined } 
         }),
     });
 }
+
+const enroll = () => enrollPasskey("Admin", FEED_KEY_HEX, WRITE_URL);
 
 beforeEach(() => {
     localStorage.clear();
@@ -49,19 +53,20 @@ describe("isPasskeySupported", () => {
 });
 
 describe("enrollPasskey", () => {
-    it("seals the feed key so it never touches storage in the clear", async () => {
+    it("seals the feed key and write URL so neither touches storage in the clear", async () => {
         authenticator();
-        await enrollPasskey("Admin", FEED_KEY_HEX);
+        await enroll();
 
         const stored = localStorage.getItem(VAULT_KEY) ?? "";
         expect(stored).not.toContain(FEED_KEY_HEX);
-        expect(JSON.parse(stored)).toMatchObject({ v: 1 });
+        expect(stored).not.toContain(WRITE_URL);
+        expect(JSON.parse(stored)).toMatchObject({ v: 2 });
         expect(hasEnrolledPasskey()).toBe(true);
     });
 
     it("requires user verification and asks for a discoverable credential", async () => {
         authenticator();
-        await enrollPasskey("Admin", FEED_KEY_HEX);
+        await enroll();
 
         const options = create.mock.calls[0][0].publicKey;
         expect(options.authenticatorSelection).toMatchObject({
@@ -74,7 +79,7 @@ describe("enrollPasskey", () => {
     it("stores nothing when the authenticator has no PRF support", async () => {
         authenticator({ prfEnabled: false });
 
-        await expect(enrollPasskey("Admin", FEED_KEY_HEX)).rejects.toThrow(/PRF support/);
+        await expect(enroll()).rejects.toThrow(/PRF support/);
         expect(localStorage.getItem(VAULT_KEY)).toBeNull();
         expect(hasEnrolledPasskey()).toBe(false);
     });
@@ -83,25 +88,28 @@ describe("enrollPasskey", () => {
         localStorage.setItem(LEGACY_KEY, "old-bare-credential-id");
         authenticator();
 
-        await enrollPasskey("Admin", FEED_KEY_HEX);
+        await enroll();
         expect(localStorage.getItem(LEGACY_KEY)).toBeNull();
     });
 });
 
-describe("unlockFeedKey", () => {
-    it("returns the sealed key when the enrolled authenticator answers", async () => {
+describe("unlockVault", () => {
+    it("returns the sealed feed key and write URL when the enrolled authenticator answers", async () => {
         authenticator();
-        await enrollPasskey("Admin", FEED_KEY_HEX);
+        await enroll();
 
-        await expect(unlockFeedKey()).resolves.toBe(FEED_KEY_HEX);
+        await expect(unlockVault()).resolves.toEqual({
+            feedKeyHex: FEED_KEY_HEX,
+            writeUrl: WRITE_URL,
+        });
     });
 
     it("prompts only for the enrolled credential, with verification required", async () => {
         authenticator();
-        await enrollPasskey("Admin", FEED_KEY_HEX);
+        await enroll();
         get.mockClear();
 
-        await unlockFeedKey();
+        await unlockVault();
 
         const options = get.mock.calls[0][0].publicKey;
         expect(options.userVerification).toBe("required");
@@ -110,39 +118,39 @@ describe("unlockFeedKey", () => {
         );
     });
 
-    it("throws when this device holds no sealed key", async () => {
-        await expect(unlockFeedKey()).rejects.toThrow(/No passkey/);
+    it("throws when this device holds no sealed vault", async () => {
+        await expect(unlockVault()).rejects.toThrow(/No passkey/);
         expect(get).not.toHaveBeenCalled();
     });
 
     it("does not unseal for a different authenticator's PRF secret", async () => {
         authenticator({ secret: 9 });
-        await enrollPasskey("Admin", FEED_KEY_HEX);
+        await enroll();
 
         authenticator({ secret: 200 });
-        await expect(unlockFeedKey()).rejects.toThrow(/Could not unlock/);
+        await expect(unlockVault()).rejects.toThrow(/Could not unlock/);
     });
 
     it("throws when the authenticator returns no PRF output", async () => {
         authenticator();
-        await enrollPasskey("Admin", FEED_KEY_HEX);
+        await enroll();
 
         get.mockResolvedValue({ getClientExtensionResults: () => ({}) });
-        await expect(unlockFeedKey()).rejects.toThrow(/cannot unlock/);
+        await expect(unlockVault()).rejects.toThrow(/cannot unlock/);
     });
 
     it("throws when the prompt is dismissed", async () => {
         authenticator();
-        await enrollPasskey("Admin", FEED_KEY_HEX);
+        await enroll();
 
         get.mockResolvedValue(null);
-        await expect(unlockFeedKey()).rejects.toThrow(/dismissed/);
+        await expect(unlockVault()).rejects.toThrow(/dismissed/);
     });
 
     it("ignores an unreadable vault record instead of throwing on render", async () => {
         localStorage.setItem(VAULT_KEY, "{ not json");
         expect(hasEnrolledPasskey()).toBe(false);
-        await expect(unlockFeedKey()).rejects.toThrow(/No passkey/);
+        await expect(unlockVault()).rejects.toThrow(/No passkey/);
     });
 
     it("treats a pre-PRF credential record as not enrolled", () => {
@@ -152,13 +160,62 @@ describe("unlockFeedKey", () => {
 });
 
 describe("clearEnrolledPasskey", () => {
-    it("forgets the sealed key on this device", async () => {
+    it("forgets the sealed vault on this device", async () => {
         authenticator();
-        await enrollPasskey("Admin", FEED_KEY_HEX);
+        await enroll();
 
         clearEnrolledPasskey();
 
         expect(hasEnrolledPasskey()).toBe(false);
         expect(localStorage.getItem(VAULT_KEY)).toBeNull();
+    });
+});
+
+describe("vault versioning", () => {
+    async function writeVault(version: number, plaintext: string) {
+        const key = await deriveVaultKey(new Uint8Array(32).fill(9).buffer);
+        const sealed = await sealSecret(key, plaintext);
+        localStorage.setItem(VAULT_KEY, JSON.stringify({
+            v: version,
+            credentialId: toBase64Url(CREDENTIAL_ID),
+            ...sealed,
+        }));
+    }
+
+    it("writes new records as v2", async () => {
+        authenticator();
+        await enroll();
+
+        expect(JSON.parse(localStorage.getItem(VAULT_KEY)!).v).toBe(2);
+    });
+
+    it("still unlocks a v1 vault, which sealed the bare key with no write URL", async () => {
+        authenticator();
+        const legacyKey = "a3f29b7c4e1d8056fa2b9c3d7e105f4a8b6c2d9e3f107a5b8c4d6e2f9a1b3c5d";
+        await writeVault(1, legacyKey);
+
+        await expect(unlockVault()).resolves.toEqual({ feedKeyHex: legacyKey, writeUrl: "" });
+    });
+
+    it("does not blame the passkey when a v2 payload is corrupt", async () => {
+        authenticator();
+        await writeVault(2, "not json at all");
+
+        await expect(unlockVault()).rejects.toThrow(/unreadable/);
+    });
+
+    it("rejects a v2 payload that decrypts but carries no feed key", async () => {
+        authenticator();
+        await writeVault(2, JSON.stringify({ writeUrl: WRITE_URL }));
+
+        await expect(unlockVault()).rejects.toThrow(/unreadable/);
+    });
+
+    it("ignores a record with an unknown future version", () => {
+        localStorage.setItem(VAULT_KEY, JSON.stringify({
+            v: 99, credentialId: "x", iv: "y", ciphertext: "z",
+        }));
+
+        expect(hasEnrolledPasskey()).toBe(false);
     });
 });

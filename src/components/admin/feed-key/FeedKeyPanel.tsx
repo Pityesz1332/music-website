@@ -11,6 +11,13 @@ import {
     subscribeToFeedKey,
 } from "../../../swarm/feedKey";
 import {
+    setWriteUrl,
+    clearWriteUrl,
+    getWriteUrl,
+    hasWriteUrl,
+    subscribeToWriteUrl,
+} from "../../../swarm/writeConfig";
+import {
     enrollPasskey,
     hasEnrolledPasskey,
     clearEnrolledPasskey,
@@ -22,17 +29,22 @@ import "./FeedKeyPanel.scss";
 
 export const FeedKeyPanel = () => {
     const [value, setValue] = useState("");
+    const [urlValue, setUrlValue] = useState("");
     const [error, setError] = useState<string | null>(null);
+    const [urlError, setUrlError] = useState<string | null>(null);
     const [passkeyBusy, setPasskeyBusy] = useState(false);
     const [passkeyEnrolled, setPasskeyEnrolled] = useState(hasEnrolledPasskey);
 
     const keyLoaded = useSyncExternalStore(subscribeToFeedKey, hasFeedKey, () => false);
+    const urlLoaded = useSyncExternalStore(subscribeToWriteUrl, hasWriteUrl, () => false);
     const keyAddress = getFeedKeyAddress();
+    const writeUrl = getWriteUrl();
     const passkeySupported = isPasskeySupported();
     const mismatch =
         keyLoaded &&
         !!FEED_OWNER_ADDRESS &&
         !feedKeyMatchesOwner(FEED_OWNER_ADDRESS);
+    const canEnrollPasskey = keyLoaded && urlLoaded;
 
     const handleSet = () => {
         try {
@@ -49,14 +61,29 @@ export const FeedKeyPanel = () => {
         setError(null);
     };
 
+    const handleSetUrl = () => {
+        try {
+            setWriteUrl(urlValue);
+            setUrlError(null);
+            setUrlValue("");
+        } catch {
+            setUrlError(ADMIN_FEED_KEY_STRINGS.WRITE_URL.INVALID);
+        }
+    };
+
+    const handleClearUrl = () => {
+        clearWriteUrl();
+        setUrlError(null);
+    };
+
     const handleEnrollPasskey = async () => {
         const feedKeyHex = getFeedKeyHex();
-        if (!feedKeyHex) return;
+        if (!feedKeyHex || !writeUrl) return;
 
         setPasskeyBusy(true);
         setError(null);
         try {
-            await enrollPasskey(ADMIN_FEED_KEY_STRINGS.PASSKEY.LABEL, feedKeyHex);
+            await enrollPasskey(ADMIN_FEED_KEY_STRINGS.PASSKEY.LABEL, feedKeyHex, writeUrl);
             setPasskeyEnrolled(hasEnrolledPasskey());
         } catch (err) {
             setError(err instanceof Error ? err.message : "Could not create the passkey.");
@@ -125,7 +152,53 @@ export const FeedKeyPanel = () => {
                 <p className="feed-key-panel__status">{ADMIN_FEED_KEY_STRINGS.STATUS.NOT_SET}</p>
             )}
 
-            {passkeySupported && (passkeyEnrolled || keyLoaded) && (
+            <div className="feed-key-panel__section">
+                <h3 className="feed-key-panel__section-title">{ADMIN_FEED_KEY_STRINGS.WRITE_URL.TITLE}</h3>
+                <p className="feed-key-panel__description">{ADMIN_FEED_KEY_STRINGS.WRITE_URL.DESCRIPTION}</p>
+
+                {!urlLoaded && (
+                    <div className="feed-key-panel__controls">
+                        <input
+                            className="feed-key-panel__input"
+                            type="text"
+                            autoComplete="off"
+                            spellCheck={false}
+                            placeholder={ADMIN_FEED_KEY_STRINGS.WRITE_URL.PLACEHOLDER}
+                            value={urlValue}
+                            onChange={(e) => setUrlValue(e.target.value)}
+                        />
+                        <PrimaryButton
+                            className="feed-key-panel__button"
+                            onClick={handleSetUrl}
+                            disabled={!urlValue.trim()}
+                        >
+                            {ADMIN_FEED_KEY_STRINGS.WRITE_URL.BUTTONS.SET}
+                        </PrimaryButton>
+                    </div>
+                )}
+
+                {urlError && <p className="feed-key-panel__error">{urlError}</p>}
+
+                {urlLoaded ? (
+                    <div className="feed-key-panel__status feed-key-panel__status--set">
+                        <p>
+                            <CheckCircle2 size={16} /> {ADMIN_FEED_KEY_STRINGS.WRITE_URL.STATUS.SET}
+                        </p>
+                        {writeUrl && (
+                            <p className="feed-key-panel__address">
+                                <code>{writeUrl}</code>
+                            </p>
+                        )}
+                        <PrimaryButton className="feed-key-panel__button" onClick={handleClearUrl}>
+                            {ADMIN_FEED_KEY_STRINGS.WRITE_URL.BUTTONS.CLEAR}
+                        </PrimaryButton>
+                    </div>
+                ) : (
+                    <p className="feed-key-panel__status">{ADMIN_FEED_KEY_STRINGS.WRITE_URL.STATUS.NOT_SET}</p>
+                )}
+            </div>
+
+            {passkeySupported && (passkeyEnrolled || canEnrollPasskey) && (
                 <div className="feed-key-panel__passkey">
                     <p className="feed-key-panel__description">
                         {passkeyEnrolled
@@ -133,12 +206,15 @@ export const FeedKeyPanel = () => {
                             : ADMIN_FEED_KEY_STRINGS.PASSKEY.DESCRIPTION}
                     </p>
                     {passkeyEnrolled ? (
-                        <PrimaryButton className="feed-key-panel__button" onClick={handleForgetPasskey}>
+                        <PrimaryButton
+                            className="feed-key-panel__button feed-key-panel__button--compact"
+                            onClick={handleForgetPasskey}
+                        >
                             {ADMIN_FEED_KEY_STRINGS.BUTTONS.FORGET_PASSKEY}
                         </PrimaryButton>
                     ) : (
                         <PrimaryButton
-                            className="feed-key-panel__button"
+                            className="feed-key-panel__button feed-key-panel__button--compact"
                             onClick={handleEnrollPasskey}
                             disabled={passkeyBusy}
                         >

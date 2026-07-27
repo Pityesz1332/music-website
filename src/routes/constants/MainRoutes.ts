@@ -8,6 +8,7 @@ export enum MainRoutes {
     ADMIN_CONNECT = '/admin/connect',
     ADMIN_DASHBOARD = '/admin',
     ADMIN_SONGS = '/admin/songs',
+    ADMIN_BATCHES = '/admin/batches',
     ADMIN_USERS = '/admin/users',
     NOT_FOUND = '*'
 }

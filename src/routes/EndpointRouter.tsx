@@ -14,6 +14,7 @@ import { RouteSuspense } from "./RouteSuspense";
 const NotFound = lazy(() => import("@pages/not-found-fallback/NotFound").then((m) => ({ default: m.NotFound })));
 const AdminDashboard = lazy(() => import("@pages/admin/admin-dashboard/AdminDashboard").then((m) => ({ default: m.AdminDashboard })));
 const ManageSongs = lazy(() => import("@pages/admin/manage-songs/ManageSongs").then((m) => ({ default: m.ManageSongs })));
+const ManageBatches = lazy(() => import("@pages/admin/manage-batches/ManageBatches").then((m) => ({ default: m.ManageBatches })));
 const AdminConnect = lazy(() => import("@pages/admin/admin-connect/AdminConnect").then((m) => ({ default: m.AdminConnect })));
 
 export const EndpointRouter = () => {
@@ -33,6 +34,7 @@ export const EndpointRouter = () => {
           <Route element={<AdminLayout />}>
             <Route path={MainRoutes.ADMIN_DASHBOARD} element={<AdminRoute><RouteSuspense><AdminDashboard /></RouteSuspense></AdminRoute>} />
             <Route path={MainRoutes.ADMIN_SONGS} element={<AdminRoute><RouteSuspense><ManageSongs /></RouteSuspense></AdminRoute>} />
+            <Route path={MainRoutes.ADMIN_BATCHES} element={<AdminRoute><RouteSuspense><ManageBatches /></RouteSuspense></AdminRoute>} />
           </Route>
           
           {/* Error fallback */}

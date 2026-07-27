@@ -1,7 +1,8 @@
 import { createContext, useContext, useState, useSyncExternalStore, ReactNode } from "react";
 import { useLoading } from "./LoadingContext";
 import { clearFeedKey, setFeedKey, feedKeyMatchesOwner, hasFeedKey, subscribeToFeedKey } from "../swarm/feedKey";
-import { hasEnrolledPasskey, isPasskeySupported, unlockFeedKey } from "../swarm/passkeyAuth";
+import { hasEnrolledPasskey, isPasskeySupported, unlockVault } from "../swarm/passkeyAuth";
+import { clearWriteUrl, setWriteUrl } from "../swarm/writeConfig";
 import { FEED_OWNER_ADDRESS } from "../swarm/swarmService";
 
 interface AdminContextType {
@@ -39,7 +40,9 @@ export function AdminProvider({ children }: AdminProviderProps) {
         showLoading();
         setError(null);
         try {
-            applyFeedKey(await unlockFeedKey());
+            const { feedKeyHex, writeUrl } = await unlockVault();
+            applyFeedKey(feedKeyHex);
+            if (writeUrl) setWriteUrl(writeUrl);
         } catch (err) {
             setError(err instanceof Error ? err.message : "Passkey sign-in failed");
         } finally {
@@ -61,6 +64,7 @@ export function AdminProvider({ children }: AdminProviderProps) {
 
     function disconnectAdmin() {
         clearFeedKey();
+        clearWriteUrl();
         setError(null);
     }
 

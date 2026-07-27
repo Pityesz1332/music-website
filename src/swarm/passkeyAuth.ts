@@ -5,8 +5,15 @@ const VAULT_KEY = "swarmAdminFeedVault";
 const LEGACY_KEY = "swarmAdminPasskeyId";
 const RP_NAME = "Music Website Admin";
 
+export interface VaultPayload {
+    feedKeyHex: string;
+    writeUrl: string;
+}
+
+const VAULT_VERSION = 2;
+
 interface VaultRecord extends SealedSecret {
-    v: 1;
+    v: 1 | 2;
     credentialId: string;
 }
 
@@ -23,7 +30,8 @@ function readVault(): VaultRecord | null {
     if (!raw) return null;
     try {
         const parsed = JSON.parse(raw) as VaultRecord;
-        if (parsed?.v !== 1 || !parsed.credentialId || !parsed.iv || !parsed.ciphertext) return null;
+        const versionOk = parsed?.v === 1 || parsed?.v === 2;
+        if (!versionOk || !parsed.credentialId || !parsed.iv || !parsed.ciphertext) return null;
         return parsed;
     } catch {
         return null;
@@ -69,7 +77,7 @@ async function evaluatePrf(credentialId: Uint8Array<ArrayBuffer>): Promise<Array
     return prf.results.first;
 }
 
-export async function enrollPasskey(label: string, feedKeyHex: string): Promise<void> {
+export async function enrollPasskey(label: string, feedKeyHex: string, writeUrl: string): Promise<void> {
     if (!isPasskeySupported()) {
         throw new Error("This browser cannot use passkeys over a secure connection.");
     }
@@ -106,10 +114,11 @@ export async function enrollPasskey(label: string, feedKeyHex: string): Promise<
 
     const prfOutput = await evaluatePrf(new Uint8Array(credential.rawId));
     const vaultKey = await deriveVaultKey(prfOutput);
-    const sealed = await sealSecret(vaultKey, feedKeyHex);
+    const payload: VaultPayload = { feedKeyHex, writeUrl };
+    const sealed = await sealSecret(vaultKey, JSON.stringify(payload));
 
     const record: VaultRecord = {
-        v: 1,
+        v: VAULT_VERSION,
         credentialId: toBase64Url(credential.rawId),
         ...sealed,
     };
@@ -118,16 +127,31 @@ export async function enrollPasskey(label: string, feedKeyHex: string): Promise<
     localStorage.removeItem(LEGACY_KEY);
 }
 
-export async function unlockFeedKey(): Promise<string> {
+export async function unlockVault(): Promise<VaultPayload> {
     const record = readVault();
     if (!record) throw new Error("No passkey has been set up on this device.");
 
     const prfOutput = await evaluatePrf(fromBase64Url(record.credentialId));
     const vaultKey = await deriveVaultKey(prfOutput);
 
+    let plaintext: string;
     try {
-        return await openSecret(vaultKey, record);
+        plaintext = await openSecret(vaultKey, record);
     } catch {
         throw new Error("Could not unlock the feed key with this passkey.");
+    }
+
+    if (record.v === 1) {
+        return { feedKeyHex: plaintext, writeUrl: "" };
+    }
+
+    try {
+        const payload = JSON.parse(plaintext) as VaultPayload;
+        if (typeof payload?.feedKeyHex !== "string" || !payload.feedKeyHex) {
+            throw new Error("missing feed key");
+        }
+        return { feedKeyHex: payload.feedKeyHex, writeUrl: payload.writeUrl ?? "" };
+    } catch {
+        throw new Error("The stored vault is unreadable. Remove the passkey and set it up again.");
     }
 }
