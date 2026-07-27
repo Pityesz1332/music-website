@@ -16,7 +16,7 @@ interface UploadSongProps {
         duration: string;
         audio: string;
         coverFile: string;
-    }) => void;
+    }) => void | Promise<void>;
 }
 
 export const UploadSong = ({ onCancel, onSave }: UploadSongProps) => {

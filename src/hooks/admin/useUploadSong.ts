@@ -9,7 +9,7 @@ interface SongForm {
     duration: string;
 }
 
-export const useUploadSong = (onSave: (song: any) => void) => {
+export const useUploadSong = (onSave: (song: any) => void | Promise<void>) => {
     const [audioFile, setAudioFile] = useState<File | null>(null);
     const [coverFile, setCoverFile] = useState<File | null>(null);
     const [progress, setProgress] = useState<number>(0);
@@ -85,7 +85,7 @@ export const useUploadSong = (onSave: (song: any) => void) => {
                 coverHash = await uploadCover(coverFile, (progress) => setProgress(50 + progress * 0.5));
             }
 
-            onSave({
+            await onSave({
                 ...form,
                 audioHash,
                 coverHash

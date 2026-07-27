@@ -5,14 +5,11 @@ import { useSongsFromSwarm } from "@hooks/swarm/useSongsFromSwarm";
 import { getFeedKey } from "../../swarm/feedKey";
 
 export const useSongManager = () => {
-    // Admin manages hidden songs too, so it needs the unfiltered catalog.
     const { songs: swarmSongs, loading: swarmLoading } = useSongsFromSwarm({ includeHidden: true });
     const [songs, setSongs] = useState<Song[]>([]);
     const [isUploadOpen, setIsUploadOpen] = useState(false);
     const [publishing, setPublishing] = useState(false);
     const [publishError, setPublishError] = useState<string | null>(null);
-    // Once the admin edits locally, the (possibly still in-flight) Swarm fetch
-    // must never overwrite those edits with a stale pre-edit catalog.
     const hasLocalEdits = useRef(false);
 
     // Initializing list
@@ -41,10 +38,16 @@ export const useSongManager = () => {
     };
 
     const saveNewSong = async (song: any) => {
-        // Guards against publishing over a catalog we haven't finished loading yet
-        // (see hasLocalEdits above) — the add button is disabled meanwhile, but this
-        // is the last line of defense against clobbering the real Swarm catalog.
         if (swarmLoading) return;
+
+        const duplicate = songs.find(s => (s.swarmHash || s.src) === song.audioHash);
+        if (duplicate) {
+            throw new Error(
+                `This audio is already in the catalog as "${duplicate.title}"` +
+                (duplicate.hidden ? " (currently hidden)." : ".")
+            );
+        }
+
         hasLocalEdits.current = true;
 
         const maxId = songs.length > 0 ? Math.max(...songs.map(s => Number(s.id))) : 0;
