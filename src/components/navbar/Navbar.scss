@@ -109,7 +109,7 @@
         font-size: clamp(0.9rem, 1.2vw, 1.1rem);
 
         // Center against the whole navbar (position:fixed containing block),
-        // not just the space between the logo and wallet, which are unequal.
+        // not just the space between the logo and the mobile toggle, which are unequal.
         @media (min-width: 1025px) {
             position: absolute;
             left: 50%;
@@ -156,13 +156,6 @@
         flex: 1 1 auto;
 
         &:hover, &--active { color: v.$primary-color; }
-
-        &--wallet {
-            padding: 0;
-            margin: 0;
-            cursor: not-allowed;
-            flex: 0 0 auto;
-        }
     }
 
     &__button {
@@ -185,11 +178,6 @@
         &:hover {
             background: v.$dark-accent-color;
             transform: translateY(-1px);
-        }
-
-        &--disabled {
-            opacity: 0.5;
-            pointer-events: none;
         }
     }
 }

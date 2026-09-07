@@ -1,4 +1,3 @@
-// Logged-in users only
 import { Heart, Download } from "lucide-react";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import { useSongActions } from "@hooks/playlist/useSongActions";
@@ -10,12 +9,9 @@ interface SongActionsProps {
     isMini?: boolean;
 }
 
-// Displays interaction buttons for the song.
-// Features a security filter that renders buttons based on 
-// the user's authentication state.
+// Displays save/download interaction buttons for the song.
 export const SongActions = ({ song, isMini = false }: SongActionsProps) => {
     const {
-        isConnected,
         isSaved,
         containerClass,
         buttonClass,
@@ -24,8 +20,6 @@ export const SongActions = ({ song, isMini = false }: SongActionsProps) => {
         handleSave,
         handleDownload
     } = useSongActions(song, isMini);
-
-    if (!isConnected) return null;
 
     return (
         <div className={containerClass}>

@@ -25,7 +25,10 @@ export const HistoryModal = ({ isOpen, onClose, onConfirm }: HistoryModalProps) 
                     >
                         {HISTORY_MODAL_STRINGS.BUTTONS.CANCEL}
                     </PrimaryButton>
-                    <PrimaryButton onClick={onConfirm}>
+                    <PrimaryButton
+                        className="modal__confirm-btn"
+                        onClick={onConfirm}
+                    >
                         {HISTORY_MODAL_STRINGS.BUTTONS.CONFIRM}
                     </PrimaryButton>
                 </>

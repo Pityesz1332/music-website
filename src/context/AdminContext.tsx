@@ -9,7 +9,7 @@ interface AdminContextType {
     isAdmin: boolean;
     error: string | null;
     canUsePasskey: boolean;
-    signInWithPasskey: () => Promise<void>;
+    signInWithPasskey: (signal?: AbortSignal) => Promise<void>;
     signInWithRawKey: (hexKey: string) => Promise<void>;
     disconnectAdmin: () => void;
 }
@@ -36,15 +36,19 @@ export function AdminProvider({ children }: AdminProviderProps) {
         }
     }
 
-    async function signInWithPasskey() {
+    async function signInWithPasskey(signal?: AbortSignal) {
         showLoading();
         setError(null);
         try {
-            const { feedKeyHex, writeUrl } = await unlockVault();
+            const { feedKeyHex, writeUrl } = await unlockVault(signal);
             applyFeedKey(feedKeyHex);
             if (writeUrl) setWriteUrl(writeUrl);
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Passkey sign-in failed");
+            // A user-initiated cancel isn't a failure worth reporting — it
+            // already applied nothing, so just return to the idle state.
+            if (!signal?.aborted) {
+                setError(err instanceof Error ? err.message : "Passkey sign-in failed");
+            }
         } finally {
             hideLoading();
         }

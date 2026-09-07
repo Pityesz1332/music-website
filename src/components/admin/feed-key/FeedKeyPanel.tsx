@@ -1,4 +1,4 @@
-import { useState, useSyncExternalStore } from "react";
+import { useRef, useState, useSyncExternalStore } from "react";
 import { CheckCircle2, AlertTriangle, Fingerprint } from "lucide-react";
 import { PrimaryButton } from "@components/ui/button/PrimaryButton";
 import {
@@ -18,11 +18,13 @@ import {
     subscribeToWriteUrl,
 } from "../../../swarm/writeConfig";
 import {
-    enrollPasskey,
+    createPasskeyVaultKey,
+    sealVault,
     hasEnrolledPasskey,
     clearEnrolledPasskey,
     isPasskeySupported,
 } from "../../../swarm/passkeyAuth";
+import { createAttemptTracker } from "../../../swarm/attempt";
 import { FEED_OWNER_ADDRESS } from "../../../swarm/swarmService";
 import { ADMIN_FEED_KEY_STRINGS } from "@i18n/ui/admin/feed-key";
 import "./FeedKeyPanel.scss";
@@ -34,6 +36,11 @@ export const FeedKeyPanel = () => {
     const [urlError, setUrlError] = useState<string | null>(null);
     const [passkeyBusy, setPasskeyBusy] = useState(false);
     const [passkeyEnrolled, setPasskeyEnrolled] = useState(hasEnrolledPasskey);
+
+    // Guards enrollment's two awaited steps (ceremony, then seal-and-persist)
+    // against a cancel landing between them — see src/swarm/attempt.ts.
+    const attemptsRef = useRef(createAttemptTracker());
+    const controllerRef = useRef<AbortController | undefined>(undefined);
 
     const keyLoaded = useSyncExternalStore(subscribeToFeedKey, hasFeedKey, () => false);
     const urlLoaded = useSyncExternalStore(subscribeToWriteUrl, hasWriteUrl, () => false);
@@ -80,16 +87,38 @@ export const FeedKeyPanel = () => {
         const feedKeyHex = getFeedKeyHex();
         if (!feedKeyHex || !writeUrl) return;
 
+        const attempt = attemptsRef.current.begin();
+        const controller = new AbortController();
+        controllerRef.current = controller;
         setPasskeyBusy(true);
         setError(null);
         try {
-            await enrollPasskey(ADMIN_FEED_KEY_STRINGS.PASSKEY.LABEL, feedKeyHex, writeUrl);
+            const { credentialId, key } = await attempt.guard(
+                createPasskeyVaultKey(ADMIN_FEED_KEY_STRINGS.PASSKEY.LABEL, controller.signal),
+            );
+            // A cancel landing here still stops the write below — the
+            // ceremony above can't always be aborted mid-flight once the
+            // authenticator has already answered.
+            await attempt.guard(sealVault(credentialId, key, { feedKeyHex, writeUrl }));
             setPasskeyEnrolled(hasEnrolledPasskey());
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Could not create the passkey.");
+            if (attempt.current) {
+                setError(err instanceof Error ? err.message : "Could not create the passkey.");
+            }
         } finally {
-            setPasskeyBusy(false);
+            if (attempt.current) {
+                setPasskeyBusy(false);
+                controllerRef.current = undefined;
+            }
         }
+    };
+
+    /** Abort the in-flight enrollment and return the panel to idle. */
+    const handleCancelEnrollPasskey = () => {
+        attemptsRef.current.supersede();
+        controllerRef.current?.abort();
+        controllerRef.current = undefined;
+        setPasskeyBusy(false);
     };
 
     const handleForgetPasskey = () => {
@@ -213,16 +242,26 @@ export const FeedKeyPanel = () => {
                             {ADMIN_FEED_KEY_STRINGS.BUTTONS.FORGET_PASSKEY}
                         </PrimaryButton>
                     ) : (
-                        <PrimaryButton
-                            className="feed-key-panel__button feed-key-panel__button--compact"
-                            onClick={handleEnrollPasskey}
-                            disabled={passkeyBusy}
-                        >
-                            <Fingerprint size={16} />
-                            {passkeyBusy
-                                ? ADMIN_FEED_KEY_STRINGS.BUTTONS.ENROLLING_PASSKEY
-                                : ADMIN_FEED_KEY_STRINGS.BUTTONS.ENROLL_PASSKEY}
-                        </PrimaryButton>
+                        <>
+                            <PrimaryButton
+                                className="feed-key-panel__button feed-key-panel__button--compact"
+                                onClick={handleEnrollPasskey}
+                                disabled={passkeyBusy}
+                            >
+                                <Fingerprint size={16} />
+                                {passkeyBusy
+                                    ? ADMIN_FEED_KEY_STRINGS.BUTTONS.ENROLLING_PASSKEY
+                                    : ADMIN_FEED_KEY_STRINGS.BUTTONS.ENROLL_PASSKEY}
+                            </PrimaryButton>
+                            {passkeyBusy && (
+                                <PrimaryButton
+                                    className="feed-key-panel__button feed-key-panel__button--compact feed-key-panel__button--cancel"
+                                    onClick={handleCancelEnrollPasskey}
+                                >
+                                    {ADMIN_FEED_KEY_STRINGS.BUTTONS.CANCEL}
+                                </PrimaryButton>
+                            )}
+                        </>
                     )}
                 </div>
             )}

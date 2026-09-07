@@ -1,69 +1,59 @@
-import { ChangeEvent, useState } from "react";
-import { Copy } from "lucide-react";
-import { useMusic } from "../../context/MusicContext";
-import { useNotification, NotificationType } from "../../context/NotificationContext";
+import { MY_ACCOUNT_STRINGS } from "@i18n/ui/my-account";
+import { useAccountActions } from "@hooks/user-account/useAccountActions";
+import { useMusic } from "@context/MusicContext";
+import { ProfileAvatar } from "./profile-avatar/ProfileAvatar";
+import { WalletSection } from "./wallet-section/WalletSection";
+import { HistoryModal } from "./history-modal/HistoryModal";
+import { StatsDashboard } from "./stats-dashboard/StatsDashboard";
 import { RecentlyPlayed } from "../../components/recently-played/RecentlyPlayed";
 import "./MyAccount.scss";
 
 export const MyAccount = () => {
-    const walletAddress = "0x123456789DEMO";
-    const shortWallet = walletAddress.slice(0, 6) + "..." + walletAddress.slice(-4);
-    const [avatar, setAvatar] = useState<string | null>(null);
-    const { notify } = useNotification();
-    const { clearRecentlyPlayed, recentlyPlayed } = useMusic();
-
-    // profile picture upload
-    function handleAvatarChange(e: ChangeEvent<HTMLInputElement>) {
-        const file = e.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setAvatar(reader.result as string);
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    // this is just a simple copy button
-    function copyWallet() {
-        navigator.clipboard.writeText(walletAddress);
-        notify("Wallet address copied to clipboard", NotificationType.SUCCESS);
-    }
+    const { recentlyPlayed } = useMusic();
+    const {
+        avatar,
+        shortWallet,
+        isModalOpen,
+        hasRecentlyPlayed,
+        handleAvatarChange,
+        handleCopyWallet,
+        handleClearHistory,
+        openModal,
+        closeModal
+    } = useAccountActions();
 
     return (
         <div className="my-account">
-            <h1 className="my-account__title">My Account</h1>
+            <h1 className="my-account__title">{MY_ACCOUNT_STRINGS.TITLE}</h1>
 
             <div className="my-account__profile-section">
-                <div className="my-account__avatar-container">
-                    <img src={avatar || `${import.meta.env.BASE_URL}assets/default-avatar.jpg`} alt="Avatar" className="my-account__avatar-image" />
-                    <input type="file" accept="image/*" onChange={handleAvatarChange} className="my-account__avatar-input" />
-                </div>
+                <ProfileAvatar avatar={avatar} onChange={handleAvatarChange} />
+                <WalletSection address={shortWallet} onCopy={handleCopyWallet} />
 
-                <div className="my-account__wallet-info">
-                    <span className="my-account__wallet-address">{shortWallet}</span>
-                    <button onClick={copyWallet} className="my-account__copy-button"><Copy size={16} /><span className="my-account__copy-text">Copy</span></button>
-                </div>
-                
+                <StatsDashboard recentlyPlayed={recentlyPlayed} />
+
                 <div className="recent-wrapper__profile">
-                    <RecentlyPlayed />
-                
-                {/* clear history (if any) */}
+                    <RecentlyPlayed isProfilePage />
+
+                    {/* clear history (if any) */}
                     <div className="recent-wrapper__header">
-                        {recentlyPlayed.length > 0 && (
-                            <button 
+                        {hasRecentlyPlayed && (
+                            <button
                                 className="recent-wrapper__clear-history-btn"
-                                onClick={() => {
-                                    clearRecentlyPlayed();
-                                    notify("History cleared", NotificationType.SUCCESS);
-                                }}
+                                onClick={openModal}
                             >
-                                Clear History
+                                {MY_ACCOUNT_STRINGS.BUTTONS.CLEAR_HISTORY}
                             </button>
                         )}
                     </div>
                 </div>
             </div>
+
+            <HistoryModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                onConfirm={handleClearHistory}
+            />
         </div>
     );
 }

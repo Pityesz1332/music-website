@@ -105,8 +105,22 @@
             background: v.$dark-accent-color;
             transform: scale(1.03);
         }
+
+        &--cancel {
+            background: transparent;
+            border: 2px solid v.$muted-text-color;
+            color: v.$muted-text-color;
+            margin-top: 10px;
+
+            &:hover {
+                background: transparent;
+                border-color: v.$primary-color;
+                color: v.$primary-color;
+                transform: none;
+            }
+        }
     }
-    
+
     &__raw-key {
         width: 100%;
         display: flex;

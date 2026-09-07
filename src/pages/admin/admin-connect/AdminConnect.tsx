@@ -14,6 +14,7 @@ export const AdminConnect = () => {
         rawKey,
         setRawKey,
         handlePasskeySignIn,
+        cancelPasskeySignIn,
         handleRawKeySignIn,
     } = useAdminAuth();
     const busy = isPasskeyLoading || isKeyLoading;
@@ -37,6 +38,16 @@ export const AdminConnect = () => {
                                 ? ADMIN_CONNECT_STRINGS.BUTTONS.PASSKEY_WAITING
                                 : ADMIN_CONNECT_STRINGS.BUTTONS.PASSKEY}
                         </PrimaryButton>
+
+                        {isPasskeyLoading && (
+                            <PrimaryButton
+                                className="admin-connect__button admin-connect__button--cancel"
+                                type="button"
+                                onClick={cancelPasskeySignIn}
+                            >
+                                {ADMIN_CONNECT_STRINGS.BUTTONS.CANCEL}
+                            </PrimaryButton>
+                        )}
 
                         <span className="admin-connect__divider">
                             {ADMIN_CONNECT_STRINGS.DIVIDER}

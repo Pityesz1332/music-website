@@ -72,6 +72,19 @@
             padding: 0.5rem 0.9rem;
             font-size: 0.85rem;
         }
+
+        &--cancel {
+            background: transparent;
+            border: 2px solid v.$muted-text-color;
+            color: v.$muted-text-color;
+            margin-left: 0.5rem;
+
+            &:hover {
+                background: transparent;
+                border-color: v.$primary-color;
+                color: v.$primary-color;
+            }
+        }
     }
 
     &__status {

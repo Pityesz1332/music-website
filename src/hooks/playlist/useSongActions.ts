@@ -1,4 +1,3 @@
-import { useAuth } from "@context/AuthContext";
 import { useMusic } from "@context/MusicContext";
 import { useNotification, NotificationType } from "@context/NotificationContext";
 import { useToggleSave } from "@hooks/general/useToggleSave";
@@ -6,12 +5,10 @@ import { downloadAudio } from "../../swarm/swarmService";
 import type { Song } from "@interfaces/music";
 
 export const useSongActions = (song: Song, isMini: boolean) => {
-    const auth = useAuth();
     const { savedSongs } = useMusic();
     const { toggleSave } = useToggleSave();
     const { notify } = useNotification();
 
-    const isConnected = auth?.isConnected;
     const isSaved = savedSongs.some((s) => s.id === song.id);
 
     // Dynamic style management.
@@ -44,7 +41,6 @@ export const useSongActions = (song: Song, isMini: boolean) => {
     };
 
     return {
-        isConnected,
         isSaved,
         containerClass,
         buttonClass,

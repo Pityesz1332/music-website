@@ -1,6 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import {
     enrollPasskey,
+    createPasskeyVaultKey,
+    sealVault,
     unlockVault,
     hasEnrolledPasskey,
     clearEnrolledPasskey,
@@ -18,10 +20,18 @@ const CREDENTIAL_ID = new Uint8Array(16).fill(3);
 const create = vi.fn();
 const get = vi.fn();
 
-function authenticator({ secret = 9, prfEnabled = true as boolean | undefined } = {}) {
+function authenticator({
+    secret = 9,
+    prfEnabled = true as boolean | undefined,
+    prfAtCreate = false,
+} = {}) {
     create.mockResolvedValue({
         rawId: CREDENTIAL_ID.buffer.slice(0),
-        getClientExtensionResults: () => ({ prf: { enabled: prfEnabled } }),
+        getClientExtensionResults: () => ({
+            prf: prfAtCreate
+                ? { enabled: prfEnabled, results: { first: new Uint8Array(32).fill(secret).buffer } }
+                : { enabled: prfEnabled },
+        }),
     });
     get.mockResolvedValue({
         getClientExtensionResults: () => ({
@@ -30,7 +40,7 @@ function authenticator({ secret = 9, prfEnabled = true as boolean | undefined } 
     });
 }
 
-const enroll = () => enrollPasskey("Admin", FEED_KEY_HEX, WRITE_URL);
+const enroll = (signal?: AbortSignal) => enrollPasskey("Admin", FEED_KEY_HEX, WRITE_URL, signal);
 
 beforeEach(() => {
     localStorage.clear();
@@ -70,10 +80,47 @@ describe("enrollPasskey", () => {
 
         const options = create.mock.calls[0][0].publicKey;
         expect(options.authenticatorSelection).toMatchObject({
+            requireResidentKey: true,
             residentKey: "required",
             userVerification: "required",
         });
         expect(options.extensions).toHaveProperty("prf");
+    });
+
+    it("binds registration to this browsing origin's rp.id", async () => {
+        authenticator();
+        await enroll();
+
+        const options = create.mock.calls[0][0].publicKey;
+        expect(options.rp).toMatchObject({ id: window.location.hostname });
+    });
+
+    it("evaluates the PRF salt bound to this hostname, not a fixed constant", async () => {
+        authenticator();
+        await enroll();
+
+        const evalSalt = create.mock.calls[0][0].publicKey.extensions.prf.eval.first as Uint8Array;
+        const expected = new Uint8Array(
+            await crypto.subtle.digest(
+                "SHA-256",
+                new TextEncoder().encode(`${window.location.hostname}:music-website-feed-key-v1`),
+            ),
+        );
+        expect(Array.from(evalSalt)).toEqual(Array.from(expected));
+    });
+
+    it("does not need a second prompt when the authenticator returns PRF results at creation time", async () => {
+        authenticator({ prfAtCreate: true });
+        await enroll();
+
+        expect(get).not.toHaveBeenCalled();
+    });
+
+    it("falls back to one extra assertion when creation didn't evaluate PRF", async () => {
+        authenticator({ prfAtCreate: false });
+        await enroll();
+
+        expect(get).toHaveBeenCalledTimes(1);
     });
 
     it("stores nothing when the authenticator has no PRF support", async () => {
@@ -156,6 +203,79 @@ describe("unlockVault", () => {
     it("treats a pre-PRF credential record as not enrolled", () => {
         localStorage.setItem(LEGACY_KEY, "old-bare-credential-id");
         expect(hasEnrolledPasskey()).toBe(false);
+    });
+});
+
+describe("createPasskeyVaultKey / sealVault (two-step enrollment)", () => {
+    it("runs the ceremony without writing anything to storage", async () => {
+        authenticator();
+
+        const { credentialId, key } = await createPasskeyVaultKey("Admin");
+
+        expect(credentialId).toBe(toBase64Url(CREDENTIAL_ID));
+        expect(key).toBeDefined();
+        expect(localStorage.getItem(VAULT_KEY)).toBeNull();
+    });
+
+    it("sealVault alone persists a vault that unlockVault can open", async () => {
+        authenticator();
+        const { credentialId, key } = await createPasskeyVaultKey("Admin");
+
+        await sealVault(credentialId, key, { feedKeyHex: FEED_KEY_HEX, writeUrl: WRITE_URL });
+
+        await expect(unlockVault()).resolves.toEqual({
+            feedKeyHex: FEED_KEY_HEX,
+            writeUrl: WRITE_URL,
+        });
+    });
+
+});
+
+describe("WebAuthn error mapping", () => {
+    it("maps a denied/cancelled registration prompt to a friendly message", async () => {
+        create.mockRejectedValue(new DOMException("denied", "NotAllowedError"));
+
+        await expect(enroll()).rejects.toThrow(/cancelled or denied/);
+    });
+
+    it("maps an in-flight abort (Cancel button) to a friendly message and writes nothing", async () => {
+        authenticator();
+        const controller = new AbortController();
+        create.mockImplementation(() => {
+            controller.abort();
+            return Promise.reject(new DOMException("aborted", "AbortError"));
+        });
+
+        await expect(enroll(controller.signal)).rejects.toThrow(/request was cancelled/);
+        expect(localStorage.getItem(VAULT_KEY)).toBeNull();
+    });
+
+    it("passes the AbortSignal through to the registration call", async () => {
+        authenticator();
+        const controller = new AbortController();
+
+        await enroll(controller.signal);
+
+        expect(create.mock.calls[0][0].signal).toBe(controller.signal);
+    });
+
+    it("maps a denied/cancelled unlock prompt to a friendly message", async () => {
+        authenticator();
+        await enroll();
+        get.mockRejectedValue(new DOMException("denied", "NotAllowedError"));
+
+        await expect(unlockVault()).rejects.toThrow(/cancelled or denied/);
+    });
+
+    it("passes the AbortSignal through to the unlock call", async () => {
+        authenticator();
+        await enroll();
+        get.mockClear();
+        const controller = new AbortController();
+
+        await unlockVault(controller.signal);
+
+        expect(get.mock.calls[0][0].signal).toBe(controller.signal);
     });
 });
 

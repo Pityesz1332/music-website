@@ -1,10 +1,27 @@
-export const PRF_SALT = new TextEncoder().encode("music-website-feed-key-v1");
+// HKDF `info` — a fixed domain-separation label for the derived key, not
+// secret and not sent anywhere. Kept distinct from the WebAuthn PRF salt
+// below: that one gates *what secret the authenticator returns*, this one
+// only labels what we derive *from* that secret.
+const HKDF_INFO = new TextEncoder().encode("music-website-feed-key-v1");
 
 const AES_IV_BYTES = 12;
 
 export interface SealedSecret {
     iv: string;
     ciphertext: string;
+}
+
+/**
+ * The salt evaluated by the WebAuthn PRF extension (`prf.eval.first`). Bound
+ * to the current hostname so the same credential evaluated from a different
+ * origin can never reproduce this vault's key material.
+ */
+export async function derivePrfEvalSalt(): Promise<Uint8Array> {
+    const digest = await crypto.subtle.digest(
+        "SHA-256",
+        new TextEncoder().encode(`${window.location.hostname}:music-website-feed-key-v1`),
+    );
+    return new Uint8Array(digest);
 }
 
 export function toBase64Url(bytes: ArrayBuffer | Uint8Array): string {
@@ -30,7 +47,7 @@ export async function deriveVaultKey(prfOutput: ArrayBuffer): Promise<CryptoKey>
             name: "HKDF",
             hash: "SHA-256",
             salt: new Uint8Array(0),
-            info: PRF_SALT,
+            info: HKDF_INFO,
         },
         base,
         { name: "AES-GCM", length: 256 },

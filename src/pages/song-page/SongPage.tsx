@@ -47,7 +47,7 @@ export const SongPage = () => {
                         onTogglePlay={togglePlay}
                     />
 
-                    {/* save and download, only for connected users */}
+                    {/* save and download */}
                     <SongActions song={currentSong} />
                 </div>
             </div>

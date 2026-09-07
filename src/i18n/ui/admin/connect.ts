@@ -6,6 +6,7 @@ export const ADMIN_CONNECT_STRINGS = {
         PASSKEY_WAITING: "Waiting for passkey…",
         RAW_KEY: "Unlock with feed key",
         RAW_KEY_WAITING: "Unlocking…",
+        CANCEL: "Cancel",
         HOME: "Go to the homepage",
     },
     RAW_KEY: {

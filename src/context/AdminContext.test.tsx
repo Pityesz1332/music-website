@@ -33,7 +33,7 @@ const TestComponent = () => {
             <div data-testid="status">{isAdmin ? "admin" : "guest"}</div>
             <div data-testid="error">{error}</div>
             <div data-testid="can-passkey">{canUsePasskey ? "yes" : "no"}</div>
-            <button onClick={signInWithPasskey}>Passkey</button>
+            <button onClick={() => signInWithPasskey()}>Passkey</button>
             <button onClick={() => signInWithRawKey(OWNER_KEY_HEX)}>Owner Key</button>
             <button onClick={() => signInWithRawKey(STRANGER_KEY_HEX)}>Stranger Key</button>
             <button onClick={() => signInWithRawKey("not-a-key")}>Bad Key</button>

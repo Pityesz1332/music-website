@@ -7,6 +7,8 @@ import AdminLayout from "@layouts/admin-layout/AdminLayout";
 import { Home } from "@pages/home/Home";
 import { Songs } from "@pages/songs/Songs";
 import { SongPage } from "@pages/song-page/SongPage";
+import { Saved } from "@pages/saved-songs/Saved";
+import { MyAccount } from "@pages/Profile/MyAccount";
 
 import { AdminRoute } from "./AdminRoute";
 import { RouteSuspense } from "./RouteSuspense";
@@ -25,6 +27,8 @@ export const EndpointRouter = () => {
             <Route path={MainRoutes.HOME} element={<Home />} />
             <Route path={MainRoutes.SONGS} element={<Songs />} />
             <Route path={MainRoutes.SPECIFIC_SONG} element={<SongPage />} />
+            <Route path={MainRoutes.SAVED} element={<Saved />} />
+            <Route path={MainRoutes.MY_ACCOUNT} element={<MyAccount />} />
           </Route>
           
           {/* Admin connect (public) */}

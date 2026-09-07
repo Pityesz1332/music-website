@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { Play, Pause, SkipBack, SkipForward, TimerReset, Repeat, FileMusic, Download } from "lucide-react";
 import { useMusic } from "../../context/MusicContext";
-import { useAuth } from "../../context/AuthContext";
 import { useNotification, NotificationType } from "../../context/NotificationContext";
+import { downloadAudio } from "../../swarm/swarmService";
 import "./Playbar.scss";
 import type { Song } from "../../types/music";
 
@@ -30,10 +30,6 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
     const [hoverTime, setHoverTime] = useState<number | null>(null);
     const [hoverPos, setHoverPos] = useState<number>(0);
 
-    const auth = useAuth();
-    // sanity check for myself
-    if (!auth) throw new Error("useAuth must be used within AuthProvider");
-    const { isConnected } = auth;
     const { savedSongs, saveSong, removeSavedSong } = useMusic();
     const { notify } = useNotification();
 
@@ -408,26 +404,37 @@ const Playbar = ({ song, isPlaying, onPlayPause, onNext, onPrev }: PlaybarProps)
                             </button>
                         </div>
 
-                        {isConnected && (
-                            <div className="playbar__connected-buttons">
-                                <button
-                                    className={`playbar__save-button ${isSaved ? "playbar__save-button--saved" : ""}`}  
-                                    onClick={() => {
-                                        if (isSaved) {
-                                            removeSavedSong(song.id);
-                                            notify("Deleted from Saved Songs", NotificationType.SUCCESS);
-                                        } else {
-                                            saveSong(song);
-                                            notify("Saved", NotificationType.SUCCESS);
-                                        }
-                                    }}>
-                                    <FileMusic size={20} />
-                                </button>
-                                <button className="playbar__download-button">
-                                    <Download size={20} />
-                                </button>
-                            </div>
-                        )}
+                        <div className="playbar__connected-buttons">
+                            <button
+                                className={`playbar__save-button ${isSaved ? "playbar__save-button--saved" : ""}`}
+                                onClick={() => {
+                                    if (isSaved) {
+                                        removeSavedSong(song.id);
+                                        notify("Deleted from Saved Songs", NotificationType.SUCCESS);
+                                    } else {
+                                        saveSong(song);
+                                        notify("Saved", NotificationType.SUCCESS);
+                                    }
+                                }}>
+                                <FileMusic size={20} />
+                            </button>
+                            <button
+                                className="playbar__download-button"
+                                onClick={async () => {
+                                    if (!song?.swarmHash) {
+                                        notify("No available source on Swarm", NotificationType.ERROR);
+                                        return;
+                                    }
+                                    try {
+                                        await downloadAudio(song.swarmHash, `${song.title}.mp3`);
+                                        notify("Download started", NotificationType.SUCCESS);
+                                    } catch {
+                                        notify("Download failed", NotificationType.ERROR);
+                                    }
+                                }}>
+                                <Download size={20} />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

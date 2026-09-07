@@ -5,7 +5,6 @@ import { NavLogo } from "./nav-logo/NavLogo";
 import { NavSearch } from "./nav-search/NavSearch";
 import { NavMobileToggle } from "./nav-mobile/NavMobileToggle";
 import { NavLink } from "./nav-link/NavLink";
-import { NavWallet } from "./nav-wallet/NavWallet";
 import "./Navbar.scss";
 
 const Navbar = () => {
@@ -40,9 +39,6 @@ const Navbar = () => {
                     ))}
                 </div>
             </div>
-
-            {/* Wallet stays on the right, outside the centered menu. */}
-            <NavWallet />
 
             <NavMobileToggle isOpen={isMenuOpen} onToggle={toggleMenu} />
         </nav>

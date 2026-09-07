@@ -8,6 +8,7 @@ export const ADMIN_FEED_KEY_STRINGS = {
         CLEAR: "Clear Key",
         ENROLL_PASSKEY: "Set up a passkey",
         ENROLLING_PASSKEY: "Waiting for passkey…",
+        CANCEL: "Cancel",
         FORGET_PASSKEY: "Remove passkey",
     },
     STATUS: {

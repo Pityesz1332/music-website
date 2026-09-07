@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
     deriveVaultKey,
+    derivePrfEvalSalt,
     sealSecret,
     openSecret,
     toBase64Url,
@@ -22,6 +23,23 @@ describe("base64url helpers", () => {
     it("emits url-safe output with no padding", () => {
         const encoded = toBase64Url(new Uint8Array([251, 255, 254]));
         expect(encoded).not.toMatch(/[+/=]/);
+    });
+});
+
+describe("derivePrfEvalSalt", () => {
+    it("is bound to the current hostname, so a different origin can never reproduce it", async () => {
+        const expected = new Uint8Array(
+            await crypto.subtle.digest(
+                "SHA-256",
+                new TextEncoder().encode(`${window.location.hostname}:music-website-feed-key-v1`),
+            ),
+        );
+
+        expect(Array.from(await derivePrfEvalSalt())).toEqual(Array.from(expected));
+    });
+
+    it("is deterministic for the same origin", async () => {
+        expect(Array.from(await derivePrfEvalSalt())).toEqual(Array.from(await derivePrfEvalSalt()));
     });
 });
 
